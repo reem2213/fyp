@@ -11,7 +11,7 @@ import {
   ScrollView,
   TouchableOpacity
 } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler"; // Import GestureHandlerRootView
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ArrowBack from "../assets/arrowBack.png";
