@@ -1,0 +1,15 @@
+const mongoose=require('mongoose');
+
+const productSchema= new mongoose.Schema({
+    name:String,
+description:String,
+    link:String,
+    price:Number,
+    rating:Number,
+
+
+})
+
+
+const productModel=mongoose.model('product',productSchema);
+module.exports=productModel;
