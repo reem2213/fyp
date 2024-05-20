@@ -15,7 +15,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier:":"com.fyp.client"
     },
     "android": {
       "package": "com.fyp.client",
@@ -32,6 +33,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "schema":"client",
     "plugins": [
       [
         "expo-image-picker",

@@ -11,8 +11,10 @@ const AuthenticationProviders = () => {
   const { navigate } = useNavigation();
 
   const [request, response, promptAsync] = Google.useAuthRequest({
-    androidClientId:
-      "687357468385-n16hekphhcfnf5s91erhnenckhod4vht.apps.googleusercontent.com",
+    // androidClientId:
+    //   "687357468385-n16hekphhcfnf5s91erhnenckhod4vht.apps.googleusercontent.com",
+    webClientId:
+      "401952058204-vb1ku0ok1u9m42fp9n9s612kp1ho7u0f.apps.googleusercontent.com",
   });
 
   useEffect(() => {
@@ -31,6 +33,8 @@ const AuthenticationProviders = () => {
         }
       );
       const userInfo = await response.json();
+      console.log(response.json());
+      
       setUserInfo(userInfo);
       navigate("UserInfo", { userInfo });
     } catch (error) {

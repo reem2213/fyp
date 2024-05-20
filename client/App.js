@@ -1,35 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
-import Home from './screens/Home';
-import Screen1 from './screens/Screen1';
-import Notifications from './screens/Notifications';
-import ProfileCustomization from './screens/ProfileCustomization';
-import Goal from './screens/Goal';
-import SplashScreen from './screens/Splash';
-import SignUp from './screens/SignUp';
-import SignIn from './screens/SignIn';
-import ProfileTest from './screens/ProfileTest';
-import ShowUserInfo from './components/ShowUserInfo';
-import Feedback from './screens/FeedbackSection';
-import Community from './screens/Community';
-import MyProfile from './screens/MyProfile';
-import PhysicalSection from './screens/PhysicalSection/PhysicalSection.jsx';
-import PsychologicalSection from './screens/PsychologicalSection/PsychologicalSection.jsx';
+import Home from "./screens/Home";
+import Screen1 from "./screens/Screen1";
+import Notifications from "./screens/Notifications";
+import ProfileCustomization from "./screens/ProfileCustomization";
+import Goal from "./screens/Goal";
+import SplashScreen from "./screens/Splash";
+import SignUp from "./screens/SignUp";
+import SignIn from "./screens/SignIn";
+import ProfileTest from "./screens/ProfileTest";
+import ShowUserInfo from "./components/ShowUserInfo";
+import Feedback from "./screens/FeedbackSection";
+import Community from "./screens/Community";
+import MyProfile from "./screens/MyProfile";
+import PhysicalSection from "./screens/PhysicalSection/PhysicalSection.jsx";
+import PsychologicalSection from "./screens/PsychologicalSection/PsychologicalSection.jsx";
+import AuthenticationTester from "./screens/authenticationTester.jsx";
 export default function App() {
-  
   const Stack = createNativeStackNavigator();
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Splash" headerMode="none">
+      <Stack.Navigator initialRouteName="AuthenticationTester" headerMode="none">
         <Stack.Screen
           name="Home"
           component={Home}
           options={{
             headerShown: false,
-
           }}
         />
         <Stack.Screen
@@ -122,14 +121,22 @@ export default function App() {
           options={{
             headerShown: false,
           }}
-        /><Stack.Screen
-        name="PsychologicalSection"
-        component={PsychologicalSection}
-        options={{
-          headerShown: false,
-        }}
-      />
-      
+        />
+        <Stack.Screen
+          name="PsychologicalSection"
+          component={PsychologicalSection}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="AuthenticationTester"
+          component={AuthenticationTester}
+          options={{
+            headerShown: false,
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -138,8 +145,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
