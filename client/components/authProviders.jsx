@@ -7,7 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AuthenticationProviders = () => {
   const [userInfo, setUserInfo] = useState(null);
-  const [accessToken, setAccessToken] = useState(null);
+  const [accessToken, setAccessToken] = useState();
   const { navigate } = useNavigation();
 
   const [request, response, promptAsync] = Google.useAuthRequest({
@@ -33,7 +33,6 @@ const AuthenticationProviders = () => {
         }
       );
       const userInfo = await response.json();
-      console.log(response.json());
       
       setUserInfo(userInfo);
       navigate("UserInfo", { userInfo });
@@ -41,6 +40,7 @@ const AuthenticationProviders = () => {
       console.error("Error fetching user info:", error);
     }
   }
+
 
   return (
     <View>

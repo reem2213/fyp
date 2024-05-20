@@ -11,12 +11,10 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier:":"com.fyp.client"
+      "bundleIdentifier:": "com.fyp.client"
     },
     "android": {
       "package": "com.fyp.client",
@@ -28,12 +26,12 @@
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
       ]
-      
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "schema":"client",
+   
     "plugins": [
       [
         "expo-image-picker",
@@ -41,8 +39,10 @@
           "photosPermission": "Select and upload images.",
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera"
         }
-      ]
+      ],
+      ["@react-native-google-signin/google-signin"]
     ],
+    
     "extra": {
       "eas": {
         "projectId": "123887f1-1fbc-4a61-85a4-054ac479a69c"
