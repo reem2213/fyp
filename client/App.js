@@ -18,12 +18,13 @@ import MyProfile from "./screens/MyProfile";
 import PhysicalSection from "./screens/PhysicalSection/PhysicalSection.jsx";
 import PsychologicalSection from "./screens/PsychologicalSection/PsychologicalSection.jsx";
 import AuthenticationTester from "./screens/authenticationTester.jsx";
+import FeedbackTester from "./screens/FeedbackTester.jsx";
 export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="AuthenticationTester" headerMode="none">
+      <Stack.Navigator initialRouteName="Feedback" headerMode="none">
         <Stack.Screen
           name="Home"
           component={Home}
@@ -97,6 +98,13 @@ export default function App() {
         <Stack.Screen
           name="Feedback"
           component={Feedback}
+          options={{
+            headerShown: false,
+          }}
+        />
+         <Stack.Screen
+          name="FeedbackTester"
+          component={FeedbackTester}
           options={{
             headerShown: false,
           }}

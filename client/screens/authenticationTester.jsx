@@ -13,8 +13,8 @@ const AuthenticationTester = () => {
   const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId:
       "401952058204-26914hadiog7cql9v7f81nnnjih2l5tt.apps.googleusercontent.com",
-    // iosClientId:
-    //   "401952058204-2icuf068v4pccidni0mfej7gdn9k5lvr.apps.googleusercontent.com",
+    iosClientId:
+      "401952058204-2icuf068v4pccidni0mfej7gdn9k5lvr.apps.googleusercontent.com",
     webClientId:
       "401952058204-vb1ku0ok1u9m42fp9n9s612kp1ho7u0f.apps.googleusercontent.com",
       scopes: ['profile', 'email'],
@@ -72,3 +72,4 @@ const AuthenticationTester = () => {
 };
 
 export default AuthenticationTester;
+
