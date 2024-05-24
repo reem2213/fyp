@@ -21,14 +21,14 @@ import AuthenticationTester from "./screens/authenticationTester.jsx";
 import FeedbackTester from "./screens/FeedbackTester.jsx";
 import MusicBooster from "./screens/MusicBooster.jsx";
 import Controls from "./components/Controls.jsx";
-import TrackPlayer from "react-native-track-player";
+import MusicTester from "./screens/MusicTester.jsx";
+import MusicTester2 from "./screens/MusicTester2.jsx";
 export default function App() {
   const Stack = createNativeStackNavigator();
-  TrackPlayer.registerPlaybackService(()=>require('./components/services.js'));
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="MusicBooster" headerMode="none">
+      <Stack.Navigator initialRouteName="MusicTester2" headerMode="none">
         <Stack.Screen
           name="Home"
           component={Home}
@@ -106,7 +106,7 @@ export default function App() {
             headerShown: false,
           }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="FeedbackTester"
           component={FeedbackTester}
           options={{
@@ -149,14 +149,29 @@ export default function App() {
             headerShown: false,
           }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="MusicBooster"
           component={MusicBooster}
           options={{
             headerShown: false,
           }}
         />
-         <Stack.Screen
+        <Stack.Screen
+          name="MusicTester"
+          component={MusicTester}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="MusicTester2"
+          component={MusicTester2}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
           name="Controls"
           component={Controls}
           options={{

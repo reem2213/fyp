@@ -5,48 +5,11 @@ import { useEffect, useState } from "react";
 import AlbumCover from "../components/AlbumCover";
 import AlbumDetails from "../components/AlbumDetails";
 import Controls from "../components/Controls";
-// import Video from "react-native-video";
+// import Video from "../node_modules/react-native-video";
 
 const MusicBooster = () => {
-  const tracks = [
-    {
-      id: 1,
-      url: require("../tracks/ASitarStory.mp3"),
-      title: "sitar story",
-    },
-    {
-      id: 2,
-      url: require("../tracks/BetterDays.mp3"),
-      title: "Better Days",
-    },
-    {
-      id: 3,
-      url: require("../tracks/SweetMath.mp3"),
-      title: "sweet math",
-    },
-  ];
-  TrackPlayer.updateOptions({
-    stopWithApp: false,
-    capabilities: [TrackPlayer.CAPABILITY_PLAY, TrackPlayer.CAPABILITY_PAUSE],
-    compactCapabilities: [
-      TrackPlayer.CAPABILITY_PLAY,
-      TrackPlayer.CAPABILITY_PAUSE,
-    ],
-  });
+  
 
-  const setUpTrackPlayer = async () => {
-    try {
-      await TrackPlayer.setupPlayer();
-      await TrackPlayer.add(tracks);
-    } catch (e) {
-      console.log(e);
-    }
-
-    useEffect(() => {
-      setUpTrackPlayer();
-      return () => TrackPlayer.destroy();
-    }, []);
-  };
 
   const [selectedTrack, setSelectedTrack] = useState(0);
   const [pause, setPause] = useState(false);
@@ -63,9 +26,12 @@ const MusicBooster = () => {
   function playPrevSong() {
     setSelectedTrack(selectedTrack - 1);
   }
+
+  // console.log("Platform:", Platform.OS);
+
   return (
     <>
-      {/* <StatusBar hidden />
+      <StatusBar hidden />
       <View style={styles.container}>
         <AlbumCover albumCover={currentTrack.albumArtUrl} />
 
@@ -79,29 +45,11 @@ const MusicBooster = () => {
           {...{ pause }}
           {...{ playPrevSong }}
           {...{ playNextSong }}
-        /> */}
+        />
+        {/* <Video source={{uri:currentTrack.audioUrl}} audioOnly paused={pause}/> */}
+      
 
-      {/* <Video source={{uri:currentTrack.audioUrl}}/> */}
-      {/* </View> */}
-
-      <View style={styles.container}>
-        <View style={styles.row}>
-          <TouchableOpacity style={styles.btn}>
-            <Text style={styles.text}>Pause</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.btn}>
-            <Text style={styles.text}>Play</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.row}>
-          <TouchableOpacity style={styles.btn}>
-            <Text style={styles.text}>Prev</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.btn}>
-            <Text style={styles.text}>Next</Text>
-          </TouchableOpacity>
-        </View>
+        
       </View>
     </>
   );
