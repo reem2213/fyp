@@ -20,6 +20,7 @@ import PsychologicalSection from "./screens/PsychologicalSection/PsychologicalSe
 import AuthenticationTester from "./screens/authenticationTester.jsx";
 import FeedbackTester from "./screens/FeedbackTester.jsx";
 import MusicBooster from "./screens/MusicBooster.jsx";
+
 import Controls from "./components/Controls.jsx";
 import MusicTester from "./screens/MusicTester.jsx";
 import MusicTester2 from "./screens/MusicTester2.jsx";
@@ -28,7 +29,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="MusicTester2" headerMode="none">
+      <Stack.Navigator initialRouteName="AuthenticationTester" headerMode="none">
         <Stack.Screen
           name="Home"
           component={Home}
