@@ -29,7 +29,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="AuthenticationTester" headerMode="none">
+      <Stack.Navigator initialRouteName="Customize" headerMode="none">
         <Stack.Screen
           name="Home"
           component={Home}
