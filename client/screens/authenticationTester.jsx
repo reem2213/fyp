@@ -1,10 +1,11 @@
 
-import { View, Text, Image, Pressable } from "react-native";
+import { View, Text, Image, Pressable,StyleSheet } from "react-native";
 import * as Google from "expo-auth-session/providers/google";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as WebBrowser from "expo-web-browser";
 import { useEffect, useState } from "react";
 import ShowUserInfo from "../components/ShowUserInfo";
+import GoogleIcon from '../assets/google.png'
 
 const AuthenticationTester = () => {
 
@@ -54,23 +55,33 @@ const AuthenticationTester = () => {
     }
   }
   return (
-    <View style={{ marginLeft: 150, marginTop: 20 }}>
-      <Text>{JSON.stringify(userInfo,null,2)}</Text>
+    <View >
+      {/* <Text>{JSON.stringify(userInfo,null,2)}</Text> */}
 
 
       <Pressable onPress={()=>promptAsync()}>
-        <Text style={{ marginLeft: 50, marginTop: 120 }}>sign in with google</Text>
+        <Image source={GoogleIcon} style={styles.googleIcon}/>
+        <Text style={styles.googleIcon}>Sign in with google</Text>
       </Pressable>
-      <Pressable onPress={() => AsyncStorage.removeItem("@user")}>
-                <Text style={{ marginLeft: 50, marginTop: 150 }}>Logout</Text>
-      </Pressable>
+      {/* <Pressable onPress={() => AsyncStorage.removeItem("@user")}>
+                <Text >Logout</Text>
+      </Pressable> */}
 
       
 
     </View>
   );
 };
-
+const styles=StyleSheet.create({
+  googleIcon:{
+    width:50,
+    height:50,
+    position :"absolute"
+    ,
+    marginLeft:160,
+    marginTop:520
+  }
+})
 export default AuthenticationTester;
 
 

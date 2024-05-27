@@ -3,23 +3,23 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 const Controls = ({ togglePlayPause, pause ,playPrevSong, playNextSong}) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={playPrevSong}>
+      {/* <TouchableOpacity onPress={playPrevSong}>
         <AntDesign name="banckward" size={30} color="white" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       {pause ? (
         <TouchableOpacity style={styles.playPauseBtn} onPress={togglePlayPause}>
-          <AntDesign name="playcircleo" size={30} color="#1B1246" />
+          <AntDesign name="playcircleo" size={20} color="white" />
         </TouchableOpacity>
       ) : (
         <TouchableOpacity style={styles.playPauseBtn} onPress={togglePlayPause}>
-          <AntDesign name="pausecircleo" size={30} color="#1B1246" />
+          <AntDesign name="pausecircleo" size={20} color="white" />
         </TouchableOpacity>
       )}
 
-      <TouchableOpacity  onPress={playNextSong}>
+      {/* <TouchableOpacity  onPress={playNextSong}>
         <AntDesign name="forward" size={30} color="white" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
@@ -31,15 +31,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   playPauseBtn: {
-    width: 120,
-    height: 120,
+    width: 40,
+    height: 40,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 100,
-    borderWidth: 20,
+    // borderWidth: 20,
     margin: 20,
-    backgroundColor: "white",
-    borderColor: "#1B1246",
+    backgroundColor: "#22CFE7",
   },
 });
 export default Controls;

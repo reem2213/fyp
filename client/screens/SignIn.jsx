@@ -15,6 +15,7 @@ import {
 import axios from "axios";
 import { FontFamily, Color, Border, FontSize } from "../GlobalStyles";
 import AuthenticationProviders from "../components/authProviders";
+import AuthenticationTester from "./authenticationTester";
 const SignUp = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -145,7 +146,7 @@ const SignUp = ({ navigation }) => {
           Sign Up
         </Text>
       </Text>
-      {/* <AuthenticationProviders/> */}
+      <AuthenticationTester/>
 
       <Image
         style={[styles.ellipseIcon]}

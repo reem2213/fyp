@@ -170,13 +170,6 @@
 
 // export default MusicTester2;
 
-
-
-
-
-
-
-
 // import React, { useEffect } from "react";
 // import {
 //   Text,
@@ -343,24 +336,42 @@
 
 // export default MusicTester2;
 
+import { useEffect, useState } from "react";
+import {
+  View,
+  StyleSheet,
+  Button,
+  Image,
+  Text,
+  TouchableOpacity,
+} from "react-native";
+import { Audio } from "expo-av";
+import FeedbackImage from "../assets/musicbg.png";
+import Back from "../assets/back.png";
+import Controls from "../components/Controls";
+
+export default function App({ navigation }) {
+
+
+  const [selectedTrack, setSelectedTrack] = useState(0);
+  const [pause, setPause] = useState(false);
+
+
+  function togglePlayPause() {
+    setPause(!pause);
+  }
 
 
 
 
 
 
-
-import { useEffect, useState } from 'react';
-import { View, StyleSheet, Button } from 'react-native';
-import { Audio } from 'expo-av';
-
-export default function App() {
   const [sound, setSound] = useState(null);
   const [currentTrack, setCurrentTrack] = useState(null);
 
   async function togglePlaySound(trackId, source) {
     if (sound && currentTrack === trackId) {
-      console.log('Stopping Sound');
+      console.log("Stopping Sound");
       await sound.stopAsync();
       sound.unloadAsync(); // unload the sound to clean up resources
       setSound(null);
@@ -370,11 +381,11 @@ export default function App() {
         await sound.stopAsync();
         sound.unloadAsync(); // stop and unload any other playing sound
       }
-      console.log('Loading Sound');
+      console.log("Loading Sound");
       const { sound: newSound } = await Audio.Sound.createAsync(source);
       setSound(newSound);
       setCurrentTrack(trackId);
-      console.log('Playing Sound');
+      console.log("Playing Sound");
       await newSound.playAsync();
     }
   }
@@ -385,23 +396,98 @@ export default function App() {
     };
   }, [sound]);
 
+  const backToHome = () => {
+    navigation.navigate("Home");
+  };
+
   return (
-    <View style={styles.container}>
-      <Button title="Toggle BetterDays" onPress={() => togglePlaySound(1, require('../tracks/BetterDays.mp3'))} />
-      <Button title="Toggle ASitarStory" onPress={() => togglePlaySound(2, require('../tracks/ASitarStory.mp3'))} />
-      <Button title="Toggle TwoHearts" onPress={() => togglePlaySound(3, require('../tracks/TwoHearts.mp3'))} />
-      <Button title="Toggle SweetMath" onPress={() => togglePlaySound(4, require('../tracks/SweetMath.mp3'))} />
-      <Button title="Toggle Another ASitarStory" onPress={() => togglePlaySound(5, require('../tracks/ASitarStory.mp3'))} />
-    </View>
+    <>
+      <View style={styles.bigContainer}>
+        <TouchableOpacity onPress={backToHome}>
+          <Image source={Back} style={styles.backButton} />
+        </TouchableOpacity>
+        <Text style={styles.header}>Music Zone</Text>
+        <Image source={FeedbackImage} style={styles.feedbackImage} />
+      </View>
+      <View style={styles.container}>
+        <Button
+          title=""
+          onPress={() =>
+            togglePlaySound(1, require("../tracks/BetterDays.mp3"))
+          }
+        />
+        
+        <Button
+          title="Toggle ASitarStory"
+          onPress={() =>
+            togglePlaySound(2, require("../tracks/ASitarStory.mp3"))
+          }
+        />
+        <Button
+          title="Toggle TwoHearts"
+          onPress={() => togglePlaySound(3, require("../tracks/TwoHearts.mp3"))}
+        />
+        <Button
+          title="Toggle SweetMath"
+          onPress={() => togglePlaySound(4, require("../tracks/SweetMath.mp3"))}
+        />
+        <Button
+          title="Toggle Another ASitarStory"
+          onPress={() =>
+            togglePlaySound(5, require("../tracks/ASitarStory.mp3"))
+          }
+        />
+
+<Controls
+          {...{ togglePlayPause }}
+          {...{ pause }}
+        
+        />
+      </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    backgroundColor: '#ecf0f1',
-    padding: 10,
-    paddingBottom: 15
+    justifyContent: "center",
+    backgroundColor: "white",
+    width: "85%",
+    marginLeft: 30,
+    marginTop:10,
+    padding: 20,
+    borderRadius:30,
+    gap: 10,
+    paddingBottom: 20,
+    marginBottom:30
   },
+  bigContainer: {
+    backgroundColor: "#22CFE7",
+    height: "50%",
+    borderRadius: 70,
+    marginTop: -50,
+  },
+  backButton: {
+    position: "absolute",
+    marginTop: 110,
+    marginLeft: 30,
+    width: 30,
+    height: 30,
+  },
+  header: {
+    color: "white",
+    fontSize: 35,
+    fontWeight: "bold",
+    position: "absolute",
+    marginTop: 150,
+    marginLeft: 100,
+  },
+  feedbackImage: {
+    width: 250,
+    height: 180,
+    marginTop: 200,
+    marginLeft: 70,
+  },
+ 
 });
