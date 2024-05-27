@@ -58,7 +58,10 @@ const Home = ({ navigation }) => {
   const GoToGoalSection = () => {
     navigation.navigate("goal");
   };
+const GoToMusicSection=()=>{
+  navigation.navigate("MusicTester2");
 
+}
 
   return (
     <GestureHandlerRootView style={styles.container}>
@@ -122,19 +125,24 @@ const Home = ({ navigation }) => {
           </View>
           </TouchableOpacity>
 
+
+          <TouchableOpacity onPress={GoToMusicSection}>
+
           <View style={styles.section2}>
             <Text style={styles.sectionTitle2}>Music Mood Booster</Text>
             <Text style={styles.sectionSubtitle}>
-              Let the music lift your spirits and energize your soul!{" "}
+              Let the music lift your spirits and energize your soul!
             </Text>
             <Image source={MusicSection} style={styles.sectionImage} />
           </View>
+          </TouchableOpacity>
+
 
 <TouchableOpacity onPress={GoToFeedbackSection}>
    <View style={styles.section3}>
             <Text style={styles.sectionTitle}>Feedback Loop</Text>
             <Text style={styles.sectionSubtitle}>
-              Fueling Growth and Success!{" "}
+              Fueling Growth and Success!
             </Text>
             <Image source={FeedbackSection} style={styles.sectionImage} />
           </View>
@@ -143,7 +151,7 @@ const Home = ({ navigation }) => {
           <View style={styles.section4}>
             <Text style={styles.sectionTitle}>Gamification</Text>
             <Text style={styles.sectionSubtitle}>
-              Complete tasks, earn badges, level up!{" "}
+              Complete tasks, earn badges, level up!
             </Text>
             <Image source={GameSection} style={styles.sectionImage} />
           </View>

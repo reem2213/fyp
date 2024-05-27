@@ -29,13 +29,14 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="MusicTester2" headerMode="none">
+      <Stack.Navigator initialRouteName="Splash" headerMode="none">
         <Stack.Screen
           name="Home"
           component={Home}
           options={{
             headerShown: false,
           }}
+          
         />
         <Stack.Screen
           name="Splash"
