@@ -14,16 +14,22 @@ import ProfileTest from "./screens/ProfileTest";
 import ShowUserInfo from "./components/ShowUserInfo";
 import Feedback from "./screens/FeedbackSection";
 import Community from "./screens/Community";
+import Communities from './screens/PsychologicalSection/Community/Community.jsx'
 import MyProfile from "./screens/MyProfile";
 import PhysicalSection from "./screens/PhysicalSection/PhysicalSection.jsx";
 import PsychologicalSection from "./screens/PsychologicalSection/PsychologicalSection.jsx";
 import AuthenticationTester from "./screens/authenticationTester.jsx";
 import FeedbackTester from "./screens/FeedbackTester.jsx";
 import MusicBooster from "./screens/MusicBooster.jsx";
-
+import EducationSection from './screens/PsychologicalSection/Education/Home.jsx';
+import ChatBot from './screens/PsychologicalSection/ChatBot/EmotionalAssistant.jsx'
 import Controls from "./components/Controls.jsx";
 import MusicTester from "./screens/MusicTester.jsx";
 import MusicTester2 from "./screens/MusicTester2.jsx";
+import Mentors from "./screens/PsychologicalSection/Mentors/Mentors.jsx";
+import Quiz from "./screens/PsychologicalSection/Education/QuizSection/Quiz.jsx";
+import Library from "./screens/PsychologicalSection/Education/LibrarySection/Library.jsx";
+import Language from "./screens/PsychologicalSection/Education/LanguageSection/Languages.jsx";
 export default function App() {
   const Stack = createNativeStackNavigator();
 
@@ -180,6 +186,60 @@ export default function App() {
             headerShown: false,
           }}
         />
+         <Stack.Screen
+          name="Mentors"
+          component={Mentors}
+          options={{
+            headerShown: false,
+          }}
+        />
+         <Stack.Screen
+          name="EduSection"
+          component={EducationSection}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="ChatBot"
+          component={ChatBot}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Communities"
+          component={Communities}
+          options={{
+            headerShown: false,
+          }}
+        />
+        
+
+        <Stack.Screen
+          name="Quiz"
+          component={Quiz}
+          options={{
+            headerShown: false,
+          }}
+        />
+        
+        <Stack.Screen
+          name="Library"
+          component={Library}
+          options={{
+            headerShown: false,
+          }}
+        />
+        
+        <Stack.Screen
+          name="Languages"
+          component={Language}
+          options={{
+            headerShown: false,
+          }}
+        />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );

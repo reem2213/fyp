@@ -4,10 +4,11 @@ import * as Google from "expo-auth-session/providers/google";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as WebBrowser from "expo-web-browser";
 import { useEffect, useState } from "react";
-import ShowUserInfo from "../components/ShowUserInfo";
 import GoogleIcon from '../assets/google.png'
+import { useNavigation } from "@react-navigation/native";
 
 const AuthenticationTester = () => {
+  const { navigate } = useNavigation();
 
   WebBrowser.maybeCompleteAuthSession();
   const [userInfo, setUserInfo] = useState(null);
@@ -18,7 +19,7 @@ const AuthenticationTester = () => {
       "401952058204-2icuf068v4pccidni0mfej7gdn9k5lvr.apps.googleusercontent.com",
     webClientId:
       "401952058204-vb1ku0ok1u9m42fp9n9s612kp1ho7u0f.apps.googleusercontent.com",
-      scopes: ['profile', 'email'],
+      // scopes: ['profile', 'email'],
   });
 
   useEffect(() => {
@@ -27,17 +28,30 @@ const AuthenticationTester = () => {
  
 
   async function handleSignInWithGoole() {
+    console.log("handleSignInWithGoogle called");
+
     const user = await AsyncStorage.getItem("@user");
+
     if (!user) {
       if (response?.type == "success") {
+        console.log("Successful response:", response);
+
         await fetchUserInfo(response.authentication.accessToken);
       }
+      else{
+        console.log("No user data found in AsyncStorage");
+
+      }
     } else {
+
       setUserInfo(JSON.parse(user));
     }
   }
 
+  
   async function fetchUserInfo(token) {
+    console.log("fetchUserInfo called with token:", token);
+
     if (!token) return;
     try {
       const response = await fetch(
@@ -47,39 +61,42 @@ const AuthenticationTester = () => {
         }
       );
       const user = await response.json();
-      
+      console.log("User info fetched successfully:", user);
+
       await AsyncStorage.setItem("@user", JSON.stringify(user));
       setUserInfo(user);
+      navigate("Home");
     } catch (error) {
       console.error("Error fetching user info:", error);
     }
   }
   return (
-    <View >
-      {/* <Text>{JSON.stringify(userInfo,null,2)}</Text> */}
-
-
+    <View style={styles.container}>
+{/* <Text>{JSON.stringify(userInfo,null,2)}</Text> */}
       <Pressable onPress={()=>promptAsync()}>
         <Image source={GoogleIcon} style={styles.googleIcon}/>
-        <Text style={styles.googleIcon}>Sign in with google</Text>
+        <Text style={styles.googleText}>Sign in with google</Text>
       </Pressable>
-      {/* <Pressable onPress={() => AsyncStorage.removeItem("@user")}>
-                <Text >Logout</Text>
-      </Pressable> */}
-
-      
 
     </View>
   );
 };
 const styles=StyleSheet.create({
   googleIcon:{
-    width:50,
-    height:50,
+    width:30,
+    height:30,
     position :"absolute"
     ,
-    marginLeft:160,
-    marginTop:520
+    marginLeft:130,
+    top:480
+  },
+  googleText:{
+    position :"absolute",
+    marginLeft:170,
+    top:485,
+    color:"white"
+  },
+  container:{
   }
 })
 export default AuthenticationTester;

@@ -11,7 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["/*"],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.fyp.client"
@@ -30,7 +30,8 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "scheme": "fyp.client",
+    "scheme":"com.fyp.client",
+   
     "plugins": [
       [
         "expo-image-picker",
@@ -41,14 +42,11 @@
       ],
       ["@react-native-google-signin/google-signin"]
     ],
+    
     "extra": {
       "eas": {
         "projectId": "123887f1-1fbc-4a61-85a4-054ac479a69c"
-      },
-      "googleWebClientId": "993023602982-1fea9g9h98174kfnq18g1mljtbu7bh0a.apps.googleusercontent.com",
-      "androidClientId": "401952058204-mqaei82n0ppudandl1jg70e9o3fckkdk.apps.googleusercontent.com",
-      "googleIosClientId": "401952058204-vb1ku0ok1u9m42fp9n9s612kp1ho7u0f.apps.googleusercontent.com"
+      }
     }
   }
 }
-

@@ -119,6 +119,7 @@ const SignUp = ({ navigation }) => {
           styles.signLayout,
           passwordError && styles.inputError,
         ]}
+        
         placeholder="Password"
         secureTextEntry={true}
         value={password}
@@ -146,6 +147,7 @@ const SignUp = ({ navigation }) => {
           Sign Up
         </Text>
       </Text>
+<View style={styles.containerrrr}></View>
       <AuthenticationTester/>
 
       <Image
@@ -186,13 +188,13 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   ellipseIcon: {
-    top: -50,
+    top: -100,
     left: 320,
     width: 150,
     height: 150,
   },
   ellipseIcon2: {
-    top: 540,
+    top: 450,
     left: -70,
     width: 150,
     height: 150,
@@ -414,6 +416,14 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
   },
+  containerrrr:{
+    backgroundColor:"#719AEA",
+    width:"50%",
+    height:50,
+    marginLeft:100,
+  top:520,
+  borderRadius:20
+  }
 });
 
 export default SignUp;
