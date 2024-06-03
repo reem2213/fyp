@@ -14,15 +14,15 @@ import ProfileTest from "./screens/ProfileTest";
 import ShowUserInfo from "./components/ShowUserInfo";
 import Feedback from "./screens/FeedbackSection";
 import Community from "./screens/Community";
-import Communities from './screens/PsychologicalSection/Community/Community.jsx'
+import Communities from "./screens/PsychologicalSection/Community/Community.jsx";
 import MyProfile from "./screens/MyProfile";
 import PhysicalSection from "./screens/PhysicalSection/PhysicalSection.jsx";
 import PsychologicalSection from "./screens/PsychologicalSection/PsychologicalSection.jsx";
 import AuthenticationTester from "./screens/authenticationTester.jsx";
 import FeedbackTester from "./screens/FeedbackTester.jsx";
 import MusicBooster from "./screens/MusicBooster.jsx";
-import EducationSection from './screens/PsychologicalSection/Education/Home.jsx';
-import ChatBot from './screens/PsychologicalSection/ChatBot/EmotionalAssistant.jsx'
+import EducationSection from "./screens/PsychologicalSection/Education/Home.jsx";
+import ChatBot from "./screens/PsychologicalSection/ChatBot/EmotionalAssistant.jsx";
 import Controls from "./components/Controls.jsx";
 import MusicTester from "./screens/MusicTester.jsx";
 import MusicTester2 from "./screens/MusicTester2.jsx";
@@ -32,6 +32,7 @@ import Library from "./screens/PsychologicalSection/Education/LibrarySection/Lib
 import Language from "./screens/PsychologicalSection/Education/LanguageSection/Languages.jsx";
 import Apps from "./screens/PsychologicalSection/Education/LanguageSection/apps.jsx";
 import Books from "./screens/PsychologicalSection/Education/LibrarySection/Books.jsx";
+import BookDetails from "./screens/PsychologicalSection/Education/LibrarySection/BookDetails.jsx";
 export default function App() {
   const Stack = createNativeStackNavigator();
 
@@ -44,7 +45,6 @@ export default function App() {
           options={{
             headerShown: false,
           }}
-          
         />
         <Stack.Screen
           name="Splash"
@@ -188,14 +188,14 @@ export default function App() {
             headerShown: false,
           }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="Mentors"
           component={Mentors}
           options={{
             headerShown: false,
           }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="EduSection"
           component={EducationSection}
           options={{
@@ -216,7 +216,6 @@ export default function App() {
             headerShown: false,
           }}
         />
-        
 
         <Stack.Screen
           name="Quiz"
@@ -225,7 +224,7 @@ export default function App() {
             headerShown: false,
           }}
         />
-        
+
         <Stack.Screen
           name="Library"
           component={Library}
@@ -233,7 +232,7 @@ export default function App() {
             headerShown: false,
           }}
         />
-        
+
         <Stack.Screen
           name="Languages"
           component={Language}
@@ -241,7 +240,7 @@ export default function App() {
             headerShown: false,
           }}
         />
-        
+
         <Stack.Screen
           name="apps"
           component={Apps}
@@ -250,14 +249,20 @@ export default function App() {
           }}
         />
 
-<Stack.Screen
+        <Stack.Screen
           name="books"
           component={Books}
           options={{
             headerShown: false,
           }}
         />
-        
+        <Stack.Screen
+          name="BookDetails"
+          component={BookDetails}
+          options={{
+            headerShown: false,
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

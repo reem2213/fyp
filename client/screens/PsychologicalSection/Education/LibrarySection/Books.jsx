@@ -26,7 +26,7 @@ import Drops from "../../../../assets/drops.jpeg";
 import Menrise from "../../../../assets/memrise.jpeg";
 import Mondly from "../../../../assets/mondly.png";
 import Fluentu from "../../../../assets/fluentu-logo.png";
-const Books = () => {
+const Books = ({navigation}) => {
   // Dummy data for the books
   const topBooks = [
     {
@@ -85,7 +85,10 @@ const Books = () => {
       <Text style={styles.subHeader}>Top Books</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {topBooks.map((book) => (
-          <TouchableOpacity key={book.id} style={styles.bookItem}>
+          <TouchableOpacity key={book.id} style={styles.bookItem} onPress={() => navigation.navigate('BookDetails', {
+            title: book.title,
+            image: book.image
+          })}>
             <Image source={book.image} style={styles.bookImage} />
             <Text>{book.title}</Text>
           </TouchableOpacity>
