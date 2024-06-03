@@ -3,10 +3,15 @@ import { Text, View, TouchableOpacity, Image } from "react-native";
 import Back from "../../../../assets/back.png";
 import LangBg from "../../../../assets/langBg.png";
 
+
 const Language = ({ navigation }) => {
   const backToHome = () => {
     navigation.navigate("EduSection");
 
+  };
+  const toApps = () => {
+    navigation.navigate("apps");
+    console.log("enterreeeddd")
   };
   return (
     <View style={{ backgroundColor: "#F8EF14", height: 900 }}>
@@ -37,7 +42,7 @@ const Language = ({ navigation }) => {
         today!
       </Text>
 
-      <TouchableOpacity style={{backgroundColor:"white", width:200, height:50,borderRadius:20 ,marginLeft:100, marginTop:50}}>
+      <TouchableOpacity onPress={toApps} style={{backgroundColor:"white", width:200, height:50,borderRadius:20 ,marginLeft:100, marginTop:50}}>
         <Text style={{color:"#E5DC08", top:10, left:30, fontSize:18, fontWeight:"bold"}}>Choose your app</Text>
       </TouchableOpacity>
 

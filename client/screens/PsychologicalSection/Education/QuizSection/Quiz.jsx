@@ -7,6 +7,7 @@ const Quiz = ({ navigation }) => {
     const backToHome = () => {
         navigation.navigate("EduSection");
       };
+      
   return (
     <View style={{ backgroundColor: "#FF6B00", height: 900 }}>
       <TouchableOpacity onPress={backToHome}>
@@ -16,9 +17,9 @@ const Quiz = ({ navigation }) => {
         />
       </TouchableOpacity>
       
-      <Image source={LangBg} style={{ width: 390, height: 400, marginTop:20 }} />
+      <Image source={LangBg} style={{position: "absolute", width: 390, height: 400, marginTop:100 }} />
       <Text
-        style={{ width: "90%", color: "white", marginLeft: 50, marginTop: -50 ,
+        style={{ width: "90%", color: "white", marginLeft: 50, marginTop: 400 ,
         fontSize: 25,
         fontWeight: "bold",}}
       >

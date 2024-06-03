@@ -30,12 +30,14 @@ import Mentors from "./screens/PsychologicalSection/Mentors/Mentors.jsx";
 import Quiz from "./screens/PsychologicalSection/Education/QuizSection/Quiz.jsx";
 import Library from "./screens/PsychologicalSection/Education/LibrarySection/Library.jsx";
 import Language from "./screens/PsychologicalSection/Education/LanguageSection/Languages.jsx";
+import Apps from "./screens/PsychologicalSection/Education/LanguageSection/apps.jsx";
+import Books from "./screens/PsychologicalSection/Education/LibrarySection/Books.jsx";
 export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SignIn" headerMode="none">
+      <Stack.Navigator initialRouteName="books" headerMode="none">
         <Stack.Screen
           name="Home"
           component={Home}
@@ -235,6 +237,22 @@ export default function App() {
         <Stack.Screen
           name="Languages"
           component={Language}
+          options={{
+            headerShown: false,
+          }}
+        />
+        
+        <Stack.Screen
+          name="apps"
+          component={Apps}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+<Stack.Screen
+          name="books"
+          component={Books}
           options={{
             headerShown: false,
           }}

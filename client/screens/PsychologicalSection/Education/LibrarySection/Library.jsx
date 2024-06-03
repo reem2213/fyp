@@ -7,6 +7,10 @@ const Library = ({ navigation }) => {
   const backToHome = () => {
     navigation.navigate("EduSection");
   };
+  const toApps = () => {
+    navigation.navigate("books");
+    console.log("enterreeeddd")
+  };
   return (
     <View style={{ backgroundColor: "#B1CB14", height: 900 }}>
       <TouchableOpacity onPress={backToHome}>
@@ -46,6 +50,7 @@ const Library = ({ navigation }) => {
       </Text>
 
       <TouchableOpacity
+        onPress={toApps}
         style={{
           backgroundColor: "#B1CB14",
           width: 100,
