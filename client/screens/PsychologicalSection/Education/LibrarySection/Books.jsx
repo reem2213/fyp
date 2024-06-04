@@ -1,17 +1,4 @@
-// import React from 'react'
-// import { Text, View } from 'react-native'
-
-// const Books = () => {
-//   return (
-//    <View>
-//     <Text style={{marginLeft:100,marginTop:100}}>hiiiii boookss</Text>
-//    </View>
-//   )
-// }
-
-// export default Books
-
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -25,31 +12,24 @@ import Busuu from "../../../../assets/busuu logo.png";
 import Drops from "../../../../assets/drops.jpeg";
 import Menrise from "../../../../assets/memrise.jpeg";
 import Mondly from "../../../../assets/mondly.png";
-import Fluentu from "../../../../assets/fluentu-logo.png";
-const Books = ({navigation}) => {
-  // Dummy data for the books
-  const topBooks = [
-    {
-      id: 1,
-      title: "Atomic Habits",
-      image: Duolingo,
-    },
-    {
-      id: 2,
-      title: "Rich Dad Poor Dad",
-      image: Busuu,
-    },
-    {
-      id: 3,
-      title: "Rich Dad Poor Dad",
-      image: Drops,
-    },{
-      id: 4,
-      title: "Rich Dad Poor Dad",
-      image: Mondly,
-    },
-  ];
 
+import Fluentu from "../../../../assets/fluentu-logo.png";
+import axios from "axios";
+const Books = ({ navigation }) => {
+
+  const images=[
+    {
+    id:1,
+    image:Duolingo
+  },
+  {
+    id:2,
+    image:Menrise
+  },{
+    id:3,
+    image:Mondly
+  },
+]
   const featuredBooks = [
     {
       id: 1,
@@ -71,26 +51,57 @@ const Books = ({navigation}) => {
       title: "November 9",
       image: Duolingo,
     },
-
   ];
 
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    const fetchGoals = async () => {
+      try {
+        const response = await axios.get("http://10.0.0.21:3001/books");
+        setBooks(response.data);
+      } catch (error) {
+        console.error("Error fetching books:", error);
+      }
+    };
+
+    fetchGoals();
+  }, []);
+
+  
   return (
     <View style={styles.container}>
+
       <Text style={styles.header}>Our Library</Text>
       <View style={styles.tabs}>
         <Text>All</Text>
-        <Text>Reading</Text>
         <Text>Saved</Text>
       </View>
       <Text style={styles.subHeader}>Top Books</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {topBooks.map((book) => (
-          <TouchableOpacity key={book.id} style={styles.bookItem} onPress={() => navigation.navigate('BookDetails', {
-            title: book.title,
-            image: book.image
-          })}>
-            <Image source={book.image} style={styles.bookImage} />
-            <Text>{book.title}</Text>
+        {books.map((b, index) => (
+          <TouchableOpacity
+            key={b.id}
+            style={styles.bookItem}
+            onPress={() =>
+              navigation.navigate("BookDetails", {
+                title: b.title,
+                image: b.image,
+                description: b.description,
+                rating: b.rating,
+                author: b.author,
+              })
+            }
+            
+          >
+            <View key={index}>
+            {/* {images.map((book) => (
+              <TouchableOpacity key={book.id} style={styles.bookItemVertical}>
+                <Image source={book.image} style={styles.bookImage} />
+              </TouchableOpacity>
+            ))} */}
+              <Text>{b.title}</Text>
+            </View>
           </TouchableOpacity>
         ))}
       </ScrollView>
@@ -113,6 +124,7 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "#fff",
   },
+
   header: {
     fontSize: 24,
     fontWeight: "bold",
