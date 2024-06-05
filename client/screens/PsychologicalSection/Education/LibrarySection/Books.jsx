@@ -146,20 +146,14 @@ import {
   Image,
   StyleSheet,
 } from "react-native";
-import Duolingo from "../../../../assets/duolingo.png";
-import Busuu from "../../../../assets/busuu logo.png";
-import Drops from "../../../../assets/drops.jpeg";
-import Menrise from "../../../../assets/memrise.jpeg";
-import Mondly from "../../../../assets/mondly.png";
-import Fluentu from "../../../../assets/fluentu-logo.png";
 import AtomicHabits from '../../../../assets/atomicHabits.jpg';
 import Verity from '../../../../assets/verity.jpg';
 import Dad from '../../../../assets/rich-dad-poor-dad.jpg';
 import Nov9 from '../../../../assets/nov9.jpg';
 import axios from "axios";
 import Agatha1 from '../../../../assets/book2.jpg';
-import Agatha2 from '../../../../assets/Agatha2.jpg';
 import Agatha3 from '../../../../assets/book3.jpg';
+import Book4 from '../../../../assets/the-silent-patient.jpg';
 
 const Books = ({ navigation }) => {
   const imageMap = {
@@ -173,17 +167,17 @@ const Books = ({ navigation }) => {
     {
       id: 1,
       title: "November 9",
-      image: Nov9,
+      image: Agatha1,
     },
     {
       id: 2,
       title: "November 9",
-      image: Dad,
+      image: Agatha3,
     },
     {
       id: 3,
       title: "November 9",
-      image: AtomicHabits,
+      image: Book4,
     },
     {
       id: 4,
@@ -193,12 +187,12 @@ const Books = ({ navigation }) => {
     {
       id: 5,
       title: "November 9",
-      image: Agatha1,
+      image: Nov9,
     },
     {
       id: 6,
       title: "November 9",
-      image: Agatha3,
+      image: Dad,
     },
   ];
   const [books, setBooks] = useState([]);

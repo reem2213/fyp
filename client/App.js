@@ -33,6 +33,7 @@ import Language from "./screens/PsychologicalSection/Education/LanguageSection/L
 import Apps from "./screens/PsychologicalSection/Education/LanguageSection/apps.jsx";
 import Books from "./screens/PsychologicalSection/Education/LibrarySection/Books.jsx";
 import BookDetails from "./screens/PsychologicalSection/Education/LibrarySection/BookDetails.jsx";
+import PDFViewer from "./components/ViewPdf.jsx";
 export default function App() {
   const Stack = createNativeStackNavigator();
 
@@ -259,6 +260,13 @@ export default function App() {
         <Stack.Screen
           name="BookDetails"
           component={BookDetails}
+          options={{
+            headerShown: false,
+          }}
+        />
+          <Stack.Screen
+          name="PDFViewer"
+          component={PDFViewer}
           options={{
             headerShown: false,
           }}
