@@ -39,7 +39,11 @@ export default function App() {
 
   return (
     <NavigationContainer>
+<<<<<<< HEAD
       <Stack.Navigator initialRouteName="SignIn" headerMode="none">
+=======
+      <Stack.Navigator initialRouteName="Home" headerMode="none">
+>>>>>>> aae11b561fe129b6cdc37c5495f31d23a06233e7
         <Stack.Screen
           name="Home"
           component={Home}
