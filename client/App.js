@@ -38,7 +38,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="books" headerMode="none">
+      <Stack.Navigator initialRouteName="EduSection" headerMode="none">
         <Stack.Screen
           name="Home"
           component={Home}
