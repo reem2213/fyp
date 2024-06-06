@@ -16,10 +16,26 @@ import com.facebook.react.defaults.DefaultReactNativeHost
 import com.facebook.react.flipper.ReactNativeFlipper
 import com.facebook.soloader.SoLoader
 
+
 import expo.modules.ApplicationLifecycleDispatcher
 import expo.modules.ReactNativeHostWrapper
+import com.zmxv.RNSound.RNSoundPackage
 
 class MainApplication : Application(), ReactApplication {
+  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+    override fun getPackages(): List<ReactPackage> {
+      @SuppressWarnings("UnnecessaryLocalVariable")
+      val packages = PackageList(this).packages.toMutableList()
+      
+      // Add manually linked packages here
+      packages.add(ReactVideoPackage())
+      packages.add(RNSoundPackage())
+
+      return packages
+    }
+   
+  }
+  };
 
   override val reactNativeHost: ReactNativeHost = ReactNativeHostWrapper(
         this,
@@ -62,4 +78,4 @@ class MainApplication : Application(), ReactApplication {
     super.onConfigurationChanged(newConfig)
     ApplicationLifecycleDispatcher.onConfigurationChanged(this, newConfig)
   }
-}
+

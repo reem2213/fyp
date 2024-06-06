@@ -103,9 +103,9 @@ app.delete('/goal/:id', async (req, res) => {
 });
 
 app.post('/feedback', async (req, res) => {
-  const { type, content,rating } = req.body;
+  const { type, content } = req.body;
   try {
-      const newFeedback = new feedbackModel({type, content,rating });
+      const newFeedback = new feedbackModel({type, content });
       await newFeedback.save();
       res.status(201).json(newFeedback);
   } catch (error) {
@@ -121,6 +121,36 @@ app.get('/feedback', async (req, res) => {
       res.status(500).json({ message: error.message });
   }
 });
+
+app.put('/feedback/:id', async (req, res) => {
+  try {
+    const { rating } = req.body;
+    const feedback = await feedbackModel.findByIdAndUpdate(req.params.id, { rating }, { new: true });
+    if (!feedback) {
+      return res.status(404).send('Feedback not found');
+    }
+    res.send(feedback);
+  } catch (error) {
+    res.status(500).send('Server error');
+  }
+});
+
+
+
+app.get('/books', async (req, res) => {
+  try {
+      const books = await bookModel.find();
+      res.json(books);
+  } catch (error) {
+      res.status(500).json({ message: error.message });
+  }
+});
+
+
+
+
+
+
 
 
 app.listen(3001, () => {

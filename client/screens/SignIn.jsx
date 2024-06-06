@@ -15,6 +15,7 @@ import {
 import axios from "axios";
 import { FontFamily, Color, Border, FontSize } from "../GlobalStyles";
 import AuthenticationProviders from "../components/authProviders";
+import AuthenticationTester from "./authenticationTester";
 const SignUp = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -45,7 +46,7 @@ const SignUp = ({ navigation }) => {
   const handleSignUp = async () => {
     if (validateForm()) {
       try {
-        const response = await axios.post("http://10.0.0.21:3001/SignIn", {
+        const response = await axios.post("http://172.16.165.205:3001/SignIn", {
           username: username,
           password: password,
         });
@@ -118,6 +119,7 @@ const SignUp = ({ navigation }) => {
           styles.signLayout,
           passwordError && styles.inputError,
         ]}
+        
         placeholder="Password"
         secureTextEntry={true}
         value={password}
@@ -145,7 +147,8 @@ const SignUp = ({ navigation }) => {
           Sign Up
         </Text>
       </Text>
-      {/* <AuthenticationProviders/> */}
+<View style={styles.containerrrr}></View>
+      <AuthenticationTester/>
 
       <Image
         style={[styles.ellipseIcon]}
@@ -185,13 +188,13 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   ellipseIcon: {
-    top: -50,
+    top: -100,
     left: 320,
     width: 150,
     height: 150,
   },
   ellipseIcon2: {
-    top: 540,
+    top: 450,
     left: -70,
     width: 150,
     height: 150,
@@ -413,6 +416,14 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
   },
+  containerrrr:{
+    backgroundColor:"#719AEA",
+    width:"50%",
+    height:50,
+    marginLeft:100,
+  top:520,
+  borderRadius:20
+  }
 });
 
 export default SignUp;

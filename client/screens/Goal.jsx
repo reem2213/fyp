@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 //reem was here
+
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ArrowBack from "../assets/arrowBack.png";
 import BlueEllipse from "../assets/blueEllipse.png";
@@ -68,7 +69,7 @@ const Goal = ({ navigation }) => {
 
   const handleMoveGoal = async (goalItem) => {
     try {
-      await axios.delete(`http://10.0.0.21:3001/goal/${goalItem._id}`);
+      await axios.delete(`http://172.16.165.205:3001/goal/${goalItem._id}`);
 
       const updatedGoals = goals.filter((goal) => goal._id !== goalItem._id);
       setGoals(updatedGoals);

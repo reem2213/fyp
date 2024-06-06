@@ -1,14 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Button, View, Image, Text, TextInput, Pressable, TouchableOpacity } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  TextInput,
+  Pressable,
+  TouchableOpacity,
+} from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import User from "../assets/user.png";
 import BlueEllipse from "../assets/blueEllipse.png";
 import People from "../assets/people-remover.png";
 import Camera from "../assets/camera.png";
+
 const imgDir = FileSystem.documentDirectory + "/images";
 
-const ProfileCustomization = ({ navigation , route }) => {
+const ProfileCustomization = ({ navigation, route }) => {
   const [imageUri, setImageUri] = useState("");
   const [username, setUsername] = useState("");
   const [bio, setBio] = useState("");
@@ -44,9 +55,8 @@ const ProfileCustomization = ({ navigation , route }) => {
   const handleSignUp = async () => {
     if (validateForm()) {
       try {
-        
-        navigation.navigate('profileTest', { username, bio, imageUri })
-          } catch (error) {
+        navigation.navigate("profileTest", { username, bio, imageUri });
+      } catch (error) {
         Alert.alert("Error", error.message);
       }
     }
@@ -144,11 +154,12 @@ const ProfileCustomization = ({ navigation , route }) => {
           marginTop: 105,
         }}
       />
+
       <Text
         style={{
           position: "absolute",
           marginLeft: 60,
-          marginTop: 255,
+          marginTop: 230,
           fontWeight: "bold",
           fontSize: 27,
           color: "#1B436F",
@@ -156,102 +167,147 @@ const ProfileCustomization = ({ navigation , route }) => {
       >
         Customize Your Profile
       </Text>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 120}
+      >
+        <View style={{ alignItems: "center", top: 300 }}>
+          <Image
+            source={User}
+            style={{
+              width: 150,
+              height: 150,
+              marginBottom: 20,
+              //  position: "absolute",
 
-      <View style={{ alignItems: "center", top: 300 }}>
-        <Image
-          source={User}
-          style={{ width: 150, height: 150, marginBottom: 20 }}
-        />
-        <Image
-          source={{ uri: imageUri }}
-          style={{
-            width: 150,
-            height: 150,
-            marginBottom: 20,
-            borderRadius: 100,
-            position: "absolute",
-          }}
-        />
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-around",
-            width: "100%",
-            marginBottom: 20,
-          }}
-        >
-          <Pressable onPress={() => pickImageAsync(true)}>
-            <Text
-              style={{ marginLeft: 100, fontWeight: "500", color: "#636363" }}
-            >
-              Choose a photo
+              marginTop: -350,
+            }}
+          />
+          <Image
+            source={{ uri: imageUri }}
+            style={{
+              width: 150,
+              height: 150,
+              marginBottom: 20,
+              borderRadius: 100,
+              // position: "absolute",
+              marginTop: -170,
+
+            }}
+          />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-around",
+              width: "100%",
+              marginBottom: 20,
+            }}
+          >
+            <Pressable onPress={() => pickImageAsync(true)}>
+              <Text
+                style={{
+                  marginLeft: 50,
+                  fontWeight: "500",
+                  color: "#636363",
+                  marginTop: -15,
+
+                }}
+              >
+                Choose a photo
+              </Text>
+            </Pressable>
+            <Pressable onPress={() => pickImageAsync(false)}>
+              <View
+                style={{
+                  backgroundColor: "#D9D9D9",
+                  borderRadius: 40,
+                  width: 35,
+                  height: 35,
+                  marginLeft: -120,
+                  marginTop: -55,
+                }}
+              >
+                <Image
+                  source={Camera}
+                  style={{ width: 25, height: 25, marginLeft: 5, marginTop: 5 }}
+                />
+              </View>
+            </Pressable>
+          </View>
+
+          <TextInput
+            style={{
+              width: 300,
+              height: 40,
+              backgroundColor: "#EEEEEE",
+              marginBottom: 10,
+              paddingHorizontal: 10,
+              borderRadius: 10,
+            }}
+            placeholder="Username"
+            value={username}
+            onChangeText={(text) => setUsername(text)}
+          />
+          {usernameError ? (
+            <Text style={{ color: "red", marginLeft: -180, marginBottom: 10 }}>
+              {usernameError}
             </Text>
-          </Pressable>
-          <Pressable onPress={() => pickImageAsync(false)}>
-            <View
+          ) : null}
+
+          <TextInput
+            style={{
+              width: 300,
+              height: 40,
+              backgroundColor: "#EEEEEE",
+              marginBottom: 10,
+              paddingHorizontal: 10,
+              borderRadius: 10,
+            }}
+            placeholder="Bio"
+            value={bio}
+            onChangeText={(text) => setBio(text)}
+          />
+          {bioError ? (
+            <Text style={{ color: "red", marginLeft: -220, marginBottom: 5 }}>
+              {bioError}
+            </Text>
+          ) : null}
+
+          <TouchableOpacity
+            onPress={handleSignUp}
+            style={{
+              backgroundColor: "#719AEA",
+              width: 300,
+              paddingTop:5,
+              height: 40,
+              borderRadius: 30,
+            }}
+          >
+            <Text
               style={{
-                backgroundColor: "#D9D9D9",
-                borderRadius: 40,
-                width: 35,
-                height: 35,
-                marginLeft: -120,
-                marginTop: -55,
+                color: "white",
+                fontSize: 18,
+                fontWeight: "500",
+                marginLeft: 120,
+                marginTop: 5,
               }}
             >
-              <Image
-                source={Camera}
-                style={{ width: 25, height: 25, marginLeft: 5, marginTop: 5 }}
-              />
-            </View>
-          </Pressable>
+              Confirm
+            </Text>
+          </TouchableOpacity>
         </View>
-
-        <TextInput
-          style={{
-            width: "80%",
-            height: 40,
-            backgroundColor: "#EEEEEE",
-            marginBottom: 10,
-            paddingHorizontal: 10,
-            borderRadius:10
-
-          }}
-          placeholder="Username"
-          value={username}
-          onChangeText={(text) => setUsername(text)}
-        />
-        {usernameError ? (
-          <Text style={{ color: "red", marginLeft: -180, marginBottom: 10 }}>
-            {usernameError}
-          </Text>
-        ) : null}
-
-        <TextInput
-          style={{
-            width: "80%",
-            height: 40,
-            backgroundColor: "#EEEEEE",
-            marginBottom: 10,
-            paddingHorizontal: 10,
-            borderRadius:10
-          }}
-          placeholder="Bio"
-          value={bio}
-          onChangeText={(text) => setBio(text)}
-        />
-        {bioError ? (
-          <Text style={{ color: "red", marginLeft: -220,marginBottom:5 }}>{bioError}</Text>
-        ) : null}
-
-        <TouchableOpacity onPress={handleSignUp} style={{backgroundColor:"#719AEA",width: "80%",
-            height: 40,borderRadius:30}}>
-            <Text style={{color:"white", fontSize:18, fontWeight:"500",marginLeft:120, marginTop:5}}>Confirm</Text>
-
-        </TouchableOpacity>
-
-      </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    // backgroundColor: "#fff",
+    paddingHorizontal: 20,
+  },
+});
 export default ProfileCustomization;

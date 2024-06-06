@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
+import { KeyboardAvoidingView, Platform } from 'react-native';
+
 import axios from "axios";
 import { Picker } from "@react-native-picker/picker";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -124,8 +126,7 @@ const SignUp = ({ navigation }) => {
         }
       } catch (error) {
         if (
-          // error.response &&
-          // error.response.data &&
+
           error.response.data.error === "Username already exists"
         ) {
           setUsernameExists(true);
@@ -149,10 +150,11 @@ const SignUp = ({ navigation }) => {
 
     const handleUsernameChange = (text) => {
     setUsername(text);
-    setUsernameExists(false); // Clear the username exists error when username changes
+    setUsernameExists(false); 
   };
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}
+    keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}>
       <TouchableOpacity onPress={goToSignUp}>
         <Image
           style={styles.signUpChild}
@@ -260,7 +262,7 @@ const SignUp = ({ navigation }) => {
         contentFit="cover"
         source={require("../assets/blueEllipse.png")}
       />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

@@ -7,12 +7,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AuthenticationProviders = () => {
   const [userInfo, setUserInfo] = useState(null);
-  const [accessToken, setAccessToken] = useState(null);
+  const [accessToken, setAccessToken] = useState();
   const { navigate } = useNavigation();
 
   const [request, response, promptAsync] = Google.useAuthRequest({
-    androidClientId:
-      "687357468385-n16hekphhcfnf5s91erhnenckhod4vht.apps.googleusercontent.com",
+    // androidClientId:
+    //   "687357468385-n16hekphhcfnf5s91erhnenckhod4vht.apps.googleusercontent.com",
+    webClientId:
+      "401952058204-vb1ku0ok1u9m42fp9n9s612kp1ho7u0f.apps.googleusercontent.com",
   });
 
   useEffect(() => {
@@ -31,12 +33,14 @@ const AuthenticationProviders = () => {
         }
       );
       const userInfo = await response.json();
+      
       setUserInfo(userInfo);
       navigate("UserInfo", { userInfo });
     } catch (error) {
       console.error("Error fetching user info:", error);
     }
   }
+
 
   return (
     <View>
