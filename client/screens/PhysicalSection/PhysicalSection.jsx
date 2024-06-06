@@ -11,7 +11,7 @@ const App = () => {
         <View style={styles.circleLeft} />
         <View style={styles.circleRight} />
         <Image
-          source={require('./assets/snack-icon.png')} // Adjust the path as needed
+source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
           style={styles.image}
         />
         <Text style={styles.title}>Sweat It Out!</Text>
@@ -22,7 +22,7 @@ const App = () => {
         <View style={styles.circleLeft} />
         <View style={styles.circleRight} />
         <Image
-          source={require('./assets/snack-icon.png')} // Adjust the path as needed
+source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
           style={styles.image}
         />
         <Text style={styles.title}>Track your Active Lifestyle</Text>
@@ -33,7 +33,7 @@ const App = () => {
         <View style={styles.circleLeft} />
         <View style={styles.circleRight} />
         <Image
-          source={require('./assets/snack-icon.png')} // Adjust the path as needed
+source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
           style={styles.image}
         />
         <Text style={styles.title}>Stay Fit!</Text>
@@ -45,7 +45,7 @@ const App = () => {
         <View style={styles.circleRight} />
         <View style={styles.imageContainer}>
           <Image
-          source={require('./assets/snack-icon.png')} // Adjust the path as needed
+source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
             style={styles.image}
           />
         </View>

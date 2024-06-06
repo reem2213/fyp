@@ -424,7 +424,7 @@ const Feedback = ({ navigation }) => {
     setFeedbacks(updatedFeedbacks);
   
     try {
-      const response = await axios.put(`http://10.0.0.21:3001/feedback/${feedback._id}`, {
+      const response = await axios.put(`http://172.16.165.205:3001/feedback/${feedback._id}`, {
         rating: rating
       });
       console.log("Rating updated:", response.data);
