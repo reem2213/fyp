@@ -11,11 +11,8 @@ const App = () => {
         <View style={styles.circleLeft} />
         <View style={styles.circleRight} />
         <Image
-<<<<<<< HEAD
 source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
-=======
-          source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
->>>>>>> aae11b561fe129b6cdc37c5495f31d23a06233e7
+
           style={styles.image}
         />
         <Text style={styles.title}>Sweat It Out!</Text>
@@ -26,11 +23,8 @@ source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
         <View style={styles.circleLeft} />
         <View style={styles.circleRight} />
         <Image
-<<<<<<< HEAD
 source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
-=======
-          source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
->>>>>>> aae11b561fe129b6cdc37c5495f31d23a06233e7
+
           style={styles.image}
         />
         <Text style={styles.title}>Track your Active Lifestyle</Text>
@@ -41,11 +35,8 @@ source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
         <View style={styles.circleLeft} />
         <View style={styles.circleRight} />
         <Image
-<<<<<<< HEAD
 source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
-=======
-          source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
->>>>>>> aae11b561fe129b6cdc37c5495f31d23a06233e7
+
           style={styles.image}
         />
         <Text style={styles.title}>Stay Fit!</Text>
@@ -57,11 +48,8 @@ source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
         <View style={styles.circleRight} />
         <View style={styles.imageContainer}>
           <Image
-<<<<<<< HEAD
-source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
-=======
+
           source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
->>>>>>> aae11b561fe129b6cdc37c5495f31d23a06233e7
             style={styles.image}
           />
         </View>
@@ -146,8 +134,5 @@ const styles = StyleSheet.create({
   },
 });
 
-<<<<<<< HEAD
 export default App;
-=======
-export default App;
->>>>>>> aae11b561fe129b6cdc37c5495f31d23a06233e7
+
