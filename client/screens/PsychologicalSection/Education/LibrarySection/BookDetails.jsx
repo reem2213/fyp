@@ -28,7 +28,9 @@ function BookDetails({ route, navigation }) {
       image: Nov9,
     },
   ];
-
+  const navv=()=>{
+    navigation.navigate("PDFViewer")
+  }
   return (
     <>
       <View style={{ backgroundColor: "white", top: 0, height: "100%" }}>
@@ -81,7 +83,7 @@ function BookDetails({ route, navigation }) {
           >
             {rating}
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={navv}>
             <Text
               style={{
                 color: "white",

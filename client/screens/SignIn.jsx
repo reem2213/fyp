@@ -46,7 +46,7 @@ const SignUp = ({ navigation }) => {
   const handleSignUp = async () => {
     if (validateForm()) {
       try {
-        const response = await axios.post("http://172.16.165.205:3001/SignIn", {
+        const response = await axios.post("http://10.0.0.21:3001/SignIn", {
           username: username,
           password: password,
         });
