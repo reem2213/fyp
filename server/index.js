@@ -135,6 +135,24 @@ app.put('/feedback/:id', async (req, res) => {
   }
 });
 
+
+
+app.get('/books', async (req, res) => {
+  try {
+      const books = await bookModel.find();
+      res.json(books);
+  } catch (error) {
+      res.status(500).json({ message: error.message });
+  }
+});
+
+
+
+
+
+
+
+
 app.listen(3001, () => {
   console.log("server is runingggg!");
 });
