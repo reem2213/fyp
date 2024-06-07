@@ -148,7 +148,26 @@ app.get('/books', async (req, res) => {
 
 
 
+app.get('/questions/:category', async (req, res) => {
+  try {
+      const { category } = req.params;
+      const questions = await quizModel.find({ category });
+      res.json(questions);
+  } catch (err) {
+      console.error('Error fetching questions by category:', err);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
+app.get('/categories', async (req, res) => {
+  try {
+      const categories = await quizModel.distinct('category');
+      res.json(categories);
+  } catch (err) {
+      console.error('Error fetching categories:', err);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 
 

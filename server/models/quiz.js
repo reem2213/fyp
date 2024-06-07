@@ -6,6 +6,7 @@ const quizSchema = new mongoose.Schema({
     option2:String,
     option3:String,
     correct_option:String,
+    category:String
 
 
 

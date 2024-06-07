@@ -7,6 +7,9 @@ const Quiz = ({ navigation }) => {
     const backToHome = () => {
         navigation.navigate("EduSection");
       };
+      const Start = () => {
+        navigation.navigate("QuizCategory");
+      };
       
   return (
     <View style={{ backgroundColor: "#FF6B00", height: 900 }}>
@@ -26,7 +29,7 @@ const Quiz = ({ navigation }) => {
         Test your knowledge and challenge your mind with our interactive quizzes
       </Text>
 
-      <TouchableOpacity style={{backgroundColor:"white", width:200, height:50,borderRadius:20 ,marginLeft:100, marginTop:50}}>
+      <TouchableOpacity style={{backgroundColor:"white", width:200, height:50,borderRadius:20 ,marginLeft:100, marginTop:50}} onPress={Start}>
         <Text style={{color:"#FF6B00", top:10, left:50, fontSize:18, fontWeight:"bold"}}>Let's Start</Text>
       </TouchableOpacity>
 
