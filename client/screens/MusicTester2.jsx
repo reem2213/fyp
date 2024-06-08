@@ -1,341 +1,3 @@
-// import React, { useEffect } from "react";
-// import { Text, TouchableOpacity, View ,StyleSheet, ScrollView} from "react-native";
-// import { SafeAreaView } from "react-native-safe-area-context";
-// import Sound from "react-native-sound";
-// import { Platform } from 'react-native';
-
-// const MusicTester2 = () => {
-//   let sound1, sound2, sound3;
-//   const IsAndroid = Platform.OS === 'android';
-//   const containerStyle = IsAndroid ? styles.androidContainer : styles.container;
-
-//   useEffect(() => {
-//     Sound.setCategory("Playback", true);
-//     return () => {
-//       if (sound1) sound1.release();
-//       if (sound2) sound2.release();
-//       if (sound3) sound3.release();
-//       if (sound4) sound4.release();
-//       if (sound5) sound5.release();
-//       if (sound6) sound6.release();
-//     };
-//   }, []);
-
-//   const audioList = [
-//     {
-//       title: "test one",
-//       isRequired: true,
-//       url: require("../tracks/ASitarStory.mp3"),
-//     },
-//     {
-//       title: "test two",
-//       isRequired: true,
-//       url: require("../tracks/BetterDays.mp3"),
-//     },
-//     {
-//       title: "test three",
-//       isRequired: true,
-//       url: require("../tracks/SweetMath.mp3"),
-//     },
-//   ];
-
-//   const playSound = (item, index) => {
-//     if (index == 0) {
-//       sound1 = new Sound(item.url, "", (error, _sound) => {
-//         if (error) {
-//           alert("error" + error.message);
-//           return;
-//         }
-//         sound1.play(() => {
-//           sound1.release();
-//         });
-//       });
-//     } else if (index == 1) {
-//       sound2 = new Sound(item.url, "", (error, _sound) => {
-//         if (error) {
-//           alert("error" + error.message);
-//           return;
-//         }
-//         sound2.play(() => {
-//           sound2.release();
-//         });
-//       });
-//     } else if (index == 2) {
-//       sound3 = new Sound(item.url, "", (error, _sound) => {
-//         if (error) {
-//           alert("error" + error.message);
-//           return;
-//         }
-//         sound3.play(() => {
-//           sound3.release();
-//         });
-//       });
-//     }
-//   };
-
-//   const stopSound = () => {
-//     if (index == 0 && sound1) {
-//       sound1.stop(() => {
-//         console.log("stop");
-//       });
-//     }
-//     else  if (index == 1 && sound2) {
-//         sound2.stop(() => {
-//           console.log("stop");
-//         });
-//       }
-//       else  if (index == 2 && sound3) {
-//         sound3.stop(() => {
-//           console.log("stop");
-//         });
-//       }
-//   };
-
-//   const ItemView =(item,index)=>{
-//     return (
-
-//         <View style={styles.features} key={index}>
-//             <Text style={styles.textStyle}>{item.title}</Text>
-//             <TouchableOpacity onPress={()=>playSound(item,index)}>
-//                 <Text style={styles.buttonPlay}>PLay</Text>
-//             </TouchableOpacity>
-
-//             <TouchableOpacity onPress={()=>stopSound(item,index)}>
-//                 <Text style={styles.buttonStop}>Stop</Text>
-//             </TouchableOpacity>
-
-//         </View>
-//     )
-
-//   }
-//   return (
-//     <SafeAreaView style={{flex:1}}>
-//         <View style={containerStyle}>
-//             <Text style={styles.titleText}>
-//                 Playy musicooo
-//             </Text>
-//             <ScrollView style={{flex:1}}>
-//                 {audioList.map(ItemView)}
-//             </ScrollView>
-//         </View>
-//     </SafeAreaView>
-//   );
-// };
-// const styles =StyleSheet.create({
-//     container:{
-//         flex:1,
-//         backgroundColor:"white",
-//         padding:10
-//     },
-//     titleText:{
-//         fontSize:22,
-//         textAlign:'center',
-//         fontWeight:"bold"
-//     },
-//     textStyle:{
-//         flex:1,
-//         padding:5
-//     },
-//     buttonPlay:{
-//         fontSize:15,
-//         color:"white",
-//         backgroundColor:"black",
-//         overflow:"hidden",
-//         paddingHorizontal:15,
-//         paddingVertical:7
-//     },
-//     buttonStop:{
-//         fontSize:15,
-//         color:"white",
-//         backgroundColor:"black",
-//         overflow:"hidden",
-//         paddingHorizontal:15,
-//         paddingVertical:7
-//     },
-//     features:{
-//         flexDirection:'row',
-//         padding
-//         :5,
-//         marginTop:7,
-//         alignSelf:"stretch",
-//         alignItems:'center',
-//         borderTopWidth:1
-//     },
-//     androidContainer: {
-//         flex: 1,
-//         backgroundColor: 'lightgrey',
-//       },
-
-// })
-
-// export default MusicTester2;
-
-// import React, { useEffect } from "react";
-// import {
-//   Text,
-//   TouchableOpacity,
-//   View,
-//   StyleSheet,
-//   ScrollView,
-//   Platform,
-// } from "react-native";
-// import { SafeAreaView } from "react-native-safe-area-context";
-// import Sound from "react-native-sound";
-
-// const MusicTester2 = () => {
-//   let sound1, sound2, sound3;
-
-//   const isAndroid = Platform.OS === "android";
-//   const containerStyle = isAndroid ? styles.androidContainer : styles.container;
-//   var RNSound = require("react-native").NativeModules.RNSound;
-//   var IsAndroid = RNSound.IsAndroid;
-
-//   useEffect(() => {
-//     Sound.setCategory("Playback", true);
-//     return () => {
-//       if (sound1) sound1.release();
-//       if (sound2) sound2.release();
-//       if (sound3) sound3.release();
-//     };
-//   }, []);
-
-//   const audioList = [
-//     {
-//       title: "test one",
-//       isRequired: true,
-//       url: require("../tracks/ASitarStory.mp3"),
-//     },
-//     {
-//       title: "test two",
-//       isRequired: true,
-//       url: require("../tracks/BetterDays.mp3"),
-//     },
-//     {
-//       title: "test three",
-//       isRequired: true,
-//       url: require("../tracks/SweetMath.mp3"),
-//     },
-//   ];
-
-//   const playSound = (item, index) => {
-//     if (index === 0) {
-//       sound1 = new Sound(item.url, "", (error, _sound) => {
-//         if (error) {
-//           alert("error" + error.message);
-//           return;
-//         }
-//         sound1.play(() => {
-//           sound1.release();
-//         });
-//       });
-//     } else if (index === 1) {
-//       sound2 = new Sound(item.url, "", (error, _sound) => {
-//         if (error) {
-//           alert("error" + error.message);
-//           return;
-//         }
-//         sound2.play(() => {
-//           sound2.release();
-//         });
-//       });
-//     } else if (index === 2) {
-//       sound3 = new Sound(item.url, "", (error, _sound) => {
-//         if (error) {
-//           alert("error" + error.message);
-//           return;
-//         }
-//         sound3.play(() => {
-//           sound3.release();
-//         });
-//       });
-//     }
-//   };
-
-//   const stopSound = (index) => {
-//     if (index === 0 && sound1) {
-//       sound1.stop(() => {
-//         console.log("stopped");
-//       });
-//     } else if (index === 1 && sound2) {
-//       sound2.stop(() => {
-//         console.log("stopped");
-//       });
-//     } else if (index === 2 && sound3) {
-//       sound3.stop(() => {
-//         console.log("stopped");
-//       });
-//     }
-//   };
-
-//   const ItemView = (item, index) => (
-//     <View style={styles.features} key={index}>
-//       <Text style={styles.textStyle}>{item.title}</Text>
-//       <TouchableOpacity>
-//         <Text style={styles.buttonPlay}>Play</Text>
-//       </TouchableOpacity>
-//       <TouchableOpacity>
-//         <Text style={styles.buttonStop}>Stop</Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-
-//   return (
-//     <SafeAreaView style={{ flex: 1 }}>
-//       <View style={containerStyle}>
-//         <Text style={styles.titleText}>Play Music</Text>
-//         <ScrollView style={{ flex: 1 }}>{audioList.map(ItemView)}</ScrollView>
-//       </View>
-//     </SafeAreaView>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "white",
-//     padding: 10,
-//   },
-//   titleText: {
-//     fontSize: 22,
-//     textAlign: "center",
-//     fontWeight: "bold",
-//   },
-//   textStyle: {
-//     flex: 1,
-//     padding: 5,
-//   },
-//   buttonPlay: {
-//     fontSize: 15,
-//     color: "white",
-//     backgroundColor: "black",
-//     overflow: "hidden",
-//     paddingHorizontal: 15,
-//     paddingVertical: 7,
-//   },
-//   buttonStop: {
-//     fontSize: 15,
-//     color: "white",
-//     backgroundColor: "black",
-//     overflow: "hidden",
-//     paddingHorizontal: 15,
-//     paddingVertical: 7,
-//   },
-//   features: {
-//     flexDirection: "row",
-//     padding: 5,
-//     marginTop: 7,
-//     alignSelf: "stretch",
-//     alignItems: "center",
-//     borderTopWidth: 1,
-//   },
-//   androidContainer: {
-//     flex: 1,
-//     backgroundColor: "lightgrey",
-//   },
-// });
-
-// export default MusicTester2;
-
 import { useEffect, useState } from "react";
 import {
   View,
@@ -348,43 +10,28 @@ import {
 import { Audio } from "expo-av";
 import FeedbackImage from "../assets/musicbg.png";
 import Back from "../assets/back.png";
-import Controls from "../components/Controls";
+import AntDesign from "react-native-vector-icons/AntDesign";
 
 export default function App({ navigation }) {
-
-
-  const [selectedTrack, setSelectedTrack] = useState(0);
-  const [pause, setPause] = useState(false);
-
-
-  function togglePlayPause() {
-    setPause(!pause);
-  }
-
-
-
-
-
-
+  const [playingIndex, setPlayingIndex] = useState(null);
   const [sound, setSound] = useState(null);
-  const [currentTrack, setCurrentTrack] = useState(null);
 
-  async function togglePlaySound(trackId, source) {
-    if (sound && currentTrack === trackId) {
+  async function togglePlaySound(index, source) {
+    if (sound && playingIndex === index) {
       console.log("Stopping Sound");
       await sound.stopAsync();
       sound.unloadAsync(); // unload the sound to clean up resources
       setSound(null);
-      setCurrentTrack(null);
+      setPlayingIndex(null);
     } else {
-      if (sound && currentTrack !== trackId) {
+      if (sound && playingIndex !== index) {
         await sound.stopAsync();
         sound.unloadAsync(); // stop and unload any other playing sound
       }
       console.log("Loading Sound");
       const { sound: newSound } = await Audio.Sound.createAsync(source);
       setSound(newSound);
-      setCurrentTrack(trackId);
+      setPlayingIndex(index);
       console.log("Playing Sound");
       await newSound.playAsync();
     }
@@ -410,39 +57,42 @@ export default function App({ navigation }) {
         <Image source={FeedbackImage} style={styles.feedbackImage} />
       </View>
       <View style={styles.container}>
-        <Button
-          title=""
-          onPress={() =>
-            togglePlaySound(1, require("../tracks/BetterDays.mp3"))
-          }
-        />
-        
-        <Button
-          title="Toggle ASitarStory"
-          onPress={() =>
-            togglePlaySound(2, require("../tracks/ASitarStory.mp3"))
-          }
-        />
-        <Button
-          title="Toggle TwoHearts"
-          onPress={() => togglePlaySound(3, require("../tracks/TwoHearts.mp3"))}
-        />
-        <Button
-          title="Toggle SweetMath"
-          onPress={() => togglePlaySound(4, require("../tracks/SweetMath.mp3"))}
-        />
-        <Button
-          title="Toggle Another ASitarStory"
-          onPress={() =>
-            togglePlaySound(5, require("../tracks/ASitarStory.mp3"))
-          }
-        />
+        <View style={styles.containerr}></View>
+        {[
+          { title: "Better Days", source: require("../tracks/BetterDays.mp3") },
+          { title: "A Sitar Story", source: require("../tracks/ASitarStory.mp3") },
+          { title: "Sweet Math", source: require("../tracks/SweetMath.mp3") },
+          { title: "Two Hearts", source: require("../tracks/TwoHearts.mp3") },
+          { title: "Music 5", source: require("../tracks/BetterDays.mp3") },
+          { title: "Music 6", source: require("../tracks/SweetMath.mp3") },
 
-<Controls
-          {...{ togglePlayPause }}
-          {...{ pause }}
-        
-        />
+
+        ].map((track, index) => (
+          <View key={index} style={{ flexDirection: "row", gap: 10 }}>
+            <TouchableOpacity
+              style={styles.playPauseBtn}
+              onPress={() => togglePlaySound(index, track.source)}
+            >
+              <AntDesign
+                name={playingIndex === index ? "pausecircleo" : "playcircleo"}
+                size={20}
+                color="white"
+              />
+            </TouchableOpacity>
+            <Text style={{ marginTop: 10, left: -5 }}>{track.title}</Text>
+            <View
+              style={{
+                backgroundColor: "#D6D7D8",
+                borderRadius: 50,
+                width: 220,
+                height: 5,
+                position: "absolute",
+                top: 40,
+                left: 65,
+              }}
+            ></View>
+          </View>
+        ))}
       </View>
     </>
   );
@@ -455,12 +105,12 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     width: "85%",
     marginLeft: 30,
-    marginTop:10,
-    padding: 20,
-    borderRadius:30,
-    gap: 10,
-    paddingBottom: 20,
-    marginBottom:30
+    marginTop: 20,
+    padding: 10,
+    borderRadius: 30,
+    gap: 5,
+    paddingBottom: 10,
+    marginBottom: 25,
   },
   bigContainer: {
     backgroundColor: "#22CFE7",
@@ -489,5 +139,19 @@ const styles = StyleSheet.create({
     marginTop: 200,
     marginLeft: 70,
   },
- 
+  containerr: {
+    flexDirection: "row",
+    justifyContent: "center",
+    margin: 0,
+    alignItems: "center",
+  },
+  playPauseBtn: {
+    width: 40,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 100,
+    margin: 10,
+    backgroundColor: "#22CFE7",
+  },
 });

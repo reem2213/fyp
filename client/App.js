@@ -44,7 +44,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SignIn" headerMode="none">
+      <Stack.Navigator initialRouteName="MusicTester2" headerMode="none">
 
         <Stack.Screen
           name="Home"
@@ -270,13 +270,13 @@ export default function App() {
             headerShown: false,
           }}
         />
-          <Stack.Screen
+          {/* <Stack.Screen
           name="PDFViewer"
           component={PDFViewer}
           options={{
             headerShown: false,
           }}
-        />
+        /> */}
           <Stack.Screen
           name="QuizCategory"
           component={ChooseCategory}

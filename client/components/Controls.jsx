@@ -3,10 +3,6 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 const Controls = ({ togglePlayPause, pause ,playPrevSong, playNextSong}) => {
   return (
     <View style={styles.container}>
-      {/* <TouchableOpacity onPress={playPrevSong}>
-        <AntDesign name="banckward" size={30} color="white" />
-      </TouchableOpacity> */}
-
       {pause ? (
         <TouchableOpacity style={styles.playPauseBtn} onPress={togglePlayPause}>
           <AntDesign name="playcircleo" size={20} color="white" />
@@ -16,10 +12,6 @@ const Controls = ({ togglePlayPause, pause ,playPrevSong, playNextSong}) => {
           <AntDesign name="pausecircleo" size={20} color="white" />
         </TouchableOpacity>
       )}
-
-      {/* <TouchableOpacity  onPress={playNextSong}>
-        <AntDesign name="forward" size={30} color="white" />
-      </TouchableOpacity> */}
     </View>
   );
 };
@@ -32,11 +24,11 @@ const styles = StyleSheet.create({
   },
   playPauseBtn: {
     width: 40,
+    
     height: 40,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 100,
-    // borderWidth: 20,
     margin: 20,
     backgroundColor: "#22CFE7",
   },
