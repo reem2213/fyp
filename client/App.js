@@ -33,7 +33,6 @@ import Language from "./screens/PsychologicalSection/Education/LanguageSection/L
 import Apps from "./screens/PsychologicalSection/Education/LanguageSection/apps.jsx";
 import Books from "./screens/PsychologicalSection/Education/LibrarySection/Books.jsx";
 import BookDetails from "./screens/PsychologicalSection/Education/LibrarySection/BookDetails.jsx";
-import PDFViewer from "./components/ViewPdf.jsx";
 import ChooseCategory from './screens/PsychologicalSection/Education/QuizSection/ChooseCategory.jsx'
 import ReviewScreen from "./screens/PsychologicalSection/Education/QuizSection/Reviews.jsx";
 import Score from "./screens/PsychologicalSection/Education/QuizSection/Score.jsx";
@@ -270,13 +269,7 @@ export default function App() {
             headerShown: false,
           }}
         />
-          {/* <Stack.Screen
-          name="PDFViewer"
-          component={PDFViewer}
-          options={{
-            headerShown: false,
-          }}
-        /> */}
+         
           <Stack.Screen
           name="QuizCategory"
           component={ChooseCategory}

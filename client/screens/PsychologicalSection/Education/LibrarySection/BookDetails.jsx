@@ -28,9 +28,7 @@ function BookDetails({ route, navigation }) {
       image: Nov9,
     },
   ];
-  // const navv=()=>{
-  //   navigation.navigate("PDFViewer")
-  // }
+
   return (
     <>
       <View style={{ backgroundColor: "white", top: 0, height: "100%" }}>
