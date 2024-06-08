@@ -43,7 +43,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="MusicTester2" headerMode="none">
+      <Stack.Navigator initialRouteName="SignIn" headerMode="none">
 
         <Stack.Screen
           name="Home"
