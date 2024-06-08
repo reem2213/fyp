@@ -43,7 +43,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SignIn" headerMode="none">
+      <Stack.Navigator initialRouteName="QuizCategory" headerMode="none">
 
         <Stack.Screen
           name="Home"
