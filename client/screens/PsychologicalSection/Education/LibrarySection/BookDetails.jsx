@@ -11,6 +11,10 @@ function BookDetails({ route, navigation }) {
   const backToHome = () => {
     navigation.navigate("books");
   };
+
+  const goToPdf = () => {
+    navigation.navigate("Pdf");
+  };
   const featuredBooks = [
     {
       id: 1,
@@ -81,7 +85,7 @@ function BookDetails({ route, navigation }) {
           >
             {rating}
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={goToPdf}>
             <Text
               style={{
                 color: "white",
@@ -192,3 +196,4 @@ const styles = StyleSheet.create({
   },
 });
 export default BookDetails;
+

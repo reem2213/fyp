@@ -33,19 +33,19 @@ import Language from "./screens/PsychologicalSection/Education/LanguageSection/L
 import Apps from "./screens/PsychologicalSection/Education/LanguageSection/apps.jsx";
 import Books from "./screens/PsychologicalSection/Education/LibrarySection/Books.jsx";
 import BookDetails from "./screens/PsychologicalSection/Education/LibrarySection/BookDetails.jsx";
-import ChooseCategory from './screens/PsychologicalSection/Education/QuizSection/ChooseCategory.jsx'
+import ChooseCategory from "./screens/PsychologicalSection/Education/QuizSection/ChooseCategory.jsx";
 import ReviewScreen from "./screens/PsychologicalSection/Education/QuizSection/Reviews.jsx";
 import Score from "./screens/PsychologicalSection/Education/QuizSection/Score.jsx";
 import StartQuiz from "./screens/PsychologicalSection/Education/QuizSection/StartQuiz.jsx";
 import Questions from "./screens/PsychologicalSection/Education/QuizSection/Questions.jsx";
-import Chatting from './screens/PsychologicalSection/ChatBot/ChatBot.jsx'
+import Chatting from "./screens/PsychologicalSection/ChatBot/ChatBot.jsx";
+import ViewPdf from './components/ViewPdf.jsx';
 export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Splash" headerMode="none">
-
+      <Stack.Navigator initialRouteName="Books" headerMode="none">
         <Stack.Screen
           name="Home"
           component={Home}
@@ -270,36 +270,36 @@ export default function App() {
             headerShown: false,
           }}
         />
-         
-          <Stack.Screen
+
+        <Stack.Screen
           name="QuizCategory"
           component={ChooseCategory}
           options={{
             headerShown: false,
           }}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="Score"
           component={Score}
           options={{
             headerShown: false,
           }}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="StartQuiz"
           component={StartQuiz}
           options={{
             headerShown: false,
           }}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="Review"
           component={ReviewScreen}
           options={{
             headerShown: false,
           }}
         />
-           <Stack.Screen
+        <Stack.Screen
           name="Question"
           component={Questions}
           options={{
@@ -307,9 +307,17 @@ export default function App() {
           }}
         />
 
-<Stack.Screen
+        <Stack.Screen
           name="Chatting"
           component={Chatting}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+<Stack.Screen
+          name="Pdf"
+          component={ViewPdf}
           options={{
             headerShown: false,
           }}

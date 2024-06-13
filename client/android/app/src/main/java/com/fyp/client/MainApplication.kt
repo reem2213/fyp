@@ -20,16 +20,20 @@ import com.facebook.soloader.SoLoader
 import expo.modules.ApplicationLifecycleDispatcher
 import expo.modules.ReactNativeHostWrapper
 import com.zmxv.RNSound.RNSoundPackage
+import org.wonday.pdf.RCTPdfViewPackage;
 
 class MainApplication : Application(), ReactApplication {
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     override fun getPackages(): List<ReactPackage> {
+      
       @SuppressWarnings("UnnecessaryLocalVariable")
       val packages = PackageList(this).packages.toMutableList()
       
       // Add manually linked packages here
       packages.add(ReactVideoPackage())
       packages.add(RNSoundPackage())
+      new RCTPdfViewPackage() // add this line
+
 
       return packages
     }
