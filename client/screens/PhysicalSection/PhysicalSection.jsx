@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, Dimensions ,TouchableOpacity  } from 'react-native';
-// import Swiper from 'react-native-swiper';
+import Swiper from 'react-native-swiper';
 
 const { width, height } = Dimensions.get('window');
 
 const App = () => {
   return (
-    <>
-     <View style={styles.container}>
+    <Swiper loop={false} dotStyle={styles.dot} activeDotStyle={styles.activeDot}>
+      <View style={styles.container}>
         <View style={styles.circleLeft} />
         <View style={styles.circleRight} />
         <Image
@@ -59,12 +59,9 @@ source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
           <Text style={styles.buttonText}>Get Started</Text>
         </TouchableOpacity>
       </View>
-    </>
-    // <Swiper loop={false} dotStyle={styles.dot} activeDotStyle={styles.activeDot}>
-     
 
 
-    // </Swiper>
+    </Swiper>
   );
 };
 
