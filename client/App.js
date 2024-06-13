@@ -38,6 +38,7 @@ import ReviewScreen from "./screens/PsychologicalSection/Education/QuizSection/R
 import Score from "./screens/PsychologicalSection/Education/QuizSection/Score.jsx";
 import StartQuiz from "./screens/PsychologicalSection/Education/QuizSection/StartQuiz.jsx";
 import Questions from "./screens/PsychologicalSection/Education/QuizSection/Questions.jsx";
+import Chatting from './screens/PsychologicalSection/ChatBot/ChatBot.jsx'
 export default function App() {
   const Stack = createNativeStackNavigator();
 
@@ -301,6 +302,14 @@ export default function App() {
            <Stack.Screen
           name="Question"
           component={Questions}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+<Stack.Screen
+          name="Chatting"
+          component={Chatting}
           options={{
             headerShown: false,
           }}
