@@ -45,7 +45,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Books" headerMode="none">
+      <Stack.Navigator initialRouteName="Mentors" headerMode="none">
         <Stack.Screen
           name="Home"
           component={Home}

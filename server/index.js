@@ -172,6 +172,18 @@ app.get('/categories', async (req, res) => {
 
 
 
+
+app.get('/mentors', async (req, res) => {
+  try {
+      const books = await mentorModel.find();
+      res.json(books);
+  } catch (error) {
+      res.status(500).json({ message: error.message });
+  }
+});
+
+
+
 app.listen(3001, () => {
   console.log("server is runingggg!");
 });
