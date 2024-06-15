@@ -20,13 +20,13 @@
 
 import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import Pdf from 'react-native-view-pdf';
+// import Pdf from 'react-native-view-pdf';
 import Atomichabit from '../assets/atomicHabits.pdf'
 function PdfScreen({ route }) {
 
   return (
     <View style={{ flex: 1 }}>
-      <Pdf
+      {/* <Pdf
         resource={Atomichabit} // Use resource instead of source for react-native-view-pdf
         onLoadComplete={(numberOfPages, Atomichabit) => {
           console.log(`Number of pages: ${numberOfPages}`);
@@ -35,7 +35,7 @@ function PdfScreen({ route }) {
           console.log(error);
         }}
         style={{ flex: 1 }}
-      />
+      /> */}
     </View>
   );
 }

@@ -42,6 +42,7 @@
     "expo-web-browser": "~12.8.2",
     "fbjs": "^3.0.5",
     "react": "18.2.0",
+    "react-chatbot-kit": "^2.2.2",
     "react-dom": "18.2.0",
     "react-native": "0.73.6",
     "react-native-blob-util": "^0.19.9",
@@ -49,8 +50,10 @@
     "react-native-datepicker": "^1.7.2",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.16.0",
+    "react-native-gifted-chat": "^2.4.0",
     "react-native-image-picker": "^7.1.2",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-lightbox": "^0.8.1",
     "react-native-modal": "^13.0.1",
     "react-native-modal-datetime-picker": "^17.1.0",
     "react-native-pdf": "^6.7.5",
@@ -65,7 +68,8 @@
     "react-native-vector-icons": "^10.1.0",
     "react-native-video": "^6.1.2",
     "react-native-view-pdf": "^0.14.0",
-    "react-native-web": "~0.19.6"
+    "react-native-web": "~0.19.6",
+    "react-simple-chatbot": "^0.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.24.7",
