@@ -40,12 +40,13 @@ import StartQuiz from "./screens/PsychologicalSection/Education/QuizSection/Star
 import Questions from "./screens/PsychologicalSection/Education/QuizSection/Questions.jsx";
 import Chatting from "./screens/PsychologicalSection/ChatBot/ChatBot.jsx";
 import ViewPdf from './components/ViewPdf.jsx';
+import MentorsAvailability from "./screens/PsychologicalSection/Mentors/MentorsAvailability.jsx";
 export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Splash" headerMode="none">
+      <Stack.Navigator initialRouteName="Mentors" headerMode="none">
         <Stack.Screen
           name="Home"
           component={Home}
@@ -198,6 +199,13 @@ export default function App() {
         <Stack.Screen
           name="Mentors"
           component={Mentors}
+          options={{
+            headerShown: false,
+          }}
+        />
+         <Stack.Screen
+          name="MentorsAvailability"
+          component={MentorsAvailability}
           options={{
             headerShown: false,
           }}
