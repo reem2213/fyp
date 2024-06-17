@@ -55,7 +55,7 @@ const ProfileCustomization = ({ navigation, route }) => {
   const handleSignUp = async () => {
     if (validateForm()) {
       try {
-        navigation.navigate("profileTest", { username, bio, imageUri });
+        navigation.navigate("MyProfile", { username, bio, imageUri });
       } catch (error) {
         Alert.alert("Error", error.message);
       }
