@@ -67,6 +67,14 @@ app.post("/SignIn", (req, res) => {
   });
 });
 
+app.get('/user/:username', async (req, res) => {
+  try {
+      const user = await userModel.find();
+      res.json(user);
+  } catch (error) {
+      res.status(500).json({ message: error.message });
+  }
+});
 
 
 

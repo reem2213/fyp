@@ -19,6 +19,7 @@ import AuthenticationTester from "./authenticationTester";
 const SignUp = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [bio, setBio] = useState("");
 
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -51,7 +52,7 @@ const SignUp = ({ navigation }) => {
           password: password,
         });
         if (response.data === "Successss") {
-          navigation.navigate("Home");
+          navigation.navigate("MyProfile",{username,bio});
         }
         console.log(response.data);
       } catch (error) {

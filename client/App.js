@@ -42,10 +42,14 @@ import Chatting from "./screens/PsychologicalSection/ChatBot/ChatBot.jsx";
 import ViewPdf from './components/ViewPdf.jsx';
 import MentorsAvailability from "./screens/PsychologicalSection/Mentors/MentorsAvailability.jsx";
 import Settings from "./screens/Settings.jsx";
+import { UserProvider } from './components/userContext.jsx'; // Adjust the import path as needed
+
 export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
+    <UserProvider>
+
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Splash" headerMode="none">
         <Stack.Screen
@@ -340,6 +344,8 @@ export default function App() {
         />
       </Stack.Navigator>
     </NavigationContainer>
+    </UserProvider>
+
   );
 }
 
