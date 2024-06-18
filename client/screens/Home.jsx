@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,10 +6,9 @@ import {
   Image,
   Pressable,
   ScrollView,
-  TouchableOpacity
-  ,
+  TouchableOpacity,
 } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler"; 
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Noti from "../assets/notification.png";
 import ScreenTime from "../assets/screenTime.png";
 import GoalSection from "../assets/goalSection.png";
@@ -38,12 +37,6 @@ import PsychologicalSection from "./PsychologicalSection/PsychologicalSection";
 import MyProfile from "./MyProfile";
 
 const Home = ({ navigation }) => {
-  // const { username} = route.params;
-  // useEffect(() => {
-  //   if (route.params && route.params.username) {
-  //     setUsername(route.params.username);
-  //   }
-  // }, [route.params]);
   const screen2 = () => {
     navigation.navigate("Screen2");
   };
@@ -54,14 +47,13 @@ const Home = ({ navigation }) => {
   const GoToFeedbackSection = () => {
     navigation.navigate("Feedback");
   };
-  
+
   const GoToGoalSection = () => {
     navigation.navigate("goal");
   };
-const GoToMusicSection=()=>{
-  navigation.navigate("MusicTester2");
-
-}
+  const GoToMusicSection = () => {
+    navigation.navigate("MusicTester2");
+  };
 
   return (
     <GestureHandlerRootView style={styles.container}>
@@ -115,39 +107,35 @@ const GoToMusicSection=()=>{
 
           <Image source={ScreenTime} style={styles.image} />
           <TouchableOpacity onPress={GoToGoalSection}>
-
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Goal Crusher</Text>
-            <Text style={styles.sectionSubtitle}>
-              Stay Focused, Achieve More!
-            </Text>
-            <Image source={GoalSection} style={styles.sectionImage} />
-          </View>
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Goal Crusher</Text>
+              <Text style={styles.sectionSubtitle}>
+                Stay Focused, Achieve More!
+              </Text>
+              <Image source={GoalSection} style={styles.sectionImage} />
+            </View>
           </TouchableOpacity>
-
 
           <TouchableOpacity onPress={GoToMusicSection}>
-
-          <View style={styles.section2}>
-            <Text style={styles.sectionTitle2}>Music Mood Booster</Text>
-            <Text style={styles.sectionSubtitle}>
-              Let the music lift your spirits and energize your soul!
-            </Text>
-            <Image source={MusicSection} style={styles.sectionImage} />
-          </View>
+            <View style={styles.section2}>
+              <Text style={styles.sectionTitle2}>Music Mood Booster</Text>
+              <Text style={styles.sectionSubtitle}>
+                Let the music lift your spirits and energize your soul!
+              </Text>
+              <Image source={MusicSection} style={styles.sectionImage} />
+            </View>
           </TouchableOpacity>
 
+          <TouchableOpacity onPress={GoToFeedbackSection}>
+            <View style={styles.section3}>
+              <Text style={styles.sectionTitle}>Feedback Loop</Text>
+              <Text style={styles.sectionSubtitle}>
+                Fueling Growth and Success!
+              </Text>
+              <Image source={FeedbackSection} style={styles.sectionImage} />
+            </View>
+          </TouchableOpacity>
 
-<TouchableOpacity onPress={GoToFeedbackSection}>
-   <View style={styles.section3}>
-            <Text style={styles.sectionTitle}>Feedback Loop</Text>
-            <Text style={styles.sectionSubtitle}>
-              Fueling Growth and Success!
-            </Text>
-            <Image source={FeedbackSection} style={styles.sectionImage} />
-          </View>
-</TouchableOpacity>
-         
           <View style={styles.section4}>
             <Text style={styles.sectionTitle}>Gamification</Text>
             <Text style={styles.sectionSubtitle}>
@@ -210,7 +198,7 @@ function MyTabs() {
         options={{
           tabBarShowLabel: false,
           headerShown: false,
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <CustomTabBarIcon
               focused={focused}
               iconLight={PhysicalLight}
@@ -225,7 +213,7 @@ function MyTabs() {
         options={{
           tabBarShowLabel: false,
           headerShown: false,
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <CustomTabBarIcon
               focused={focused}
               iconLight={PsycoLight}

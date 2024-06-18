@@ -1,70 +1,68 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, Dimensions ,TouchableOpacity  } from 'react-native';
-// import Swiper from 'react-native-swiper';
+import Swiper from 'react-native-swiper';
 
 const { width, height } = Dimensions.get('window');
 
 const App = () => {
   return (
-    <View>
-      <Text>ejie</Text>
-    </View>
-//     <Swiper loop={false} dotStyle={styles.dot} activeDotStyle={styles.activeDot}>
-//       <View style={styles.container}>
-//         <View style={styles.circleLeft} />
-//         <View style={styles.circleRight} />
-//         <Image
-// source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
 
-//           style={styles.image}
-//         />
-//         <Text style={styles.title}>Sweat It Out!</Text>
-//         <Text style={styles.subtitle}>Find your way to the perfect body</Text>
-//       </View>
+    <Swiper loop={false} dotStyle={styles.dot} activeDotStyle={styles.activeDot}>
+      <View style={styles.container}>
+        <View style={styles.circleLeft} />
+        <View style={styles.circleRight} />
+        <Image
+source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
 
-//          <View style={styles.container}>
-//         <View style={styles.circleLeft} />
-//         <View style={styles.circleRight} />
-//         <Image
-// source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
+          style={styles.image}
+        />
+        <Text style={styles.title}>Sweat It Out!</Text>
+        <Text style={styles.subtitle}>Find your way to the perfect body</Text>
+      </View>
 
-//           style={styles.image}
-//         />
-//         <Text style={styles.title}>Track your Active Lifestyle</Text>
-//         <Text style={styles.subtitle}>Find your way to the perfect body</Text>
-//       </View>
+         <View style={styles.container}>
+        <View style={styles.circleLeft} />
+        <View style={styles.circleRight} />
+        <Image
+source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
 
-//        <View style={styles.container}>
-//         <View style={styles.circleLeft} />
-//         <View style={styles.circleRight} />
-//         <Image
-// source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
+          style={styles.image}
+        />
+        <Text style={styles.title}>Track your Active Lifestyle</Text>
+        <Text style={styles.subtitle}>Find your way to the perfect body</Text>
+      </View>
 
-//           style={styles.image}
-//         />
-//         <Text style={styles.title}>Stay Fit!</Text>
-//         <Text style={styles.subtitle}>Find your way to the perfect body</Text>
-//       </View>
+       <View style={styles.container}>
+        <View style={styles.circleLeft} />
+        <View style={styles.circleRight} />
+        <Image
+source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
 
-//           <View style={styles.container}>
-//         <View style={styles.circleLeft} />
-//         <View style={styles.circleRight} />
-//         <View style={styles.imageContainer}>
-//           <Image
+          style={styles.image}
+        />
+        <Text style={styles.title}>Stay Fit!</Text>
+        <Text style={styles.subtitle}>Find your way to the perfect body</Text>
+      </View>
 
-//           source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
-//             style={styles.image}
-//           />
-//         </View>
-//         <Text style={styles.title}>Track your Active Lifestyle</Text>
-//         <Text style={styles.subtitle}>Find your way to the perfect body</Text>
-//         <TouchableOpacity style={styles.button}>
-//           <Text style={styles.buttonText}>Get Started</Text>
-//         </TouchableOpacity>
-//       </View>
+          <View style={styles.container}>
+        <View style={styles.circleLeft} />
+        <View style={styles.circleRight} />
+        <View style={styles.imageContainer}>
+          <Image
+
+          source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
+            style={styles.image}
+          />
+        </View>
+        <Text style={styles.title}>Track your Active Lifestyle</Text>
+        <Text style={styles.subtitle}>Find your way to the perfect body</Text>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Get Started</Text>
+        </TouchableOpacity>
+      </View>
 
 
-//     </Swiper>
+    </Swiper>
   );
 };
 

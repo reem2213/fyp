@@ -16,7 +16,7 @@ const quizModel = require("./models/quiz");
 const quizCategoryModel = require("./models/quizCategory");
 const responseModel = require("./models/userResponse");
 const userModel=require('./models/user');
-
+const BookingModel=require('./models/booking')
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -71,9 +71,9 @@ app.post("/SignIn", (req, res) => {
 
 
 app.post('/goal', async (req, res) => {
-  const { goal, date } = req.body;
+  const { goal, date,status } = req.body;
   try {
-      const newGoal = new goalModel({ goal, date });
+      const newGoal = new goalModel({ goal, date,status });
       await newGoal.save();
       res.status(201).json(newGoal);
   } catch (error) {
@@ -181,6 +181,82 @@ app.get('/mentors', async (req, res) => {
       res.status(500).json({ message: error.message });
   }
 });
+
+
+
+
+app.post('/bookings', async (req, res) => {
+  try {
+    const { mentorName, time, duration, meetingType, location, date ,status} = req.body;
+    const newBooking = new BookingModel({ mentorName, time, duration, meetingType, location, date,status });
+    await newBooking.save();
+    res.status(200).json({ message: 'Booking confirmed!', booking: newBooking });
+  } catch (error) {
+    console.error('Error booking appointment:', error);
+    res.status(500).json({ message: 'An error occurred while booking. Please try again.' });
+  }
+});
+
+
+app.get('/bookings', async (req, res) => {
+  try {
+      const booking = await BookingModel.find();
+      res.json(booking);
+  } catch (error) {
+      res.status(500).json({ message: error.message });
+  }
+});
+// Assuming 'goals' is a router configured in your Express app
+app.put('/goal/:id', async (req, res) => {
+  // Update the status of the goal with the given ID
+  const { id } = req.params;
+  const { status } = req.body;
+
+  try {
+    // Assuming 'Goal' is your Mongoose model
+    const updatedGoal = await goalModel.findByIdAndUpdate(id, { status }, { new: true });
+
+    if (!updatedGoal) {
+      return res.status(404).json({ error: 'Goal not found' });
+    }
+
+    res.status(200).json(updatedGoal);
+  } catch (error) {
+    console.error('Error updating goal status:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+app.put('/bookings/:id', async (req, res) => {
+  // Update the status of the meeting with the given ID
+  const { id } = req.params;
+  const { status } = req.body;
+
+  try {
+    // Assuming 'Meeting' is your Mongoose model
+    const updatedMeeting = await BookingModel.findByIdAndUpdate(id, { status }, { new: true });
+
+    if (!updatedMeeting) {
+      return res.status(404).json({ error: 'Meeting not found' });
+    }
+
+    res.status(200).json(updatedMeeting);
+  } catch (error) {
+    console.error('Error updating meeting status:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+
+
+
+
+
+
+
+
 
 
 

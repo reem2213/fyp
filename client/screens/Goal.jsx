@@ -56,6 +56,7 @@ const Goal = ({ navigation }) => {
         const response = await axios.post("http://10.0.0.21:3001/goal", {
           goal: newGoal,
           date: selectedDate,
+          status:"in progress"
         });
         console.log("Goal saved:", response.data);
         setIsModalVisible(false);
@@ -73,6 +74,7 @@ const Goal = ({ navigation }) => {
 
       const updatedGoals = goals.filter((goal) => goal._id !== goalItem._id);
       setGoals(updatedGoals);
+      
     } catch (error) {
       console.error("Error moving goal:", error);
     }

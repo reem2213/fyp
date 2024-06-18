@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const goalSchema = new mongoose.Schema({
     goal:String,
     date:Date,
+    status:String
 
 
 
