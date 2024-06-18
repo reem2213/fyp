@@ -108,36 +108,40 @@ const SignUp = ({ navigation }) => {
 
   const handleSignUp = async () => {
     if (validateForm()) {
-      try {
-        const response = await axios.post("http://10.0.0.21:3001/SignUp", {
-          username,
-          email,
-          password,
-          gender,
-          dateOfBirth: dateOfBirth.toISOString(),
-          phoneNo,
-        });
+      // try {
+      //   const response = await axios.post("http://10.0.0.21:3001/SignUp", {
+      //     username,
+      //     email,
+      //     password,
+      //     gender,
+      //     dateOfBirth: dateOfBirth.toISOString(),
+      //     phoneNo,
+      //   });
 
-        if (response.status === 200) {
-          navigation.navigate("Customize",{ username })
+        // if (response.status === 200) {
+          navigation.navigate("Customize",{ username,email,password,gender,phoneNo,dateOfBirth })
           console.log(response.data);
-        } else {
-          alert("Error: Failed to create account");
-        }
-      } catch (error) {
-        if (
+        // } else {
+        //   alert("Error: Failed to create account");
+        // }
+        
+      // } catch (error) {
+      //   if (
 
-          error.response.data.error === "Username already exists"
-        ) {
-          setUsernameExists(true);
-        } else if (error.response) {
-          alert(`Error: ${error.response.data}`);
-        } else if (error.request) {
-          alert("Error: No response received from server");
-        } else {
-          alert(`Error: ${error.message}`);
-        }
-      }
+      //     error.response.data.error === "Username already exists"
+      //   ) {
+      //     setUsernameExists(true);
+      //   } else if (error.response) {
+      //     alert(`Error: ${error.response.data}`);
+      //   } else if (error.request) {
+      //     alert("Error: No response received from server");
+      //   } else {
+      //     alert(`Error: ${error.message}`);
+      //   }
+      // }
+    }
+    else{
+      console.log(console.error);
     }
   };
 

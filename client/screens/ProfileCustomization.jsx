@@ -16,7 +16,7 @@ import User from "../assets/user.png";
 import BlueEllipse from "../assets/blueEllipse.png";
 import People from "../assets/people-remover.png";
 import Camera from "../assets/camera.png";
-
+import axios from "axios";
 const imgDir = FileSystem.documentDirectory + "/images";
 
 const ProfileCustomization = ({ navigation, route }) => {
@@ -26,14 +26,64 @@ const ProfileCustomization = ({ navigation, route }) => {
   const [usernameError, setUsernameError] = useState("");
   const [bioError, setBioError] = useState("");
 
+
+  const [email, setEmail] = useState("");
+  // const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState(null);
+  const [gender, setGender] = useState("female");
+  const [phoneNo, setPhoneNo] = useState("");
+  const [emailError, setEmailError] = useState("");
+  // const [usernameError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [dateOfBirthError, setDateOfBirthError] = useState("");
+  const [genderError, setGenderError] = useState("");
+  const [phoneNoError, setPhoneNoError] = useState("");
+  const [isDatePickerVisible, setDatePickerVisible] = useState(false);
+  const [usernameExists, setUsernameExists] = useState(false);
+
   useEffect(() => {
-    if (route.params && route.params.username) {
+    if (route.params && route.params.username &&route.params.email ) {
       setUsername(route.params.username);
+      setEmail(route.params.email);
+      setDateOfBirth(route.params.dateOfBirth);
+      setGender(route.params.gender);
+      setPassword(route.params.password);
+      setPhoneNo(route.params.phoneNo);
     }
   }, [route.params]);
 
+
+  const showDatePicker = () => {
+    setDatePickerVisible(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisible(false);
+  };
+
+  const handleConfirmDate = (selectedDate) => {
+    hideDatePicker();
+    if (selectedDate) {
+      setDateOfBirth(selectedDate);
+      setDateOfBirthError(""); 
+    }
+  };
+
   const validateForm = () => {
     let isValid = true;
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phonePattern = /^\d{10}$/;
+
+    if (!email.trim()) {
+      setEmailError("Email is required");
+      isValid = false;
+    } else if (!emailPattern.test(email)) {
+      setEmailError("Please enter a valid email address");
+      isValid = false;
+    } else {
+      setEmailError("");
+    }
 
     if (!username.trim()) {
       setUsernameError("Username is required");
@@ -42,6 +92,39 @@ const ProfileCustomization = ({ navigation, route }) => {
       setUsernameError("");
     }
 
+    if (!password.trim()) {
+      setPasswordError("Password is required");
+      isValid = false;
+    } else {
+      setPasswordError("");
+    }
+
+    if (!dateOfBirth) {
+      setDateOfBirthError("Date of Birth is required");
+      isValid = false;
+    } else if (new Date(dateOfBirth) > new Date()) {
+      setDateOfBirthError("Date of Birth cannot be in the future");
+      isValid = false;
+    } else {
+      setDateOfBirthError("");
+    }
+
+    if (!gender) {
+      setGenderError("Please select a gender");
+      isValid = false;
+    } else {
+      setGenderError("");
+    }
+
+    if (!phoneNo.trim()) {
+      setPhoneNoError("Phone number is required");
+      isValid = false;
+    } else if (!phonePattern.test(phoneNo)) {
+      setPhoneNoError("Please enter a valid 10-digit phone number");
+      isValid = false;
+    } else {
+      setPhoneNoError("");
+    }
     if (!bio.trim()) {
       setBioError("Bio is required");
       isValid = false;
@@ -52,15 +135,51 @@ const ProfileCustomization = ({ navigation, route }) => {
     return isValid;
   };
 
+
+
+  // const handleSignUp = async () => {
+  //   if (validateForm()) {
+  //     try {
+
+  //       navigation.navigate("MyProfile", { username, bio, imageUri });
+  //     } catch (error) {
+  //       Alert.alert("Error", error.message);
+  //     }
+  //   }
+  // };
   const handleSignUp = async () => {
-    if (validateForm()) {
+    // if (validateForm()) {
       try {
-        navigation.navigate("MyProfile", { username, bio, imageUri });
+        const response = await axios.post("http://10.0.0.21:3001/SignUp", {
+          username,
+          email,
+          password,
+          gender,
+          dateOfBirth,
+          phoneNo,
+          bio, // Include bio in the request body
+        });
+  
+        if (response.status === 200) {
+          navigation.navigate("MyProfile", { username, bio, imageUri });
+        } else {
+          alert("Error: Failed to create account");
+        }
       } catch (error) {
-        Alert.alert("Error", error.message);
+        // if (error.response.data.error === "Username already exists") {
+        //   setUsernameExists(true);
+        // } else if (error.response) {
+        //   alert(`Error: ${error.response.data}`);
+        // } else if (error.request) {
+        //   alert("Error: No response received from server");
+        // } else {
+        //   alert(`Error: ${error.message}`);
+        // }
+        console.log(error)
       }
-    }
+    
   };
+  
   const ensureDirExists = async () => {
     const dirInfo = await FileSystem.getInfoAsync(imgDir);
 
@@ -159,7 +278,7 @@ const ProfileCustomization = ({ navigation, route }) => {
         style={{
           position: "absolute",
           marginLeft: 60,
-          marginTop: 230,
+          marginTop: 120,
           fontWeight: "bold",
           fontSize: 27,
           color: "#1B436F",
@@ -167,21 +286,21 @@ const ProfileCustomization = ({ navigation, route }) => {
       >
         Customize Your Profile
       </Text>
-      <KeyboardAvoidingView
+      {/* <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 120}
-      >
-        <View style={{ alignItems: "center", top: 300 }}>
+      > */}
+        <View style={{ alignItems: "center", top: 250 }}>
           <Image
             source={User}
             style={{
               width: 150,
               height: 150,
               marginBottom: 20,
-              //  position: "absolute",
+               position: "absolute",
 
-              marginTop: -350,
+              marginTop: -90,
             }}
           />
           <Image
@@ -191,8 +310,8 @@ const ProfileCustomization = ({ navigation, route }) => {
               height: 150,
               marginBottom: 20,
               borderRadius: 100,
-              // position: "absolute",
-              marginTop: -170,
+              position: "absolute",
+              marginTop: -90,
 
             }}
           />
@@ -207,10 +326,11 @@ const ProfileCustomization = ({ navigation, route }) => {
             <Pressable onPress={() => pickImageAsync(true)}>
               <Text
                 style={{
-                  marginLeft: 50,
+                  marginLeft: 100,
                   fontWeight: "500",
                   color: "#636363",
-                  marginTop: -15,
+                  marginTop: 50,
+                  top:10
 
                 }}
               >
@@ -225,12 +345,15 @@ const ProfileCustomization = ({ navigation, route }) => {
                   width: 35,
                   height: 35,
                   marginLeft: -120,
-                  marginTop: -55,
+                  marginTop: 50,
+                  top:-30,
+                  position:"absolute"
                 }}
               >
                 <Image
                   source={Camera}
-                  style={{ width: 25, height: 25, marginLeft: 5, marginTop: 5 }}
+                  style={{ width: 25, height: 25, marginLeft: 5, marginTop:5
+                  }}
                 />
               </View>
             </Pressable>
@@ -244,6 +367,7 @@ const ProfileCustomization = ({ navigation, route }) => {
               marginBottom: 10,
               paddingHorizontal: 10,
               borderRadius: 10,
+              top:0
             }}
             placeholder="Username"
             value={username}
@@ -263,6 +387,8 @@ const ProfileCustomization = ({ navigation, route }) => {
               marginBottom: 10,
               paddingHorizontal: 10,
               borderRadius: 10,
+              top:5
+
             }}
             placeholder="Bio"
             value={bio}
@@ -274,6 +400,9 @@ const ProfileCustomization = ({ navigation, route }) => {
             </Text>
           ) : null}
 
+
+          
+
           <TouchableOpacity
             onPress={handleSignUp}
             style={{
@@ -282,6 +411,8 @@ const ProfileCustomization = ({ navigation, route }) => {
               paddingTop:5,
               height: 40,
               borderRadius: 30,
+              top:15
+
             }}
           >
             <Text
@@ -296,8 +427,9 @@ const ProfileCustomization = ({ navigation, route }) => {
               Confirm
             </Text>
           </TouchableOpacity>
+
         </View>
-      </KeyboardAvoidingView>
+      {/* </KeyboardAvoidingView> */}
     </View>
   );
 };

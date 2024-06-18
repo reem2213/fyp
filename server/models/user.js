@@ -7,6 +7,7 @@ const newSchema= new mongoose.Schema({
     gender:String,
     dateOfBirth:Date,
     phoneNo:Number,
+    bio:String
 
 
 
