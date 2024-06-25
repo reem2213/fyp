@@ -39,313 +39,310 @@ import Score from "./screens/PsychologicalSection/Education/QuizSection/Score.js
 import StartQuiz from "./screens/PsychologicalSection/Education/QuizSection/StartQuiz.jsx";
 import Questions from "./screens/PsychologicalSection/Education/QuizSection/Questions.jsx";
 import Chatting from "./screens/PsychologicalSection/ChatBot/ChatBot.jsx";
-import ViewPdf from './components/ViewPdf.jsx';
+import ViewPdf from "./components/ViewPdf.jsx";
 import MentorsAvailability from "./screens/PsychologicalSection/Mentors/MentorsAvailability.jsx";
 import Settings from "./screens/Settings.jsx";
-import { UserProvider } from './components/userContext.jsx'; // Adjust the import path as needed
-
+import { UserProvider } from "./components/userContext.jsx";
 export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
     <UserProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Mentors" headerMode="none">
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Splash"
+            component={SplashScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="SignUp"
+            component={SignUp}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="SignIn"
+            component={SignIn}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="UserInfo"
+            component={ShowUserInfo}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Notifications"
+            component={Notifications}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Screen2"
+            component={Screen1}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Customize"
+            component={ProfileCustomization}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="goal"
+            component={Goal}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="profileTest"
+            component={ProfileTest}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Settings"
+            component={Settings}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Feedback"
+            component={Feedback}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="FeedbackTester"
+            component={FeedbackTester}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Community"
+            component={Community}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="MyProfile"
+            component={MyProfile}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="PhysicalSection"
+            component={PhysicalSection}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="PsychologicalSection"
+            component={PsychologicalSection}
+            options={{
+              headerShown: false,
+            }}
+          />
 
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Splash" headerMode="none">
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Splash"
-          component={SplashScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="SignUp"
-          component={SignUp}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="SignIn"
-          component={SignIn}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="UserInfo"
-          component={ShowUserInfo}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Notifications"
-          component={Notifications}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Screen2"
-          component={Screen1}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Customize"
-          component={ProfileCustomization}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="goal"
-          component={Goal}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="profileTest"
-          component={ProfileTest}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Settings"
-          component={Settings}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Feedback"
-          component={Feedback}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="FeedbackTester"
-          component={FeedbackTester}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Community"
-          component={Community}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="MyProfile"
-          component={MyProfile}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="PhysicalSection"
-          component={PhysicalSection}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="PsychologicalSection"
-          component={PsychologicalSection}
-          options={{
-            headerShown: false,
-          }}
-        />
+          <Stack.Screen
+            name="AuthenticationTester"
+            component={AuthenticationTester}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="MusicBooster"
+            component={MusicBooster}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="MusicTester"
+            component={MusicTester}
+            options={{
+              headerShown: false,
+            }}
+          />
 
-        <Stack.Screen
-          name="AuthenticationTester"
-          component={AuthenticationTester}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="MusicBooster"
-          component={MusicBooster}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="MusicTester"
-          component={MusicTester}
-          options={{
-            headerShown: false,
-          }}
-        />
+          <Stack.Screen
+            name="MusicTester2"
+            component={MusicTester2}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Controls"
+            component={Controls}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Mentors"
+            component={Mentors}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="MentorsAvailability"
+            component={MentorsAvailability}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="EduSection"
+            component={EducationSection}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="ChatBot"
+            component={ChatBot}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Communities"
+            component={Communities}
+            options={{
+              headerShown: false,
+            }}
+          />
 
-        <Stack.Screen
-          name="MusicTester2"
-          component={MusicTester2}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Controls"
-          component={Controls}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Mentors"
-          component={Mentors}
-          options={{
-            headerShown: false,
-          }}
-        />
-         <Stack.Screen
-          name="MentorsAvailability"
-          component={MentorsAvailability}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="EduSection"
-          component={EducationSection}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="ChatBot"
-          component={ChatBot}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Communities"
-          component={Communities}
-          options={{
-            headerShown: false,
-          }}
-        />
+          <Stack.Screen
+            name="Quiz"
+            component={Quiz}
+            options={{
+              headerShown: false,
+            }}
+          />
 
-        <Stack.Screen
-          name="Quiz"
-          component={Quiz}
-          options={{
-            headerShown: false,
-          }}
-        />
+          <Stack.Screen
+            name="Library"
+            component={Library}
+            options={{
+              headerShown: false,
+            }}
+          />
 
-        <Stack.Screen
-          name="Library"
-          component={Library}
-          options={{
-            headerShown: false,
-          }}
-        />
+          <Stack.Screen
+            name="Languages"
+            component={Language}
+            options={{
+              headerShown: false,
+            }}
+          />
 
-        <Stack.Screen
-          name="Languages"
-          component={Language}
-          options={{
-            headerShown: false,
-          }}
-        />
+          <Stack.Screen
+            name="apps"
+            component={Apps}
+            options={{
+              headerShown: false,
+            }}
+          />
 
-        <Stack.Screen
-          name="apps"
-          component={Apps}
-          options={{
-            headerShown: false,
-          }}
-        />
+          <Stack.Screen
+            name="books"
+            component={Books}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="BookDetails"
+            component={BookDetails}
+            options={{
+              headerShown: false,
+            }}
+          />
 
-        <Stack.Screen
-          name="books"
-          component={Books}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="BookDetails"
-          component={BookDetails}
-          options={{
-            headerShown: false,
-          }}
-        />
+          <Stack.Screen
+            name="QuizCategory"
+            component={ChooseCategory}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Score"
+            component={Score}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="StartQuiz"
+            component={StartQuiz}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Review"
+            component={ReviewScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Question"
+            component={Questions}
+            options={{
+              headerShown: false,
+            }}
+          />
 
-        <Stack.Screen
-          name="QuizCategory"
-          component={ChooseCategory}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Score"
-          component={Score}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="StartQuiz"
-          component={StartQuiz}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Review"
-          component={ReviewScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Question"
-          component={Questions}
-          options={{
-            headerShown: false,
-          }}
-        />
+          <Stack.Screen
+            name="Chatting"
+            component={Chatting}
+            options={{
+              headerShown: false,
+            }}
+          />
 
-        <Stack.Screen
-          name="Chatting"
-          component={Chatting}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-<Stack.Screen
-          name="Pdf"
-          component={ViewPdf}
-          options={{
-            headerShown: false,
-          }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+          <Stack.Screen
+            name="Pdf"
+            component={ViewPdf}
+            options={{
+              headerShown: false,
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
     </UserProvider>
-
   );
 }
 
