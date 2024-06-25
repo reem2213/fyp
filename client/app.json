@@ -40,7 +40,11 @@
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera"
         }
       ],
-      ["@react-native-google-signin/google-signin"]
+      ["@react-native-google-signin/google-signin"],
+       [
+        "@config-plugins/react-native-blob-util",
+        "@config-plugins/react-native-pdf"
+      ]
       
     ],
     

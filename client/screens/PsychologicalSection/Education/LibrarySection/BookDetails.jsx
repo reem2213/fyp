@@ -7,18 +7,18 @@ import AtomicHabits from '../../../../assets/atomicHabits.jpg';
 import Verity from '../../../../assets/verity.jpg';
 import Nov9 from '../../../../assets/nov9.jpg';
 function BookDetails({ route, navigation }) {
-  const { title, image, author, description, rating } = route.params;
+  const { title, image, author, description, rating,pdfUri } = route.params;
   const backToHome = () => {
     navigation.navigate("books");
   };
 
   const goToPdf = () => {
-    navigation.navigate("Pdf");
+    navigation.navigate("Pdf", { pdfUri });
   };
   const featuredBooks = [
     {
       id: 1,
-      title: "Atomic Habits",
+      title: "atomic habits",
       image: AtomicHabits,
     },
     {

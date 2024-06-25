@@ -52,7 +52,7 @@ const SignUp = ({ navigation }) => {
           password: password,
         });
         if (response.data === "Successss") {
-          navigation.navigate("MyProfile",{username,bio});
+          navigation.navigate("Home",{username,bio});
         }
         console.log(response.data);
       } catch (error) {

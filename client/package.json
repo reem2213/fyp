@@ -48,6 +48,7 @@
     "react-native-blob-util": "^0.19.9",
     "react-native-country-codes-picker": "^2.3.5",
     "react-native-datepicker": "^1.7.2",
+    "react-native-file-viewer": "^2.1.5",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.16.0",
     "react-native-gifted-chat": "^2.4.0",
@@ -69,7 +70,8 @@
     "react-native-video": "^6.1.2",
     "react-native-view-pdf": "^0.14.0",
     "react-native-web": "~0.19.6",
-    "react-simple-chatbot": "^0.6.1"
+    "react-simple-chatbot": "^0.6.1",
+    "react-native-webview": "13.6.4"
   },
   "devDependencies": {
     "@babel/core": "^7.24.7",
