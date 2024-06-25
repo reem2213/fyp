@@ -362,7 +362,7 @@ const MentorsAvailability = ({ route, navigation }) => {
       meetingType,
       location,
       date: dateOfBirth.toDateString(),
-      status:"upcomming"
+      status:"upcoming"
 
     };
 
