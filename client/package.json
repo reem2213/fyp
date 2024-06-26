@@ -41,11 +41,13 @@
     "expo-system-ui": "^2.9.3",
     "expo-web-browser": "~12.8.2",
     "fbjs": "^3.0.5",
+    "formik": "^2.4.6",
     "react": "18.2.0",
     "react-chatbot-kit": "^2.2.2",
     "react-dom": "18.2.0",
     "react-native": "0.73.6",
     "react-native-blob-util": "^0.19.9",
+    "react-native-chart-kit": "^6.12.0",
     "react-native-country-codes-picker": "^2.3.5",
     "react-native-datepicker": "^1.7.2",
     "react-native-file-viewer": "^2.1.5",
@@ -70,8 +72,9 @@
     "react-native-video": "^6.1.2",
     "react-native-view-pdf": "^0.14.0",
     "react-native-web": "~0.19.6",
+    "react-native-webview": "13.6.4",
     "react-simple-chatbot": "^0.6.1",
-    "react-native-webview": "13.6.4"
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.24.7",

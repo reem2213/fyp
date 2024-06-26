@@ -43,13 +43,14 @@ import ViewPdf from "./components/ViewPdf.jsx";
 import MentorsAvailability from "./screens/PsychologicalSection/Mentors/MentorsAvailability.jsx";
 import Settings from "./screens/Settings.jsx";
 import { UserProvider } from "./components/userContext.jsx";
+import CancelBookingScreen from "./screens/CancelBooking.jsx";
 export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
     <UserProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Mentors" headerMode="none">
+        <Stack.Navigator initialRouteName="Splash" headerMode="none">
           <Stack.Screen
             name="Home"
             component={Home}
@@ -151,6 +152,13 @@ export default function App() {
           <Stack.Screen
             name="MyProfile"
             component={MyProfile}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="CancelBooking"
+            component={CancelBookingScreen}
             options={{
               headerShown: false,
             }}
