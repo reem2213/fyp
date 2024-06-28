@@ -44,13 +44,15 @@ import MentorsAvailability from "./screens/PsychologicalSection/Mentors/MentorsA
 import Settings from "./screens/Settings.jsx";
 import { UserProvider } from "./components/userContext.jsx";
 import CancelBookingScreen from "./screens/CancelBooking.jsx";
+import { DarkModeProvider } from './components/DarkModeContext'; // Adjust the path as needed
+
 export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
-    <UserProvider>
+    <DarkModeProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Splash" headerMode="none">
+        <Stack.Navigator initialRouteName="Settings" headerMode="none">
           <Stack.Screen
             name="Home"
             component={Home}
@@ -350,7 +352,7 @@ export default function App() {
           />
         </Stack.Navigator>
       </NavigationContainer>
-    </UserProvider>
+    </DarkModeProvider>
   );
 }
 
