@@ -44,7 +44,7 @@ import MentorsAvailability from "./screens/PsychologicalSection/Mentors/MentorsA
 import Settings from "./screens/Settings.jsx";
 import { UserProvider } from "./components/userContext.jsx";
 import CancelBookingScreen from "./screens/CancelBooking.jsx";
-import { DarkModeProvider } from './components/DarkModeContext'; // Adjust the path as needed
+import { DarkModeProvider } from './components/DarkModeContext'; 
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -52,7 +52,7 @@ export default function App() {
   return (
     <DarkModeProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Settings" headerMode="none">
+        <Stack.Navigator initialRouteName="Chatting" headerMode="none">
           <Stack.Screen
             name="Home"
             component={Home}
