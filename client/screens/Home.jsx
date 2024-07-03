@@ -67,7 +67,6 @@ const Home = ({ navigation }) => {
         <View style={styles.content}>
           <Text style={styles.howAreYou}>How are you feeling today?</Text>
 
-          <Pressable onPress={screen2}>
             <View style={[styles.moodContainer, styles.calm]}>
               <View style={styles.rect} />
               <Text style={styles.moodText}>Calm</Text>
@@ -76,7 +75,6 @@ const Home = ({ navigation }) => {
                 source={require("../assets/calm.png")}
               />
             </View>
-          </Pressable>
           <View style={[styles.focusLayout]}>
             <View style={[styles.rect1, styles.rect1Bg]} />
             <Text style={[styles.happy1, styles.manicTypo]}>Happy</Text>
