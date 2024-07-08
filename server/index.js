@@ -268,6 +268,55 @@ app.put('/bookings/:id', async (req, res) => {
 
 
 
+
+
+
+const PostSchema = new mongoose.Schema({
+  text: String,
+  date: String,
+  likes: { type: Number, default: 0 },
+  reposts: { type: Number, default: 0 },
+});
+
+const Post = mongoose.model('Post', PostSchema);
+
+app.get('/posts', async (req, res) => {
+  const posts = await Post.find();
+  res.json(posts);
+});
+
+app.post('/posts', async (req, res) => {
+  const newPost = new Post({
+      text: req.body.text,
+      date: req.body.date,
+  });
+  await newPost.save();
+  res.json(newPost);
+});
+
+app.post('/posts/:id/toggle-like', async (req, res) => {
+  const post = await Post.findById(req.params.id);
+  const increment = req.body.increment;
+  post.likes += increment ? 1 : -1;
+  await post.save();
+  res.json(post);
+});
+
+app.post('/posts/:id/toggle-repost', async (req, res) => {
+  const post = await Post.findById(req.params.id);
+  const increment = req.body.increment;
+  post.reposts += increment ? 1 : -1;
+  await post.save();
+  res.json(post);
+});
+
+
+
+
+
+
+
+
 app.listen(3001, () => {
   console.log("server is runingggg!");
 });

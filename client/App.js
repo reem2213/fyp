@@ -43,6 +43,7 @@ import ViewPdf from "./components/ViewPdf.jsx";
 import MentorsAvailability from "./screens/PsychologicalSection/Mentors/MentorsAvailability.jsx";
 import Settings from "./screens/Settings.jsx";
 import { UserProvider } from "./components/userContext.jsx";
+import PostScreen from './screens/Post.jsx';
 import CancelBookingScreen from "./screens/CancelBooking.jsx";
 import { DarkModeProvider } from './components/DarkModeContext'; 
 
@@ -133,6 +134,14 @@ export default function App() {
           <Stack.Screen
             name="Feedback"
             component={Feedback}
+            options={{
+              headerShown: false,
+            }}
+          />
+
+<Stack.Screen
+            name="Post"
+            component={PostScreen}
             options={{
               headerShown: false,
             }}

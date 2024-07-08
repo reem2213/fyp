@@ -42,7 +42,7 @@ const Home = ({ navigation }) => {
   };
 
   const toNotifications = () => {
-    navigation.navigate("Notifications");
+    navigation.navigate("Post");
   };
   const GoToFeedbackSection = () => {
     navigation.navigate("Feedback");
