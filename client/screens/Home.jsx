@@ -32,6 +32,7 @@ import UserDark from "../assets/userDark.png";
 import CommDark from "../assets/communityDark.png";
 import CommLight from "../assets/communityLight.png";
 import Community from "./Community";
+import Settings from "./Settings";
 import PhysicalSection from "./PhysicalSection/PhysicalSection";
 import PsychologicalSection from "./PsychologicalSection/PsychologicalSection";
 import MyProfile from "./MyProfile";
@@ -181,8 +182,8 @@ function MyTabs() {
       />
 
       <Tab.Screen
-        name="Community"
-        component={Community}
+        name="Settings"
+        component={Settings}
         options={{
           tabBarShowLabel: false,
           headerShown: false,

@@ -1,3 +1,4 @@
+
 // import React, { useState, useEffect } from "react";
 // import {
 //   Text,
@@ -17,64 +18,47 @@
 // import Mentor4 from "../../../assets/mentor4.png";
 // import Star from "../../../assets/star_filled.png";
 
-// const Mentors = ({navigation}) => {
+// const Mentors = ({ navigation }) => {
 //   const imageMap = {
 //     "Mira D.": Mentor2,
 //     "Fares J.": Mentor1,
 //     "James S.": Mentor3,
+//     "Mira D. Alt": Mentor4, 
 //   };
-//   const featuredBooks = [
-//     {
-//       id: 1,
-//       name: "Mira D.",
-//       image: Mentor3,
-//       availableTimes: ["7:00 am", "11:00 am", "2:00 pm", "4:00 pm", "7:00 pm"],
 
-//     },
-//     {
-//       id: 2,
-//       name: "James S.",
-//       image: Mentor2,
-//       availableTimes: ["4:00 am", "11:00 am", "2:00 pm", "4:00 pm", "7:00 pm"],
 
-//     },
-//     {
-//       id: 3,
-//       name: "Fares J.",
-//       image: Mentor1,
-//       availableTimes: ["5:00 am", "11:00 am", "2:00 pm", "4:00 pm", "7:00 pm"],
 
-//     },
-//     {
-//       id: 4,
-//       name: "Mira D.",
-//       image: Mentor4,
-//       availableTimes: ["8:00 am", "11:00 am", "2:00 pm", "4:00 pm", "7:00 pm"],
 
-//     },
-//   ];
 
-//   const [mentors, setmentors] = useState([]);
+//   const [mentors, setMentors] = useState([]);
 
 //   useEffect(() => {
-//     const fetchBooks = async () => {
+//     const fetchMentors = async () => {
 //       try {
 //         const response = await axios.get("http://10.0.0.21:3001/mentors");
-//         setmentors(response.data);
+//         setMentors(response.data);
 //       } catch (error) {
 //         console.error("Error fetching mentors:", error);
 //       }
 //     };
 
-//     fetchBooks();
+//     fetchMentors();
 //   }, []);
 
+//   const backToPsychoSection=()=>{
+//     navigation.navigate("PsychologicalSection");
+
+//   }
 //   return (
 //     <View>
+
+//       <TouchableOpacity onPress={backToPsychoSection}>
 //       <Image
 //         style={{ width: 50, height: 50, marginLeft: 20, marginTop: 50 }}
 //         source={Back}
 //       />
+//       </TouchableOpacity>
+      
 //       <Image
 //         style={{ width: 140, height: 140, marginLeft: 300, marginTop: -120 }}
 //         source={Ellipse}
@@ -92,6 +76,7 @@
 //       </Text>
 //       <GestureHandlerRootView style={styles.scrollViewContainer}>
 //         <ScrollView showsVerticalScrollIndicator={false}>
+          
 //           {mentors.map((b, index) => (
 //             <View key={index} style={styles.container}>
 //               <Text
@@ -114,6 +99,7 @@
 //                   position: "absolute",
 //                   marginLeft: 172,
 //                   marginTop: 47,
+
 //                 }}
 //                 source={Star}
 //               />
@@ -149,18 +135,21 @@
 //               <Text style={{ color: "white", marginLeft: -20 }}>
 //                 {b.description}
 //               </Text>
-//               <TouchableOpacity key={b.id} style={styles.buttonApp} onPress={() =>
-//               navigation.navigate("MentorsAvailability", {
-//                 name: b.name,
-//                 image: imageMap[b.name],
-//                 description: b.description,
-//                 rating: b.rating,
-//                 type: b.type,
-//                 availableTimes: b.availableTimes,
-
-//               })
-//             }>
-//                 <Text style={{ color: "white", textAlign: "center", fontSize:13 }}>
+//               <TouchableOpacity
+//                 key={b.id}
+//                 style={styles.buttonApp}
+//                 onPress={() =>
+//                   navigation.navigate("MentorsAvailability", {
+//                     name: b.name,
+//                     image: imageMap[b.name],
+//                     description: b.description,
+//                     rating: b.rating,
+//                     type: b.type,
+//                     availableTimes: b.availableTimes,
+//                   })
+//                 }
+//               >
+//                 <Text style={{ color: "white", textAlign: "center", fontSize: 13 }}>
 //                   Book an Appointment
 //                 </Text>
 //               </TouchableOpacity>
@@ -173,6 +162,7 @@
 //     </View>
 //   );
 // };
+
 // const styles = StyleSheet.create({
 //   scrollViewContainer: {
 //     height: "80%",
@@ -200,16 +190,14 @@
 //     marginLeft: -20,
 //     top: 10,
 //     textAlign: "center",
-//     borderRadius:20
+//     borderRadius: 20,
 //   },
 // });
 
 // export default Mentors;
 
 
-
-
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Text,
   View,
@@ -227,18 +215,17 @@ import Mentor2 from "../../../assets/mentor2.png";
 import Mentor3 from "../../../assets/mentor3.png";
 import Mentor4 from "../../../assets/mentor4.png";
 import Star from "../../../assets/star_filled.png";
+import { DarkModeContext } from "../../../components/DarkModeContext"; // Adjust the path as per your project structure
 
 const Mentors = ({ navigation }) => {
+  const { isDarkMode } = useContext(DarkModeContext);
+
   const imageMap = {
     "Mira D.": Mentor2,
     "Fares J.": Mentor1,
     "James S.": Mentor3,
-    "Mira D. Alt": Mentor4, 
+    "Mira D. Alt": Mentor4,
   };
-
-
-
-
 
   const [mentors, setMentors] = useState([]);
 
@@ -255,20 +242,19 @@ const Mentors = ({ navigation }) => {
     fetchMentors();
   }, []);
 
-  const backToPsychoSection=()=>{
+  const backToPsychoSection = () => {
     navigation.navigate("PsychologicalSection");
+  };
 
-  }
   return (
-    <View>
-
+    <View style={{ flex: 1, backgroundColor: isDarkMode ? "#1A1A1A" : "#fff" }}>
       <TouchableOpacity onPress={backToPsychoSection}>
-      <Image
-        style={{ width: 50, height: 50, marginLeft: 20, marginTop: 50 }}
-        source={Back}
-      />
+        <Image
+          style={{ width: 50, height: 50, marginLeft: 20, marginTop: 50 }}
+          source={Back}
+        />
       </TouchableOpacity>
-      
+
       <Image
         style={{ width: 140, height: 140, marginLeft: 300, marginTop: -120 }}
         source={Ellipse}
@@ -278,7 +264,7 @@ const Mentors = ({ navigation }) => {
           fontSize: 35,
           marginLeft: 20,
           fontWeight: "bold",
-          color: "#032B79",
+          color: isDarkMode ? "#fff" : "#032B79",
           marginBottom: 20,
         }}
       >
@@ -286,13 +272,12 @@ const Mentors = ({ navigation }) => {
       </Text>
       <GestureHandlerRootView style={styles.scrollViewContainer}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          
           {mentors.map((b, index) => (
-            <View key={index} style={styles.container}>
+            <View key={index} style={[styles.container, { backgroundColor: isDarkMode ? "#3A3A3A" : "#719AEA" }]}>
               <Text
                 style={{
-                  color: "white",
-                  backgroundColor: "#032B79",
+                  color: isDarkMode ? "#fff" : "white",
+                  backgroundColor: isDarkMode ? "#032B79" : "#032B79",
                   width: "20%",
                   paddingLeft: 9,
                   padding: 5,
@@ -309,14 +294,13 @@ const Mentors = ({ navigation }) => {
                   position: "absolute",
                   marginLeft: 172,
                   marginTop: 47,
-
                 }}
                 source={Star}
               />
               <Text
                 style={{
-                  color: "#425D7B",
-                  backgroundColor: "white",
+                  color: isDarkMode ? "#425D7B" : "#425D7B",
+                  backgroundColor: isDarkMode ? "#fff" : "white",
                   fontWeight: "bold",
                   padding: 5,
                   width: "40%",
@@ -333,7 +317,7 @@ const Mentors = ({ navigation }) => {
 
               <Text
                 style={{
-                  color: "white",
+                  color: isDarkMode ? "#fff" : "white",
                   fontSize: 18,
                   fontWeight: "bold",
                   marginLeft: -20,
@@ -342,12 +326,12 @@ const Mentors = ({ navigation }) => {
               >
                 {b.name}
               </Text>
-              <Text style={{ color: "white", marginLeft: -20 }}>
+              <Text style={{ color: isDarkMode ? "#fff" : "white", marginLeft: -20 }}>
                 {b.description}
               </Text>
               <TouchableOpacity
                 key={b.id}
-                style={styles.buttonApp}
+                style={[styles.buttonApp, { backgroundColor: isDarkMode ? "#032B79" : "#032B79" }]}
                 onPress={() =>
                   navigation.navigate("MentorsAvailability", {
                     name: b.name,
@@ -378,7 +362,6 @@ const styles = StyleSheet.create({
     height: "80%",
   },
   container: {
-    backgroundColor: "#719AEA",
     marginBottom: 50,
     padding: 40,
     width: "90%",
@@ -394,7 +377,6 @@ const styles = StyleSheet.create({
     top: -160,
   },
   buttonApp: {
-    backgroundColor: "#032B79",
     width: "60%",
     padding: 5,
     marginLeft: -20,
