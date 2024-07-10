@@ -35,13 +35,17 @@ import Community from "./Community";
 import PhysicalSection from "./PhysicalSection/PhysicalSection";
 import PsychologicalSection from "./PsychologicalSection/PsychologicalSection";
 import MyProfile from "./MyProfile";
-
+import Plus from "../assets/plus.png";
 const Home = ({ navigation }) => {
   const screen2 = () => {
     navigation.navigate("Screen2");
   };
 
   const toNotifications = () => {
+    navigation.navigate("Notifications");
+  };
+
+  const toPosts = () => {
     navigation.navigate("Post");
   };
   const GoToFeedbackSection = () => {
@@ -62,19 +66,20 @@ const Home = ({ navigation }) => {
           <Image style={styles.notiImage} source={Noti} />
         </Pressable>
 
+        <Pressable onPress={toPosts}>
+          <Image style={styles.notiImage2} source={Plus} />
+        </Pressable>
+
         <Text style={styles.welcome}>{`Good Afternoon, Reem!`}</Text>
 
         <View style={styles.content}>
           <Text style={styles.howAreYou}>How are you feeling today?</Text>
 
-            <View style={[styles.moodContainer, styles.calm]}>
-              <View style={styles.rect} />
-              <Text style={styles.moodText}>Calm</Text>
-              <Image
-                style={styles.icon}
-                source={require("../assets/calm.png")}
-              />
-            </View>
+          <View style={[styles.moodContainer, styles.calm]}>
+            <View style={styles.rect} />
+            <Text style={styles.moodText}>Calm</Text>
+            <Image style={styles.icon} source={require("../assets/calm.png")} />
+          </View>
           <View style={[styles.focusLayout]}>
             <View style={[styles.rect1, styles.rect1Bg]} />
             <Text style={[styles.happy1, styles.manicTypo]}>Happy</Text>
@@ -247,8 +252,18 @@ const styles = StyleSheet.create({
   },
   notiImage: {
     position: "absolute",
-    top: 60,
-    left: 300,
+    top: 70,
+    width: 30,
+    height: 30,
+    left: 330,
+  },
+
+  notiImage2: {
+    position: "absolute",
+    top: 70,
+    width: 30,
+    height: 30,
+    left: 290,
   },
   welcome: {
     position: "absolute",
@@ -549,4 +564,3 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
 });
-
