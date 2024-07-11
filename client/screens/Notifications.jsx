@@ -177,7 +177,7 @@ import Bg from '../assets/bgNoti.png';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ArrowBack from "../assets/arrowBack.png";
 import { DarkModeContext } from "../components/DarkModeContext"; // Adjust the path as per your project structure
-
+import WhiteArrowBack from '../assets/whiteArrowBack.png'
 const Notifications = ({ navigation }) => {
   const { isDarkMode } = useContext(DarkModeContext);
   const [notifications, setNotifications] = useState([]);
@@ -242,16 +242,30 @@ const Notifications = ({ navigation }) => {
 
   return (
     <View style={[styles.container, { backgroundColor: isDarkMode ? "#1A1A1A" : "#fff" }]}>
-      <Pressable onPress={GoBack}>
+      {/* <Pressable onPress={GoBack}>
         <Image style={styles.notiImage} source={ArrowBack} />
-      </Pressable>
-      <Image
+      </Pressable> */}
+
+
+
+      {isDarkMode? (<Pressable onPress={GoBack}>
+        <Image style={styles.notiImage} source={WhiteArrowBack} />
+      </Pressable>):(<Pressable onPress={GoBack}>
+        <Image style={styles.notiImage} source={ArrowBack} />
+      </Pressable>)}
+
+      {isDarkMode? (<Image
+        style={styles.ellipseIcon}
+        contentFit="cover"
+        source={require("../assets/grayEllipse.png")}
+      />):(<Image
         style={styles.ellipseIcon}
         contentFit="cover"
         source={require("../assets/blueEllipse.png")}
-      />
+      />)}
+     
       <Text style={[styles.header, { color: isDarkMode ? "#fff" : "#1B436F" }]}>Notifications</Text>
-      <View style={styles.notificationContainer}>
+      <View style={[styles.notificationContainer,{backgroundColor: isDarkMode ? "#black" : "#fff" }]}>
         <Image source={Bg} style={styles.bgImage} />
         <ScrollView>
           {notifications.length > 0 ? (
@@ -268,11 +282,15 @@ const Notifications = ({ navigation }) => {
           )}
         </ScrollView>
       </View>
-      <Image
+      {isDarkMode? (<Image
+        style={styles.ellipseIcon2}
+        contentFit="cover"
+        source={require("../assets/grayEllipse.png")}
+      />):(<Image
         style={styles.ellipseIcon2}
         contentFit="cover"
         source={require("../assets/blueEllipse.png")}
-      />
+      />)}
     </View>
   );
 };
@@ -288,7 +306,7 @@ const styles = StyleSheet.create({
   notiImage: {
     position: "absolute",
     top: 60,
-    left: 20,
+    left: -170,
     width: 30,
     height: 30,
   },
@@ -309,14 +327,14 @@ const styles = StyleSheet.create({
   notificationContainer: {
     flex: 1,
     marginTop: 150,
-    backgroundColor: "black",
+    // backgroundColor: "white",
     borderRadius: 15,
-    shadowColor: "black",
-    shadowOffset: { width: 2, height: 8 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 8,
-    borderColor: "grey",
+    // shadowColor: "black",
+    // shadowOffset: { width: 2, height: 8 },
+    // shadowOpacity: 0.2,
+    // shadowRadius: 2,
+    // elevation: 8,
+    // borderColor: "grey",
   },
   bgImage: {
     position: "absolute",
@@ -329,9 +347,9 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     borderRadius: 15,
     opacity: 0.85,
-    borderWidth: 1,
-    borderColor: "grey",
-    shadowColor: "black",
+    // borderWidth: 1,
+    // borderColor: "grey",
+    // shadowColor: "black",
     shadowOffset: { width: 2, height: 8 },
     shadowOpacity: 0.2,
     shadowRadius: 2,

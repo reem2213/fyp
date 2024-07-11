@@ -298,11 +298,11 @@ const ChatBot = ({ navigation }) => {
 
   return (
     <KeyboardAvoidingView
-      style={[styles.container, { backgroundColor: isDarkMode ? "#1A1A1A" : "#f7f7f7" }]}
+      style={[styles.container, { backgroundColor: isDarkMode ? "black" : "#f7f7f7" }]}
       behavior={Platform.OS === "ios" ? "padding" : null}
       keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0}
     >
-      <View style={[styles.header, { backgroundColor: "#5e17eb" }]}>
+      <View style={[styles.header, { backgroundColor:isDarkMode ? "#0A0A0A" :  "#5e17eb"  }]}>
         <TouchableOpacity style={{ left: -180, top: 0 }} onPress={backToPsychoSection}>
           <Image source={Back} style={{ width: 30, height: 30, position: "absolute" }} />
         </TouchableOpacity>
@@ -317,7 +317,7 @@ const ChatBot = ({ navigation }) => {
       </ScrollView>
       <View style={styles.inputContainer}>
         <TextInput
-          style={[styles.input, { backgroundColor: isDarkMode ? "#333" : "#fff", color: isDarkMode ? "#fff" : "#000" }]}
+          style={[styles.input, { backgroundColor: isDarkMode ? "#333" :  "#fff",color: isDarkMode ? "#fff" : "#000" }]}
           value={textInput}
           onChangeText={(text) => setTextInput(text)}
           placeholder="Type something..."

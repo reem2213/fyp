@@ -25,7 +25,6 @@
 //   //     setUsername(route.params.username);
 //   //   }
 //   // }, [route.params]);
- 
 
 //   const GoBack = () => {
 //     navigation.navigate("Home");
@@ -113,8 +112,7 @@
 //           </View>
 //           </TouchableOpacity>
 //         </View>
-        
-        
+
 //       </ScrollView>
 //     </GestureHandlerRootView>
 //   );
@@ -172,10 +170,6 @@
 //     marginLeft: 20,
 //     position: "absolute",
 //   },
-  
-  
- 
-  
 
 //   image: {
 //     width: 250,
@@ -270,9 +264,8 @@
 //     marginTop: -70,
 //     marginLeft: 200,
 //   },
-  
-// });
 
+// });
 
 import React, { useContext } from "react";
 import {
@@ -292,7 +285,7 @@ import MusicSection from "../../assets/mentorsSection.png";
 import FeedbackSection from "../../assets/eduSection.png";
 import GameSection from "../../assets/ChatBotSection.png";
 import PsychoImage from "../../assets/psychoSection.png";
-
+import WhiteArrowBack from '../../assets/whiteArrowBack.png'
 import { DarkModeContext } from "../../components/DarkModeContext"; // Assuming your DarkModeContext is properly defined
 
 const Home = ({ navigation }) => {
@@ -319,14 +312,51 @@ const Home = ({ navigation }) => {
   };
 
   return (
-    <GestureHandlerRootView style={[styles.container, { backgroundColor: isDarkMode ? "#1A1A1A" : "#fff" }]}>
+    <GestureHandlerRootView
+      style={[
+        styles.container,
+        { backgroundColor: isDarkMode ? "#1A1A1A" : "#fff" },
+      ]}
+    >
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Pressable onPress={GoBack}>
-          <Image style={styles.notiImage} source={ArrowBack} />
-        </Pressable>
-        <Image style={styles.ellipseIcon} source={require("../../assets/blueEllipse.png")} />
-        <Image style={styles.ellipseIcon2} source={require("../../assets/blueEllipse.png")} />
-        <Text style={styles.welcome}>{`Welcome to the Psychological Empowerment Zone!`}</Text>
+        
+
+
+        {isDarkMode? (<Pressable onPress={GoBack}>
+        <Image style={styles.notiImage} source={WhiteArrowBack} />
+      </Pressable>):(<Pressable onPress={GoBack}>
+        <Image style={styles.notiImage} source={ArrowBack} />
+      </Pressable>)}
+
+
+
+        {isDarkMode ? (
+          <Image
+            style={styles.ellipseIcon}
+            source={require("../../assets/grayEllipse.png")}
+          />
+        ) : (
+          <Image
+            style={styles.ellipseIcon}
+            source={require("../../assets/blueEllipse.png")}
+          />
+        )}
+
+        {isDarkMode ? (
+          <Image
+            style={styles.ellipseIcon2}
+            source={require("../../assets/grayEllipse.png")}
+          />
+        ) : (
+          <Image
+            style={styles.ellipseIcon2}
+            source={require("../../assets/blueEllipse.png")}
+          />
+        )}
+      
+        <Text
+          style={[styles.welcome, { color: isDarkMode ? "white" : "#1B436F" }]}
+        >{`Welcome to the Psychological Empowerment Zone!`}</Text>
         <Image source={PsychoImage} style={styles.image} />
 
         <View style={styles.content}>
@@ -334,7 +364,8 @@ const Home = ({ navigation }) => {
             <View style={[styles.section, { backgroundColor: "#D8DB57" }]}>
               <Text style={styles.sectionTitle}>Communities</Text>
               <Text style={styles.sectionSubtitle}>
-                Where Ideas Flourish, Friendships Blossom, and Support Flows Freely
+                Where Ideas Flourish, Friendships Blossom, and Support Flows
+                Freely
               </Text>
               <Image source={GoalSection} style={styles.sectionImage} />
             </View>
@@ -344,7 +375,8 @@ const Home = ({ navigation }) => {
             <View style={[styles.section2, { backgroundColor: "#032B79" }]}>
               <Text style={styles.sectionTitle}>Mentors</Text>
               <Text style={styles.sectionSubtitle}>
-                Connect with Mentors for Enlightening Conversations and Productive Meetings
+                Connect with Mentors for Enlightening Conversations and
+                Productive Meetings
               </Text>
               <Image source={MusicSection} style={styles.sectionImage} />
             </View>
@@ -354,7 +386,8 @@ const Home = ({ navigation }) => {
             <View style={[styles.section3, { backgroundColor: "#FFA500" }]}>
               <Text style={styles.sectionTitle}>Education Section</Text>
               <Text style={styles.sectionSubtitle}>
-                Embark on the Path of Lifelong Learning: Exploring Boundless Horizons in Education
+                Embark on the Path of Lifelong Learning: Exploring Boundless
+                Horizons in Education
               </Text>
               <Image source={FeedbackSection} style={styles.sectionImage} />
             </View>
@@ -364,7 +397,8 @@ const Home = ({ navigation }) => {
             <View style={[styles.section4, { backgroundColor: "#5200FF" }]}>
               <Text style={styles.sectionTitle}>Emotional Assistant</Text>
               <Text style={styles.sectionSubtitle}>
-                Your Personal Emotional Assistant for Navigating Life's Ups and Downs with Understanding and Empathy
+                Your Personal Emotional Assistant for Navigating Life's Ups and
+                Downs with Understanding and Empathy
               </Text>
               <Image source={GameSection} style={styles.sectionImage} />
             </View>

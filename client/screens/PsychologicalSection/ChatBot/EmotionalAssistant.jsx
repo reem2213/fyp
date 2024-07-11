@@ -69,10 +69,10 @@ const EmotionalAssistant = ({ navigation }) => {
       </Text>
       <Image source={LangBg} style={styles.backgroundImage} />
       <TouchableOpacity
-        style={[styles.startButton, { backgroundColor: isDarkMode ? "#fff" : "#5200FF" }]}
+        style={[styles.startButton, { backgroundColor: isDarkMode ? "#fff" : "#fff" }]}
         onPress={startChatting}
       >
-        <Text style={[styles.startButtonText, { color: isDarkMode ? "#5200FF" : "#fff" }]}>
+        <Text style={[styles.startButtonText, { color: isDarkMode ? "black" : "#5200FF" }]}>
           Start Chatting
         </Text>
       </TouchableOpacity>
@@ -87,8 +87,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   backButton: {
-    marginLeft: 20,
-    marginTop: 50,
+    marginLeft: -170,
+    marginTop: -60,
     position: "absolute",
     width: 30,
     height: 30,
@@ -97,8 +97,8 @@ const styles = StyleSheet.create({
     width: "48%",
     fontSize: 40,
     fontWeight: "bold",
-    marginTop: 100,
-    marginLeft: 100,
+    marginTop: -40,
+    marginLeft: -20,
     color: "#fff",
   },
   backgroundImage: {
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 50,
     borderRadius: 20,
-    marginLeft: 100,
+    marginLeft: 0,
     marginTop: 450,
     justifyContent: "center",
     alignItems: "center",

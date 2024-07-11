@@ -451,7 +451,7 @@ const likedImage = require("../assets/redHeart.png");
 const repostImage = require("../assets/repost.png");
 const repostedImage = require("../assets/greenRepost.png");
 import { DarkModeContext } from "../components/DarkModeContext"; // Adjust the path as per your project structure
-
+import WhiteArrowBack from '../assets/whiteArrowBack.png'
 const App = ({ navigation }) => {
   const { isDarkMode } = useContext(DarkModeContext);
   const imgDir = FileSystem.documentDirectory + "/images";
@@ -602,16 +602,26 @@ const App = ({ navigation }) => {
   };
 
   return (
+    <>
     <View style={[styles.container, { backgroundColor: isDarkMode ? "#1A1A1A" : "#fff" }]}>
       <View style={styles.header}>
-        <Pressable onPress={GoBack}>
-          <Image style={styles.notiImage} source={ArrowBack} />
-        </Pressable>
-        <Image
-          style={styles.ellipseIcon}
-          contentFit="cover"
-          source={require("../assets/blueEllipse.png")}
-        />
+     
+
+{isDarkMode? (<Pressable onPress={GoBack}>
+        <Image style={styles.notiImage} source={WhiteArrowBack} />
+      </Pressable>):(<Pressable onPress={GoBack}>
+        <Image style={styles.notiImage} source={ArrowBack} />
+      </Pressable>)}
+
+      {isDarkMode? (<Image
+        style={styles.ellipseIcon}
+        contentFit="cover"
+        source={require("../assets/grayEllipse.png")}
+      />):(<Image
+        style={styles.ellipseIcon}
+        contentFit="cover"
+        source={require("../assets/blueEllipse.png")}
+      />)}
         <Text style={[styles.headerText, { color: isDarkMode ? "#fff" : "#1B436F" }]}>Posts</Text>
         <Image source={PostBg} style={{width:250,height:250}}/>
         <Text style={[styles.headerText2, { color: isDarkMode ? "#fff" : "#1B436F" }]}>Top Posts</Text>
@@ -722,13 +732,15 @@ const App = ({ navigation }) => {
         </View>
       </Modal>
     </View>
+    </>
+   
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+   
   },
   ellipseIcon: {
     position: "absolute",
@@ -758,9 +770,10 @@ const styles = StyleSheet.create({
   headerText2: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#1B436F",
+    color: "black",
+    top:-50,
     left: -130,
-  },
+position:"absolute"  },
   post: {
     backgroundColor: "#F4F7FC",
     borderRadius: 10,
