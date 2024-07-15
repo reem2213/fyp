@@ -127,7 +127,6 @@ const ScoreScreen = ({ route, navigation }) => {
     points = 0;
   }
 
-  // Function to save score and points
   const saveScoreToDB = async () => {
     try {
       await axios.post('http://10.0.0.21:3001/save-score', { score, points });
@@ -136,7 +135,6 @@ const ScoreScreen = ({ route, navigation }) => {
     }
   };
 
-  // Save score when component mounts
   React.useEffect(() => {
     saveScoreToDB();
   }, []);
