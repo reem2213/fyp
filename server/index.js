@@ -383,6 +383,114 @@ app.get('/scores', async (req, res) => {
 });
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+//COMMUNITY
+
+const MemberSchema = new mongoose.Schema({
+  username: String,
+});
+
+const GroupSchema = new mongoose.Schema({
+  name: String,
+  members: [String], // Array of user IDs
+  messages: [
+    {
+      sender: String, // User ID
+      text: String,
+      timestamp: { type: Date, default: Date.now },
+    },
+  ],
+});
+
+const Member = mongoose.model('Member', MemberSchema);
+const Group = mongoose.model('Group', GroupSchema);
+
+
+// app.post('/users', async (req, res) => {
+//   const user = new Member(req.body);
+//   await user.save();
+//   res.send(user);
+// });
+
+// app.post('/groups', async (req, res) => {
+//   const group = new Group(req.body);
+//   await group.save();
+//   res.send(group);
+// });
+
+// app.get('/groups', async (req, res) => {
+//   const groups = await Group.find();
+//   res.send(groups);
+// });
+
+// app.post('/groups/:id/messages', async (req, res) => {
+//   const group = await Group.findById(req.params.id);
+//   group.messages.push(req.body);
+//   await group.save();
+//   res.send(group);
+// });
+
+
+
+
+
+
+app.post('/users', async (req, res) => {
+  const user = new Member(req.body);
+  await user.save();
+  res.send(user);
+});
+
+app.post('/groups', async (req, res) => {
+  const group = new Group(req.body);
+  await group.save();
+  res.send(group);
+});
+
+app.get('/groups', async (req, res) => {
+  const groups = await Group.find();
+  res.send(groups);
+});
+
+app.post('/groups/:id/join', async (req, res) => {
+  const group = await Group.findById(req.params.id);
+  const { userId } = req.body;
+  if (!group.members.includes(userId)) {
+    group.members.push(userId);
+    await group.save();
+  }
+  res.send(group);
+});
+
+app.post('/groups/:id/messages', async (req, res) => {
+  const group = await Group.findById(req.params.id);
+  group.messages.push(req.body);
+  await group.save();
+  res.send(group);
+});
+
+
+
+
+
+
+
+
+
+
+
 app.listen(3001, () => {
   console.log("server is runingggg!");
 });

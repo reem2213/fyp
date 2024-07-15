@@ -191,8 +191,8 @@ function MyTabs() {
       />
 
       <Tab.Screen
-        name="Settings"
-        component={Settings}
+        name="Community"
+        component={Community}
         options={{
           tabBarShowLabel: false,
           headerShown: false,
@@ -236,8 +236,8 @@ function MyTabs() {
         }}
       />
       <Tab.Screen
-        name="MyProfile"
-        component={MyProfile}
+        name="Settings"
+        component={Settings}
         options={{
           tabBarShowLabel: false,
           headerShown: false,

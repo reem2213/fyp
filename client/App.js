@@ -47,6 +47,7 @@ import PostScreen from "./screens/Post.jsx";
 import CancelBookingScreen from "./screens/CancelBooking.jsx";
 import { DarkModeProvider } from "./components/DarkModeContext";
 import Gamification from "./screens/Gamification.jsx";
+import ChatScreen from "./screens/PsychologicalSection/Community/Chat.jsx";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -140,9 +141,7 @@ export default function App() {
             }}
           />
 
-
-
-<Stack.Screen
+          <Stack.Screen
             name="Gamification"
             component={Gamification}
             options={{
@@ -166,6 +165,14 @@ export default function App() {
           <Stack.Screen
             name="Community"
             component={Community}
+            options={{
+              headerShown: false,
+            }}
+          />
+
+<Stack.Screen
+            name="Chat"
+            component={ChatScreen}
             options={{
               headerShown: false,
             }}
