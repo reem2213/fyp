@@ -60,6 +60,10 @@ const Home = ({ navigation }) => {
     navigation.navigate("MusicTester2");
   };
 
+  const GoToGamificationSection = () => {
+    navigation.navigate("Gamification");
+  };
+
   return (
     <GestureHandlerRootView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -140,6 +144,9 @@ const Home = ({ navigation }) => {
             </View>
           </TouchableOpacity>
 
+          <TouchableOpacity onPress={GoToGamificationSection}>
+
+
           <View style={styles.section4}>
             <Text style={styles.sectionTitle}>Gamification</Text>
             <Text style={styles.sectionSubtitle}>
@@ -147,6 +154,8 @@ const Home = ({ navigation }) => {
             </Text>
             <Image source={GameSection} style={styles.sectionImage} />
           </View>
+          </TouchableOpacity>
+
         </View>
       </ScrollView>
     </GestureHandlerRootView>

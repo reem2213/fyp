@@ -1,8 +1,9 @@
 const mongoose=require('mongoose');
 
 const responseSchema= new mongoose.Schema({
-    grade:Number,
-    status:String
+    score: Number,
+  points: Number,
+  date: { type: Date, default: Date.now }
 
 })
 

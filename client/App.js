@@ -43,9 +43,10 @@ import ViewPdf from "./components/ViewPdf.jsx";
 import MentorsAvailability from "./screens/PsychologicalSection/Mentors/MentorsAvailability.jsx";
 import Settings from "./screens/Settings.jsx";
 import { UserProvider } from "./components/userContext.jsx";
-import PostScreen from './screens/Post.jsx';
+import PostScreen from "./screens/Post.jsx";
 import CancelBookingScreen from "./screens/CancelBooking.jsx";
-import { DarkModeProvider } from './components/DarkModeContext'; 
+import { DarkModeProvider } from "./components/DarkModeContext";
+import Gamification from "./screens/Gamification.jsx";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -139,7 +140,16 @@ export default function App() {
             }}
           />
 
+
+
 <Stack.Screen
+            name="Gamification"
+            component={Gamification}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
             name="Post"
             component={PostScreen}
             options={{

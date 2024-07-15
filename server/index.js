@@ -346,6 +346,43 @@ app.post('/posts/:id/toggle-repost', async (req, res) => {
 
 
 
+
+
+
+
+//GAMIFICATION
+
+
+
+// Routes
+app.post('/save-score', async (req, res) => {
+  const { score, points } = req.body;
+
+  const newUser = new responseModel({
+      score,
+      points
+  });
+
+  try {
+      const savedUser = await newUser.save();
+      res.status(201).json(savedUser);
+  } catch (err) {
+      res.status(400).json({ error: err.message });
+  }
+});
+
+
+
+app.get('/scores', async (req, res) => {
+  try {
+      const scores = await responseModel.find().sort({ date: -1 }); // Fetch scores and sort by date
+      res.status(200).json(scores);
+  } catch (err) {
+      res.status(400).json({ error: err.message });
+  }
+});
+
+
 app.listen(3001, () => {
   console.log("server is runingggg!");
 });
