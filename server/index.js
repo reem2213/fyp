@@ -280,38 +280,6 @@ const PostSchema = new mongoose.Schema({
 
 const Post = mongoose.model('Post', PostSchema);
 
-// app.get('/posts', async (req, res) => {
-//   const posts = await Post.find();
-//   res.json(posts);
-// });
-
-// app.post('/posts', async (req, res) => {
-//   const newPost = new Post({
-//       text: req.body.text,
-//       date: req.body.date,
-//   });
-//   await newPost.save();
-//   res.json(newPost);
-// });
-
-// app.post('/posts/:id/toggle-like', async (req, res) => {
-//   const post = await Post.findById(req.params.id);
-//   const increment = req.body.increment;
-//   post.likes += increment ? 1 : -1;
-//   await post.save();
-//   res.json(post);
-// });
-
-// app.post('/posts/:id/toggle-repost', async (req, res) => {
-//   const post = await Post.findById(req.params.id);
-//   const increment = req.body.increment;
-//   post.reposts += increment ? 1 : -1;
-//   await post.save();
-//   res.json(post);
-// });
-
-
-
 app.get('/posts', async (req, res) => {
   const posts = await Post.find();
   res.json(posts);
@@ -388,15 +356,8 @@ app.get('/scores', async (req, res) => {
 
 
 
-
-
-
-
-
-
-
-
 //COMMUNITY
+
 
 const MemberSchema = new mongoose.Schema({
   username: String,
@@ -404,48 +365,22 @@ const MemberSchema = new mongoose.Schema({
 
 const GroupSchema = new mongoose.Schema({
   name: String,
-  members: [String], // Array of user IDs
+  description: String,
+  members: [String], 
   messages: [
     {
-      sender: String, // User ID
+      sender: String,
       text: String,
       timestamp: { type: Date, default: Date.now },
     },
   ],
+  status: String
+
 });
+
 
 const Member = mongoose.model('Member', MemberSchema);
 const Group = mongoose.model('Group', GroupSchema);
-
-
-// app.post('/users', async (req, res) => {
-//   const user = new Member(req.body);
-//   await user.save();
-//   res.send(user);
-// });
-
-// app.post('/groups', async (req, res) => {
-//   const group = new Group(req.body);
-//   await group.save();
-//   res.send(group);
-// });
-
-// app.get('/groups', async (req, res) => {
-//   const groups = await Group.find();
-//   res.send(groups);
-// });
-
-// app.post('/groups/:id/messages', async (req, res) => {
-//   const group = await Group.findById(req.params.id);
-//   group.messages.push(req.body);
-//   await group.save();
-//   res.send(group);
-// });
-
-
-
-
-
 
 app.post('/users', async (req, res) => {
   const user = new Member(req.body);
@@ -464,16 +399,56 @@ app.get('/groups', async (req, res) => {
   res.send(groups);
 });
 
-app.post('/groups/:id/join', async (req, res) => {
-  const group = await Group.findById(req.params.id);
-  const { userId } = req.body;
-  if (!group.members.includes(userId)) {
-    group.members.push(userId);
-    await group.save();
-  }
-  res.send(group);
-});
 
+
+// app.post('/groups/:id/join', async (req, res) => {
+//   try {
+//     const group = await Group.findById(req.params.id);
+//     if (!group) {
+//       return res.status(404).send({ message: 'Group not found' });
+//     }
+//     const { userId } = req.body;
+//     console.log(`Joining group: ${group.name} with userId: ${userId}`);
+    
+//     if (!group.members.includes(userId)) {
+//       group.members.push(userId);
+//       group.status = 'joined';
+//       await group.save();
+//       console.log(`User ${userId} successfully joined group ${group.name}`);
+//     } else {
+//       console.log(`User ${userId} already a member of group ${group.name}`);
+//     }
+//     res.send(group);
+//   } catch (error) {
+//     console.error('Error joining group:', error);
+//     res.status(500).send({ message: 'Failed to join group', error });
+//   }
+// });
+
+
+app.post('/groups/:id/join', async (req, res) => {
+  try {
+    const group = await Group.findById(req.params.id);
+    if (!group) {
+      return res.status(404).send({ message: 'Group not found' });
+    }
+    const { userId } = req.body;
+    console.log(`Joining group: ${group.name} with userId: ${userId}`);
+    
+    if (!group.members.includes(userId)) {
+      group.members.push(userId);
+      group.status = 'joined'; // Set the status to 'joined'
+      await group.save();
+      console.log(`User ${userId} successfully joined group ${group.name}`);
+    } else {
+      console.log(`User ${userId} already a member of group ${group.name}`);
+    }
+    res.send(group);
+  } catch (error) {
+    console.error('Error joining group:', error);
+    res.status(500).send({ message: 'Failed to join group', error });
+  }
+});
 app.post('/groups/:id/messages', async (req, res) => {
   const group = await Group.findById(req.params.id);
   group.messages.push(req.body);
@@ -481,16 +456,17 @@ app.post('/groups/:id/messages', async (req, res) => {
   res.send(group);
 });
 
-
-
-
-
-
-
-
-
+app.get('/groups/joined', async (req, res) => {
+  try {
+    const joinedGroups = await Group.find({ status: 'joined' });
+    res.json(joinedGroups);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch joined groups', error });
+  }
+});
 
 
 app.listen(3001, () => {
   console.log("server is runingggg!");
 });
+

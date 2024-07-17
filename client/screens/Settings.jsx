@@ -85,8 +85,8 @@ const Settings = ({ navigation }) => {
             Dark Mode
           </Text>
           <Switch
-            trackColor={{ false: "#767577", true: "#81b0ff" }}
-            thumbColor={isDarkMode ? "#f5dd4b" : "#f4f3f4"}
+            trackColor={{ false: "#767577", true: "#6AF117" }}
+            thumbColor={isDarkMode ? "white" : "#f4f3f4"}
             ios_backgroundColor="#3e3e3e"
             onValueChange={toggleDarkMode}
             value={isDarkMode}
