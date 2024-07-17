@@ -31,7 +31,7 @@ const Goal = ({ navigation }) => {
   useEffect(() => {
     const fetchGoals = async () => {
       try {
-        const response = await axios.get("http://10.0.0.21:3001/goal");
+        const response = await axios.get("http://192.168.0.103:3001/goal");
         setGoals(response.data);
       } catch (error) {
         console.error("Error fetching goals:", error);
@@ -53,7 +53,7 @@ const Goal = ({ navigation }) => {
   const handleSaveGoal = async () => {
     if (newGoal.trim() !== "") {
       try {
-        const response = await axios.post("http://10.0.0.21:3001/goal", {
+        const response = await axios.post("http://192.168.0.103:3001/goal", {
           goal: newGoal,
           date: selectedDate,
         });
@@ -69,7 +69,7 @@ const Goal = ({ navigation }) => {
 
   const handleMoveGoal = async (goalItem) => {
     try {
-      await axios.delete(`http://172.16.165.205:3001/goal/${goalItem._id}`);
+      await axios.delete(`http://192.168.0.103:3001/goal/${goalItem._id}`);
 
       const updatedGoals = goals.filter((goal) => goal._id !== goalItem._id);
       setGoals(updatedGoals);

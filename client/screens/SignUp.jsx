@@ -109,7 +109,7 @@ const SignUp = ({ navigation }) => {
   const handleSignUp = async () => {
     if (validateForm()) {
       try {
-        const response = await axios.post("http://10.0.0.21:3001/SignUp", {
+        const response = await axios.post("http://192.168.0.103:3001/SignUp", {
           username,
           email,
           password,

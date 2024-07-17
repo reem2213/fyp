@@ -368,7 +368,7 @@ const Feedback = ({ navigation }) => {
   useEffect(() => {
     const fetchFeedbacks = async () => {
       try {
-        const response = await axios.get("http://10.0.0.21:3001/feedback");
+        const response = await axios.get("http://192.168.0.100:3001/feedback");
         // const feedbacksWithRating = response.data.map(feedback => ({
         //   ...feedback,
         //   rating: 2 // default rating for each feedback
@@ -389,7 +389,7 @@ const Feedback = ({ navigation }) => {
  const handleAddFeedback = async () => {
   if (newType.trim() && newContent.trim()) {
     try {
-      const response = await axios.post("http://10.0.0.21:3001/feedback", {
+      const response = await axios.post("http://192.168.0.100:3001/feedback", {
         type: newType,
         content: newContent,
         rating: 2 // Assuming a default rating for new feedbacks
@@ -424,7 +424,7 @@ const Feedback = ({ navigation }) => {
     setFeedbacks(updatedFeedbacks);
   
     try {
-      const response = await axios.put(`http://172.16.165.205:3001/feedback/${feedback._id}`, {
+      const response = await axios.put(`http://192.168.0.103:3001/feedback/${feedback._id}`, {
         rating: rating
       });
       console.log("Rating updated:", response.data);

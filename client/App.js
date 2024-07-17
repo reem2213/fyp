@@ -16,7 +16,22 @@ import Feedback from "./screens/FeedbackSection";
 import Community from "./screens/Community";
 import Communities from "./screens/PsychologicalSection/Community/Community.jsx";
 import MyProfile from "./screens/MyProfile";
-import PhysicalSection from "./screens/PhysicalSection/PhysicalSection.jsx";
+
+import PhysicalSectionSplash from "./screens/PhysicalSection/PhysicalSectionSplash.jsx";
+import GenderScreen from "./screens/PhysicalSection/GenderScreen.jsx";
+import AgeScreen from "./screens/PhysicalSection/AgeScreen.jsx";
+import WeightScreen from "./screens/PhysicalSection/WeightScreen.jsx";
+import HeightScreen from "./screens/PhysicalSection/HeightScreen.jsx";
+import GoalScreen from "./screens/PhysicalSection/GoalScreen.jsx";
+import ConditionScreen from "./screens/PhysicalSection/ConditionScreen.jsx";
+import PlaceScreen from "./screens/PhysicalSection/PlaceScreen.jsx";
+import FinalScreen from "./screens/PhysicalSection/FinalScreen.jsx";
+import ResultScreen from "./screens/PhysicalSection/ResultScreen.jsx";
+
+
+import { FormProvider } from './screens/PhysicalSection/FormContext.jsx';  
+
+
 import PsychologicalSection from "./screens/PsychologicalSection/PsychologicalSection.jsx";
 import AuthenticationTester from "./screens/authenticationTester.jsx";
 import FeedbackTester from "./screens/FeedbackTester.jsx";
@@ -38,6 +53,7 @@ export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
+    <FormProvider>
     <NavigationContainer>
 
       <Stack.Navigator initialRouteName="Home" headerMode="none">
@@ -139,13 +155,7 @@ export default function App() {
             headerShown: false,
           }}
         />
-        <Stack.Screen
-          name="PhysicalSection"
-          component={PhysicalSection}
-          options={{
-            headerShown: false,
-          }}
-        />
+       
         <Stack.Screen
           name="PsychologicalSection"
           component={PsychologicalSection}
@@ -272,8 +282,91 @@ export default function App() {
             headerShown: false,
           }}
         />
+          <Stack.Screen
+          name="PhysicalSectionSplash"
+          component={PhysicalSectionSplash}
+          options={{
+            headerShown: false,
+          }}
+        />
+           <Stack.Screen
+          name="GenderScreen"
+          component={GenderScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="AgeScreen"
+          component={AgeScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="WeightScreen"
+          component={WeightScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="HeightScreen"
+          component={HeightScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+         <Stack.Screen
+          name="GoalScreen"
+          component={GoalScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        
+          <Stack.Screen
+          name="ConditionScreen"
+          component={ConditionScreen}
+          options={{
+            headerShown: false,
+          }}
+          />
+
+         <Stack.Screen
+          name="PlaceScreen"
+          component={PlaceScreen}
+          options={{
+            headerShown: false,
+          }}
+          />
+
+          
+         <Stack.Screen
+          name="FinalScreen"
+          component={FinalScreen}
+          options={{
+            headerShown: false,
+          }}
+          />
+
+          <Stack.Screen
+          name="ResultScreen"
+          component={ResultScreen}
+          options={{
+            headerShown: false,
+          }}
+          />
+
       </Stack.Navigator>
     </NavigationContainer>
+    </FormProvider>
+
   );
 }
 

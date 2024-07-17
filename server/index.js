@@ -15,14 +15,12 @@ const gamificationModel = require("./models/gamification");
 const quizModel = require("./models/quiz");
 const quizCategoryModel = require("./models/quizCategory");
 const responseModel = require("./models/userResponse");
-const userModel=require('./models/user');
+const userModel = require('./models/user');
+const formDataModel = require("./models/formData");  
 
 const app = express();
 app.use(express.json());
 app.use(cors());
- 
-
-
 
 const connectionString = "mongodb+srv://reemdeeb00:MdEWisOAb2UKPU0Q@cluster0.d7rojza.mongodb.net/finalYearProject?retryWrites=true&w=majority&appName=Cluster0";
 
@@ -33,7 +31,6 @@ mongoose.connect(connectionString, {
 }).catch((err) => {
   console.error("MongoDB connection error:", err);
 });
-
 
 app.post("/SignUp", async (req, res) => {
   const { username } = req.body;
@@ -51,7 +48,6 @@ app.post("/SignUp", async (req, res) => {
   }
 });
 
-
 app.post("/SignIn", (req, res) => {
   const { username, password } = req.body;
   userModel.findOne({ username: username }).then((user) => {
@@ -66,9 +62,6 @@ app.post("/SignIn", (req, res) => {
     }
   });
 });
-
-
-
 
 app.post('/goal', async (req, res) => {
   const { goal, date } = req.body;
@@ -105,7 +98,7 @@ app.delete('/goal/:id', async (req, res) => {
 app.post('/feedback', async (req, res) => {
   const { type, content } = req.body;
   try {
-      const newFeedback = new feedbackModel({type, content });
+      const newFeedback = new feedbackModel({ type, content });
       await newFeedback.save();
       res.status(201).json(newFeedback);
   } catch (error) {
@@ -135,8 +128,6 @@ app.put('/feedback/:id', async (req, res) => {
   }
 });
 
-
-
 app.get('/books', async (req, res) => {
   try {
       const books = await bookModel.find();
@@ -146,13 +137,25 @@ app.get('/books', async (req, res) => {
   }
 });
 
+app.post('/formData', async (req, res) => {
+  try {
+    const formData = new formDataModel(req.body);
+    await formData.save();
+    res.status(201).json(formData);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
-
-
-
-
-
+app.get('/formData', async (req, res) => {
+  try {
+    const formData = await formDataModel.find();
+    res.json(formData);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 app.listen(3001, () => {
-  console.log("server is runingggg!");
+  console.log("server is runningggg!");
 });

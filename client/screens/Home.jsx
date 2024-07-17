@@ -33,7 +33,7 @@ import UserDark from "../assets/userDark.png";
 import CommDark from "../assets/communityDark.png";
 import CommLight from "../assets/communityLight.png";
 import Community from "./Community";
-import PhysicalSection from "./PhysicalSection/PhysicalSection";
+import PhysicalSectionSplash from "./PhysicalSection/PhysicalSectionSplash";
 import PsychologicalSection from "./PsychologicalSection/PsychologicalSection";
 import MyProfile from "./MyProfile";
 
@@ -205,8 +205,8 @@ function MyTabs() {
         }}
       />
       <Tab.Screen
-        name="PhysicalSection"
-        component={PhysicalSection}
+        name="PhysicalSectionSplash"
+        component={PhysicalSectionSplash}
         options={{
           tabBarShowLabel: false,
           headerShown: false,

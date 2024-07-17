@@ -1,63 +1,66 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, Dimensions ,TouchableOpacity  } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper';
+import { useNavigation } from '@react-navigation/native';
 
 const { width, height } = Dimensions.get('window');
 
 const App = () => {
+  const navigation = useNavigation();
+
   return (
     <Swiper loop={false} dotStyle={styles.dot} activeDotStyle={styles.activeDot}>
       <View style={styles.container}>
         <View style={styles.circleLeft} />
         <View style={styles.circleRight} />
         <Image
-source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
-
+          source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
           style={styles.image}
         />
         <Text style={styles.title}>Sweat It Out!</Text>
         <Text style={styles.subtitle}>Find your way to the perfect body</Text>
       </View>
 
-         <View style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.circleLeft} />
         <View style={styles.circleRight} />
         <Image
-source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
-      style={styles.image}
+          source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
+          style={styles.image}
         />
         <Text style={styles.title}>Track your Active Lifestyle</Text>
         <Text style={styles.subtitle}>Find your way to the perfect body</Text>
       </View>
 
-       <View style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.circleLeft} />
         <View style={styles.circleRight} />
         <Image
-source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
+          source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
           style={styles.image}
         />
         <Text style={styles.title}>Stay Fit!</Text>
         <Text style={styles.subtitle}>Find your way to the perfect body</Text>
       </View>
 
-          <View style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.circleLeft} />
         <View style={styles.circleRight} />
         <View style={styles.imageContainer}>
           <Image
-source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
+            source={require('../../assets/Agatha2.jpg')} // Adjust the path as needed
             style={styles.image}
           />
         </View>
         <Text style={styles.title}>Track your Active Lifestyle</Text>
         <Text style={styles.subtitle}>Find your way to the perfect body</Text>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('GenderScreen')}
+        >
           <Text style={styles.buttonText}>Get Started</Text>
         </TouchableOpacity>
       </View>
-
-
     </Swiper>
   );
 };
