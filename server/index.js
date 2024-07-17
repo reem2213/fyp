@@ -379,6 +379,7 @@ const GroupSchema = new mongoose.Schema({
 });
 
 
+
 const Member = mongoose.model('Member', MemberSchema);
 const Group = mongoose.model('Group', GroupSchema);
 
@@ -398,32 +399,6 @@ app.get('/groups', async (req, res) => {
   const groups = await Group.find();
   res.send(groups);
 });
-
-
-
-// app.post('/groups/:id/join', async (req, res) => {
-//   try {
-//     const group = await Group.findById(req.params.id);
-//     if (!group) {
-//       return res.status(404).send({ message: 'Group not found' });
-//     }
-//     const { userId } = req.body;
-//     console.log(`Joining group: ${group.name} with userId: ${userId}`);
-    
-//     if (!group.members.includes(userId)) {
-//       group.members.push(userId);
-//       group.status = 'joined';
-//       await group.save();
-//       console.log(`User ${userId} successfully joined group ${group.name}`);
-//     } else {
-//       console.log(`User ${userId} already a member of group ${group.name}`);
-//     }
-//     res.send(group);
-//   } catch (error) {
-//     console.error('Error joining group:', error);
-//     res.status(500).send({ message: 'Failed to join group', error });
-//   }
-// });
 
 
 app.post('/groups/:id/join', async (req, res) => {

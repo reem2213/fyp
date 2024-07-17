@@ -30,11 +30,13 @@ export default function GroupsScreen({ navigation }) {
   };
 
   const joinGroup = async (groupId) => {
-    if (joinedGroups.some((group) => group._id === groupId)) {
-      Alert.alert("Info", "You have already joined this group");
-      return;
-    }
+    // if (joinedGroups.some((group) => group._id === groupId)) {
+    //   Alert.alert("Info", "You have already joined this group");
+    //   return;
+    // }
 
+
+    
     try {
       const response = await axios.post(
         `http://10.0.0.21:3001/groups/${groupId}/join`,
@@ -100,6 +102,9 @@ export default function GroupsScreen({ navigation }) {
                 </View>
               </View>
             ))}
+
+
+            
           </View>
           <TouchableOpacity
             style={styles.viewJoinedButton}
