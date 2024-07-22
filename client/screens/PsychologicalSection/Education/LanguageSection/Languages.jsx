@@ -1,54 +1,144 @@
-import React from "react";
-import { Text, View, TouchableOpacity, Image } from "react-native";
+// import React from "react";
+// import { Text, View, TouchableOpacity, Image } from "react-native";
+// import Back from "../../../../assets/back.png";
+// import LangBg from "../../../../assets/langBg.png";
+
+
+// const Language = ({ navigation }) => {
+//   const backToHome = () => {
+//     navigation.navigate("EduSection");
+
+//   };
+//   const toApps = () => {
+//     navigation.navigate("apps");
+//     console.log("enterreeeddd")
+//   };
+//   return (
+//     <View style={{ backgroundColor: "#F8EF14", height: 900 }}>
+//       <TouchableOpacity onPress={backToHome}>
+//         <Image
+//           source={Back}
+//           style={{ marginLeft: 20, marginTop: 50, position: "absolute" , width: 30, height: 30 }}
+//         />
+//       </TouchableOpacity>
+//       <Text
+//         style={{
+//           marginLeft: 60,
+//           marginTop: 90,
+//           color: "white",
+//           fontSize: 30,
+//           fontWeight: "bold",
+//           justifyContent: "center",
+//         }}
+//       >
+//         Language Learning Resources
+//       </Text>
+//       <Image source={LangBg} style={{ width: 390, height: 400 }} />
+//       <Text
+//         style={{ width: "80%", color: "white", marginLeft: 50, marginTop: -50 }}
+//       >
+//         Expand your horizons and enrich your mind by exploring our curated
+//         selection of language learning resources. Start your journey to fluency
+//         today!
+//       </Text>
+
+//       <TouchableOpacity onPress={toApps} style={{backgroundColor:"white", width:200, height:50,borderRadius:20 ,marginLeft:100, marginTop:50}}>
+//         <Text style={{color:"#E5DC08", top:10, left:30, fontSize:18, fontWeight:"bold"}}>Choose your app</Text>
+//       </TouchableOpacity>
+
+//     </View>
+
+//   );
+// };
+
+// export default Language;
+
+import React, { useContext } from "react";
+import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
+import { DarkModeContext } from "../../../../components/DarkModeContext"; // Adjust the import path as needed
 import Back from "../../../../assets/back.png";
 import LangBg from "../../../../assets/langBg.png";
 
-
 const Language = ({ navigation }) => {
+  const { isDarkMode } = useContext(DarkModeContext); // Get the dark mode state
+
   const backToHome = () => {
     navigation.navigate("EduSection");
-
   };
+
   const toApps = () => {
     navigation.navigate("apps");
-    console.log("enterreeeddd")
+    console.log("entered");
   };
+
   return (
-    <View style={{ backgroundColor: "#F8EF14", height: 900 }}>
+    <View style={[styles.container, { backgroundColor: isDarkMode ? "#121212" : "#F8EF14" }]}>
       <TouchableOpacity onPress={backToHome}>
         <Image
           source={Back}
-          style={{ marginLeft: 20, marginTop: 50, position: "absolute" , width: 30, height: 30 }}
+          style={styles.backButton}
         />
       </TouchableOpacity>
-      <Text
-        style={{
-          marginLeft: 60,
-          marginTop: 90,
-          color: "white",
-          fontSize: 30,
-          fontWeight: "bold",
-          justifyContent: "center",
-        }}
-      >
+      <Text style={[styles.title, { color: isDarkMode ? "white" : "white" }]}>
         Language Learning Resources
       </Text>
-      <Image source={LangBg} style={{ width: 390, height: 400 }} />
-      <Text
-        style={{ width: "80%", color: "white", marginLeft: 50, marginTop: -50 }}
-      >
+      <Image source={LangBg} style={styles.backgroundImage} />
+      <Text style={[styles.description, { color: isDarkMode ? "white" : "white" }]}>
         Expand your horizons and enrich your mind by exploring our curated
         selection of language learning resources. Start your journey to fluency
         today!
       </Text>
-
-      <TouchableOpacity onPress={toApps} style={{backgroundColor:"white", width:200, height:50,borderRadius:20 ,marginLeft:100, marginTop:50}}>
-        <Text style={{color:"#E5DC08", top:10, left:30, fontSize:18, fontWeight:"bold"}}>Choose your app</Text>
+      <TouchableOpacity onPress={toApps} style={[styles.button, { backgroundColor: isDarkMode ? "#333" : "white" }]}>
+        <Text style={[styles.buttonText, { color: isDarkMode ? "#E5DC08" : "#E5DC08" }]}>
+          Choose your app
+        </Text>
       </TouchableOpacity>
-
     </View>
-
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    height: '100%',
+    padding: 20,
+  },
+  backButton: {
+    marginLeft: 20,
+    marginTop: 50,
+    position: "absolute",
+    width: 30,
+    height: 30,
+  },
+  title: {
+    marginLeft: 60,
+    marginTop: 90,
+    fontSize: 30,
+    fontWeight: "bold",
+    justifyContent: "center",
+  },
+  backgroundImage: {
+    width: 390,
+    height: 400,
+    marginTop: 20,
+  },
+  description: {
+    width: "80%",
+    marginLeft: 50,
+    marginTop: -50,
+  },
+  button: {
+    width: 200,
+    height: 50,
+    borderRadius: 20,
+    marginLeft: 100,
+    marginTop: 50,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+});
 
 export default Language;
