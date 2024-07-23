@@ -37,7 +37,7 @@ import PhysicalSection from "./PhysicalSection/PhysicalSection";
 import PsychologicalSection from "./PsychologicalSection/PsychologicalSection";
 import MyProfile from "./MyProfile";
 import Plus from "../assets/plus.png";
-const Home = ({ navigation }) => {
+const Home = ({ navigation,route }) => {
   const screen2 = () => {
     navigation.navigate("Screen2");
   };
@@ -574,3 +574,4 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
 });
+

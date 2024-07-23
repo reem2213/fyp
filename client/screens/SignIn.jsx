@@ -4,18 +4,18 @@
 //   Text,
 //   View,
 //   TextInput,
-//   Picker,
 //   Image,
-//   Platform,
 //   Pressable,
 //   Alert,
 //   TouchableOpacity,
 //   Button,
 // } from "react-native";
 // import axios from "axios";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
 // import { FontFamily, Color, Border, FontSize } from "../GlobalStyles";
 // import AuthenticationProviders from "../components/authProviders";
 // import AuthenticationTester from "./authenticationTester";
+
 // const SignIn = ({ navigation }) => {
 //   const [username, setUsername] = useState("");
 //   const [password, setPassword] = useState("");
@@ -52,7 +52,23 @@
 //           password: password,
 //         });
 //         if (response.data === "Successss") {
-//           navigation.navigate("Home",{username,bio});
+//           const welcomeMessage = `Welcome back, ${username}!`;
+//           const newNotification = { message: welcomeMessage, time: new Date() };
+
+//           try {
+//             const storedNotifications = await AsyncStorage.getItem('Notifications');
+//             console.log('Stored Notifications:', storedNotifications); // Debugging line
+//             let notifications = storedNotifications ? JSON.parse(storedNotifications) : [];
+//             if (!Array.isArray(notifications)) {
+//               notifications = [];
+//             }
+//             notifications.push(newNotification);
+//             await AsyncStorage.setItem('Notifications', JSON.stringify(notifications));
+//             console.log('New Notifications:', notifications); // Debugging line
+//             navigation.navigate("Home", { username, bio });
+//           } catch (error) {
+//             console.error("Failed to save notification:", error);
+//           }
 //         }
 //         console.log(response.data);
 //       } catch (error) {
@@ -63,10 +79,6 @@
 
 //   const goToSignUp = () => {
 //     navigation.navigate("SignUp");
-//   };
-
-//   const back = () => {
-//     navigation.navigate("SplashScreen");
 //   };
 
 //   return (
@@ -120,7 +132,6 @@
 //           styles.signLayout,
 //           passwordError && styles.inputError,
 //         ]}
-        
 //         placeholder="Password"
 //         secureTextEntry={true}
 //         value={password}
@@ -148,7 +159,7 @@
 //           Sign Up
 //         </Text>
 //       </Text>
-// <View style={styles.containerrrr}></View>
+//       <View style={styles.containerrrr}></View>
 //       <AuthenticationTester/>
 
 //       <Image
@@ -430,9 +441,7 @@
 // export default SignIn;
 
 
-
-
-import React, { useState } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -443,14 +452,17 @@ import {
   Alert,
   TouchableOpacity,
   Button,
+  Switch,
 } from "react-native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FontFamily, Color, Border, FontSize } from "../GlobalStyles";
 import AuthenticationProviders from "../components/authProviders";
 import AuthenticationTester from "./authenticationTester";
+import { DarkModeContext } from "../components/DarkModeContext"; // Import the context
 
-const SignIn = ({ navigation }) => {
+const SignIn = ({ navigation, route }) => {
+  const { isDarkMode } =  useContext(DarkModeContext); // Get dark mode state from route params
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [bio, setBio] = useState("");
@@ -482,8 +494,8 @@ const SignIn = ({ navigation }) => {
     if (validateForm()) {
       try {
         const response = await axios.post("http://10.0.0.21:3001/SignIn", {
-          username: username,
-          password: password,
+          username,
+          password,
         });
         if (response.data === "Successss") {
           const welcomeMessage = `Welcome back, ${username}!`;
@@ -516,7 +528,7 @@ const SignIn = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.signUp}>
+    <View style={[styles.signUp, isDarkMode ? styles.darkMode : styles.lightMode]}>
       <Image
         style={styles.splashScreenRemovebgPreviewIcon}
         contentFit="cover"
@@ -545,8 +557,10 @@ const SignIn = ({ navigation }) => {
           styles.signUpInner,
           styles.signLayout,
           usernameError && styles.inputError,
+          isDarkMode ? styles.darkInput : styles.lightInput,
         ]}
         placeholder="Username"
+        placeholderTextColor={isDarkMode ? "#ccc" : "#000"}
         underlineColorAndroid="transparent"
         value={username}
         onChangeText={(text) => setUsername(text)}
@@ -565,8 +579,10 @@ const SignIn = ({ navigation }) => {
           styles.rectangleView,
           styles.signLayout,
           passwordError && styles.inputError,
+          isDarkMode ? styles.darkInput : styles.lightInput,
         ]}
         placeholder="Password"
+        placeholderTextColor={isDarkMode ? "#ccc" : "#000"}
         secureTextEntry={true}
         value={password}
         onChangeText={(text) => setPassword(text)}
@@ -594,7 +610,7 @@ const SignIn = ({ navigation }) => {
         </Text>
       </Text>
       <View style={styles.containerrrr}></View>
-      <AuthenticationTester/>
+      <AuthenticationTester />
 
       <Image
         style={[styles.ellipseIcon]}
@@ -609,6 +625,7 @@ const SignIn = ({ navigation }) => {
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   signUp1Typo: {
     textAlign: "left",
@@ -617,7 +634,6 @@ const styles = StyleSheet.create({
   },
   signLayout: {
     height: 42,
-    backgroundColor: Color.colorWhitesmoke_100,
     width: 290,
     borderRadius: 10,
     borderWidth: 1,
@@ -717,17 +733,11 @@ const styles = StyleSheet.create({
     color: "#032b79",
     position: "absolute",
   },
-  signUpItem: {
-    top: 260,
-  },
   signUpInner: {
     top: 317,
   },
   rectangleView: {
     top: 373,
-  },
-  signUpChild1: {
-    top: 487,
   },
   signUpChild2: {
     top: 458,
@@ -737,23 +747,6 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     left: 52,
     position: "absolute",
-  },
-  signUpChild3: {
-    left: 52,
-    width: 150,
-    top: 430,
-  },
-  signUpChild4: {
-    left: 227,
-  },
-  enterYouEmail: {
-    top: 273,
-    lineHeight: 20,
-    color: Color.colorGray_100,
-    fontSize: FontSize.size_mini,
-    textAlign: "left",
-    position: "absolute",
-    left: 73,
   },
   username: {
     top: 330,
@@ -765,7 +758,6 @@ const styles = StyleSheet.create({
     left: 73,
     borderColor: "#939191",
   },
-
   orSignIn: {
     top: 525,
     left: 145,
@@ -782,27 +774,6 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.arial,
     fontWeight: "700",
   },
-  text: {
-    top: 495,
-    width: 4,
-    height: 20,
-    left: 105,
-  },
-  text1: {
-    top: 497,
-    left: 80,
-  },
-  googleIconPngRemovebgPrevi: {
-    left: 156,
-    height: 54,
-  },
-  icons8Facebook501: {
-    left: 206,
-    height: 50,
-  },
-  signIn: {
-    textDecorationLine: "underline",
-  },
   alreadyHaveAnContainer: {
     top: 620,
     left: 71,
@@ -813,63 +784,38 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_mini,
     lineHeight: 16,
   },
-
-  signUpChild5: {
-    top: 786,
-    left: -79,
-  },
   signUp: {
     backgroundColor: Color.colorWhite,
     width: 430,
     height: 932,
     overflow: "hidden",
   },
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#fff",
+  darkMode: {
+    backgroundColor: "#121212",
   },
-  logo: {
-    width: 204,
-    height: 180,
-    marginBottom: 20,
+  lightMode: {
+    backgroundColor: Color.colorWhite,
   },
-  input: {
-    width: 200,
-    height: 40,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-  },
-  inputError: {
-    borderColor: "red",
-  },
-  errorText: {
-    color: "red",
-    fontSize: 12,
-    marginBottom: 5,
-  },
-  button: {
-    backgroundColor: "blue",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-  },
-  buttonText: {
+  darkInput: {
+    backgroundColor: "#333",
     color: "#fff",
-    fontSize: 16,
+    borderColor: "#444",
+    padding:10
   },
-  containerrrr:{
-    backgroundColor:"#719AEA",
-    width:"50%",
-    height:50,
-    marginLeft:100,
-  top:520,
-  borderRadius:20
-  }
+  lightInput: {
+    backgroundColor: Color.colorWhitesmoke_100,
+    color: Color.colorGray_100,
+    padding:10
+
+  },
+  containerrrr: {
+    backgroundColor: "#719AEA",
+    width: "50%",
+    height: 50,
+    marginLeft: 100,
+    top: 520,
+    borderRadius: 20,
+  },
 });
 
 export default SignIn;

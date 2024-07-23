@@ -128,7 +128,7 @@
 //     fontWeight: "bold",
 //     textAlign: 'center',
 //   },
-  
+
 //   groupMembers: {
 //     fontSize: 14,
 //     color: "#888",
@@ -167,10 +167,16 @@
 
 // export default CommunityJoined;
 
-
-
 import React, { useEffect, useState, useContext } from "react";
-import { Text, View, FlatList, StyleSheet, TouchableOpacity, Image, Dimensions } from "react-native";
+import {
+  Text,
+  View,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+} from "react-native";
 import axios from "axios";
 import BlueEllipse from "../assets/blueEllipse.png";
 import { DarkModeContext } from "../components/DarkModeContext"; // Import the context
@@ -200,14 +206,48 @@ const CommunityJoined = ({ route, navigation }) => {
     const secondItem = joinedGroups[index * 2 + 1];
     return (
       <View style={styles.row}>
-        <View style={[styles.groupItem, { backgroundColor: isDarkMode ? "gray" : "#fff" }]}>
-          <Text style={[styles.groupName, { color: isDarkMode ? "white" : "black" }]}>{item.name}</Text>
-          <Text style={[styles.groupMembers, { color: isDarkMode ? "#ccc" : "#888" }]}>{`${item.members?.length || 0} participants`}</Text>
+        <View
+          style={[
+            styles.groupItem,
+            { backgroundColor: isDarkMode ? "gray" : "#fff" },
+          ]}
+        >
+          <Text
+            style={[
+              styles.groupName,
+              { color: isDarkMode ? "white" : "black" },
+            ]}
+          >
+            {item.name}
+          </Text>
+          <Text
+            style={[
+              styles.groupMembers,
+              { color: isDarkMode ? "#ccc" : "#888" },
+            ]}
+          >{`${item.members?.length || 0} participants`}</Text>
         </View>
         {secondItem && (
-          <View style={[styles.groupItem, { backgroundColor: isDarkMode ? "gray" : "#fff" }]}>
-            <Text style={[styles.groupName, { color: isDarkMode ? "white" : "black" }]}>{secondItem.name}</Text>
-            <Text style={[styles.groupMembers, { color: isDarkMode ? "#ccc" : "#888" }]}>{`${secondItem.members?.length || 0} participants`}</Text>
+          <View
+            style={[
+              styles.groupItem,
+              { backgroundColor: isDarkMode ? "gray" : "#fff" },
+            ]}
+          >
+            <Text
+              style={[
+                styles.groupName,
+                { color: isDarkMode ? "white" : "black" },
+              ]}
+            >
+              {secondItem.name}
+            </Text>
+            <Text
+              style={[
+                styles.groupMembers,
+                { color: isDarkMode ? "#ccc" : "#888" },
+              ]}
+            >{`${secondItem.members?.length || 0} participants`}</Text>
           </View>
         )}
       </View>
@@ -215,7 +255,12 @@ const CommunityJoined = ({ route, navigation }) => {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: isDarkMode ? "black" : "#f5f5f5" }]}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: isDarkMode ? "black" : "#f5f5f5" },
+      ]}
+    >
       <Image
         source={BlueEllipse}
         style={{
@@ -226,19 +271,40 @@ const CommunityJoined = ({ route, navigation }) => {
           position: "absolute",
         }}
       />
-      <Text style={[styles.header, { color: isDarkMode ? "white" : "#032B79" }]}>Communities</Text>
+      <Text
+        style={[styles.header, { color: isDarkMode ? "white" : "#032B79" }]}
+      >
+        Communities
+      </Text>
+      
       {joinedGroups.length > 0 ? (
-        <FlatList
-          data={joinedGroups.filter((_, index) => index % 2 === 0)}
-          keyExtractor={(item, index) => `row-${index}`}
-          renderItem={renderGroupPair}
-          contentContainerStyle={styles.listContent}
-        />
+        <>
+          <FlatList
+            data={joinedGroups.filter((_, index) => index % 2 === 0)}
+            keyExtractor={(item, index) => `row-${index}`}
+            renderItem={renderGroupPair}
+            contentContainerStyle={styles.listContent}
+          />
+          
+        </>
       ) : (
         <View style={styles.noGroupsContainer}>
-          <Text style={[styles.noGroupsText, { color: isDarkMode ? "white" : "#032B79" }]}>No communities joined yet</Text>
-          <Text style={[styles.exploreText, { color: isDarkMode ? "#ccc" : "#888" }]}>
-            Start exploring and join communities to engage with like-minded individuals.
+          <Text
+            style={[
+              styles.noGroupsText,
+              { color: isDarkMode ? "white" : "#032B79" },
+            ]}
+          >
+            No communities joined yet
+          </Text>
+          <Text
+            style={[
+              styles.exploreText,
+              { color: isDarkMode ? "#ccc" : "#888" },
+            ]}
+          >
+            Start exploring and join communities to engage with like-minded
+            individuals.
           </Text>
           <TouchableOpacity style={styles.joinButton} onPress={goToCommunities}>
             <Text style={styles.joinButtonText}>Join Now</Text>
@@ -259,7 +325,7 @@ const CommunityJoined = ({ route, navigation }) => {
   );
 };
 
-const windowWidth = Dimensions.get('window').width;
+const windowWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   container: {
@@ -276,8 +342,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 20,
   },
   groupItem: {
@@ -293,7 +359,7 @@ const styles = StyleSheet.create({
   groupName: {
     fontSize: 16,
     fontWeight: "bold",
-    textAlign: 'center',
+    textAlign: "center",
   },
   groupMembers: {
     fontSize: 14,
