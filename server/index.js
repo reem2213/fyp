@@ -49,6 +49,7 @@ app.post("/SignUp", async (req, res) => {
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
+  
 });
 
 
@@ -439,6 +440,51 @@ app.get('/groups/joined', async (req, res) => {
     res.status(500).json({ message: 'Failed to fetch joined groups', error });
   }
 });
+
+
+
+
+
+//navigatioon of user
+
+
+app.get('/userr/:username', async (req, res) => {
+  try {
+    const username = req.params.username;
+    const user = await userModel.findOne({ username });
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).send('User not found');
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+
+
+
+//store image
+
+app.post('/upload', async (req, res) => {
+  const { username, image } = req.body;
+
+  try {
+    const user = await userModel.findOneAndUpdate(
+      { username },
+      { image },
+      { new: true, upsert: true } // Update if exists, insert if not
+    );
+    res.json({ success: true, user });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
+
+
 
 
 app.listen(3001, () => {

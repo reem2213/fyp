@@ -643,6 +643,8 @@ const App = ({ navigation }) => {
                     source={likedPosts[item._id] ? likedImage : likeImage}
                     style={styles.icon}
                   />
+                  
+
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => toggleRepostPost(item._id)}>
                   <Image

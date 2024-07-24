@@ -178,9 +178,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import ArrowBack from "../assets/arrowBack.png";
 import { DarkModeContext } from "../components/DarkModeContext"; // Adjust the path as per your project structure
 import WhiteArrowBack from '../assets/whiteArrowBack.png'
-const Notifications = ({ navigation }) => {
+const Notifications = ({ navigation,route }) => {
   const { isDarkMode } = useContext(DarkModeContext);
   const [notifications, setNotifications] = useState([]);
+  // const { username } = route.params;
+
 
   const GoBack = () => {
     navigation.navigate("Home");

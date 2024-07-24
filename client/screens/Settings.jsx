@@ -4,11 +4,12 @@ import Back from "../assets/arrowBack.png";
 import { useNavigation } from "@react-navigation/native";
 import { DarkModeContext } from "../components/DarkModeContext";
 
-const Settings = ({ navigation }) => {
+const Settings = ({ navigation,route }) => {
+  const {username}=route.params
   const { isDarkMode, toggleDarkMode } = useContext(DarkModeContext);
 
   const BackToProfile = () => {
-    navigation.navigate("MyProfile");
+    navigation.navigate("MyProfile",{username});
   };
   const goToMusic = () => {
     navigation.navigate("MusicTester2");
@@ -39,6 +40,8 @@ const Settings = ({ navigation }) => {
           fontWeight: "bold",
           textAlign: "center",
           top: 40,
+          width:"40%",
+          left:120
         }}
       >
         Settings

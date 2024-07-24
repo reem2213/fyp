@@ -7,8 +7,10 @@ import {
   Pressable,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { WebView } from "react-native-webview";
 import Noti from "../assets/notification.png";
 import ScreenTime from "../assets/screenTime.png";
 import GoalSection from "../assets/goalSection.png";
@@ -16,11 +18,6 @@ import MusicSection from "../assets/music.png";
 import FeedbackSection from "../assets/feedback.png";
 import GameSection from "../assets/game.png";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Goal from "./Goal";
-import ProfileCustomization from "./ProfileCustomization";
-import SplashScreen from "./Splash";
-import Notifications from "./Notifications";
-import { Ionicons, AntDesign } from "@expo/vector-icons";
 import HomeLight from "../assets/homeLight.png";
 import HomeDark from "../assets/homeDark.png";
 import PhysicalLight from "../assets/physicalSectionLight.png";
@@ -37,7 +34,25 @@ import PhysicalSection from "./PhysicalSection/PhysicalSection";
 import PsychologicalSection from "./PsychologicalSection/PsychologicalSection";
 import MyProfile from "./MyProfile";
 import Plus from "../assets/plus.png";
-const Home = ({ navigation,route }) => {
+const Home = ({ navigation, route }) => {
+  const { username } = route.params;
+  const [bio, setBio] = useState("");
+
+  const [imageData, setImageData] = useState(null);
+
+  useEffect(() => {
+    fetch(`http://10.0.0.21:3001/userr/${username}`) // Replace with your server URL
+      .then((response) => response.json())
+      .then((data) => {
+        setBio(data.bio);
+        setImageData(data.image);
+
+        console.log("donee");
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      });
+  }, [username]);
   const screen2 = () => {
     navigation.navigate("Screen2");
   };
@@ -64,6 +79,11 @@ const Home = ({ navigation,route }) => {
     navigation.navigate("Gamification");
   };
 
+  const goToProfile = () => {
+    navigation.navigate("MyProfile",{username,bio,imageData});
+  };
+
+
   return (
     <GestureHandlerRootView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -75,7 +95,20 @@ const Home = ({ navigation,route }) => {
           <Image style={styles.notiImage2} source={Plus} />
         </Pressable>
 
-        <Text style={styles.welcome}>{`Good Afternoon, Reem!`}</Text>
+
+        <TouchableOpacity onPress={goToProfile}>
+        <WebView
+          style={styles.imagee}
+          originWhitelist={["*"]}
+          source={{
+            html: `<img src="data:image/jpeg;base64,${imageData}" style="width:250px; height:250px;margin-top:150px;" />`,
+          }}
+        />
+        </TouchableOpacity>
+      
+        <Text style={styles.welcome}>{username}</Text>
+        {/* <Text style={styles.bio}>{bio}</Text> */}
+       
 
         <View style={styles.content}>
           <Text style={styles.howAreYou}>How are you feeling today?</Text>
@@ -145,17 +178,14 @@ const Home = ({ navigation,route }) => {
           </TouchableOpacity>
 
           <TouchableOpacity onPress={GoToGamificationSection}>
-
-
-          <View style={styles.section4}>
-            <Text style={styles.sectionTitle}>Gamification</Text>
-            <Text style={styles.sectionSubtitle}>
-              Complete tasks, earn badges, level up!
-            </Text>
-            <Image source={GameSection} style={styles.sectionImage} />
-          </View>
+            <View style={styles.section4}>
+              <Text style={styles.sectionTitle}>Gamification</Text>
+              <Text style={styles.sectionSubtitle}>
+                Complete tasks, earn badges, level up!
+              </Text>
+              <Image source={GameSection} style={styles.sectionImage} />
+            </View>
           </TouchableOpacity>
-
         </View>
       </ScrollView>
     </GestureHandlerRootView>
@@ -254,7 +284,7 @@ function MyTabs() {
   );
 }
 
-export default MyTabs;
+export default Home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -262,7 +292,7 @@ const styles = StyleSheet.create({
   },
   notiImage: {
     position: "absolute",
-    top: 70,
+    top: 50,
     width: 30,
     height: 30,
     left: 330,
@@ -270,7 +300,7 @@ const styles = StyleSheet.create({
 
   notiImage2: {
     position: "absolute",
-    top: 70,
+    top: 50,
     width: 30,
     height: 30,
     left: 290,
@@ -278,17 +308,21 @@ const styles = StyleSheet.create({
   welcome: {
     position: "absolute",
     fontWeight: "bold",
-    top: 70,
-    left: 20,
+    top: 160,
+    left: 80,
     color: "#1B436F",
     fontSize: 30,
-    width: "70%",
+    width: "40%",
   },
   content: {
     paddingVertical: 20,
     paddingHorizontal: 20,
   },
-
+  bio: {
+    color: "red",
+    marginTop: 50,
+    marginLeft: 50,
+  },
   happy1: {
     width: 38,
   },
@@ -297,7 +331,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "500",
     color: "#6D6D6D",
-    marginTop: 165,
+    marginTop:50,
     marginLeft: 20,
     position: "absolute",
   },
@@ -305,7 +339,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 10,
-    marginTop: 200,
+    marginTop: 90,
   },
   rect: {
     width: 59,
@@ -330,7 +364,7 @@ const styles = StyleSheet.create({
   focusLayout: {
     width: 59,
     height: 84,
-    top: 204,
+    top: 95,
     left: 100,
     position: "absolute",
   },
@@ -359,7 +393,7 @@ const styles = StyleSheet.create({
   focusLayout2: {
     width: 59,
     height: 84,
-    top: 254,
+    top: 145,
     left: 100,
     position: "absolute",
   },
@@ -387,7 +421,7 @@ const styles = StyleSheet.create({
   focusLayout3: {
     width: 59,
     height: 84,
-    top: 254,
+    top: 145,
     left: 180,
     position: "absolute",
   },
@@ -573,5 +607,147 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     position: "absolute",
   },
+  imagee: {
+    width: 200,
+    height: 200,
+    top: 100,
+    left: 10,
+  },
 });
 
+// import React, { useState ,useEffect} from 'react';
+// import { View, Button, Image, StyleSheet, Alert } from 'react-native';
+// import { launchImageLibrary } from 'react-native-image-picker';
+// import * as FileSystem from "expo-file-system";
+// import * as ImagePicker from "expo-image-picker";
+
+// const imgDir = FileSystem.documentDirectory + "/images";
+
+// const UploadImage = () => {
+//   const [image, setImageUri] = useState(null);
+
+//   const ensureDirExists = async () => {
+//     const dirInfo = await FileSystem.getInfoAsync(imgDir);
+
+//     if (!dirInfo.exists) {
+//       await FileSystem.makeDirectoryAsync(imgDir, { intermediates: true });
+//     }
+//   };
+
+//   useEffect(() => {
+//     ensureDirExists();
+//   }, []);
+//   // Function to choose an image from the gallery
+//   const chooseImage =async (useLibrary) => {
+//     try {
+//       await ensureDirExists();
+
+//       let result;
+
+//       if (useLibrary) {
+//         const options = {
+//           mediaTypes: ImagePicker.MediaTypeOptions.Images,
+//           allowsEditing: true,
+//           aspect: [4, 3],
+//           quality: 1,
+//         };
+//         result = await ImagePicker.launchImageLibraryAsync(options);
+//       } else {
+//         const permissionResult =
+//           await ImagePicker.requestCameraPermissionsAsync();
+
+//         if (!permissionResult.granted) {
+//           alert("Permission denied to access camera!");
+//           return;
+//         }
+
+//         result = await ImagePicker.launchCameraAsync({
+//           mediaTypes: ImagePicker.MediaTypeOptions.Images,
+//           allowsEditing: true,
+//           aspect: [4, 3],
+//           quality: 1,
+//         });
+//       }
+
+//       if (!result.cancelled) {
+//         const uri = result.assets[0].uri;
+//         setImageUri(uri);
+//         saveImage(uri);
+//       } else {
+//         alert("You did not select any image.");
+//       }
+//     } catch (error) {
+//       console.log("Error while picking an image:", error);
+//     }
+//   };
+
+
+//   // Function to convert image URI to Base64
+//   const uriToBase64 = (uri) => {
+//     return new Promise((resolve, reject) => {
+//       fetch(uri)
+//         .then(response => response.blob())
+//         .then(blob => {
+//           const reader = new FileReader();
+//           reader.onloadend = () => {
+//             const base64data = reader.result.split(',')[1];
+//             resolve(base64data);
+//           };
+//           reader.readAsDataURL(blob);
+//         })
+//         .catch(error => reject(error));
+//     });
+//   };
+
+//   // Function to upload the image to the server
+//   const uploadImage = async () => {
+//     if (!image) {
+//       Alert.alert('No image selected');
+//       return;
+//     }
+
+//     try {
+//       const response = await fetch('http://10.0.0.21:3001/upload', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({ image: image }),
+//       });
+
+//       if (!response.ok) {
+//         throw new Error('Network response was not ok');
+//       }
+
+//       const result = await response.json();
+//       console.log(result);
+//       Alert.alert('Image uploaded successfully');
+//     } catch (error) {
+//       console.error('Error uploading image:', error);
+//       Alert.alert('Error uploading image');
+//     }
+//   };
+
+//   return (
+//     <View style={styles.container}>
+//       <Button title="Choose Image" onPress={chooseImage} />
+//       {image && <Image source={{ uri: image }} style={styles.image} />}
+//       <Button title="Upload Image" onPress={uploadImage} />
+//     </View>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//   },
+//   image: {
+//     width: 100,
+//     height: 100,
+//     marginVertical: 10,
+//   },
+// });
+
+// export default UploadImage;
