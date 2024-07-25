@@ -48,6 +48,7 @@ import CancelBookingScreen from "./screens/CancelBooking.jsx";
 import { DarkModeProvider } from "./components/DarkModeContext";
 import Gamification from "./screens/Gamification.jsx";
 import ChatScreen from "./screens/PsychologicalSection/Community/Chat.jsx";
+import EditProfile from "./screens/EditProfile.jsx";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -170,7 +171,7 @@ export default function App() {
             }}
           />
 
-<Stack.Screen
+          <Stack.Screen
             name="Chat"
             component={ChatScreen}
             options={{
@@ -180,6 +181,14 @@ export default function App() {
           <Stack.Screen
             name="MyProfile"
             component={MyProfile}
+            options={{
+              headerShown: false,
+            }}
+          />
+
+<Stack.Screen
+            name="EditProfile"
+            component={EditProfile}
             options={{
               headerShown: false,
             }}
