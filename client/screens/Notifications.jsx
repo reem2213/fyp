@@ -178,10 +178,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import ArrowBack from "../assets/arrowBack.png";
 import { DarkModeContext } from "../components/DarkModeContext"; // Adjust the path as per your project structure
 import WhiteArrowBack from '../assets/whiteArrowBack.png'
-const Notifications = ({ navigation,route }) => {
+const Notifications = ({ navigation}) => {
   const { isDarkMode } = useContext(DarkModeContext);
   const [notifications, setNotifications] = useState([]);
-  // const { username } = route.params;
 
 
   const GoBack = () => {
@@ -237,19 +236,13 @@ const Notifications = ({ navigation,route }) => {
 
     const interval = setInterval(() => {
       removeOldNotifications();
-    }, 500000); // Check every minute
-
-    return () => clearInterval(interval); // Clean up the interval on component unmount
+    }, 500000); 
+    return () => clearInterval(interval); 
   }, []);
 
   return (
     <View style={[styles.container, { backgroundColor: isDarkMode ? "#1A1A1A" : "#fff" }]}>
-      {/* <Pressable onPress={GoBack}>
-        <Image style={styles.notiImage} source={ArrowBack} />
-      </Pressable> */}
-
-
-
+    
       {isDarkMode? (<Pressable onPress={GoBack}>
         <Image style={styles.notiImage} source={WhiteArrowBack} />
       </Pressable>):(<Pressable onPress={GoBack}>

@@ -333,7 +333,7 @@ const App = ({ route }) => {
             <Image
               style={styles.imagee}
               source={{ uri: `data:image/jpeg;base64,${imageData} ` }}
-              
+
             />
           ) : (
             <Text>no imageeeeeeeeeee</Text>
@@ -651,5 +651,4 @@ const styles = StyleSheet.create({
 });
 
 export default App;
-
 

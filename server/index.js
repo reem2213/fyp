@@ -35,57 +35,6 @@ mongoose.connect(connectionString, {
 });
 
 
-// app.post("/SignUp", async (req, res) => {
-//   const { username } = req.body;
-
-//   try {
-//     const existingUser = await userModel.findOne({ username });
-//     if (existingUser) {
-//       return res.status(400).json({ error: "Username already exists" });
-//     }
-
-//     const newUser = await userModel.create(req.body);
-//     return res.json(newUser);
-//   } catch (error) {
-//     return res.status(500).json({ error: error.message });
-//   }
-  
-// });
-
-
-// app.post("/SignUp", async (req, res) => {
-//   const { username, email, password, gender, dateOfBirth, phoneNo, bio, image } = req.body;
-
-//   // Log the incoming request body
-//   console.log("SignUp request received with data:", req.body);
-
-//   try {
-//     // Check if the username already exists
-//     const existingUser = await userModel.findOne({ username });
-//     if (existingUser) {
-//       console.log("Username already exists:", username);
-//       return res.status(400).json({ error: "Username already exists" });
-//     }
-
-//     // Create a new user
-//     const newUser = await userModel.create({
-//       username,
-//       email,
-//       password,
-//       gender,
-//       dateOfBirth,
-//       phoneNo,
-//       bio,
-//       image, // Store the base64 image string
-//     });
-
-//     console.log("New user created:", newUser);
-//     return res.json(newUser);
-//   } catch (error) {
-//     console.error("Error creating user:", error.message);
-//     return res.status(500).json({ error: error.message });
-//   }
-// });
 
 
 app.post('/SignUp', async (req, res) => {
@@ -340,6 +289,7 @@ const PostSchema = new mongoose.Schema({
   date: String,
   likes: { type: Number, default: 0 },
   reposts: { type: Number, default: 0 },
+  image:String
 });
 
 const Post = mongoose.model('Post', PostSchema);
@@ -349,13 +299,32 @@ app.get('/posts', async (req, res) => {
   res.json(posts);
 });
 
+// app.post('/posts', async (req, res) => {
+//   const newPost = new Post({
+//     text: req.body.text,
+//     date: req.body.date,
+//   });
+//   await newPost.save();
+//   res.json(newPost);
+// });
+
+
 app.post('/posts', async (req, res) => {
+  const { text, date, image } = req.body;
+
   const newPost = new Post({
-    text: req.body.text,
-    date: req.body.date,
+    text,
+    date,
+    image, // store the image
   });
-  await newPost.save();
-  res.json(newPost);
+
+  try {
+    await newPost.save();
+    res.status(200).json(newPost);
+  } catch (error) {
+    console.error('Error creating post:', error);
+    res.status(500).json({ error: 'Error creating post' });
+  }
 });
 
 app.post('/posts/:id/toggle-like', async (req, res) => {

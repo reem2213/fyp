@@ -427,6 +427,8 @@
 // export default App;
 
 
+
+
 import React, { useState, useEffect, useContext } from "react";
 import {
   View,
@@ -452,6 +454,7 @@ const repostImage = require("../assets/repost.png");
 const repostedImage = require("../assets/greenRepost.png");
 import { DarkModeContext } from "../components/DarkModeContext"; // Adjust the path as per your project structure
 import WhiteArrowBack from '../assets/whiteArrowBack.png'
+
 const App = ({ navigation }) => {
   const { isDarkMode } = useContext(DarkModeContext);
   const imgDir = FileSystem.documentDirectory + "/images";
@@ -490,7 +493,7 @@ const App = ({ navigation }) => {
       const response = await axios.get("http://10.0.0.21:3001/posts");
       const postsWithImages = response.data.map((post, index) => ({
         ...post,
-        image: post.imageUri || null,
+        image: post.image || null,
       }));
       setPosts(postsWithImages);
 
@@ -512,16 +515,18 @@ const App = ({ navigation }) => {
       const newPost = {
         text: newPostText,
         date: newPostDate.toLocaleDateString(),
-        imageUri: selectedImage,
+        image: selectedImage, // send the Base64 encoded image
       };
+
       const response = await axios.post("http://10.0.0.21:3001/posts", newPost);
+
       setPosts([...posts, response.data]);
       setModalVisible(false);
       setNewPostText("");
       setNewPostDate(new Date());
       setSelectedImage(null);
     } catch (error) {
-      console.error(error);
+      console.error("Error creating post:", error);
     }
   };
 
@@ -557,8 +562,11 @@ const App = ({ navigation }) => {
 
       if (!result.cancelled) {
         const uri = result.assets[0].uri;
-        setSelectedImage(uri);
-        saveImage(uri);
+        const base64Image = await FileSystem.readAsStringAsync(uri, {
+          encoding: FileSystem.EncodingType.Base64,
+        });
+        setSelectedImage(`data:image/jpeg;base64,${base64Image}`);
+        saveImage(uri); // Optional: save the image locally if needed
       } else {
         alert("You did not select any image.");
       }
@@ -602,38 +610,28 @@ const App = ({ navigation }) => {
   };
 
   return (
-    <>
     <View style={[styles.container, { backgroundColor: isDarkMode ? "#1A1A1A" : "#fff" }]}>
       <View style={styles.header}>
-     
-
-{isDarkMode? (<Pressable onPress={GoBack}>
-        <Image style={styles.notiImage} source={WhiteArrowBack} />
-      </Pressable>):(<Pressable onPress={GoBack}>
-        <Image style={styles.notiImage} source={ArrowBack} />
-      </Pressable>)}
-
-      {isDarkMode? (<Image
-        style={styles.ellipseIcon}
-        contentFit="cover"
-        source={require("../assets/grayEllipse.png")}
-      />):(<Image
-        style={styles.ellipseIcon}
-        contentFit="cover"
-        source={require("../assets/blueEllipse.png")}
-      />)}
+        <Pressable onPress={GoBack}>
+          <Image style={styles.notiImage} source={isDarkMode ? WhiteArrowBack : ArrowBack} />
+        </Pressable>
+        <Image
+          style={styles.ellipseIcon}
+          contentFit="cover"
+          source={isDarkMode ? require("../assets/grayEllipse.png") : require("../assets/blueEllipse.png")}
+        />
         <Text style={[styles.headerText, { color: isDarkMode ? "#fff" : "#1B436F" }]}>Posts</Text>
-        <Image source={PostBg} style={{width:250,height:250}}/>
-        <Text style={[styles.headerText2, { color: isDarkMode ? "#fff" : "#1B436F" }]}>Top Posts</Text>
+        <Image source={PostBg} style={{ width: 250, height: 250 }} />
+        {/* <Text style={[styles.headerText2, { color: isDarkMode ? "#fff" : "#1B436F" }]}> */}
+        {/* <Text style={[styles.headerText2, { color: isDarkMode ? "#fff" : "#1B436F" }]}>Top Posts</Text> */}
       </View>
+      <Text style={[styles.headerText2, { color: isDarkMode ? "#fff" : "#1B436F" }]}>Top Posts</Text>
+
       <FlatList
         data={posts}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
           <View style={[styles.post, { backgroundColor: isDarkMode ? "#333" : "#F4F7FC" }]}>
-            {item.image && (
-              <Image source={{ uri: item.image }} style={styles.postImage} />
-            )}
             <Text style={[styles.postText, { color: isDarkMode ? "#fff" : "#333" }]}>{item.text}</Text>
             <View style={styles.postFooter}>
               <Text style={[styles.postDate, { color: isDarkMode ? "#ccc" : "#888" }]}>{item.date}</Text>
@@ -643,8 +641,6 @@ const App = ({ navigation }) => {
                     source={likedPosts[item._id] ? likedImage : likeImage}
                     style={styles.icon}
                   />
-                  
-
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => toggleRepostPost(item._id)}>
                   <Image
@@ -654,14 +650,14 @@ const App = ({ navigation }) => {
                     style={styles.icon}
                   />
                 </TouchableOpacity>
-                {selectedImage && (
-                  <Image
-                    source={{ uri: selectedImage }}
-                    style={{ width: 200, height: 200, marginBottom: 20 }}
-                  />
-                )}
               </View>
             </View>
+            {item.image && (
+              <Image
+                source={{ uri: item.image }}
+                style={styles.postImage}
+              />
+            )}
           </View>
         )}
       />
@@ -687,25 +683,8 @@ const App = ({ navigation }) => {
             value={newPostText}
             onChangeText={setNewPostText}
           />
-          <TouchableOpacity
-            onPress={() => setShowDatePicker(true)}
-            style={styles.datePickerButton}
-          >
-            <Text style={styles.datePickerText}>Select Date</Text>
-          </TouchableOpacity>
-          {showDatePicker && (
-            <DateTimePicker
-              value={newPostDate}
-              mode="date"
-              display="default"
-              onChange={(event, selectedDate) => {
-                setShowDatePicker(false);
-                if (selectedDate) {
-                  setNewPostDate(selectedDate);
-                }
-              }}
-            />
-          )}
+         
+          
           <Pressable onPress={() => pickImageAsync(true)}>
             <Text
               style={{
@@ -734,15 +713,12 @@ const App = ({ navigation }) => {
         </View>
       </Modal>
     </View>
-    </>
-   
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-   
   },
   ellipseIcon: {
     position: "absolute",
@@ -770,22 +746,26 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   headerText2: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: "bold",
-    color: "black",
-    top:-50,
-    left: -130,
-position:"absolute"  },
+    color: "#1B436F",
+    left:20,
+    marginTop: 20,
+  },
+  // headerText2: {
+  //   fontSize: 20,
+  //   fontWeight: "bold",
+  //   color: "black",
+  //   top: -50,
+  //   left: -130,
+  //   position: "absolute",
+  // },
   post: {
     backgroundColor: "#F4F7FC",
     borderRadius: 10,
     padding: 20,
     marginHorizontal: 20,
     marginVertical: 10,
-    // shadowColor: "#000",
-    // shadowOffset: { width: 0, height: 2 },
-    // shadowOpacity: 0.1,
-    // shadowRadius: 5,
     elevation: 2,
   },
   postText: {
@@ -809,6 +789,12 @@ position:"absolute"  },
     width: 24,
     height: 24,
     marginLeft: 10,
+  },
+  postImage: {
+    width: '100%',
+    height: 200,
+    marginTop: 10,
+    borderRadius: 10,
   },
   addButton: {
     backgroundColor: "#719AEA",
@@ -871,3 +857,5 @@ position:"absolute"  },
 });
 
 export default App;
+
+
