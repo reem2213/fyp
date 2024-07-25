@@ -10,10 +10,6 @@ const newSchema= new mongoose.Schema({
     bio:String,
     image:String
 
-
-
 })
-
-
 const userModel=mongoose.model('user',newSchema);
 module.exports=userModel;

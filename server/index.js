@@ -23,7 +23,6 @@ app.use(cors());
  
 
 
-
 const connectionString = "mongodb+srv://reemdeeb00:MdEWisOAb2UKPU0Q@cluster0.d7rojza.mongodb.net/finalYearProject?retryWrites=true&w=majority&appName=Cluster0";
 
 mongoose.connect(connectionString, {
@@ -513,6 +512,32 @@ app.post('/upload', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+
+
+
+
+
+
+//edit user info
+
+// In your Express backend
+app.put('/user/:username', async (req, res) => {
+  const { username } = req.params;
+  const updateData = req.body;
+
+  try {
+    const user = await userModel.findOneAndUpdate({ username }, updateData, { new: true });
+    res.json(user);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+
+
+
+
 
 
 

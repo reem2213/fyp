@@ -223,6 +223,9 @@ const App = ({ route }) => {
   const goBack = () => {
     navigate("Home", { username });
   };
+  const goToEditProfile = () => {
+    navigate("EditProfile", { username });
+  };
 
   const calculateGoalPercentages = () => {
     const totalGoals = goals.length;
@@ -351,8 +354,8 @@ const App = ({ route }) => {
           >
             {bio}
           </Text>
-          <TouchableOpacity>
-            <Text
+          <TouchableOpacity onPress={goToEditProfile}>
+          <Text
               style={[{
                 width: "40%",
                 borderColor: "#E5E0E0",
