@@ -35,22 +35,87 @@ mongoose.connect(connectionString, {
 });
 
 
-app.post("/SignUp", async (req, res) => {
-  const { username } = req.body;
+// app.post("/SignUp", async (req, res) => {
+//   const { username } = req.body;
+
+//   try {
+//     const existingUser = await userModel.findOne({ username });
+//     if (existingUser) {
+//       return res.status(400).json({ error: "Username already exists" });
+//     }
+
+//     const newUser = await userModel.create(req.body);
+//     return res.json(newUser);
+//   } catch (error) {
+//     return res.status(500).json({ error: error.message });
+//   }
+  
+// });
+
+
+// app.post("/SignUp", async (req, res) => {
+//   const { username, email, password, gender, dateOfBirth, phoneNo, bio, image } = req.body;
+
+//   // Log the incoming request body
+//   console.log("SignUp request received with data:", req.body);
+
+//   try {
+//     // Check if the username already exists
+//     const existingUser = await userModel.findOne({ username });
+//     if (existingUser) {
+//       console.log("Username already exists:", username);
+//       return res.status(400).json({ error: "Username already exists" });
+//     }
+
+//     // Create a new user
+//     const newUser = await userModel.create({
+//       username,
+//       email,
+//       password,
+//       gender,
+//       dateOfBirth,
+//       phoneNo,
+//       bio,
+//       image, // Store the base64 image string
+//     });
+
+//     console.log("New user created:", newUser);
+//     return res.json(newUser);
+//   } catch (error) {
+//     console.error("Error creating user:", error.message);
+//     return res.status(500).json({ error: error.message });
+//   }
+// });
+
+
+app.post('/SignUp', async (req, res) => {
+  const { username, email, password, gender, dateOfBirth, phoneNo, bio, image } = req.body;
+
+  if (!image) {
+    return res.status(400).json({ error: 'Image is required' });
+  }
 
   try {
-    const existingUser = await userModel.findOne({ username });
-    if (existingUser) {
-      return res.status(400).json({ error: "Username already exists" });
-    }
+    const user = new userModel({
+      username,
+      email,
+      password,
+      gender,
+      dateOfBirth,
+      phoneNo,
+      bio,
+      image,
+    });
 
-    const newUser = await userModel.create(req.body);
-    return res.json(newUser);
+    await user.save();
+
+    res.status(200).json({ message: 'User created successfully', user });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    console.error('Error creating user:', error);
+    res.status(500).json({ error: 'Error creating user' });
   }
-  
 });
+
 
 
 app.post("/SignIn", (req, res) => {
@@ -110,6 +175,7 @@ app.delete('/goal/:id', async (req, res) => {
       res.status(500).json({ message: error.message });
   }
 });
+
 
 app.post('/feedback', async (req, res) => {
   const { type, content } = req.body;
@@ -256,9 +322,6 @@ app.put('/bookings/:id', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-
-
-
 
 
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -14,9 +14,12 @@ import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import User from "../assets/user.png";
 import BlueEllipse from "../assets/blueEllipse.png";
+import GrayEllipse from "../assets/grayEllipse.png";
 import People from "../assets/people-remover.png";
 import Camera from "../assets/camera.png";
 import axios from "axios";
+import { DarkModeContext } from "../components/DarkModeContext"; 
+
 const imgDir = FileSystem.documentDirectory + "/images";
 
 const ProfileCustomization = ({ navigation, route }) => {
@@ -25,7 +28,7 @@ const ProfileCustomization = ({ navigation, route }) => {
   const [bio, setBio] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [bioError, setBioError] = useState("");
-
+  const { isDarkMode } = useContext(DarkModeContext); 
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -41,7 +44,7 @@ const ProfileCustomization = ({ navigation, route }) => {
   const [usernameExists, setUsernameExists] = useState(false);
 
   useEffect(() => {
-    if (route.params && route.params.username &&route.params.email ) {
+    if (route.params && route.params.username && route.params.email) {
       setUsername(route.params.username);
       setEmail(route.params.email);
       setDateOfBirth(route.params.dateOfBirth);
@@ -50,7 +53,6 @@ const ProfileCustomization = ({ navigation, route }) => {
       setPhoneNo(route.params.phoneNo);
     }
   }, [route.params]);
-
 
   const showDatePicker = () => {
     setDatePickerVisible(true);
@@ -64,7 +66,7 @@ const ProfileCustomization = ({ navigation, route }) => {
     hideDatePicker();
     if (selectedDate) {
       setDateOfBirth(selectedDate);
-      setDateOfBirthError(""); 
+      setDateOfBirthError("");
     }
   };
 
@@ -134,42 +136,52 @@ const ProfileCustomization = ({ navigation, route }) => {
   };
 
 
-  const handleSignUp = async () => {
-    // if (validateForm()) {
-      try {
-        const response = await axios.post("http://10.0.0.21:3001/SignUp", {
-          username,
-          email,
-          password,
-          gender,
-          dateOfBirth,
-          phoneNo,
-          bio,
-          imageUri
-        });
-  
-        if (response.status === 200) {
-          navigation.navigate("MyProfile", { username, bio, imageUri });
-        } else {
-          alert("Error: Failed to create account");
-        }
-      } catch (error) {
-        // if (error.response.data.error === "Username already exists") {
-        //   setUsernameExists(true);
-        // } else if (error.response) {
-        //   alert(`Error: ${error.response.data}`);
-        // } else if (error.request) {
-        //   alert("Error: No response received from server");
-        // } else {
-        //   alert(`Error: ${error.message}`);
-        // }
-        
 
-        console.log(error)
-      }
-    
-  };
+
+  // const handleSignUp = async () => {
+  //   if (validateForm()) {
+  //     try {
+  //       console.log("SignUp data:", {
+  //         username,
+  //         email,
+  //         password,
+  //         gender,
+  //         dateOfBirth,
+  //         phoneNo,
+  //         bio,
+  //         imageUri,
+  //       });
   
+  //       const response = await axios.post("http://10.0.0.21:3001/SignUp", {
+  //         username,
+  //         email,
+  //         password,
+  //         gender,
+  //         dateOfBirth,
+  //         phoneNo,
+  //         bio,
+  //         imageUri,
+  //       });
+  
+  //       if (response.status === 200) {
+  //         console.log("SignUp success:", response.data);
+  //         navigation.navigate("MyProfile", { username, bio, imageUri });
+  //       } else {
+  //         console.error("SignUp error: Unexpected status code", response.status);
+  //         alert("Error: Failed to create account");
+  //       }
+  //     } catch (error) {
+  //       console.error("SignUp error:", error);
+  //       if (error.response) {
+  //         alert(`Error: ${error.response.data.error}`);
+  //       } else {
+  //         alert("Error: No response received from server");
+  //       }
+  //     }
+  //   }
+  // };
+  
+ 
   const ensureDirExists = async () => {
     const dirInfo = await FileSystem.getInfoAsync(imgDir);
 
@@ -181,13 +193,87 @@ const ProfileCustomization = ({ navigation, route }) => {
   useEffect(() => {
     ensureDirExists();
   }, []);
+  // const pickImageAsync = async (useLibrary) => {
+  //   try {
+  //     await ensureDirExists();
+  //     let result;
+  
+  //     if (useLibrary) {
+  //       const options = {
+  //         mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //         allowsEditing: true,
+  //         aspect: [4, 3],
+  //         quality: 1,
+  //       };
+  //       result = await ImagePicker.launchImageLibraryAsync(options);
+  //     } else {
+  //       const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+  
+  //       if (!permissionResult.granted) {
+  //         alert("Permission denied to access camera!");
+  //         return;
+  //       }
+  
+  //       result = await ImagePicker.launchCameraAsync({
+  //         mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //         allowsEditing: true,
+  //         aspect: [4, 3],
+  //         quality: 1,
+  //       });
+  //     }
+  
+  //     if (!result.cancelled) {
+  //       const uri = result.uri;
+  //       const base64Image = await FileSystem.readAsStringAsync(uri, {
+  //         encoding: FileSystem.EncodingType.Base64,
+  //       });
+  //       setImageUri(`data:image/jpeg;base64,${base64Image}`);
+  //     } else {
+  //       alert("You did not select any image.");
+  //     }
+  //   } catch (error) {
+  //     console.log("Error while picking an image:", error);
+  //   }
+  // };
+  
+  const handleSignUp = async () => {
+    if (validateForm()) {
+      try {
+        const response = await axios.post("http://10.0.0.21:3001/SignUp", {
+          username,
+          email,
+          password,
+          gender,
+          dateOfBirth,
+          phoneNo,
+          bio,
+          image: imageUri, // Send the base64 encoded image
+        });
+  
+        if (response.status === 200) {
+          console.log("SignUp success:", response.data);
+          navigation.navigate("Home", { username, bio, imageUri });
+        } else {
+          console.error("SignUp error: Unexpected status code", response.status);
+          alert("Error: Failed to create account");
+        }
+      } catch (error) {
 
+        console.error("SignUp error:", error);
+        if (error.response) {
+          alert(`Error: ${error.response.data.error}`);
+        } else {
+          alert("Error: No response received from server");
+        }
+      }
+    }
+  };
+  
   const pickImageAsync = async (useLibrary) => {
     try {
       await ensureDirExists();
-
       let result;
-
+  
       if (useLibrary) {
         const options = {
           mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -197,14 +283,13 @@ const ProfileCustomization = ({ navigation, route }) => {
         };
         result = await ImagePicker.launchImageLibraryAsync(options);
       } else {
-        const permissionResult =
-          await ImagePicker.requestCameraPermissionsAsync();
-
+        const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+  
         if (!permissionResult.granted) {
           alert("Permission denied to access camera!");
           return;
         }
-
+  
         result = await ImagePicker.launchCameraAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.Images,
           allowsEditing: true,
@@ -212,11 +297,13 @@ const ProfileCustomization = ({ navigation, route }) => {
           quality: 1,
         });
       }
-
+  
       if (!result.cancelled) {
         const uri = result.assets[0].uri;
-        setImageUri(uri);
-        saveImage(uri);
+        const base64Image = await FileSystem.readAsStringAsync(uri, {
+          encoding: FileSystem.EncodingType.Base64,
+        });
+        setImageUri(`data:image/jpeg;base64,${base64Image}`);
       } else {
         alert("You did not select any image.");
       }
@@ -224,6 +311,8 @@ const ProfileCustomization = ({ navigation, route }) => {
       console.log("Error while picking an image:", error);
     }
   };
+  
+
 
   const saveImage = async (uri) => {
     const filename = "profile_image.jpg";
@@ -232,18 +321,49 @@ const ProfileCustomization = ({ navigation, route }) => {
   };
 
   return (
-    <View style={{ backgroundColor: "white", height: "100%" }}>
-      <Image
-        source={BlueEllipse}
-        style={{
-          width: 150,
+    <View
+      style={[
+        { backgroundColor: "white", height: "100%" },
+        { backgroundColor: isDarkMode ? "black" : "white" },
+      ]}
+    >
+      {isDarkMode ? (
+        <Image
+          source={GrayEllipse}
+          style={{
+            width: 150,
+            height: 150,
+            position: "absolute",
+            marginLeft: 310,
+            marginTop: -15,
+          }}
+        />
+      ) : (
+        <Image
+          source={BlueEllipse}
+          style={{
+            width: 150,
+            height: 150,
+            position: "absolute",
+            marginLeft: 310,
+            marginTop: -15,
+          }}
+        />
+      )}
+     
+      {isDarkMode ? (
+        <Image
+          source={GrayEllipse}
+          style={{
+            width: 150,
           height: 150,
           position: "absolute",
-          marginLeft: 310,
-          marginTop: -15,
-        }}
-      />
-      <Image
+          marginLeft: -90,
+          marginTop: 135,
+          }}
+        />
+      ) : (
+        <Image
         source={BlueEllipse}
         style={{
           width: 150,
@@ -253,6 +373,8 @@ const ProfileCustomization = ({ navigation, route }) => {
           marginTop: 135,
         }}
       />
+      )}
+      
       <Image
         source={People}
         style={{
@@ -265,160 +387,161 @@ const ProfileCustomization = ({ navigation, route }) => {
       />
 
       <Text
-        style={{
-          position: "absolute",
-          marginLeft: 60,
-          marginTop: 120,
-          fontWeight: "bold",
-          fontSize: 27,
-          color: "#1B436F",
-        }}
+        style={[
+          {
+            position: "absolute",
+            marginLeft: 60,
+            marginTop: 120,
+            fontWeight: "bold",
+            fontSize: 27,
+          },
+          { color: isDarkMode ? "white" : "#1B436F" },
+        ]}
       >
         Customize Your Profile
       </Text>
-      {/* <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 120}
-      > */}
-        <View style={{ alignItems: "center", top: 250 }}>
-          <Image
-            source={User}
-            style={{
-              width: 150,
-              height: 150,
-              marginBottom: 20,
-               position: "absolute",
 
-              marginTop: -90,
-            }}
-          />
-          <Image
-            source={{ uri: imageUri }}
-            style={{
-              width: 150,
-              height: 150,
-              marginBottom: 20,
-              borderRadius: 100,
-              position: "absolute",
-              marginTop: -90,
+      <View style={{ alignItems: "center", top: 250 }}>
+        <Image
+          source={User}
+          style={{
+            width: 150,
+            height: 150,
+            marginBottom: 20,
+            position: "absolute",
 
-            }}
-          />
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-around",
-              width: "100%",
-              marginBottom: 20,
-            }}
-          >
-            <Pressable onPress={() => pickImageAsync(true)}>
-              <Text
-                style={{
-                  marginLeft: 100,
-                  fontWeight: "500",
-                  color: "#636363",
-                  marginTop: 50,
-                  top:10
-
-                }}
-              >
-                Choose a photo
-              </Text>
-            </Pressable>
-            <Pressable onPress={() => pickImageAsync(false)}>
-              <View
-                style={{
-                  backgroundColor: "#D9D9D9",
-                  borderRadius: 40,
-                  width: 35,
-                  height: 35,
-                  marginLeft: -120,
-                  marginTop: 50,
-                  top:-30,
-                  position:"absolute"
-                }}
-              >
-                <Image
-                  source={Camera}
-                  style={{ width: 25, height: 25, marginLeft: 5, marginTop:5
-                  }}
-                />
-              </View>
-            </Pressable>
-          </View>
-
-          <TextInput
-            style={{
-              width: 300,
-              height: 40,
-              backgroundColor: "#EEEEEE",
-              marginBottom: 10,
-              paddingHorizontal: 10,
-              borderRadius: 10,
-              top:0
-            }}
-            placeholder="Username"
-            value={username}
-            onChangeText={(text) => setUsername(text)}
-          />
-          {usernameError ? (
-            <Text style={{ color: "red", marginLeft: -180, marginBottom: 10 }}>
-              {usernameError}
-            </Text>
-          ) : null}
-
-          <TextInput
-            style={{
-              width: 300,
-              height: 40,
-              backgroundColor: "#EEEEEE",
-              marginBottom: 10,
-              paddingHorizontal: 10,
-              borderRadius: 10,
-              top:5
-
-            }}
-            placeholder="Bio"
-            value={bio}
-            onChangeText={(text) => setBio(text)}
-          />
-          {bioError ? (
-            <Text style={{ color: "red", marginLeft: -220, marginBottom: 5 }}>
-              {bioError}
-            </Text>
-          ) : null}
-
-
-          
-
-          <TouchableOpacity
-            onPress={handleSignUp}
-            style={{
-              backgroundColor: "#719AEA",
-              width: 300,
-              paddingTop:5,
-              height: 40,
-              borderRadius: 30,
-              top:15
-
-            }}
-          >
+            marginTop: -90,
+          }}
+        />
+        <Image
+          source={{ uri: imageUri }}
+          style={{
+            width: 150,
+            height: 150,
+            marginBottom: 20,
+            borderRadius: 100,
+            position: "absolute",
+            marginTop: -90,
+          }}
+        />
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-around",
+            width: "100%",
+            marginBottom: 20,
+          }}
+        >
+          <Pressable onPress={() => pickImageAsync(true)}>
             <Text
               style={{
-                color: "white",
-                fontSize: 18,
+                marginLeft: 100,
                 fontWeight: "500",
-                marginLeft: 120,
-                marginTop: 5,
+                color: "#636363",
+                marginTop: 50,
+                top: 10,
               }}
             >
-              Confirm
+              Choose a photo
             </Text>
-          </TouchableOpacity>
-
+          </Pressable>
+          <Pressable onPress={() => pickImageAsync(false)}>
+            <View
+              style={{
+                backgroundColor: "#D9D9D9",
+                borderRadius: 40,
+                width: 35,
+                height: 35,
+                marginLeft: -120,
+                marginTop: 50,
+                top: -30,
+                position: "absolute",
+              }}
+            >
+              <Image
+                source={Camera}
+                style={{ width: 25, height: 25, marginLeft: 5, marginTop: 5 }}
+              />
+            </View>
+          </Pressable>
         </View>
+
+        <TextInput
+          style={[
+            {
+              width: 300,
+              height: 40,
+              backgroundColor: "#EEEEEE",
+              marginBottom: 10,
+              paddingHorizontal: 10,
+              borderRadius: 10,
+              top: 0,
+            },
+            { backgroundColor: isDarkMode ? "#333" : "#EEEEEE" },
+            { color: isDarkMode ? "white" : "gray" },
+          ]}
+          placeholder="Username"
+          value={username}
+          onChangeText={(text) => setUsername(text)}
+        />
+        {usernameError ? (
+          <Text style={{ color: "red", marginLeft: -180, marginBottom: 10 }}>
+            {usernameError}
+          </Text>
+        ) : null}
+
+        <TextInput
+          style={[
+            {
+              width: 300,
+              height: 40,
+              backgroundColor: "#EEEEEE",
+              marginBottom: 10,
+              paddingHorizontal: 10,
+              borderRadius: 10,
+              top: 5,
+            },
+            { backgroundColor: isDarkMode ? "#333" : "white" },
+            { color: isDarkMode ? "white" : "gray" },
+          ]}
+          placeholder="Bio"
+          value={bio}
+          onChangeText={(text) => setBio(text)}
+        />
+        {bioError ? (
+          <Text style={{ color: "red", marginLeft: -220, marginBottom: 5 }}>
+            {bioError}
+          </Text>
+        ) : null}
+
+        <TouchableOpacity
+          onPress={handleSignUp}
+          style={[
+            {
+              backgroundColor: "#719AEA",
+              width: 300,
+              paddingTop: 5,
+              height: 40,
+              borderRadius: 30,
+              top: 15,
+            },
+            { backgroundColor: isDarkMode ? "#333" : "#719AEA" },
+            { color: isDarkMode ? "white" : "white" },
+          ]}
+        >
+          <Text
+            style={{
+              color: "white",
+              fontSize: 18,
+              fontWeight: "500",
+              marginLeft: 120,
+              marginTop: 5,
+            }}
+          >
+            Confirm
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -431,4 +554,3 @@ const styles = StyleSheet.create({
   },
 });
 export default ProfileCustomization;
-

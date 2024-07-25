@@ -157,6 +157,7 @@ const Home = ({ navigation, route }) => {
             </View>
           </TouchableOpacity>
 
+
           <TouchableOpacity onPress={GoToMusicSection}>
             <View style={styles.section2}>
               <Text style={styles.sectionTitle2}>Music Mood Booster</Text>

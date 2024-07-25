@@ -14,10 +14,14 @@ import axios from "axios";
 import Settings from "../assets/settings.png";
 import Coin from "../assets/coin.png";
 import Back from "../assets/arrowBack.png";
+import { DarkModeContext } from "../components/DarkModeContext"; // Import the context
+
 const App = ({ route }) => {
   const { navigate } = useNavigation();
   const { username } = route.params;
   const [bio, setBio] = useState("");
+
+  const { isDarkMode } = useContext(DarkModeContext); // Use the context
 
   const [imageData, setImageData] = useState(null);
   const [userProfile, setUserProfile] = useState({
@@ -242,8 +246,8 @@ const App = ({ route }) => {
     <html>
       <head>
         <style>
-          body { margin: 0;background-color:#FAFAFA ;font-size:25px}
-          canvas { display: block; }
+          body { margin: 0;background-color:#FAFAFA ;}
+          canvas { display: block }
         </style>
       </head>
       <body>
@@ -275,9 +279,10 @@ const App = ({ route }) => {
     </html>
   `;
   return (
+
     <>
-      <ScrollView style={{ height: "100%" }}>
-        <View style={{ backgroundColor: "#FAFAFA" }}>
+      <ScrollView style={[{ height: "100%" }, { backgroundColor: isDarkMode ? "black" : "#FAFAFA" }]}>
+        <View style={{ backgroundColor: isDarkMode ? "black" : "#FAFAFA" }}>
           <TouchableOpacity onPress={goBack}>
             <Image
               source={Back}
@@ -291,7 +296,7 @@ const App = ({ route }) => {
           </TouchableOpacity>
   
           <Text
-            style={{
+            style={[{
               color: "#032B79",
               fontSize: 40,
               fontWeight: "bold",
@@ -299,7 +304,7 @@ const App = ({ route }) => {
               top: 0,
               width: "40%",
               left: 110,
-            }}
+            },{color: isDarkMode ? "white" : "#032B79" }]}
           >
             Profile
           </Text>
@@ -314,53 +319,41 @@ const App = ({ route }) => {
             style={{ position: "absolute", top: 135, left: 10 }}
           />
           <Text
-            style={{
-              color: "gray",
+            style={[{
               fontSize: 20,
               fontWeight: "600",
               left: 60,
               top: 10,
-            }}
+            },{color: isDarkMode ? "white" : "gray"}]}
           >
             550 Pts
           </Text>
-          <View
-            style={{
-              position: "absolute",
-              backgroundColor: "#FAFAFA",
-              width: "100%",
-              top: 300,
-              height: 40,
-            }}
-          >
-            <Text></Text>
-          </View>
   
           {imageData ? (
             <Image
               style={styles.imagee}
               source={{ uri: `data:image/jpeg;base64,${imageData} ` }}
+              
             />
           ) : (
             <Text>no imageeeeeeeeeee</Text>
           )}
         </View>
   
-        <View style={{ backgroundColor: "#FAFAFA", top: -20, left: 20 }}>
+        <View style={[{ top: -20, left: 20 },{backgroundColor: isDarkMode ? "black" : "#FAFAFA" }]}>
           <Text
-            style={{ top: -90, left: 190, fontSize: 15, fontWeight: "500" }}
+            style={[{ top: -90, left: 190, fontSize: 15, fontWeight: "500" },{color: isDarkMode ? "white" : "black" }]}
           >
             {username}
           </Text>
           <Text
-            style={{ top: -80, left: 190, fontSize: 15, fontWeight: "500" }}
+            style={[{ top: -80, left: 190, fontSize: 15, fontWeight: "500" },{color: isDarkMode ? "white" : "black" }]}
           >
             {bio}
           </Text>
           <TouchableOpacity>
             <Text
-              style={{
-                backgroundColor: "white",
+              style={[{
                 width: "40%",
                 borderColor: "#E5E0E0",
                 borderWidth: 1,
@@ -369,16 +362,16 @@ const App = ({ route }) => {
                 textAlign: "center",
                 left: 185,
                 top: -60,
-              }}
+              },{backgroundColor: isDarkMode ? "gray" : "white", color:isDarkMode?"white":"black"}]}
             >
               Edit your Profile
             </Text>
           </TouchableOpacity>
         </View>
   
-        <View style={styles.container}>
+        <View style={[styles.container,{backgroundColor: isDarkMode ? "black" : "#FAFAFA"}]}>
           <View style={styles.header}>
-            <View style={styles.sectionSwitcher}>
+            <View style={[styles.sectionSwitcher,,{backgroundColor: isDarkMode ? "gray" : "white"}]}>
               <TouchableOpacity
                 style={[
                   styles.sectionButton,
@@ -403,7 +396,7 @@ const App = ({ route }) => {
               <TouchableOpacity
                 style={[
                   styles.sectionButton,
-                  activeSection === "Goals" ? styles.activeSectionButton : null,
+                  activeSection === "Goals" ? styles.activeSectionButton : null
                 ]}
                 onPress={() => setActiveSection("Goals")}
               >
@@ -421,7 +414,6 @@ const App = ({ route }) => {
             </View>
           </View>
   
-          {/* Conditionally render the chart */}
           {activeSection === "Goals" && (
             <WebView
               originWhitelist={["*"]}
@@ -497,226 +489,6 @@ const App = ({ route }) => {
       </ScrollView>
     </>
   );
-  
-  // return (
-  //   <>
-  //     <ScrollView style={{height:"100%"}}>
-  //       <View style={{ backgroundColor: "#FAFAFA" }}>
-  //         <TouchableOpacity onPress={goBack}>
-  //           <Image
-  //             source={Back}
-  //             style={{
-  //               // position: "absolute",
-  //               top: 50,
-  //               left: 20,
-  //               width: 40,
-  //               height: 40,
-  //             }}
-  //           />
-  //         </TouchableOpacity>
-
-  //         <Text
-  //           style={{
-  //             color: "#032B79",
-  //             fontSize: 40,
-  //             fontWeight: "bold",
-  //             textAlign: "center",
-  //             top: 0,
-  //             width: "40%",
-  //             left: 110,
-  //           }}
-  //         >
-  //           Profile
-  //         </Text>
-  //         <TouchableOpacity onPress={goToSettings} style={{ width: "10%" }}>
-  //           <Image
-  //             style={{ width: 45, height: 45, left: 320, top: -10 }}
-  //             source={Settings}
-  //           />
-  //         </TouchableOpacity>
-  //         <Image
-  //           source={Coin}
-  //           style={{ position: "absolute", top: 135, left: 10 }}
-  //         />
-  //         <Text
-  //           style={{
-  //             color: "gray",
-  //             fontSize: 20,
-  //             fontWeight: "600",
-  //             left: 60,
-  //             top: 10,
-  //           }}
-  //         >
-  //           550 Pts
-  //         </Text>
-  //         <View
-  //           style={{
-  //             position: "absolute",
-  //             backgroundColor: "#FAFAFA",
-  //             width: "100%",
-  //             top: 300,
-  //             height: 40,
-  //           }}
-  //         >
-  //           <Text></Text>
-  //         </View>
-
-  //         {imageData ? (
-  //           <Image
-  //             style={styles.imagee}
-  //             source={{ uri: `data:image/jpeg;base64,${imageData} ` }}
-  //           />
-  //         ) : (
-  //           <Text>no imageeeeeeeeeee</Text>
-  //         )}
-  //       </View>
-
-  //       <View style={{ backgroundColor: "#FAFAFA", top: -20, left: 20 }}>
-  //         <Text
-  //           style={{ top: -90, left: 190, fontSize: 15, fontWeight: "500" }}
-  //         >
-  //           {username}
-  //         </Text>
-  //         <Text
-  //           style={{ top: -80, left: 190, fontSize: 15, fontWeight: "500" }}
-  //         >
-  //           {bio}
-  //         </Text>
-  //         <TouchableOpacity>
-  //           <Text
-  //             style={{
-  //               backgroundColor: "white",
-  //               width: "40%",
-  //               borderColor: "#E5E0E0",
-  //               borderWidth: 1,
-  //               borderRadius: 10,
-  //               padding: 5,
-  //               textAlign: "center",
-  //               left: 185,
-  //               top: -60,
-  //             }}
-  //           >
-  //             Edit your Profile
-  //           </Text>
-  //         </TouchableOpacity>
-  //       </View>
-
-  //       <View style={styles.container}>
-  //         <View style={styles.header}>
-  //           <View style={styles.sectionSwitcher}>
-  //             <TouchableOpacity
-  //               style={[
-  //                 styles.sectionButton,
-  //                 activeSection === "Meetings"
-  //                   ? styles.activeSectionButton
-  //                   : null,
-  //               ]}
-  //               onPress={() => setActiveSection("Meetings")}
-  //             >
-  //               <Text
-  //                 style={[
-  //                   styles.sectionButtonText,
-  //                   activeSection === "Meetings"
-  //                     ? styles.activeSectionButtonText
-  //                     : null,
-  //                 ]}
-  //               >
-  //                 Meetings
-  //               </Text>
-  //             </TouchableOpacity>
-
-  //             <TouchableOpacity
-  //               style={[
-  //                 styles.sectionButton,
-  //                 activeSection === "Goals" ? styles.activeSectionButton : null,
-  //               ]}
-  //               onPress={() => setActiveSection("Goals")}
-  //             >
-  //               <Text
-  //                 style={[
-  //                   styles.sectionButtonText,
-  //                   activeSection === "Goals"
-  //                     ? styles.activeSectionButtonText
-  //                     : null,
-  //                 ]}
-  //               >
-  //                 Goals
-  //               </Text>
-  //             </TouchableOpacity>
-  //           </View>
-  //         </View>
-  //         <WebView
-  //           originWhitelist={["*"]}
-  //           source={{ html: chartHtml }}
-  //           style={{ top: 10 }}
-  //         />
-  //         <View style={styles.statusContainer}>
-  //           <TouchableOpacity
-  //             style={[
-  //               styles.statusButton,
-  //               activeStatus === "upcoming" ? styles.activeStatusButton : null,
-  //             ]}
-  //             onPress={() => setActiveStatus("upcoming")}
-  //           >
-  //             <Text
-  //               style={[
-  //                 styles.statusButtonText,
-  //                 activeStatus === "upcoming"
-  //                   ? styles.activeStatusButtonText
-  //                   : null,
-  //               ]}
-  //             >
-  //               In Progress
-  //             </Text>
-  //           </TouchableOpacity>
-  //           <TouchableOpacity
-  //             style={[
-  //               styles.statusButton,
-  //               activeStatus === "Completed" ? styles.activeStatusButton : null,
-  //             ]}
-  //             onPress={() => setActiveStatus("Completed")}
-  //           >
-  //             <Text
-  //               style={[
-  //                 styles.statusButtonText,
-  //                 activeStatus === "Completed"
-  //                   ? styles.activeStatusButtonText
-  //                   : null,
-  //               ]}
-  //             >
-  //               Completed
-  //             </Text>
-  //           </TouchableOpacity>
-  //           <TouchableOpacity
-  //             style={[
-  //               styles.statusButton,
-  //               activeStatus === "Cancelled" ? styles.activeStatusButton : null,
-  //             ]}
-  //             onPress={() => setActiveStatus("Cancelled")}
-  //           >
-  //             <Text
-  //               style={[
-  //                 styles.statusButtonText,
-  //                 activeStatus === "Cancelled"
-  //                   ? styles.activeStatusButtonText
-  //                   : null,
-  //               ]}
-  //             >
-  //               Cancelled
-  //             </Text>
-  //           </TouchableOpacity>
-  //         </View>
-
-  //         <FlatList
-  //           data={filteredData}
-  //           renderItem={renderItem}
-  //           keyExtractor={(item) => item._id}
-  //           style={styles.listContainer}
-  //         />
-  //       </View>
-  //     </ScrollView>
-  //   </>
-  // );
 };
 
 const styles = StyleSheet.create({
@@ -751,15 +523,16 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
     color: "red",
-    top:250
+    top:0
 
   },
   actionButtonText2: {
     fontSize: 15,
     fontWeight: "bold",
     color: "white",
-    top:250
+    top:0
   },
+
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -878,4 +651,5 @@ const styles = StyleSheet.create({
 });
 
 export default App;
+
 

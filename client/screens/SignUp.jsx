@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,7 +9,8 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import { KeyboardAvoidingView, Platform } from 'react-native';
+import { KeyboardAvoidingView, Platform } from "react-native";
+import { DarkModeContext } from "../components/DarkModeContext"; // Import the context
 
 import axios from "axios";
 import { Picker } from "@react-native-picker/picker";
@@ -30,6 +31,7 @@ const SignUp = ({ navigation }) => {
   const [phoneNoError, setPhoneNoError] = useState("");
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
   const [usernameExists, setUsernameExists] = useState(false);
+  const { isDarkMode } = useContext(DarkModeContext); // Use the context
 
   const showDatePicker = () => {
     setDatePickerVisible(true);
@@ -43,7 +45,7 @@ const SignUp = ({ navigation }) => {
     hideDatePicker();
     if (selectedDate) {
       setDateOfBirth(selectedDate);
-      setDateOfBirthError(""); 
+      setDateOfBirthError("");
     }
   };
 
@@ -118,13 +120,20 @@ const SignUp = ({ navigation }) => {
       //     phoneNo,
       //   });
 
-        // if (response.status === 200) {
-          navigation.navigate("Customize",{ username,email,password,gender,phoneNo,dateOfBirth })
-          console.log(response.data);
-        // } else {
-        //   alert("Error: Failed to create account");
-        // }
-        
+      // if (response.status === 200) {
+      navigation.navigate("Customize", {
+        username,
+        email,
+        password,
+        gender,
+        phoneNo,
+        dateOfBirth,
+      });
+      console.log(response.data);
+      // } else {
+      //   alert("Error: Failed to create account");
+      // }
+
       // } catch (error) {
       //   if (
 
@@ -139,8 +148,7 @@ const SignUp = ({ navigation }) => {
       //     alert(`Error: ${error.message}`);
       //   }
       // }
-    }
-    else{
+    } else {
       console.log(console.error);
     }
   };
@@ -152,29 +160,49 @@ const SignUp = ({ navigation }) => {
     navigation.navigate("Splash");
   };
 
-    const handleUsernameChange = (text) => {
+  const handleUsernameChange = (text) => {
     setUsername(text);
-    setUsernameExists(false); 
+    setUsernameExists(false);
   };
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}
-    keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}>
+    <KeyboardAvoidingView
+      style={[
+        styles.container,
+        { backgroundColor: isDarkMode ? "black" : "#fff" },
+      ]}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
+    >
       <TouchableOpacity onPress={goToSignUp}>
-        <Image
-          style={styles.signUpChild}
-          contentFit="cover"
-          source={require("../assets/arrowBack.png")}
-        />
+        {isDarkMode ? (
+          <Image
+            style={styles.signUpChild}
+            contentFit="cover"
+            source={require("../assets/whiteArrowBack.png")}
+          />
+        ) : (
+          <Image
+            style={styles.signUpChild}
+            contentFit="cover"
+            source={require("../assets/arrowBack.png")}
+          />
+        )}
       </TouchableOpacity>
       <Image
         style={styles.splashScreenRemovebgPreviewIcon}
         contentFit="cover"
         source={require("../assets/people-remover.png")}
       />
-      <Text style={styles.title}>Create Your Account</Text>
+      <Text style={[styles.title, { color: isDarkMode ? "white" : "#032B79" }]}>
+        Create Your Account
+      </Text>
 
       <TextInput
-        style={styles.input}
+        style={[
+          styles.input,
+          { backgroundColor: isDarkMode ? "#333" : "#EEEEEE" },{ color: isDarkMode ? "white" : "gray" },
+        ]}
+        placeholderTextColor={isDarkMode ? "#ccc" : "#000"}
         placeholder="Email"
         value={email}
         onChangeText={(text) => setEmail(text)}
@@ -182,7 +210,11 @@ const SignUp = ({ navigation }) => {
       {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
 
       <TextInput
-        style={styles.input}
+        style={[
+          styles.input,
+          { backgroundColor: isDarkMode ? "#333" : "#EEEEEE" },{ color: isDarkMode ? "white" : "gray" },
+        ]}
+        placeholderTextColor={isDarkMode ? "white" : "#000"}
         placeholder="Username"
         value={username}
         onChangeText={(text) => handleUsernameChange(text)}
@@ -193,7 +225,11 @@ const SignUp = ({ navigation }) => {
       )}
 
       <TextInput
-        style={styles.input}
+        style={[
+          styles.input,
+          { backgroundColor: isDarkMode ? "#333" : "#EEEEEE" },{ color: isDarkMode ? "white" : "gray" },
+        ]}
+        placeholderTextColor={isDarkMode ? "#ccc" : "#000"}
         placeholder="Password"
         secureTextEntry
         value={password}
@@ -204,7 +240,11 @@ const SignUp = ({ navigation }) => {
       ) : null}
 
       <Picker
-        style={styles.input}
+        style={[
+          styles.input,
+          { backgroundColor: isDarkMode ? "#333" : "#EEEEEE" },{ color: isDarkMode ? "white" : "gray" },
+        ]}
+        placeholderTextColor={isDarkMode ? "#ccc" : "#000"}
         selectedValue={gender}
         onValueChange={(itemValue) => setGender(itemValue)}
       >
@@ -214,7 +254,11 @@ const SignUp = ({ navigation }) => {
       {genderError ? <Text style={styles.errorText}>{genderError}</Text> : null}
 
       <TextInput
-        style={styles.input}
+        style={[
+          styles.input,
+          { backgroundColor: isDarkMode ? "#333" : "#EEEEEE" },{ color: isDarkMode ? "white" : "gray" },
+        ]}
+        placeholderTextColor={isDarkMode ? "#ccc" : "#000"}
         placeholder="Phone Number"
         keyboardType="numeric"
         value={phoneNo}
@@ -224,7 +268,14 @@ const SignUp = ({ navigation }) => {
         <Text style={styles.errorText}>{phoneNoError}</Text>
       ) : null}
 
-      <TouchableOpacity style={styles.input} onPress={showDatePicker}>
+      <TouchableOpacity
+        style={[
+          styles.input,
+          { backgroundColor: isDarkMode ? "#333" : "white" },
+        ]}
+        placeholderTextColor={isDarkMode ? "white" : "#000"}
+        onPress={showDatePicker}
+      >
         <Text>
           {dateOfBirth ? (
             dateOfBirth.toDateString()
@@ -246,26 +297,60 @@ const SignUp = ({ navigation }) => {
         onCancel={hideDatePicker}
       />
 
-      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+      <TouchableOpacity
+        style={[
+          styles.button,
+          { backgroundColor: isDarkMode ? "#032b79" : "#719AEA" },
+        ]}
+        onPress={handleSignUp}
+      >
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
 
-      <Text style={styles.signInText}>
+      <Text
+        style={[styles.signInText, { color: isDarkMode ? "white" : "gray" }]}
+      >
         {`Already have an account?`}
         <TouchableOpacity onPress={goToSignIn}>
-          <Text style={styles.signInText2}> Sign In</Text>
+          <Text
+            style={[
+              styles.signInText2,
+              { color: isDarkMode ? "white" : "gray" },
+            ]}
+          >
+            {" "}
+            Sign In
+          </Text>
         </TouchableOpacity>
       </Text>
-      <Image
-        style={[styles.ellipseIcon]}
-        contentFit="cover"
-        source={require("../assets/blueEllipse.png")}
-      />
-      <Image
-        style={[styles.ellipseIcon2]}
-        contentFit="cover"
-        source={require("../assets/blueEllipse.png")}
-      />
+
+      {isDarkMode ? (
+        <Image
+          style={[styles.ellipseIcon]}
+          contentFit="cover"
+          source={require("../assets/grayEllipse.png")}
+        />
+      ) : (
+        <Image
+          style={[styles.ellipseIcon]}
+          contentFit="cover"
+          source={require("../assets/blueEllipse.png")}
+        />
+      )}
+
+      {isDarkMode ? (
+        <Image
+          style={[styles.ellipseIcon2]}
+          contentFit="cover"
+          source={require("../assets/grayEllipse.png")}
+        />
+      ) : (
+        <Image
+          style={[styles.ellipseIcon2]}
+          contentFit="cover"
+          source={require("../assets/blueEllipse.png")}
+        />
+      )}
     </KeyboardAvoidingView>
   );
 };
@@ -275,7 +360,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
     paddingHorizontal: 20,
   },
   Calendar: {
@@ -311,7 +395,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
     top: 50,
-    color: "#032B79",
   },
   input: {
     width: "85%",
@@ -344,10 +427,9 @@ const styles = StyleSheet.create({
   },
   signInText: {
     marginTop: 20,
-    color: "gray",
+    top: 5,
   },
   signInText2: {
-    color: "gray",
     textDecorationLine: "underline",
   },
   splashScreenRemovebgPreviewIcon: {
