@@ -1,172 +1,3 @@
-// import React, { useEffect, useState } from "react";
-// import { Text, View, FlatList, StyleSheet, TouchableOpacity, Image, Dimensions } from "react-native";
-// import axios from "axios";
-// import BlueEllipse from "../assets/blueEllipse.png";
-
-// const CommunityJoined = ({ route, navigation }) => {
-//   const [joinedGroups, setJoinedGroups] = useState([]);
-
-//   useEffect(() => {
-//     fetchJoinedGroups();
-//   }, []);
-
-//   const fetchJoinedGroups = async () => {
-//     try {
-//       const response = await axios.get("http://10.0.0.21:3001/groups/joined");
-//       setJoinedGroups(response.data);
-//     } catch (error) {
-//       console.error("Failed to fetch joined groups:", error);
-//     }
-//   };
-
-//   const goToCommunities = () => {
-//     navigation.navigate("Communities");
-//   };
-
-//   const renderGroupPair = ({ item, index }) => {
-//     const secondItem = joinedGroups[index * 2 + 1];
-//     return (
-//       <View style={styles.row}>
-//         <View style={styles.groupItem}>
-//           <Text style={styles.groupName}>{item.name}</Text>
-//           <Text style={styles.groupMembers}>{`${item.members?.length || 0} participants`}</Text>
-//         </View>
-//         {secondItem && (
-//           <View style={styles.groupItem}>
-//             <Text style={styles.groupName}>{secondItem.name}</Text>
-//             <Text style={styles.groupMembers}>{`${secondItem.members?.length || 0} participants`}</Text>
-//           </View>
-//         )}
-//       </View>
-//     );
-//   };
-
-//   return (
-//     <View style={styles.container}>
-//       <Image
-//         source={BlueEllipse}
-//         style={{
-
-//           width: 120,
-//           height: 120,
-//           left:300,
-//           top: -40,
-//           position: "absolute",
-//         }}
-//       />
-//       <Text style={styles.header}>Communities</Text>
-//       {joinedGroups.length > 0 ? (
-//         <FlatList
-//           data={joinedGroups.filter((_, index) => index % 2 === 0)}
-//           keyExtractor={(item, index) => `row-${index}`}
-//           renderItem={renderGroupPair}
-//           contentContainerStyle={styles.listContent}
-//         />
-//       ) : (
-//         <View style={styles.noGroupsContainer}>
-//           <Text style={styles.noGroupsText}>No communities joined yet</Text>
-//           <Text style={styles.exploreText}>
-//             Start exploring and join communities to engage with like-minded individuals.
-//           </Text>
-//           <TouchableOpacity style={styles.joinButton} onPress={goToCommunities}>
-//             <Text style={styles.joinButtonText}>Join Now</Text>
-//           </TouchableOpacity>
-//         </View>
-//       )}
-//       <Image
-//         source={BlueEllipse}
-//         style={{
-//           width: 120,
-//           height: 120,
-//           left: -50,
-//           bottom: 0,
-//           position: "absolute",
-//         }}
-//       />
-//     </View>
-//   );
-// };
-
-// const windowWidth = Dimensions.get('window').width;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#f5f5f5",
-//     paddingTop: 80,
-//   },
-//   header: {
-//     fontSize: 35,
-//     fontWeight: "bold",
-//     color: "#032B79",
-//     marginBottom: 20,
-//     paddingLeft: 20,
-//   },
-//   listContent: {
-//     paddingHorizontal: 10,
-//   },
-
-//   row: {
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     marginBottom: 20,
-//   },
-//   groupItem: {
-//     padding: 15,
-//     backgroundColor: "#fff",
-//     borderRadius: 8,
-//     width: (windowWidth - 40) / 2,
-//     shadowColor: "#000",
-//     shadowOpacity: 0.1,
-//     shadowRadius: 10,
-//     shadowOffset: { width: 0, height: 5 },
-//     alignItems: "center",
-//   },
-//   groupName: {
-//     fontSize: 16,
-
-//     fontWeight: "bold",
-//     textAlign: 'center',
-//   },
-
-//   groupMembers: {
-//     fontSize: 14,
-//     color: "#888",
-//     marginTop: 5,
-//   },
-//   noGroupsContainer: {
-//     justifyContent: "center",
-//     alignItems: "center",
-//     marginTop: 150,
-//   },
-//   noGroupsText: {
-//     fontSize: 18,
-//     color: "#032B79",
-//     marginBottom: 10,
-//     fontWeight: "bold",
-//   },
-//   exploreText: {
-//     fontSize: 14,
-//     color: "#888",
-//     textAlign: "center",
-//     marginHorizontal: 30,
-//     marginBottom: 20,
-//   },
-//   joinButton: {
-//     backgroundColor: "#719AEA",
-//     paddingVertical: 10,
-//     paddingHorizontal: 30,
-//     borderRadius: 8,
-//   },
-//   joinButtonText: {
-//     fontSize: 16,
-//     color: "#fff",
-//     fontWeight: "bold",
-//   },
-// });
-
-// export default CommunityJoined;
-
 import React, { useEffect, useState, useContext } from "react";
 import {
   Text,
@@ -180,10 +11,16 @@ import {
 import axios from "axios";
 import BlueEllipse from "../assets/blueEllipse.png";
 import { DarkModeContext } from "../components/DarkModeContext"; // Import the context
+import Plus from "../assets/plus.png";
 
+import Psycho from '../assets/psychologicLight.png';
+import Physical from '../assets/physicalSectionLight.png';
+import SettingsIcon from '../assets/settings.png';
+import HomeIcon from '../assets/homeLight.png';
 const CommunityJoined = ({ route, navigation }) => {
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
   const [joinedGroups, setJoinedGroups] = useState([]);
+  const { username } = route.params;
 
   useEffect(() => {
     fetchJoinedGroups();
@@ -253,9 +90,24 @@ const CommunityJoined = ({ route, navigation }) => {
       </View>
     );
   };
-
+  const ToHome = () => {
+    navigation.navigate("Home", { username });
+  };
+  const ToCommunity = () => {ata
+    navigation.navigate("Community", { username});
+  };
+  const ToPsychologicalSection = () => {
+    navigation.navigate("PsychologicalSection", { username });
+  };
+  const ToPhysicalSection = () => {
+    navigation.navigate("PhysicalSection", { username });
+  };
+  const ToSettings = () => {
+    navigation.navigate("Settings", { username });
+  };
   return (
-    <View
+    <>
+     <View
       style={[
         styles.container,
         { backgroundColor: isDarkMode ? "black" : "#f5f5f5" },
@@ -322,6 +174,37 @@ const CommunityJoined = ({ route, navigation }) => {
         }}
       />
     </View>
+    <View
+    style={{
+      flexDirection: "row",
+      height: 70,
+      padding: 10,
+      left: 10,
+      top: -10,
+    }}
+  >
+    <TouchableOpacity onPress={ToHome}>
+      <Image source={HomeIcon} style={{ margin: 10 }} />
+    </TouchableOpacity>
+
+    <TouchableOpacity onPress={ToCommunity}>
+      <Image source={Plus} style={{ margin: 10 }} />
+    </TouchableOpacity>
+
+    <TouchableOpacity onPress={ToPsychologicalSection}>
+      <Image source={Psycho} style={{ margin: 10,width:50,height:50 }} />
+    </TouchableOpacity>
+
+    <TouchableOpacity onPress={ToPhysicalSection}>
+      <Image source={Physical} style={{ margin: 10 }} />
+    </TouchableOpacity>
+
+    <TouchableOpacity onPress={ToSettings}>
+      <Image source={SettingsIcon} style={{ margin: 10 }} />
+    </TouchableOpacity>
+  </View>
+    </>
+   
   );
 };
 

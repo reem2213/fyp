@@ -34,9 +34,17 @@ import PhysicalSection from "./PhysicalSection/PhysicalSection";
 import PsychologicalSection from "./PsychologicalSection/PsychologicalSection";
 import MyProfile from "./MyProfile";
 import Plus from "../assets/plus.png";
+
+import Psycho from '../assets/psychologicLight.png';
+import Physical from '../assets/physicalSectionLight.png';
+import SettingsIcon from '../assets/settings.png';
+import HomeIcon from '../assets/homeLight.png';
+import CommunityLight from '../assets/communityLight.png';
+import CommunityDark from '../assets/communityDark.png';
 const Home = ({ navigation, route }) => {
   const { username } = route.params;
   const [bio, setBio] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
 
   const [imageData, setImageData] = useState(null);
 
@@ -80,116 +88,164 @@ const Home = ({ navigation, route }) => {
   };
 
   const goToProfile = () => {
-    navigation.navigate("MyProfile",{username,bio,imageData});
+    navigation.navigate("MyProfile", { username, bio, imageData });
+  };
+
+  const ToHome = () => {
+    navigation.navigate("Home", { username, bio, imageData });
+  };
+  const ToCommunity = () => {
+    navigation.navigate("Community", { username, bio, imageData });
+  };
+  const ToPsychologicalSection = () => {
+    navigation.navigate("PsychologicalSection", { username, bio, imageData });
+  };
+  const ToPhysicalSection = () => {
+    navigation.navigate("PhysicalSection", { username, bio, imageData });
+  };
+  const ToSettings = () => {
+    navigation.navigate("Settings", { username, bio, imageData });
   };
 
 
+
   return (
-    <GestureHandlerRootView style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Pressable onPress={toNotifications}>
-          <Image style={styles.notiImage} source={Noti} />
-        </Pressable>
+    <>
+      <GestureHandlerRootView style={styles.container}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Pressable onPress={toNotifications}>
+            <Image style={styles.notiImage} source={Noti} />
+          </Pressable>
 
-        <Pressable onPress={toPosts}>
-          <Image style={styles.notiImage2} source={Plus} />
-        </Pressable>
+          <Pressable onPress={toPosts}>
+            <Image style={styles.notiImage2} source={Plus} />
+          </Pressable>
 
+          <TouchableOpacity onPress={goToProfile}>
+            <WebView
+              style={styles.imagee}
+              originWhitelist={["*"]}
+              source={{
+                html: `<img src="data:image/jpeg;base64,${imageData}" style="width:250px; height:250px;margin-top:150px;" />`,
+              }}
+            />
+          </TouchableOpacity>
 
-        <TouchableOpacity onPress={goToProfile}>
-        <WebView
-          style={styles.imagee}
-          originWhitelist={["*"]}
-          source={{
-            html: `<img src="data:image/jpeg;base64,${imageData}" style="width:250px; height:250px;margin-top:150px;" />`,
-          }}
-        />
+          <Text style={styles.welcome}>{username}</Text>
+          {/* <Text style={styles.bio}>{bio}</Text> */}
+
+          <View style={styles.content}>
+            <Text style={styles.howAreYou}>How are you feeling today?</Text>
+
+            <View style={[styles.moodContainer, styles.calm]}>
+              <View style={styles.rect} />
+              <Text style={styles.moodText}>Calm</Text>
+              <Image
+                style={styles.icon}
+                source={require("../assets/calm.png")}
+              />
+            </View>
+            <View style={[styles.focusLayout]}>
+              <View style={[styles.rect1, styles.rect1Bg]} />
+              <Text style={[styles.happy1, styles.manicTypo]}>Happy</Text>
+              <Image
+                style={[styles.happyIcon, styles.iconPosition1]}
+                contentFit="cover"
+                source={require("../assets/happy.png")}
+              />
+            </View>
+            <View style={[styles.focusLayout2]}>
+              <View style={[styles.rect12, styles.rect1Bg2]} />
+              <Text style={[styles.manicTypo2]}>Sad</Text>
+              <Image
+                style={[styles.happyIcon2, styles.iconPosition12]}
+                contentFit="cover"
+                source={require("../assets/sad.png")}
+              />
+            </View>
+            <View style={[styles.focusLayout3]}>
+              <View style={[styles.rect3, styles.rect1Bg3]} />
+              <Text style={[styles.manicTypo3]}>Angry</Text>
+              <Image
+                style={[styles.happyIcon3, styles.iconPosition3]}
+                contentFit="cover"
+                source={require("../assets/angry.png")}
+              />
+            </View>
+
+            <Image source={ScreenTime} style={styles.image} />
+            <TouchableOpacity onPress={GoToGoalSection}>
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>Goal Crusher</Text>
+                <Text style={styles.sectionSubtitle}>
+                  Stay Focused, Achieve More!
+                </Text>
+                <Image source={GoalSection} style={styles.sectionImage} />
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={GoToMusicSection}>
+              <View style={styles.section2}>
+                <Text style={styles.sectionTitle2}>Music Mood Booster</Text>
+                <Text style={styles.sectionSubtitle}>
+                  Let the music lift your spirits and energize your soul!
+                </Text>
+                <Image source={MusicSection} style={styles.sectionImage} />
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={GoToFeedbackSection}>
+              <View style={styles.section3}>
+                <Text style={styles.sectionTitle}>Feedback Loop</Text>
+                <Text style={styles.sectionSubtitle}>
+                  Fueling Growth and Success!
+                </Text>
+                <Image source={FeedbackSection} style={styles.sectionImage} />
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={GoToGamificationSection}>
+              <View style={styles.section4}>
+                <Text style={styles.sectionTitle}>Gamification</Text>
+                <Text style={styles.sectionSubtitle}>
+                  Complete tasks, earn badges, level up!
+                </Text>
+                <Image source={GameSection} style={styles.sectionImage} />
+              </View>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </GestureHandlerRootView>
+      <View
+        style={{
+          flexDirection: "row",
+          height: 70,
+          padding: 10,
+          left:0,
+          top: -10,
+        }}
+      >
+        <TouchableOpacity onPress={ToHome}>
+          <Image source={HomeIcon} style={{ margin: 10 }} />
         </TouchableOpacity>
-      
-        <Text style={styles.welcome}>{username}</Text>
-        {/* <Text style={styles.bio}>{bio}</Text> */}
-       
 
-        <View style={styles.content}>
-          <Text style={styles.howAreYou}>How are you feeling today?</Text>
+        <TouchableOpacity onPress={ToCommunity}>
+          <Image source={CommunityLight} style={{ margin: 10,width:50,height:50 }} />
+        </TouchableOpacity>
 
-          <View style={[styles.moodContainer, styles.calm]}>
-            <View style={styles.rect} />
-            <Text style={styles.moodText}>Calm</Text>
-            <Image style={styles.icon} source={require("../assets/calm.png")} />
-          </View>
-          <View style={[styles.focusLayout]}>
-            <View style={[styles.rect1, styles.rect1Bg]} />
-            <Text style={[styles.happy1, styles.manicTypo]}>Happy</Text>
-            <Image
-              style={[styles.happyIcon, styles.iconPosition1]}
-              contentFit="cover"
-              source={require("../assets/happy.png")}
-            />
-          </View>
-          <View style={[styles.focusLayout2]}>
-            <View style={[styles.rect12, styles.rect1Bg2]} />
-            <Text style={[styles.manicTypo2]}>Sad</Text>
-            <Image
-              style={[styles.happyIcon2, styles.iconPosition12]}
-              contentFit="cover"
-              source={require("../assets/sad.png")}
-            />
-          </View>
-          <View style={[styles.focusLayout3]}>
-            <View style={[styles.rect3, styles.rect1Bg3]} />
-            <Text style={[styles.manicTypo3]}>Angry</Text>
-            <Image
-              style={[styles.happyIcon3, styles.iconPosition3]}
-              contentFit="cover"
-              source={require("../assets/angry.png")}
-            />
-          </View>
+        <TouchableOpacity onPress={ToPsychologicalSection}>
+          <Image source={Psycho} style={{ margin: 10,width:50,height:50 }} />
+        </TouchableOpacity>
 
-          <Image source={ScreenTime} style={styles.image} />
-          <TouchableOpacity onPress={GoToGoalSection}>
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Goal Crusher</Text>
-              <Text style={styles.sectionSubtitle}>
-                Stay Focused, Achieve More!
-              </Text>
-              <Image source={GoalSection} style={styles.sectionImage} />
-            </View>
-          </TouchableOpacity>
+        <TouchableOpacity onPress={ToPhysicalSection}>
+          <Image source={Physical} style={{ margin: 10 }} />
+        </TouchableOpacity>
 
-
-          <TouchableOpacity onPress={GoToMusicSection}>
-            <View style={styles.section2}>
-              <Text style={styles.sectionTitle2}>Music Mood Booster</Text>
-              <Text style={styles.sectionSubtitle}>
-                Let the music lift your spirits and energize your soul!
-              </Text>
-              <Image source={MusicSection} style={styles.sectionImage} />
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={GoToFeedbackSection}>
-            <View style={styles.section3}>
-              <Text style={styles.sectionTitle}>Feedback Loop</Text>
-              <Text style={styles.sectionSubtitle}>
-                Fueling Growth and Success!
-              </Text>
-              <Image source={FeedbackSection} style={styles.sectionImage} />
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={GoToGamificationSection}>
-            <View style={styles.section4}>
-              <Text style={styles.sectionTitle}>Gamification</Text>
-              <Text style={styles.sectionSubtitle}>
-                Complete tasks, earn badges, level up!
-              </Text>
-              <Image source={GameSection} style={styles.sectionImage} />
-            </View>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </GestureHandlerRootView>
+        <TouchableOpacity onPress={ToSettings}>
+          <Image source={SettingsIcon} style={{ margin: 10 }} />
+        </TouchableOpacity>
+      </View>
+    </>
   );
 };
 const Tab = createBottomTabNavigator();
@@ -332,7 +388,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "500",
     color: "#6D6D6D",
-    marginTop:50,
+    marginTop: 50,
     marginLeft: 20,
     position: "absolute",
   },
@@ -681,7 +737,6 @@ const styles = StyleSheet.create({
 //       console.log("Error while picking an image:", error);
 //     }
 //   };
-
 
 //   // Function to convert image URI to Base64
 //   const uriToBase64 = (uri) => {
