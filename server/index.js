@@ -409,9 +409,6 @@ const GroupSchema = new mongoose.Schema({
   status: String
 
 });
-
-
-
 const Member = mongoose.model('Member', MemberSchema);
 const Group = mongoose.model('Group', GroupSchema);
 
@@ -433,22 +430,48 @@ app.get('/groups', async (req, res) => {
 });
 
 
+// app.post('/groups/:id/join', async (req, res) => {
+//   try {
+//     const group = await Group.findById(req.params.id);
+//     if (!group) {
+//       return res.status(404).send({ message: 'Group not found' });
+//     }
+//     const { userId } = req.body;
+//     console.log(`Joining group: ${group.name} with userId: ${userId}`);
+    
+//     if (!group.members.includes(userId)) {
+//       group.members.push(userId);
+//       group.status = 'joined'; // Set the status to 'joined'
+//       await group.save();
+//       console.log(`User ${userId} successfully joined group ${group.name}`);
+//     } else {
+//       console.log(`User ${userId} already a member of group ${group.name}`);
+//     }
+//     res.send(group);
+//   } catch (error) {
+//     console.error('Error joining group:', error);
+//     res.status(500).send({ message: 'Failed to join group', error });
+//   }
+// });
+
+
+
 app.post('/groups/:id/join', async (req, res) => {
   try {
     const group = await Group.findById(req.params.id);
     if (!group) {
       return res.status(404).send({ message: 'Group not found' });
     }
-    const { userId } = req.body;
-    console.log(`Joining group: ${group.name} with userId: ${userId}`);
+    const { username } = req.body;
+    console.log(`Joining group: ${group.name} with username: ${username}`);
     
-    if (!group.members.includes(userId)) {
-      group.members.push(userId);
-      group.status = 'joined'; // Set the status to 'joined'
+    if (!group.members.includes(username)) {
+      group.members.push(username);
+      group.status = 'joined';
       await group.save();
-      console.log(`User ${userId} successfully joined group ${group.name}`);
+      console.log(`User ${username} successfully joined group ${group.name}`);
     } else {
-      console.log(`User ${userId} already a member of group ${group.name}`);
+      console.log(`User ${username} already a member of group ${group.name}`);
     }
     res.send(group);
   } catch (error) {
