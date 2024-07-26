@@ -13,7 +13,7 @@ import SignIn from "./screens/SignIn";
 import ProfileTest from "./screens/ProfileTest";
 import ShowUserInfo from "./components/ShowUserInfo";
 import Feedback from "./screens/FeedbackSection";
-import Community from "./screens/Community";
+import Community from "./screens/CommunitiesJoined.jsx";
 import Communities from "./screens/PsychologicalSection/Community/Community.jsx";
 import MyProfile from "./screens/MyProfile";
 import PhysicalSection from "./screens/PhysicalSection/PhysicalSection.jsx";

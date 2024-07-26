@@ -13,10 +13,10 @@ import BlueEllipse from "../assets/blueEllipse.png";
 import { DarkModeContext } from "../components/DarkModeContext"; // Import the context
 import Plus from "../assets/plus.png";
 
-import Psycho from '../assets/psychologicLight.png';
-import Physical from '../assets/physicalSectionLight.png';
-import SettingsIcon from '../assets/settings.png';
-import HomeIcon from '../assets/homeLight.png';
+import Psycho from "../assets/psychologicLight.png";
+import Physical from "../assets/physicalSectionLight.png";
+import SettingsIcon from "../assets/settings.png";
+import HomeIcon from "../assets/homeLight.png";
 const CommunityJoined = ({ route, navigation }) => {
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
   const [joinedGroups, setJoinedGroups] = useState([]);
@@ -49,6 +49,13 @@ const CommunityJoined = ({ route, navigation }) => {
             { backgroundColor: isDarkMode ? "gray" : "#fff" },
           ]}
         >
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Chat", { groupId: item._id, username })
+            }
+          >
+            <Text style={styles.groupName}>{item.name}</Text>
+          </TouchableOpacity>
           <Text
             style={[
               styles.groupName,
@@ -93,8 +100,9 @@ const CommunityJoined = ({ route, navigation }) => {
   const ToHome = () => {
     navigation.navigate("Home", { username });
   };
-  const ToCommunity = () => {ata
-    navigation.navigate("Community", { username});
+  const ToCommunity = () => {
+    ata;
+    navigation.navigate("Community", { username });
   };
   const ToPsychologicalSection = () => {
     navigation.navigate("PsychologicalSection", { username });
@@ -107,104 +115,108 @@ const CommunityJoined = ({ route, navigation }) => {
   };
   return (
     <>
-     <View
-      style={[
-        styles.container,
-        { backgroundColor: isDarkMode ? "black" : "#f5f5f5" },
-      ]}
-    >
-      <Image
-        source={BlueEllipse}
-        style={{
-          width: 120,
-          height: 120,
-          left: 300,
-          top: -40,
-          position: "absolute",
-        }}
-      />
-      <Text
-        style={[styles.header, { color: isDarkMode ? "white" : "#032B79" }]}
+      <View
+        style={[
+          styles.container,
+          { backgroundColor: isDarkMode ? "black" : "#f5f5f5" },
+        ]}
       >
-        Communities
-      </Text>
-      
-      {joinedGroups.length > 0 ? (
-        <>
-          <FlatList
-            data={joinedGroups.filter((_, index) => index % 2 === 0)}
-            keyExtractor={(item, index) => `row-${index}`}
-            renderItem={renderGroupPair}
-            contentContainerStyle={styles.listContent}
-          />
-          
-        </>
-      ) : (
-        <View style={styles.noGroupsContainer}>
-          <Text
-            style={[
-              styles.noGroupsText,
-              { color: isDarkMode ? "white" : "#032B79" },
-            ]}
-          >
-            No communities joined yet
-          </Text>
-          <Text
-            style={[
-              styles.exploreText,
-              { color: isDarkMode ? "#ccc" : "#888" },
-            ]}
-          >
-            Start exploring and join communities to engage with like-minded
-            individuals.
-          </Text>
-          <TouchableOpacity style={styles.joinButton} onPress={goToCommunities}>
-            <Text style={styles.joinButtonText}>Join Now</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-      <Image
-        source={BlueEllipse}
+        <Image
+          source={BlueEllipse}
+          style={{
+            width: 120,
+            height: 120,
+            left: 300,
+            top: -40,
+            position: "absolute",
+          }}
+        />
+        <Text
+          style={[styles.header, { color: isDarkMode ? "white" : "#032B79" }]}
+        >
+          Communities
+        </Text>
+
+        {joinedGroups.length > 0 ? (
+          <>
+            <FlatList
+              data={joinedGroups.filter((_, index) => index % 2 === 0)}
+              keyExtractor={(item, index) => `row-${index}`}
+              renderItem={renderGroupPair}
+              contentContainerStyle={styles.listContent}
+            />
+          </>
+        ) : (
+          <View style={styles.noGroupsContainer}>
+            <Text
+              style={[
+                styles.noGroupsText,
+                { color: isDarkMode ? "white" : "#032B79" },
+              ]}
+            >
+              No communities joined yet
+            </Text>
+            <Text
+              style={[
+                styles.exploreText,
+                { color: isDarkMode ? "#ccc" : "#888" },
+              ]}
+            >
+              Start exploring and join communities to engage with like-minded
+              individuals.
+            </Text>
+            <TouchableOpacity
+              style={styles.joinButton}
+              onPress={goToCommunities}
+            >
+              <Text style={styles.joinButtonText}>Join Now</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+        <Image
+          source={BlueEllipse}
+          style={{
+            width: 120,
+            height: 120,
+            left: -50,
+            bottom: 0,
+            position: "absolute",
+          }}
+        />
+      </View>
+      <View
         style={{
-          width: 120,
-          height: 120,
-          left: -50,
-          bottom: 0,
-          position: "absolute",
+          flexDirection: "row",
+          height: 70,
+          padding: 10,
+          left: 10,
+          top: -10,
         }}
-      />
-    </View>
-    <View
-    style={{
-      flexDirection: "row",
-      height: 70,
-      padding: 10,
-      left: 10,
-      top: -10,
-    }}
-  >
-    <TouchableOpacity onPress={ToHome}>
-      <Image source={HomeIcon} style={{ margin: 10 }} />
-    </TouchableOpacity>
+      >
+        <TouchableOpacity onPress={ToHome}>
+          <Image source={HomeIcon} style={{ margin: 10 }} />
+        </TouchableOpacity>
 
-    <TouchableOpacity onPress={ToCommunity}>
-      <Image source={Plus} style={{ margin: 10 }} />
-    </TouchableOpacity>
+        <TouchableOpacity onPress={ToCommunity}>
+          <Image source={Plus} style={{ margin: 10 }} />
+        </TouchableOpacity>
 
-    <TouchableOpacity onPress={ToPsychologicalSection}>
-      <Image source={Psycho} style={{ margin: 10,width:50,height:50 }} />
-    </TouchableOpacity>
+        <TouchableOpacity onPress={ToPsychologicalSection}>
+          <Image
+            source={Psycho}
+            style={{ margin: 10, width: 50, height: 50 }}
+          />
+        </TouchableOpacity>
 
-    <TouchableOpacity onPress={ToPhysicalSection}>
-      <Image source={Physical} style={{ margin: 10 }} />
-    </TouchableOpacity>
+        <TouchableOpacity onPress={ToPhysicalSection}>
+          <Image source={Physical} style={{ margin: 10 }} />
+        </TouchableOpacity>
 
-    <TouchableOpacity onPress={ToSettings}>
-      <Image source={SettingsIcon} style={{ margin: 10 }} />
-    </TouchableOpacity>
-  </View>
+        <TouchableOpacity onPress={ToSettings}>
+          <Image source={SettingsIcon} style={{ margin: 10 }} />
+        </TouchableOpacity>
+      </View>
     </>
-   
   );
 };
 

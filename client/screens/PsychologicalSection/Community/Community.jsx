@@ -11,10 +11,11 @@ import {
 import axios from "axios";
 import BlueEllipse from "../../../assets/blueEllipse.png";
 import Back from "../../../assets/arrowBack.png";
-export default function GroupsScreen({ navigation }) {
+export default function GroupsScreen({ navigation,route }) {
   const [groups, setGroups] = useState([]);
   const [joinedGroups, setJoinedGroups] = useState([]);
-  const userId = "user1";
+  const {username}= route.params
+  // const userId = "user1";
 
   useEffect(() => {
     fetchGroups();
@@ -22,24 +23,19 @@ export default function GroupsScreen({ navigation }) {
 
   const fetchGroups = async () => {
     try {
+
       const response = await axios.get("http://10.0.0.21:3001/groups");
       setGroups(response.data);
     } catch (error) {
       console.error(error);
     }
   };
-
   const joinGroup = async (groupId) => {
-    // if (joinedGroups.some((group) => group._id === groupId)) {
-    //   Alert.alert("Info", "You have already joined this group");
-    //   return;
-    // }
-
     try {
       const response = await axios.post(
         `http://10.0.0.21:3001/groups/${groupId}/join`,
         {
-          userId,
+          username,
         }
       );
       Alert.alert("Success", `You have joined ${response.data.name}`);
@@ -53,12 +49,42 @@ export default function GroupsScreen({ navigation }) {
         ...prevJoinedGroups,
         updatedGroup,
       ]);
-      navigation.navigate("Chat", { groupId });
+      navigation.navigate("Chat", { groupId, username });
     } catch (error) {
       console.error(error);
       Alert.alert("Error", "Failed to join the group");
     }
   };
+  // const joinGroup = async (groupId) => {
+  //   // if (joinedGroups.some((group) => group._id === groupId)) {
+  //   //   Alert.alert("Info", "You have already joined this group");
+  //   //   return;
+  //   // }
+
+  //   try {
+  //     const response = await axios.post(
+  //       `http://10.0.0.21:3001/groups/${groupId}/join`,
+  //       {
+  //         userId,
+  //       }
+  //     );
+  //     Alert.alert("Success", `You have joined ${response.data.name}`);
+  //     const updatedGroup = response.data;
+  //     setGroups((prevGroups) =>
+  //       prevGroups.map((group) =>
+  //         group._id === groupId ? updatedGroup : group
+  //       )
+  //     );
+  //     setJoinedGroups((prevJoinedGroups) => [
+  //       ...prevJoinedGroups,
+  //       updatedGroup,
+  //     ]);
+  //     navigation.navigate("Chat", { groupId });
+  //   } catch (error) {
+  //     console.error(error);
+  //     Alert.alert("Error", "Failed to join the group");
+  //   }
+  // };
   const BackToPsycho = () => {
     navigation.navigate("PsychologicalSection");
   };

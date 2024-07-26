@@ -288,8 +288,9 @@ import PsychoImage from "../../assets/psychoSection.png";
 import WhiteArrowBack from '../../assets/whiteArrowBack.png'
 import { DarkModeContext } from "../../components/DarkModeContext"; // Assuming your DarkModeContext is properly defined
 
-const Home = ({ navigation }) => {
+const Home = ({ navigation,route }) => {
   const { isDarkMode } = useContext(DarkModeContext);
+  const {username}=route.params
 
   const GoBack = () => {
     navigation.navigate("Home");
@@ -300,7 +301,7 @@ const Home = ({ navigation }) => {
   };
 
   const GoToCommunitiesSection = () => {
-    navigation.navigate("Communities");
+  navigation.navigate("Communities",{username});
   };
 
   const GoToMentorsSection = () => {

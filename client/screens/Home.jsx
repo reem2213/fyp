@@ -28,7 +28,7 @@ import UserLight from "../assets/userLight.png";
 import UserDark from "../assets/userDark.png";
 import CommDark from "../assets/communityDark.png";
 import CommLight from "../assets/communityLight.png";
-import Community from "./Community";
+import Community from "./CommunitiesJoined";
 import Settings from "./Settings";
 import PhysicalSection from "./PhysicalSection/PhysicalSection";
 import PsychologicalSection from "./PsychologicalSection/PsychologicalSection";
