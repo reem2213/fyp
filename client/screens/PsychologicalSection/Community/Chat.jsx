@@ -39,7 +39,8 @@ export default function ChatScreen({ route, navigation }) {
         text,
       });
       setMessages(response.data.messages);
-      setText('');
+      setText('')
+      console.log('to dbb')
     } catch (error) {
       console.error(error);
     }
@@ -56,16 +57,6 @@ export default function ChatScreen({ route, navigation }) {
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Chat</Text>
       </View>
-      {/* <FlatList
-        data={messages}
-        keyExtractor={(item) => item._id}
-        renderItem={({ item }) => (
-          <View style={styles.messageCard}>
-            <Text style={styles.messageText}>{item.text}</Text>
-          </View>
-        )}
-        contentContainerStyle={styles.messagesContainer}
-      /> */}
        <FlatList
       data={messages}
       keyExtractor={(item) => item._id}

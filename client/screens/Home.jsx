@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
+import { DarkModeContext } from "../components/DarkModeContext"; // Import the context
+
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { WebView } from "react-native-webview";
 import Noti from "../assets/notification.png";
@@ -35,16 +37,17 @@ import PsychologicalSection from "./PsychologicalSection/PsychologicalSection";
 import MyProfile from "./MyProfile";
 import Plus from "../assets/plus.png";
 
-import Psycho from '../assets/psychologicLight.png';
-import Physical from '../assets/physicalSectionLight.png';
-import SettingsIcon from '../assets/settings.png';
-import HomeIcon from '../assets/homeLight.png';
-import CommunityLight from '../assets/communityLight.png';
-import CommunityDark from '../assets/communityDark.png';
+import Psycho from "../assets/psychologicLight.png";
+import Physical from "../assets/physicalSectionLight.png";
+import SettingsIcon from "../assets/settings.png";
+import HomeIcon from "../assets/homeLight.png";
+import CommunityLight from "../assets/communityLight.png";
+import CommunityDark from "../assets/communityDark.png";
 const Home = ({ navigation, route }) => {
   const { username } = route.params;
   const [bio, setBio] = useState("");
   const [isFocused, setIsFocused] = useState(false);
+  const { isDarkMode } = useContext(DarkModeContext); // Use the context
 
   const [imageData, setImageData] = useState(null);
 
@@ -107,11 +110,14 @@ const Home = ({ navigation, route }) => {
     navigation.navigate("Settings", { username, bio, imageData });
   };
 
-
-
   return (
     <>
-      <GestureHandlerRootView style={styles.container}>
+      <GestureHandlerRootView
+        style={[
+          styles.container,
+          { backgroundColor: isDarkMode ? "black" : "#fff" },
+        ]}
+      >
         <ScrollView showsVerticalScrollIndicator={false}>
           <Pressable onPress={toNotifications}>
             <Image style={styles.notiImage} source={Noti} />
@@ -121,17 +127,20 @@ const Home = ({ navigation, route }) => {
             <Image style={styles.notiImage2} source={Plus} />
           </Pressable>
 
-          <TouchableOpacity onPress={goToProfile}>
-            <WebView
-              style={styles.imagee}
-              originWhitelist={["*"]}
-              source={{
-                html: `<img src="data:image/jpeg;base64,${imageData}" style="width:250px; height:250px;margin-top:150px;" />`,
-              }}
-            />
-          </TouchableOpacity>
+          <View style={[{width:"70%",top:-100}, { backgroundColor: isDarkMode ? "black" : "#fff" }]}>
+            <TouchableOpacity onPress={goToProfile}>
+              <WebView
+                style={[styles.imagee, { backgroundColor: isDarkMode ? "black" : "#fff" }]}
+                originWhitelist={["*"]}
+                source={{
+                  html: `<img src="data:image/jpeg;base64,${imageData}" style="width:250px; height:250px;margin-top:150px;" />`,
+                }}
+              />
+            </TouchableOpacity>
 
-          <Text style={styles.welcome}>{username}</Text>
+            <Text style={styles.welcome}>{username}</Text>
+          </View>
+
           {/* <Text style={styles.bio}>{bio}</Text> */}
 
           <View style={styles.content}>
@@ -217,24 +226,33 @@ const Home = ({ navigation, route }) => {
         </ScrollView>
       </GestureHandlerRootView>
       <View
-        style={{
-          flexDirection: "row",
-          height: 70,
-          padding: 10,
-          left:0,
-          top: -10,
-        }}
+        style={[
+          {
+            flexDirection: "row",
+            height: 70,
+            padding: 10,
+            left: 0,
+            paddingTop: -10,
+          },
+          { backgroundColor: isDarkMode ? "gray" : "#fff" },
+        ]}
       >
         <TouchableOpacity onPress={ToHome}>
           <Image source={HomeIcon} style={{ margin: 10 }} />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={ToCommunity}>
-          <Image source={CommunityLight} style={{ margin: 10,width:50,height:50 }} />
+          <Image
+            source={CommunityLight}
+            style={{ margin: 10, width: 50, height: 50 }}
+          />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={ToPsychologicalSection}>
-          <Image source={Psycho} style={{ margin: 10,width:50,height:50 }} />
+          <Image
+            source={Psycho}
+            style={{ margin: 10, width: 50, height: 50 }}
+          />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={ToPhysicalSection}>
@@ -388,7 +406,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "500",
     color: "#6D6D6D",
-    marginTop: 50,
+    marginTop: -50,
     marginLeft: 20,
     position: "absolute",
   },
@@ -396,7 +414,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 10,
-    marginTop: 90,
+    marginTop: 0,
   },
   rect: {
     width: 59,
@@ -421,7 +439,7 @@ const styles = StyleSheet.create({
   focusLayout: {
     width: 59,
     height: 84,
-    top: 95,
+    top: 5,
     left: 100,
     position: "absolute",
   },
@@ -450,7 +468,7 @@ const styles = StyleSheet.create({
   focusLayout2: {
     width: 59,
     height: 84,
-    top: 145,
+    top: 55,
     left: 100,
     position: "absolute",
   },
@@ -478,7 +496,7 @@ const styles = StyleSheet.create({
   focusLayout3: {
     width: 59,
     height: 84,
-    top: 145,
+    top: 55,
     left: 180,
     position: "absolute",
   },

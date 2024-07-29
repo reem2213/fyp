@@ -54,8 +54,7 @@ const CommunityJoined = ({ route, navigation }) => {
               navigation.navigate("Chat", { groupId: item._id, username })
             }
           >
-            <Text style={styles.groupName}>{item.name}</Text>
-          </TouchableOpacity>
+        
           <Text
             style={[
               styles.groupName,
@@ -70,6 +69,7 @@ const CommunityJoined = ({ route, navigation }) => {
               { color: isDarkMode ? "#ccc" : "#888" },
             ]}
           >{`${item.members?.length || 0} participants`}</Text>
+            </TouchableOpacity>
         </View>
         {secondItem && (
           <View
@@ -290,3 +290,5 @@ const styles = StyleSheet.create({
 });
 
 export default CommunityJoined;
+
+
