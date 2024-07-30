@@ -186,7 +186,7 @@ export default function App() {
             }}
           />
 
-<Stack.Screen
+          <Stack.Screen
             name="EditProfile"
             component={EditProfile}
             options={{
@@ -385,6 +385,7 @@ export default function App() {
               headerShown: false,
             }}
           />
+          
         </Stack.Navigator>
       </NavigationContainer>
     </DarkModeProvider>

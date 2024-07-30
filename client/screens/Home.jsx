@@ -43,16 +43,81 @@ import SettingsIcon from "../assets/settings.png";
 import HomeIcon from "../assets/homeLight.png";
 import CommunityLight from "../assets/communityLight.png";
 import CommunityDark from "../assets/communityDark.png";
+
+import { LineChart, BarChart } from "react-native-chart-kit";
+import { Dimensions } from "react-native";
+const screenWidth = Dimensions.get("window").width;
+
+const SccreenTime = () => {
+  const [screenTimeData, setScreenTimeData] = useState({
+    goal: 0,
+    music: 0,
+    game: 0,
+    feedback: 0,
+  });
+
+ 
+  useEffect(() => {
+    const fetchTimeData = () => {
+      setScreenTimeData({
+        goal: 120, // in minutes
+        music: 90,
+        game: 150,
+        feedback: 60,
+      });
+    };
+
+    fetchTimeData();
+  }, []);
+
+  return (
+    <View>
+      <BarChart
+        data={{
+          labels: ["Goal", "Music", "Game", "Feedback"],
+          datasets: [
+            {
+              data: [
+                screenTimeData.goal,
+                screenTimeData.music,
+                screenTimeData.game,
+                screenTimeData.feedback,
+              ],
+            },
+          ],
+        }}
+        width={screenWidth - 16}
+        height={220}
+        yAxisLabel=""
+        chartConfig={{
+          backgroundColor: "white",
+          backgroundGradientFrom: "blue",
+          backgroundGradientTo: "gray",
+          decimalPlaces: 2,
+          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+          style: {
+            borderRadius: 16,
+          },
+        }}
+        style={{
+          marginVertical: 8,
+          borderRadius: 16,
+          marginTop: 50,
+          marginLeft: -10,
+        }}
+      />
+    </View>
+  );
+};
 const Home = ({ navigation, route }) => {
   const { username } = route.params;
   const [bio, setBio] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
-
   const [imageData, setImageData] = useState(null);
 
   useEffect(() => {
-    fetch(`http://10.0.0.21:3001/userr/${username}`) // Replace with your server URL
+    fetch(`http://10.0.0.21:3001/userr/${username}`) 
       .then((response) => response.json())
       .then((data) => {
         setBio(data.bio);
@@ -73,7 +138,7 @@ const Home = ({ navigation, route }) => {
   };
 
   const toPosts = () => {
-    navigation.navigate("Post");
+    navigation.navigate("Screen2");
   };
   const GoToFeedbackSection = () => {
     navigation.navigate("Feedback");
@@ -127,10 +192,18 @@ const Home = ({ navigation, route }) => {
             <Image style={styles.notiImage2} source={Plus} />
           </Pressable>
 
-          <View style={[{width:"70%",top:-100}, { backgroundColor: isDarkMode ? "black" : "#fff" }]}>
+          <View
+            style={[
+              { width: "70%", top: -100 },
+              { backgroundColor: isDarkMode ? "black" : "#fff" },
+            ]}
+          >
             <TouchableOpacity onPress={goToProfile}>
               <WebView
-                style={[styles.imagee, { backgroundColor: isDarkMode ? "black" : "#fff" }]}
+                style={[
+                  styles.imagee,
+                  { backgroundColor: isDarkMode ? "black" : "#fff" },
+                ]}
                 originWhitelist={["*"]}
                 source={{
                   html: `<img src="data:image/jpeg;base64,${imageData}" style="width:250px; height:250px;margin-top:150px;" />`,
@@ -141,7 +214,6 @@ const Home = ({ navigation, route }) => {
             <Text style={styles.welcome}>{username}</Text>
           </View>
 
-          {/* <Text style={styles.bio}>{bio}</Text> */}
 
           <View style={styles.content}>
             <Text style={styles.howAreYou}>How are you feeling today?</Text>
@@ -182,7 +254,8 @@ const Home = ({ navigation, route }) => {
               />
             </View>
 
-            <Image source={ScreenTime} style={styles.image} />
+            <SccreenTime />
+
             <TouchableOpacity onPress={GoToGoalSection}>
               <View style={styles.section}>
                 <Text style={styles.sectionTitle}>Goal Crusher</Text>
@@ -266,98 +339,6 @@ const Home = ({ navigation, route }) => {
     </>
   );
 };
-const Tab = createBottomTabNavigator();
-
-function MyTabs() {
-  const [isFocused, setIsFocused] = useState(false);
-
-  const CustomTabBarIcon = ({ focused, iconLight, iconDark }) => (
-    <Image
-      source={focused ? iconDark : iconLight}
-      style={{ width: 35, height: 35 }}
-    />
-  );
-  return (
-    <Tab.Navigator>
-      <Tab.Screen
-        name="Home"
-        component={Home}
-        options={{
-          tabBarShowLabel: false,
-          headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <CustomTabBarIcon
-              focused={focused}
-              iconLight={HomeLight}
-              iconDark={HomeDark}
-            />
-          ),
-        }}
-      />
-
-      <Tab.Screen
-        name="Community"
-        component={Community}
-        options={{
-          tabBarShowLabel: false,
-          headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <CustomTabBarIcon
-              focused={focused}
-              iconLight={CommLight}
-              iconDark={CommDark}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="PhysicalSection"
-        component={PhysicalSection}
-        options={{
-          tabBarShowLabel: false,
-          headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <CustomTabBarIcon
-              focused={focused}
-              iconLight={PhysicalLight}
-              iconDark={PhysicalDark}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="PsychologicalSection"
-        component={PsychologicalSection}
-        options={{
-          tabBarShowLabel: false,
-          headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <CustomTabBarIcon
-              focused={focused}
-              iconLight={PsycoLight}
-              iconDark={PsycoDark}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Settings"
-        component={Settings}
-        options={{
-          tabBarShowLabel: false,
-          headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <CustomTabBarIcon
-              focused={focused}
-              iconLight={UserLight}
-              iconDark={UserDark}
-            />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
-}
 
 export default Home;
 const styles = StyleSheet.create({
@@ -689,139 +670,3 @@ const styles = StyleSheet.create({
     left: 10,
   },
 });
-
-// import React, { useState ,useEffect} from 'react';
-// import { View, Button, Image, StyleSheet, Alert } from 'react-native';
-// import { launchImageLibrary } from 'react-native-image-picker';
-// import * as FileSystem from "expo-file-system";
-// import * as ImagePicker from "expo-image-picker";
-
-// const imgDir = FileSystem.documentDirectory + "/images";
-
-// const UploadImage = () => {
-//   const [image, setImageUri] = useState(null);
-
-//   const ensureDirExists = async () => {
-//     const dirInfo = await FileSystem.getInfoAsync(imgDir);
-
-//     if (!dirInfo.exists) {
-//       await FileSystem.makeDirectoryAsync(imgDir, { intermediates: true });
-//     }
-//   };
-
-//   useEffect(() => {
-//     ensureDirExists();
-//   }, []);
-//   // Function to choose an image from the gallery
-//   const chooseImage =async (useLibrary) => {
-//     try {
-//       await ensureDirExists();
-
-//       let result;
-
-//       if (useLibrary) {
-//         const options = {
-//           mediaTypes: ImagePicker.MediaTypeOptions.Images,
-//           allowsEditing: true,
-//           aspect: [4, 3],
-//           quality: 1,
-//         };
-//         result = await ImagePicker.launchImageLibraryAsync(options);
-//       } else {
-//         const permissionResult =
-//           await ImagePicker.requestCameraPermissionsAsync();
-
-//         if (!permissionResult.granted) {
-//           alert("Permission denied to access camera!");
-//           return;
-//         }
-
-//         result = await ImagePicker.launchCameraAsync({
-//           mediaTypes: ImagePicker.MediaTypeOptions.Images,
-//           allowsEditing: true,
-//           aspect: [4, 3],
-//           quality: 1,
-//         });
-//       }
-
-//       if (!result.cancelled) {
-//         const uri = result.assets[0].uri;
-//         setImageUri(uri);
-//         saveImage(uri);
-//       } else {
-//         alert("You did not select any image.");
-//       }
-//     } catch (error) {
-//       console.log("Error while picking an image:", error);
-//     }
-//   };
-
-//   // Function to convert image URI to Base64
-//   const uriToBase64 = (uri) => {
-//     return new Promise((resolve, reject) => {
-//       fetch(uri)
-//         .then(response => response.blob())
-//         .then(blob => {
-//           const reader = new FileReader();
-//           reader.onloadend = () => {
-//             const base64data = reader.result.split(',')[1];
-//             resolve(base64data);
-//           };
-//           reader.readAsDataURL(blob);
-//         })
-//         .catch(error => reject(error));
-//     });
-//   };
-
-//   // Function to upload the image to the server
-//   const uploadImage = async () => {
-//     if (!image) {
-//       Alert.alert('No image selected');
-//       return;
-//     }
-
-//     try {
-//       const response = await fetch('http://10.0.0.21:3001/upload', {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({ image: image }),
-//       });
-
-//       if (!response.ok) {
-//         throw new Error('Network response was not ok');
-//       }
-
-//       const result = await response.json();
-//       console.log(result);
-//       Alert.alert('Image uploaded successfully');
-//     } catch (error) {
-//       console.error('Error uploading image:', error);
-//       Alert.alert('Error uploading image');
-//     }
-//   };
-
-//   return (
-//     <View style={styles.container}>
-//       <Button title="Choose Image" onPress={chooseImage} />
-//       {image && <Image source={{ uri: image }} style={styles.image} />}
-//       <Button title="Upload Image" onPress={uploadImage} />
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//   },
-//   image: {
-//     width: 100,
-//     height: 100,
-//     marginVertical: 10,
-//   },
-// });
-
-// export default UploadImage;
