@@ -47,68 +47,123 @@ import CommunityDark from "../assets/communityDark.png";
 import { LineChart, BarChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
 const screenWidth = Dimensions.get("window").width;
+const SccreenTime = ({ screenTimeData }) => {
+  // const chartData = {
+  //       labels: ["Goal", "Music", "Game", "Feedback"],
+  //   datasets: [
+  //     {
+  //       data: [
+  //         screenTimeData.goal || 0,
+  //         screenTimeData.music || 0,
+  //         screenTimeData.game || 0,
+  //         screenTimeData.feedback || 0,
+  //       ],
+  //     },
+  //   ],
+  // };
 
-const SccreenTime = () => {
-  const [screenTimeData, setScreenTimeData] = useState({
-    goal: 0,
-    music: 0,
-    game: 0,
-    feedback: 0,
-  });
+  // return (
+  //   <BarChart
+  //     data={chartData}
+  //     width={screenWidth - 16}
+  //     height={220}
+  //     yAxisLabel=""
+  //     yAxisSuffix=""
+  //     yLabelsOffset={8}
+  //     fromZero={true}
+  //     chartConfig={{
+  //       backgroundColor: "white",
+  //       backgroundGradientFrom: "blue",
+  //       backgroundGradientTo: "gray",
+  //       decimalPlaces: 0,
+  //       color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+  //       style: {
+  //         borderRadius: 16,
+  //       },
+  //       propsForBackgroundLines: {
+  //         strokeDasharray: "", // Solid background lines
+  //         strokeWidth: 1,
+  //         stroke: "rgba(255, 255, 255, 0.2)",
+  //       },
+  //       formatYLabel: (yValue) => `${yValue}s`, // Apply 's' suffix to each label
+  //     }}
+  //     verticalLabelRotation={0}
+  //     style={{
+  //       marginVertical: 8,
+  //       borderRadius: 16,
+  //       marginTop: 50,
+  //       marginLeft: -10,
+  //     }}
+  //     yAxisInterval={1} // Set y-axis interval
+  //     showBarTops={true}
+  //     yAxisMinValue={0} // Force min y-axis value
+  //     yAxisMaxValue={90} // Force max y-axis value
+  //   />
+  // );
 
- 
-  useEffect(() => {
-    const fetchTimeData = () => {
-      setScreenTimeData({
-        goal: 120, // in minutes
-        music: 90,
-        game: 150,
-        feedback: 60,
-      });
-    };
-
-    fetchTimeData();
-  }, []);
-
-  return (
-    <View>
-      <BarChart
-        data={{
-          labels: ["Goal", "Music", "Game", "Feedback"],
-          datasets: [
-            {
-              data: [
-                screenTimeData.goal,
-                screenTimeData.music,
-                screenTimeData.game,
-                screenTimeData.feedback,
-              ],
-            },
+    // Create chart data in seconds
+    const chartData = {
+      labels: ["Goal", "Music", "Game", "Feedback"],
+      datasets: [
+        {
+          data: [
+            screenTimeData.goal || 0,
+            screenTimeData.music || 0,
+            screenTimeData.game || 0,
+            screenTimeData.feedback || 0,
           ],
-        }}
+        },
+      ],
+    };
+  
+    return (
+      <BarChart
+        data={chartData}
         width={screenWidth - 16}
         height={220}
         yAxisLabel=""
+        yAxisSuffix=""
+        yLabelsOffset={8}
+        fromZero={true}
         chartConfig={{
           backgroundColor: "white",
           backgroundGradientFrom: "blue",
           backgroundGradientTo: "gray",
-          decimalPlaces: 2,
+          decimalPlaces: 0,
           color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
           style: {
             borderRadius: 16,
           },
+          propsForBackgroundLines: {
+            strokeDasharray: "", // Solid background lines
+            strokeWidth: 1,
+            stroke: "rgba(255, 255, 255, 0.2)",
+          },
+          formatYLabel: (yValue) => {
+            const value = Number(yValue);
+            if (!isNaN(value)) {
+              return value > 60 
+                ? `${(value / 60).toFixed(1)}min` // Convert to minutes if > 60 seconds
+                : `${value}s`; // Otherwise, show in seconds
+            }
+            return '0s'; // Fallback for invalid values
+          },
         }}
+        verticalLabelRotation={0}
         style={{
           marginVertical: 8,
           borderRadius: 16,
           marginTop: 50,
           marginLeft: -10,
         }}
+        yAxisInterval={1} // Set y-axis interval
+        showBarTops={true}
+        yAxisMinValue={0} // Force min y-axis value
+        yAxisMaxValue={90} // Force max y-axis value
       />
-    </View>
-  );
+    );
 };
+
 const Home = ({ navigation, route }) => {
   const { username } = route.params;
   const [bio, setBio] = useState("");
@@ -117,7 +172,7 @@ const Home = ({ navigation, route }) => {
   const [imageData, setImageData] = useState(null);
 
   useEffect(() => {
-    fetch(`http://10.0.0.21:3001/userr/${username}`) 
+    fetch(`http://10.0.0.21:3001/userr/${username}`)
       .then((response) => response.json())
       .then((data) => {
         setBio(data.bio);
@@ -132,6 +187,94 @@ const Home = ({ navigation, route }) => {
   const screen2 = () => {
     navigation.navigate("Screen2");
   };
+  const [screenTimeData, setScreenTimeData] = useState({
+    goal: 0,
+    music: 0,
+    game: 0,
+    feedback: 0,
+  });
+  const [startTime, setStartTime] = useState(null);
+  const [currentSection, setCurrentSection] = useState(null);
+
+  useEffect(() => {
+    const updateTime = () => {
+      if (startTime && currentSection) {
+        const elapsedTime = Math.floor((Date.now() - startTime) / 1000); // Convert to seconds
+        console.log(
+          `Updating time for ${currentSection}: ${elapsedTime} seconds`
+        );
+        setScreenTimeData((prevData) => ({
+          ...prevData,
+          [currentSection]: prevData[currentSection] + elapsedTime,
+        }));
+        setStartTime(Date.now());
+      }
+    };
+
+    const timer = setInterval(updateTime, 1000); // Update every second
+
+    return () => clearInterval(timer);
+  }, [startTime, currentSection]);
+
+  const startTracking = (section) => {
+    if (currentSection) {
+      updateTime();
+    }
+    console.log(`Starting tracking for ${section}`);
+    setCurrentSection(section);
+    setStartTime(Date.now());
+  };
+
+  const stopTracking = () => {
+    updateTime();
+    console.log(`Stopping tracking for ${currentSection}`);
+    setCurrentSection(null);
+    setStartTime(null);
+  };
+
+  // const updateTime = () => {
+  //   if (startTime && currentSection) {
+  //     const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+  //     console.log(
+  //       `Updating time for ${currentSection}: ${elapsedTime} seconds`
+  //     );
+  //     setScreenTimeData((prevData) => ({
+  //       ...prevData,
+  //       [currentSection]: prevData[currentSection] + elapsedTime,
+  //     }));
+  //   }
+  // };
+  const updateTime = () => {
+    if (startTime && currentSection) {
+      const elapsedTime = Math.floor((Date.now() - startTime) / 1000); // Convert to seconds
+      const elapsedMinutes = Math.floor(elapsedTime / 60); // Convert to minutes
+      const remainingSeconds = elapsedTime % 60; // Remaining seconds
+  
+      console.log(`Updating time for ${currentSection}: ${elapsedMinutes}m ${remainingSeconds}s`);
+  
+      setScreenTimeData((prevData) => ({
+        ...prevData,
+        [currentSection]: prevData[currentSection] + elapsedMinutes + remainingSeconds / 60, // Add minutes and fraction of minutes
+      }));
+      setStartTime(Date.now());
+    }
+  };
+  
+  useEffect(() => {
+    const unsubscribeFocus = navigation.addListener("focus", () => {
+      setIsFocused(true);
+      stopTracking(); // Stop tracking when Home gains focus
+    });
+
+    const unsubscribeBlur = navigation.addListener("blur", () => {
+      setIsFocused(false);
+    });
+
+    return () => {
+      unsubscribeFocus();
+      unsubscribeBlur();
+    };
+  }, [navigation]);
 
   const toNotifications = () => {
     navigation.navigate("Notifications");
@@ -140,19 +283,25 @@ const Home = ({ navigation, route }) => {
   const toPosts = () => {
     navigation.navigate("Screen2");
   };
-  const GoToFeedbackSection = () => {
-    navigation.navigate("Feedback");
-  };
-
   const GoToGoalSection = () => {
     navigation.navigate("goal");
-  };
-  const GoToMusicSection = () => {
-    navigation.navigate("MusicTester2");
+    startTracking("goal");
   };
 
+  const GoToMusicSection = () => {
+    navigation.navigate("MusicTester2");
+    startTracking("music");
+  };
+
+  const GoToFeedbackSection = () => {
+    navigation.navigate("Feedback");
+    startTracking("feedback");
+
+  };
   const GoToGamificationSection = () => {
     navigation.navigate("Gamification");
+    startTracking("game");
+
   };
 
   const goToProfile = () => {
@@ -214,7 +363,6 @@ const Home = ({ navigation, route }) => {
             <Text style={styles.welcome}>{username}</Text>
           </View>
 
-
           <View style={styles.content}>
             <Text style={styles.howAreYou}>How are you feeling today?</Text>
 
@@ -254,7 +402,7 @@ const Home = ({ navigation, route }) => {
               />
             </View>
 
-            <SccreenTime />
+            <SccreenTime screenTimeData={screenTimeData} />
 
             <TouchableOpacity onPress={GoToGoalSection}>
               <View style={styles.section}>
