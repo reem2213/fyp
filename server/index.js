@@ -17,6 +17,7 @@ const quizCategoryModel = require("./models/quizCategory");
 const responseModel = require("./models/userResponse");
 const userModel=require('./models/user');
 const BookingModel=require('./models/booking')
+const physicalAttributeModel= require('./models/physicalAtt')
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -608,6 +609,27 @@ app.put('/user/:username', async (req, res) => {
 
 
 
+
+//PHYSICAL SECTION
+
+app.post('/formData', async (req, res) => {
+  try {
+    const formData = new physicalAttributeModel(req.body);
+    await formData.save();
+    res.status(201).json(formData);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get('/formData', async (req, res) => {
+  try {
+    const formData = await physicalAttributeModel.find();
+    res.json(formData);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 
 
