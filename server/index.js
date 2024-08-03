@@ -415,10 +415,36 @@ app.post('/posts/:id/toggle-repost', async (req, res) => {
 
 
 // Routes
+// app.post('/save-score', async (req, res) => {
+//   const { score, points } = req.body;
+
+//   const newUser = new responseModel({
+//       score,
+//       points
+//   });
+
+//   try {
+//       const savedUser = await newUser.save();
+//       res.status(201).json(savedUser);
+//   } catch (err) {
+//       res.status(400).json({ error: err.message });
+//   }
+// });
+
+// app.get('/scores', async (req, res) => {
+//   try {
+//       const scores = await responseModel.find().sort({ date: -1 }); // Fetch scores and sort by date
+//       res.status(200).json(scores);
+//   } catch (err) {
+//       res.status(400).json({ error: err.message });
+//   }
+// });
+
 app.post('/save-score', async (req, res) => {
-  const { score, points } = req.body;
+  const { username, score, points } = req.body;
 
   const newUser = new responseModel({
+      username,
       score,
       points
   });
@@ -431,11 +457,10 @@ app.post('/save-score', async (req, res) => {
   }
 });
 
-
-
-app.get('/scores', async (req, res) => {
+app.get('/scores/:username', async (req, res) => {
+  const { username } = req.params;
   try {
-      const scores = await responseModel.find().sort({ date: -1 }); // Fetch scores and sort by date
+      const scores = await responseModel.find({ username }).sort({ date: -1 });
       res.status(200).json(scores);
   } catch (err) {
       res.status(400).json({ error: err.message });
@@ -443,6 +468,48 @@ app.get('/scores', async (req, res) => {
 });
 
 
+
+
+
+//POINTS IN PROFILE
+
+// app.get('/userpoints/:username', async (req, res) => {
+//   try {
+//     const { username } = req.params;
+    
+//     // Fetch user points from the database (this is a placeholder, adjust it to your schema)
+//     const user = await responseModel.findOne({ username });
+//     const points = user ? user.points : 0;
+    
+//     res.json({ points });
+//   } catch (error) {
+//     console.error('Error fetching user points:', error);
+//     res.status(500).send('Server error');
+//   }
+  
+// });
+app.get('/user-points/:username', async (req, res) => {
+  try {
+    const { username } = req.params;
+    console.log(`Fetching points for username: ${username}`);  // Log the request
+
+    const totalPoints = await responseModel.aggregate([
+      { $match: { username: username } },
+      { $group: { _id: '$username', totalPoints: { $sum: '$points' } } }
+    ]);
+
+    console.log(`Aggregation result: ${JSON.stringify(totalPoints)}`);  // Log the aggregation result
+
+    if (totalPoints.length === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json({ username: username, totalPoints: totalPoints[0].totalPoints });
+  } catch (error) {
+    console.error('Aggregation error:', error);
+    res.status(500).json({ message: 'Server error', error });
+  }
+});
 
 
 

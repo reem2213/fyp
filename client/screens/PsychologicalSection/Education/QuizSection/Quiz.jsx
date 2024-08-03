@@ -48,14 +48,15 @@ import Back from "../../../../assets/back.png";
 import LangBg from "../../../../assets/quizSection.png";
 import { DarkModeContext } from "../../../../components/DarkModeContext"; // Import the context
 
-const Quiz = ({ navigation }) => {
+const Quiz = ({ navigation,route }) => {
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
+  const {username}=route.params
 
   const backToHome = () => {
-    navigation.navigate("EduSection");
+    navigation.navigate("EduSection",{username});
   };
   const Start = () => {
-    navigation.navigate("QuizCategory");
+    navigation.navigate("QuizCategory",{username});
   };
 
   return (

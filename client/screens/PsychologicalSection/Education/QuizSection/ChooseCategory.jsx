@@ -114,9 +114,10 @@ import { View, Text, Alert, TouchableOpacity, StyleSheet } from "react-native";
 import axios from "axios";
 import { DarkModeContext } from "../../../../components/DarkModeContext"; // Import the context
 
-const CategoryScreen = ({ navigation }) => {
+const CategoryScreen = ({ navigation,route }) => {
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
   const [categories, setCategories] = useState([]);
+  const {username}=route.params
 
   useEffect(() => {
     axios
@@ -144,7 +145,7 @@ const CategoryScreen = ({ navigation }) => {
             <TouchableOpacity
               style={[styles.boxes, { backgroundColor: isDarkMode ? "#ff8c00" : "#FF6B00" }]}
               key={index}
-              onPress={() => navigation.navigate("StartQuiz", { category })}
+              onPress={() => navigation.navigate("StartQuiz", { category,username })}
             >
               <Text style={{ color: "white", fontWeight: "bold" }}>{category}</Text>
             </TouchableOpacity>

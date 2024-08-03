@@ -198,7 +198,7 @@ const Gamification = ({ route, navigation }) => {
 
   const fetchScores = async () => {
     try {
-      const response = await axios.get('http://10.0.0.21:3001/scores');
+      const response = await axios.get(`http://10.0.0.21:3001/scores/${username}`);
       setScores(response.data);
     } catch (error) {
       console.error(error);
@@ -207,12 +207,14 @@ const Gamification = ({ route, navigation }) => {
 
   const GoBackToHome = () => {
     navigation.navigate("Home",{username});
+    
   };
 
   const getBadge = (points) => {
     if (points >= 75) {
       return { image: GoldBadge, label: "Gold" };
     } else if (points >= 50) {
+
       return { image: SilverBadge, label: "Silver" };
     } else if (points >= 25) {
       return { image: BronzeBadge, label: "Bronze" };

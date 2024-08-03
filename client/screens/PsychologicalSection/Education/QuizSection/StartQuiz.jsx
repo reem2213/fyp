@@ -3,7 +3,7 @@ import { View, Text, Button, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
 
 const QuizScreen = ({ route, navigation }) => {
-    const { category } = route.params;
+    const { category,username } = route.params;
     const [questions, setQuestions] = useState([]);
 
     useEffect(() => {
@@ -19,7 +19,7 @@ const QuizScreen = ({ route, navigation }) => {
 
     const startQuiz = () => {
         if (questions.length > 0) {
-            navigation.navigate('Question', { questions, questionIndex: 0, score: 0 });
+            navigation.navigate('Question', { questions, questionIndex: 0, score: 0 ,username});
         }
     };
 

@@ -20,6 +20,7 @@ const App = ({ route }) => {
   const { navigate } = useNavigation();
   const { username } = route.params;
   const [bio, setBio] = useState("");
+  const [points, setPoints] = useState(0); // Add state for points
 
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
 
@@ -41,7 +42,6 @@ const App = ({ route }) => {
         setImageData(data.image);
 
         console.log("donee");
-
       })
       .catch((error) => {
         console.error("Error fetching user data:", error);
@@ -51,6 +51,7 @@ const App = ({ route }) => {
     fetchUserProfile();
     fetchMeetings();
     fetchGoals();
+    fetchUserPoints(); // Fetch user points
   }, []);
 
   const fetchUserProfile = async () => {
@@ -59,7 +60,6 @@ const App = ({ route }) => {
         `http://10.0.0.21:3001/user/${username}`
       );
       setUserProfile(response.data);
-
     } catch (error) {
       console.error("Error fetching user profile:", error);
     }
@@ -67,7 +67,9 @@ const App = ({ route }) => {
 
   const fetchMeetings = async () => {
     try {
-      const response = await axios.get(`http://10.0.0.21:3001/bookings/${username}`);
+      const response = await axios.get(
+        `http://10.0.0.21:3001/bookings/${username}`
+      );
       setMeetings(response.data);
     } catch (error) {
       console.error("Error fetching meetings:", error);
@@ -76,16 +78,40 @@ const App = ({ route }) => {
 
   const fetchGoals = async () => {
     try {
-      const response = await axios.get(`http://10.0.0.21:3001/goal/${username}`);
+      const response = await axios.get(
+        `http://10.0.0.21:3001/goal/${username}`
+      );
       setGoals(response.data);
     } catch (error) {
       console.error("Error fetching goals:", error);
     }
   };
 
+  const fetchUserPoints = async () => {
+    try {
+      const response = await fetch(`http://10.0.0.21:3001/user-points/${username}`);
+      
+      // Check if the response is valid
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+  
+      setPoints(data.totalPoints);
+      console.log(data.totalPoints)
+    } catch (error) {
+      console.error('Error fetching points:', error);
+    }
+  };
+  
+  useEffect(() => {
+    fetchUserPoints();
+  }, []);
+  
+
   const handleStatusChange = async (id, newStatus, oldStatus) => {
     try {
-
       const response = await axios.put(`http://10.0.0.21:3001/goal/${id}`, {
         status: newStatus,
       });
@@ -177,7 +203,6 @@ const App = ({ route }) => {
     } else if (activeSection === "Goals") {
       return (
         <View style={styles.itemContainer}>
-
           <Text style={styles.itemTitle}>{item.goal}</Text>
           <View style={styles.statusContainer}>
             {(item.status === "upcoming" || item.status === "in progress") && (
@@ -285,9 +310,13 @@ const App = ({ route }) => {
     </html>
   `;
   return (
-
     <>
-      <ScrollView style={[{ height: "100%" }, { backgroundColor: isDarkMode ? "black" : "#FAFAFA" }]}>
+      <ScrollView
+        style={[
+          { height: "100%" },
+          { backgroundColor: isDarkMode ? "black" : "#FAFAFA" },
+        ]}
+      >
         <View style={{ backgroundColor: isDarkMode ? "black" : "#FAFAFA" }}>
           <TouchableOpacity onPress={goBack}>
             <Image
@@ -300,17 +329,20 @@ const App = ({ route }) => {
               }}
             />
           </TouchableOpacity>
-  
+
           <Text
-            style={[{
-              color: "#032B79",
-              fontSize: 40,
-              fontWeight: "bold",
-              textAlign: "center",
-              top: 0,
-              width: "40%",
-              left: 110,
-            },{color: isDarkMode ? "white" : "#032B79" }]}
+            style={[
+              {
+                color: "#032B79",
+                fontSize: 40,
+                fontWeight: "bold",
+                textAlign: "center",
+                top: 0,
+                width: "40%",
+                left: 110,
+              },
+              { color: isDarkMode ? "white" : "#032B79" },
+            ]}
           >
             Profile
           </Text>
@@ -325,59 +357,93 @@ const App = ({ route }) => {
             style={{ position: "absolute", top: 135, left: 10 }}
           />
           <Text
-            style={[{
-              fontSize: 20,
-              fontWeight: "600",
-              left: 60,
-              top: 10,
-            },{color: isDarkMode ? "white" : "gray"}]}
+            style={[
+              {
+                fontSize: 20,
+                fontWeight: "600",
+                left: 60,
+                top: 10,
+              },
+              { color: isDarkMode ? "white" : "gray" },
+            ]}
           >
-            550 Pts
+            {points} Points
           </Text>
-  
+          {/* <View style={styles.pointsContainer}>
+        <Image source={Coin} style={styles.coinIcon} />
+        <Text style={styles.pointsText}>{points} Points</Text>
+      </View> */}
+
           {imageData ? (
             <Image
               style={styles.imagee}
               source={{ uri: `data:image/jpeg;base64,${imageData} ` }}
-
             />
           ) : (
             <Text>no imageeeeeeeeeee</Text>
           )}
         </View>
-  
-        <View style={[{ top: -20, left: 20 },{backgroundColor: isDarkMode ? "black" : "#FAFAFA" }]}>
+
+        <View
+          style={[
+            { top: -20, left: 20 },
+            { backgroundColor: isDarkMode ? "black" : "#FAFAFA" },
+          ]}
+        >
           <Text
-            style={[{ top: -90, left: 190, fontSize: 15, fontWeight: "500" },{color: isDarkMode ? "white" : "black" }]}
+            style={[
+              { top: -90, left: 190, fontSize: 15, fontWeight: "500" },
+              { color: isDarkMode ? "white" : "black" },
+            ]}
           >
             {username}
           </Text>
           <Text
-            style={[{ top: -80, left: 190, fontSize: 15, fontWeight: "500" },{color: isDarkMode ? "white" : "black" }]}
+            style={[
+              { top: -80, left: 190, fontSize: 15, fontWeight: "500" },
+              { color: isDarkMode ? "white" : "black" },
+            ]}
           >
             {bio}
           </Text>
           <TouchableOpacity onPress={goToEditProfile}>
-          <Text
-              style={[{
-                width: "40%",
-                borderColor: "#E5E0E0",
-                borderWidth: 1,
-                borderRadius: 10,
-                padding: 5,
-                textAlign: "center",
-                left: 185,
-                top: -60,
-              },{backgroundColor: isDarkMode ? "gray" : "white", color:isDarkMode?"white":"black"}]}
+            <Text
+              style={[
+                {
+                  width: "40%",
+                  borderColor: "#E5E0E0",
+                  borderWidth: 1,
+                  borderRadius: 10,
+                  padding: 5,
+                  textAlign: "center",
+                  left: 185,
+                  top: -60,
+                },
+                {
+                  backgroundColor: isDarkMode ? "gray" : "white",
+                  color: isDarkMode ? "white" : "black",
+                },
+              ]}
             >
               Edit your Profile
             </Text>
           </TouchableOpacity>
         </View>
-  
-        <View style={[styles.container,{backgroundColor: isDarkMode ? "black" : "#FAFAFA"}]}>
+
+        <View
+          style={[
+            styles.container,
+            { backgroundColor: isDarkMode ? "black" : "#FAFAFA" },
+          ]}
+        >
           <View style={styles.header}>
-            <View style={[styles.sectionSwitcher,,{backgroundColor: isDarkMode ? "gray" : "white"}]}>
+            <View
+              style={[
+                styles.sectionSwitcher,
+                ,
+                { backgroundColor: isDarkMode ? "gray" : "white" },
+              ]}
+            >
               <TouchableOpacity
                 style={[
                   styles.sectionButton,
@@ -398,11 +464,11 @@ const App = ({ route }) => {
                   Meetings
                 </Text>
               </TouchableOpacity>
-  
+
               <TouchableOpacity
                 style={[
                   styles.sectionButton,
-                  activeSection === "Goals" ? styles.activeSectionButton : null
+                  activeSection === "Goals" ? styles.activeSectionButton : null,
                 ]}
                 onPress={() => setActiveSection("Goals")}
               >
@@ -419,7 +485,7 @@ const App = ({ route }) => {
               </TouchableOpacity>
             </View>
           </View>
-  
+
           {activeSection === "Goals" && (
             <WebView
               originWhitelist={["*"]}
@@ -427,7 +493,7 @@ const App = ({ route }) => {
               style={{ top: 10 }}
             />
           )}
-  
+
           <View style={styles.statusContainer}>
             <TouchableOpacity
               style={[
@@ -484,7 +550,7 @@ const App = ({ route }) => {
               </Text>
             </TouchableOpacity>
           </View>
-  
+
           <FlatList
             data={filteredData}
             renderItem={renderItem}
@@ -529,14 +595,13 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
     color: "red",
-    top:0
-
+    top: 0,
   },
   actionButtonText2: {
     fontSize: 15,
     fontWeight: "bold",
     color: "white",
-    top:0
+    top: 0,
   },
 
   header: {
@@ -610,7 +675,7 @@ const styles = StyleSheet.create({
   activeStatusButtonText: {
     color: "#032B79",
   },
- 
+
   itemContainer: {
     backgroundColor: "#032B79",
     borderRadius: 20,
@@ -657,4 +722,3 @@ const styles = StyleSheet.create({
 });
 
 export default App;
-

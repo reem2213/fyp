@@ -261,7 +261,7 @@ import { DarkModeContext } from "../../../../components/DarkModeContext"; // Imp
 
 const QuestionScreen = ({ route, navigation }) => {
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
-  const { questions, questionIndex, score } = route.params;
+  const { questions, questionIndex, score,username } = route.params;
   const [selectedOption, setSelectedOption] = useState(null);
   const currentQuestion = questions[questionIndex];
 
@@ -283,12 +283,14 @@ const QuestionScreen = ({ route, navigation }) => {
         questions,
         questionIndex: questionIndex + 1,
         score: newScore,
+        username
       });
     } else {
       navigation.navigate("Score", {
         score: newScore,
         totalQuestions: questions.length,
         questions,
+        username
       });
     }
   };
@@ -298,6 +300,7 @@ const QuestionScreen = ({ route, navigation }) => {
       questions,
       questionIndex: questionIndex - 1,
       score,
+      username
     });
     setSelectedOption(null);
   };

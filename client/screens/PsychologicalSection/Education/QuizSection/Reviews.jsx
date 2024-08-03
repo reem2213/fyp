@@ -9,7 +9,7 @@ import {
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const ReviewScreen = ({ route, navigation }) => {
-  const { questions } = route.params;
+  const { questions,username } = route.params;
 
   return (
     <>
@@ -68,7 +68,7 @@ const ReviewScreen = ({ route, navigation }) => {
         </GestureHandlerRootView>
 
         <TouchableOpacity
-          onPress={() => navigation.navigate("QuizCategory")}
+          onPress={() => navigation.navigate("QuizCategory",{username})}
           style={styles.bttn}
         >
           <Text style={{ color: "#FF6B00", fontSize: 15, fontWeight: "bold" }}>

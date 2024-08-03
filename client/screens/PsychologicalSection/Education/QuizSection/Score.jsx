@@ -128,7 +128,8 @@ import { DarkModeContext } from "../../../../components/DarkModeContext"; // Imp
 
 const ScoreScreen = ({ route, navigation }) => {
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
-  const { score, totalQuestions, questions } = route.params;
+  const { score, totalQuestions, questions,username } = route.params;
+
 
   // Calculate points based on the score
   let points;
@@ -145,8 +146,10 @@ const ScoreScreen = ({ route, navigation }) => {
   }
 
   const saveScoreToDB = async () => {
+
     try {
-      await axios.post('http://10.0.0.21:3001/save-score', { score, points });
+      await axios.post('http://10.0.0.21:3001/save-score', { score, points ,username});
+      console.log(username)
     } catch (error) {
       console.error(error);
     }
@@ -177,13 +180,13 @@ const ScoreScreen = ({ route, navigation }) => {
         </>
       )}
       <TouchableOpacity
-        onPress={() => navigation.navigate("Gamification", { points })}
+        onPress={() => navigation.navigate("Gamification", { points,username })}
         style={[styles.bttn, { backgroundColor: isDarkMode ? "gray" : "white" }]}
       >
         <Text style={{ color: "#FF6B00", fontSize: 15, fontWeight: "bold" }}>Go to Home</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => navigation.navigate("Review", { questions })}
+        onPress={() => navigation.navigate("Review", { questions,username })}
         style={[styles.bttn2, { backgroundColor: isDarkMode ? "gray" : "white" }]}
       >
         <Text style={{ color: "#FF6B00", fontSize: 15, fontWeight: "bold" }}>Review Answers</Text>
