@@ -329,7 +329,7 @@ const Goal = ({ navigation ,route}) => {
   }, [goals]);
 
   const BackToHome = () => {
-    navigation.navigate("Home");
+    navigation.navigate("Home",{username});
   };
 
   const handleAddGoal = () => {

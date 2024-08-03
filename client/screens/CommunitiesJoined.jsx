@@ -326,7 +326,7 @@ export default function CommunitiesJoinedScreen({ navigation, route }) {
   };
 
   const BackToGroups = () => {
-    navigation.navigate("GroupsScreen", { username });
+    navigation.navigate("Home", { username });
   };
 
   return (
