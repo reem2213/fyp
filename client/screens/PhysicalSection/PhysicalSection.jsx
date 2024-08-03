@@ -137,15 +137,32 @@
 
 // export default App;
 
-import React from 'react';
+import React,{useState,useContext,useEffect} from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { useNavigation } from '@react-navigation/native';
 import Book1 from '../../assets/Agatha2.jpg'
 const { width, height } = Dimensions.get('window');
 
-const App = () => {
+const App = ({route}) => {
   const navigation = useNavigation();
+  const { username } = route.params;
+  const [bio, setBio] = useState("");
+  const [imageData, setImageData] = useState(null);
+
+  useEffect(() => {
+    fetch(`http://10.0.0.21:3001/userr/${username}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setBio(data.bio);
+        setImageData(data.image);
+
+        console.log("donee");
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      });
+  }, [username]);
 
   return (
     <Swiper loop={false} dotStyle={styles.dot} activeDotStyle={styles.activeDot}>
@@ -195,7 +212,7 @@ const App = () => {
         <Text style={styles.subtitle}>Find your way to the perfect body</Text>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('GenderScreen')}
+          onPress={() => navigation.navigate('PhysicalHome',{ username, bio, imageData })}
         >
           <Text style={styles.buttonText}>Get Started</Text>
         </TouchableOpacity>

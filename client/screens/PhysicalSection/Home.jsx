@@ -1,3 +1,20 @@
+// import React from 'react'
+// import { Text, View } from 'react-native'
+
+// const Home = () => {
+//   return (
+//    <View>
+//     <Text style={{marginTop:100,left:100}}>PHYSICAL SECTION HOMEEE</Text>
+//    </View>
+//   )
+// }
+
+// export default Home
+
+
+
+
+
 import React, { useState, useEffect, useContext } from "react";
 import {
   View,
@@ -9,40 +26,40 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import { DarkModeContext } from "../components/DarkModeContext"; // Import the context
+import { DarkModeContext } from "../../components/DarkModeContext"; // Import the context
 
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { WebView } from "react-native-webview";
-import Noti from "../assets/notification.png";
-import ScreenTime from "../assets/screenTime.png";
-import GoalSection from "../assets/goalSection.png";
-import MusicSection from "../assets/music.png";
-import FeedbackSection from "../assets/feedback.png";
-import GameSection from "../assets/game.png";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeLight from "../assets/homeLight.png";
-import HomeDark from "../assets/homeDark.png";
-import PhysicalLight from "../assets/physicalSectionLight.png";
-import PhysicalDark from "../assets/physicalSectionDark.png";
-import PsycoLight from "../assets/psychologicLight.png";
-import PsycoDark from "../assets/psychologicDark.png";
-import UserLight from "../assets/userLight.png";
-import UserDark from "../assets/userDark.png";
-import CommDark from "../assets/communityDark.png";
-import CommLight from "../assets/communityLight.png";
-import Community from "./CommunitiesJoined";
-import Settings from "./Settings";
-import PhysicalSection from "./PhysicalSection/PhysicalSection";
-import PsychologicalSection from "./PsychologicalSection/PsychologicalSection";
-import MyProfile from "./MyProfile";
-import Plus from "../assets/plus.png";
+import Noti from "../../assets/notification.png";
+import ScreenTime from "../../assets/screenTime.png";
+import GoalSection from "../../assets/goalSection.png";
+import MusicSection from "../../assets/music.png";
+import FeedbackSection from "../../assets/feedback.png";
+import GameSection from "../../assets/game.png";
+// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+// import HomeLight from "../assets/homeLight.png";
+// import HomeDark from "../assets/homeDark.png";
+// import PhysicalLight from "../assets/physicalSectionLight.png";
+// import PhysicalDark from "../assets/physicalSectionDark.png";
+// import PsycoLight from "../assets/psychologicLight.png";
+// import PsycoDark from "../assets/psychologicDark.png";
+// import UserLight from "../assets/userLight.png";
+// import UserDark from "../assets/userDark.png";
+// import CommDark from "../assets/communityDark.png";
+// import CommLight from "../assets/communityLight.png";
+// import Community from "./CommunitiesJoined";
+// import Settings from "./Settings";
+// import PhysicalSection from "./PhysicalSection/PhysicalSection";
+// import PsychologicalSection from "./PsychologicalSection/PsychologicalSection";
+// import MyProfile from "./MyProfile";
+import Plus from "../../assets/plus.png";
 
-import Psycho from "../assets/psychologicLight.png";
-import Physical from "../assets/physicalSectionLight.png";
-import SettingsIcon from "../assets/settings.png";
-import HomeIcon from "../assets/homeLight.png";
-import CommunityLight from "../assets/communityLight.png";
-import CommunityDark from "../assets/communityDark.png";
+import Psycho from "../../assets/psychologicLight.png";
+import Physical from "../../assets/physicalSectionLight.png";
+import SettingsIcon from "../../assets/settings.png";
+import HomeIcon from "../../assets/homeLight.png";
+import CommunityLight from "../../assets/communityLight.png";
+// import CommunityDark from "../assets/communityDark.png";
 
 import { LineChart, BarChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
@@ -280,13 +297,13 @@ const Home = ({ navigation, route }) => {
         ]}
       >
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Pressable onPress={toNotifications}>
+          {/* <Pressable onPress={toNotifications}>
             <Image style={styles.notiImage} source={Noti} />
           </Pressable>
 
           <Pressable onPress={toPosts}>
             <Image style={styles.notiImage2} source={Plus} />
-          </Pressable>
+          </Pressable> */}
 
           <View
             style={[
@@ -307,27 +324,27 @@ const Home = ({ navigation, route }) => {
               />
             </TouchableOpacity>
 
-            <Text style={styles.welcome}>{username}</Text>
+            <Text style={styles.welcome}>Hello {username}</Text>
           </View>
 
           <View style={styles.content}>
-            <Text style={styles.howAreYou}>How are you feeling today?</Text>
+            <Text style={styles.howAreYou}>Have You Exercise today?</Text>
 
-            <View style={[styles.moodContainer, styles.calm]}>
+            {/* <View style={[styles.moodContainer, styles.calm]}>
               <View style={styles.rect} />
               <Text style={styles.moodText}>Calm</Text>
               <Image
                 style={styles.icon}
-                source={require("../assets/calm.png")}
+                source={require("../../assets/calm.png")}
               />
-            </View>
-            <View style={[styles.focusLayout]}>
+            </View> */}
+            {/* <View style={[styles.focusLayout]}>
               <View style={[styles.rect1, styles.rect1Bg]} />
               <Text style={[styles.happy1, styles.manicTypo]}>Happy</Text>
               <Image
                 style={[styles.happyIcon, styles.iconPosition1]}
                 contentFit="cover"
-                source={require("../assets/happy.png")}
+                source={require("../../assets/happy.png")}
               />
             </View>
             <View style={[styles.focusLayout2]}>
@@ -336,7 +353,7 @@ const Home = ({ navigation, route }) => {
               <Image
                 style={[styles.happyIcon2, styles.iconPosition12]}
                 contentFit="cover"
-                source={require("../assets/sad.png")}
+                source={require("../../assets/sad.png")}
               />
             </View>
             <View style={[styles.focusLayout3]}>
@@ -345,11 +362,11 @@ const Home = ({ navigation, route }) => {
               <Image
                 style={[styles.happyIcon3, styles.iconPosition3]}
                 contentFit="cover"
-                source={require("../assets/angry.png")}
+                source={require("../../assets/angry.png")}
               />
-            </View>
+            </View> */}
 
-            <SccreenTime screenTimeData={screenTimeData} />
+            {/* <SccreenTime screenTimeData={screenTimeData} /> */}
 
             <TouchableOpacity onPress={GoToGoalSection}>
               <View style={styles.section}>
@@ -393,7 +410,7 @@ const Home = ({ navigation, route }) => {
           </View>
         </ScrollView>
       </GestureHandlerRootView>
-      <View
+      {/* <View
         style={[
           {
             flexDirection: "row",
@@ -430,7 +447,7 @@ const Home = ({ navigation, route }) => {
         <TouchableOpacity onPress={ToSettings}>
           <Image source={SettingsIcon} style={{ margin: 10 }} />
         </TouchableOpacity>
-      </View>
+      </View> */}
     </>
   );
 };

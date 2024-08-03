@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect ,useContext} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, FlatList, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -9,6 +9,23 @@ export default function WeightSelectionScreen({ route, navigation }) {
   const { age ,gender } = route.params || {};
   const [selectedWeight, setSelectedWeight] = useState(54);
   const flatListRef = useRef();
+  const { username } = route.params;
+  const [bio, setBio] = useState("");
+  const [imageData, setImageData] = useState(null);
+
+  useEffect(() => {
+    fetch(`http://10.0.0.21:3001/userr/${username}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setBio(data.bio);
+        setImageData(data.image);
+
+        console.log("donee");
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      });
+  }, [username]);
 
   const weights = Array.from({ length: 200 }, (_, i) => i + 1);
 
@@ -82,7 +99,7 @@ export default function WeightSelectionScreen({ route, navigation }) {
           <TouchableOpacity
             style={styles.nextButton}
             onPress={() => {
-              navigation.navigate('HeightScreen', { age, gender, weight: selectedWeight });
+              navigation.navigate('HeightScreen', { age, gender, weight: selectedWeight,imageData,username,bio });
             }}
           >
             <Text style={styles.nextButtonText}>Next</Text>

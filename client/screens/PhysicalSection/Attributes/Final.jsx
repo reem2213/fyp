@@ -1,10 +1,26 @@
-import React from 'react';
+import React,{useState,useContext,useEffect} from 'react';
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function FinalScreen({ route, navigation }) {
   const { age, gender, height ,weight , goal, medicalCondition, place } = route.params;
+  const { username } = route.params;
+  const [bio, setBio] = useState("");
+  const [imageData, setImageData] = useState(null);
 
+  useEffect(() => {
+    fetch(`http://10.0.0.21:3001/userr/${username}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setBio(data.bio);
+        setImageData(data.image);
+
+        console.log("donee");
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      });
+  }, [username]);
   const handleSubmit = async () => {
     try {
       const response = await fetch('http://10.0.0.21:3001/formData', {
@@ -26,7 +42,7 @@ export default function FinalScreen({ route, navigation }) {
       if (response.ok) {
         const result = await response.json();
         Alert.alert('Success', 'Your data has been submitted');
-        navigation.navigate('ResultScreen');
+        navigation.navigate('ResultScreen',{username,bio,imageData});
       } else {
         throw new Error('Something went wrong');
       }

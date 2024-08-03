@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect ,useContext} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, FlatList, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -29,6 +29,24 @@ export default function AgeSelectionScreen({ route, navigation }) {
     }
   };
 
+
+  const { username } = route.params;
+  const [bio, setBio] = useState("");
+  const [imageData, setImageData] = useState(null);
+
+  useEffect(() => {
+    fetch(`http://10.0.0.21:3001/userr/${username}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setBio(data.bio);
+        setImageData(data.image);
+
+        console.log("donee");
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      });
+  }, [username]);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.circleTopLeft}></View>
@@ -76,7 +94,7 @@ export default function AgeSelectionScreen({ route, navigation }) {
           <TouchableOpacity
             style={styles.nextButton}
             onPress={() => {
-              navigation.navigate('WeightScreen', { gender, age: selectedAge });
+              navigation.navigate('WeightScreen', { gender, age: selectedAge,username,bio,imageData });
             }}
           >
             <Text style={styles.nextButtonText}>Next</Text>

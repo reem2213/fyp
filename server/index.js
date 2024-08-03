@@ -289,7 +289,10 @@ const PostSchema = new mongoose.Schema({
   date: String,
   likes: { type: Number, default: 0 },
   reposts: { type: Number, default: 0 },
-  image:String
+  image:String,
+  repostedBy: { type: [String], default: [] },
+  likedBy: { type: [String], default: [] } // New field to store usernames of users who liked
+
 });
 
 const Post = mongoose.model('Post', PostSchema);
@@ -299,15 +302,6 @@ app.get('/posts', async (req, res) => {
   res.json(posts);
 });
 
-// app.post('/posts', async (req, res) => {
-//   const newPost = new Post({
-//     text: req.body.text,
-//     date: req.body.date,
-//   });
-//   await newPost.save();
-//   res.json(newPost);
-// });
-
 
 app.post('/posts', async (req, res) => {
   const { text, date, image } = req.body;
@@ -315,7 +309,7 @@ app.post('/posts', async (req, res) => {
   const newPost = new Post({
     text,
     date,
-    image, // store the image
+    image,
   });
 
   try {
@@ -327,24 +321,52 @@ app.post('/posts', async (req, res) => {
   }
 });
 
+// app.post('/posts/:id/toggle-like', async (req, res) => {
+//   const post = await Post.findById(req.params.id);
+//   const increment = req.body.increment;
+//   post.likes += increment ? 1 : -1;
+//   await post.save();
+//   res.json(post);
+// });
+
+// app.post('/posts/:id/toggle-repost', async (req, res) => {
+//   const post = await Post.findById(req.params.id);
+//   const increment = req.body.increment;
+//   post.reposts += increment ? 1 : -1;
+//   await post.save();
+//   res.json(post);
+// });
+
 app.post('/posts/:id/toggle-like', async (req, res) => {
+  const { username } = req.body;
   const post = await Post.findById(req.params.id);
-  const increment = req.body.increment;
-  post.likes += increment ? 1 : -1;
+
+  if (!post.likedBy.includes(username)) {
+    post.likes += 1;
+    post.likedBy.push(username);
+  } else {
+    post.likes -= 1;
+    post.likedBy = post.likedBy.filter(user => user !== username);
+  }
+
   await post.save();
   res.json(post);
 });
-
 app.post('/posts/:id/toggle-repost', async (req, res) => {
+  const { username } = req.body;
   const post = await Post.findById(req.params.id);
-  const increment = req.body.increment;
-  post.reposts += increment ? 1 : -1;
+
+  if (!post.repostedBy.includes(username)) {
+    post.reposts += 1;
+    post.repostedBy.push(username);
+  } else {
+    post.reposts -= 1;
+    post.repostedBy = post.repostedBy.filter(user => user !== username);
+  }
+
   await post.save();
   res.json(post);
 });
-
-
-
 
 
 

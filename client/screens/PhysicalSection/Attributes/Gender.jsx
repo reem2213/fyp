@@ -1,8 +1,25 @@
-import React, { useState } from 'react';
+import React,{useState,useContext,useEffect} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function App({navigation}) {
+export default function App({navigation,route}) {
+  const { username } = route.params;
+  const [bio, setBio] = useState("");
+  const [imageData, setImageData] = useState(null);
+
+  useEffect(() => {
+    fetch(`http://10.0.0.21:3001/userr/${username}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setBio(data.bio);
+        setImageData(data.image);
+
+        console.log("donee");
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      });
+  }, [username]);
   const [selectedGender, setSelectedGender] = useState(null);
 
   const handleGenderSelection = (gender) => {
@@ -47,7 +64,7 @@ export default function App({navigation}) {
           onPress={() => {
             if (selectedGender) {
            
-              navigation.navigate('AgeScreen', { gender: selectedGender });
+              navigation.navigate('AgeScreen', { gender: selectedGender,username,bio,imageData });
             }
           }}
         >

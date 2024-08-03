@@ -1,8 +1,30 @@
-import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
+import React,{useState,useContext,useEffect} from 'react';
+import { View, Text, StyleSheet, SafeAreaView,TouchableOpacity } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import { Ionicons } from '@expo/vector-icons';
 
-export default function ProgressScreen() {
+export default function ProgressScreen({navigation,route}) {
+  const { username } = route.params;
+  const [bio, setBio] = useState("");
+  const [imageData, setImageData] = useState(null);
+
+  useEffect(() => {
+    fetch(`http://10.0.0.21:3001/userr/${username}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setBio(data.bio);
+        setImageData(data.image);
+
+        console.log("donee");
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      });
+  }, [username]);
+  const ToHome=()=>{
+    navigation.navigate('PhysicalHome',{username,bio,imageData});
+
+  }
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.circleTopLeft}></View>
@@ -33,6 +55,13 @@ export default function ProgressScreen() {
           "Success is not the key to happiness. Happiness is the key to success. If you love what you are doing, you will be successful."
         </Text>
         <Text style={styles.authorText}>Albert Schweitzer</Text>
+        <TouchableOpacity
+            style={styles.nextButton}
+            onPress={ToHome}
+          >
+            <Text style={styles.nextButtonText}>Finish</Text>
+            <Ionicons name="arrow-forward" size={20} color="white" />
+          </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

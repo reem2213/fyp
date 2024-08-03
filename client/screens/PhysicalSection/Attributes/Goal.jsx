@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect ,useContext} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, FlatList, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -7,6 +7,23 @@ const { height } = Dimensions.get('window');
 
 export default function GoalSelectionScreen({ route, navigation }) {
   const { age, gender, weight, height: userHeight } = route.params;
+  const { username } = route.params;
+  const [bio, setBio] = useState("");
+  const [imageData, setImageData] = useState(null);
+
+  useEffect(() => {
+    fetch(`http://10.0.0.21:3001/userr/${username}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setBio(data.bio);
+        setImageData(data.image);
+
+        console.log("donee");
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      });
+  }, [username]);
   const [selectedGoal, setSelectedGoal] = useState("Get fitter"); // Default goal selected
   const flatListRef = useRef();
 
@@ -91,7 +108,7 @@ export default function GoalSelectionScreen({ route, navigation }) {
           <TouchableOpacity
             style={[styles.nextButton, { opacity: selectedGoal ? 1 : 0.5 }]}
             onPress={() => {
-              navigation.navigate('ConditionScreen', { age ,gender,weight, height: userHeight, goal: selectedGoal });
+              navigation.navigate('ConditionScreen', { age ,gender,weight, height: userHeight, goal: selectedGoal,username,bio,imageData });
             }}
             disabled={!selectedGoal}
           >

@@ -1,9 +1,26 @@
-import React, { useState } from 'react';
+import React,{useState,useContext,useEffect} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function MedicalConditionScreen({ route, navigation }) {
   const {age, gender, height, weight, goal } = route.params;
+  const { username } = route.params;
+  const [bio, setBio] = useState("");
+  const [imageData, setImageData] = useState(null);
+
+  useEffect(() => {
+    fetch(`http://10.0.0.21:3001/userr/${username}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setBio(data.bio);
+        setImageData(data.image);
+
+        console.log("donee");
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      });
+  }, [username]);
   const [selectedOption, setSelectedOption] = useState(null);
   const [medicalCondition, setMedicalCondition] = useState('');
 
@@ -59,7 +76,7 @@ export default function MedicalConditionScreen({ route, navigation }) {
             ]}
             onPress={() => {
               if (selectedOption === 'No' || (selectedOption === 'Yes' && medicalCondition)) {
-                navigation.navigate('PlaceScreen', { age ,gender,weight, height, goal, medicalCondition });
+                navigation.navigate('PlaceScreen', { age ,gender,weight, height, goal, medicalCondition,username,bio,imageData });
               }
             }}
             disabled={selectedOption === 'Yes' && !medicalCondition}

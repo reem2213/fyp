@@ -59,6 +59,9 @@ import PlaceScreen from "./screens/PhysicalSection/Attributes/Place.jsx";
 import GoalScreen from "./screens/PhysicalSection/Attributes/Goal.jsx";
 import ConditionScreen from "./screens/PhysicalSection/Attributes/Condition.jsx";
 import FinalScreen from "./screens/PhysicalSection/Attributes/Final.jsx";
+import PhysicalSectionHome from './screens/PhysicalSection/Home.jsx';
+import PlanScreen from './screens/PhysicalSection/Plan.jsx';
+import Shop from "./screens/PhysicalSection/Shop.jsx";
 export default function App() {
   const Stack = createNativeStackNavigator();
 
@@ -69,6 +72,27 @@ export default function App() {
           <Stack.Screen
             name="Home"
             component={Home}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="PhysicalHome"
+            component={PhysicalSectionHome}
+            options={{
+              headerShown: false,
+            }}
+          />
+           <Stack.Screen
+            name="Plan"
+            component={PlanScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Shop"
+            component={Shop}
             options={{
               headerShown: false,
             }}

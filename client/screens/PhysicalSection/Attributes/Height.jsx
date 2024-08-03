@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect ,useContext} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, FlatList, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -7,6 +7,23 @@ const { height } = Dimensions.get('window');
 
 export default function HeightSelectionScreen({ route, navigation }) {
   const { age ,gender,weight } = route.params;
+  const { username } = route.params;
+  const [bio, setBio] = useState("");
+  const [imageData, setImageData] = useState(null);
+
+  useEffect(() => {
+    fetch(`http://10.0.0.21:3001/userr/${username}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setBio(data.bio);
+        setImageData(data.image);
+
+        console.log("donee");
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      });
+  }, [username]);
   const [selectedHeight, setSelectedHeight] = useState(167);
   const flatListRef = useRef();
 
@@ -78,7 +95,7 @@ export default function HeightSelectionScreen({ route, navigation }) {
           <TouchableOpacity
             style={styles.nextButton}
             onPress={() => {
-              navigation.navigate('GoalScreen', { age, gender, weight , height: selectedHeight });
+              navigation.navigate('GoalScreen', { age, gender, weight , height: selectedHeight,username,bio,imageData });
             }}
           >
             <Text style={styles.nextButtonText}>Next</Text>

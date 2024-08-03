@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect,useContext } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, FlatList, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -7,6 +7,23 @@ const { height } = Dimensions.get('window');
 
 export default function FavoritePlaceScreen({ route, navigation }) {
   const {age, gender,weight, height, goal, medicalCondition } = route.params;
+  const { username } = route.params;
+  const [bio, setBio] = useState("");
+  const [imageData, setImageData] = useState(null);
+
+  useEffect(() => {
+    fetch(`http://10.0.0.21:3001/userr/${username}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setBio(data.bio);
+        setImageData(data.image);
+
+        console.log("donee");
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      });
+  }, [username]);
   const [selectedPlace, setSelectedPlace] = useState("Gym");
   const flatListRef = useRef();
 
@@ -81,7 +98,7 @@ export default function FavoritePlaceScreen({ route, navigation }) {
           <TouchableOpacity
             style={styles.nextButton}
             onPress={() => {
-              navigation.navigate('FinalScreen', {age, gender,weight, height, goal, medicalCondition, place: selectedPlace });
+              navigation.navigate('FinalScreen', {age, gender,weight, height, goal, medicalCondition, place: selectedPlace,username,bio,imageData });
             }}
           >
             <Text style={styles.nextButtonText}>Start</Text>
