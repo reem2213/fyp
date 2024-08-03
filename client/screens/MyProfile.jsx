@@ -41,6 +41,7 @@ const App = ({ route }) => {
         setImageData(data.image);
 
         console.log("donee");
+
       })
       .catch((error) => {
         console.error("Error fetching user data:", error);
@@ -58,6 +59,7 @@ const App = ({ route }) => {
         `http://10.0.0.21:3001/user/${username}`
       );
       setUserProfile(response.data);
+
     } catch (error) {
       console.error("Error fetching user profile:", error);
     }
@@ -65,7 +67,7 @@ const App = ({ route }) => {
 
   const fetchMeetings = async () => {
     try {
-      const response = await axios.get("http://10.0.0.21:3001/bookings");
+      const response = await axios.get(`http://10.0.0.21:3001/bookings/${username}`);
       setMeetings(response.data);
     } catch (error) {
       console.error("Error fetching meetings:", error);
@@ -74,7 +76,7 @@ const App = ({ route }) => {
 
   const fetchGoals = async () => {
     try {
-      const response = await axios.get("http://10.0.0.21:3001/goal");
+      const response = await axios.get(`http://10.0.0.21:3001/goal/${username}`);
       setGoals(response.data);
     } catch (error) {
       console.error("Error fetching goals:", error);
@@ -83,6 +85,7 @@ const App = ({ route }) => {
 
   const handleStatusChange = async (id, newStatus, oldStatus) => {
     try {
+
       const response = await axios.put(`http://10.0.0.21:3001/goal/${id}`, {
         status: newStatus,
       });

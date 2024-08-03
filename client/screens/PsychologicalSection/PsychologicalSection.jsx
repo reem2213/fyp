@@ -305,7 +305,7 @@ const Home = ({ navigation,route }) => {
   };
 
   const GoToMentorsSection = () => {
-    navigation.navigate("Mentors");
+    navigation.navigate("Mentors",{username});
   };
 
   const GoToChatBotSection = () => {

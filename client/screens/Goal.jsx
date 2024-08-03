@@ -306,7 +306,8 @@ import axios from "axios";
 import TrashIcon from "../assets/trashIcon.png";
 import { DarkModeContext } from "../components/DarkModeContext";
 
-const Goal = ({ navigation }) => {
+const Goal = ({ navigation ,route}) => {
+  const {username}=route.params;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [newGoal, setNewGoal] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
@@ -317,10 +318,11 @@ const Goal = ({ navigation }) => {
   useEffect(() => {
     const fetchGoals = async () => {
       try {
-        const response = await axios.get("http://10.0.0.21:3001/goal");
+        const response = await axios.get(`http://10.0.0.21:3001/goal/${username}`);
         setGoals(response.data);
       } catch (error) {
         console.error("Error fetching goals:", error);
+        
       }
     };
     fetchGoals();
@@ -337,7 +339,7 @@ const Goal = ({ navigation }) => {
   const handleSaveGoal = async () => {
     if (newGoal.trim() !== "") {
       try {
-        const response = await axios.post("http://10.0.0.21:3001/goal", {
+        const response = await axios.post(`http://10.0.0.21:3001/goal/${username}`, {
           goal: newGoal,
           date: selectedDate,
           status:"in progress"

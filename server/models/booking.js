@@ -7,7 +7,8 @@ const bookingSchema = new mongoose.Schema({
     meetingType:String,
     location:String,
     date:Date,
-    status:String
+    status:String,
+    username: String 
 })
  
 const bookingModel = mongoose.model("booking", bookingSchema)

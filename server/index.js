@@ -93,10 +93,21 @@ app.get('/user/:username', async (req, res) => {
 
 
 
-app.post('/goal', async (req, res) => {
-  const { goal, date,status } = req.body;
+// app.post('/goal', async (req, res) => {
+//   const { goal, date,status } = req.body;
+//   try {
+//       const newGoal = new goalModel({ goal, date,status });
+//       await newGoal.save();
+//       res.status(201).json(newGoal);
+//   } catch (error) {
+//       res.status(500).json({ message: error.message });
+//   }
+// });
+app.post('/goal/:username', async (req, res) => {
+  const { username } = req.params;
+  const { goal, date, status } = req.body;
   try {
-      const newGoal = new goalModel({ goal, date,status });
+      const newGoal = new goalModel({ username, goal, date, status });
       await newGoal.save();
       res.status(201).json(newGoal);
   } catch (error) {
@@ -104,14 +115,16 @@ app.post('/goal', async (req, res) => {
   }
 });
 
-app.get('/goal', async (req, res) => {
+app.get('/goal/:username', async (req, res) => {
+  const { username } = req.params;
   try {
-      const goals = await goalModel.find();
+      const goals = await goalModel.find({ username });
       res.json(goals);
   } catch (error) {
       res.status(500).json({ message: error.message });
   }
 });
+
 app.delete('/goal/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -209,10 +222,33 @@ app.get('/mentors', async (req, res) => {
 
 
 
-app.post('/bookings', async (req, res) => {
+// app.post('/bookings', async (req, res) => {
+//   try {
+//     const { mentorName, time, duration, meetingType, location, date ,status} = req.body;
+//     const newBooking = new BookingModel({ mentorName, time, duration, meetingType, location, date,status });
+//     await newBooking.save();
+//     res.status(200).json({ message: 'Booking confirmed!', booking: newBooking });
+//   } catch (error) {
+//     console.error('Error booking appointment:', error);
+//     res.status(500).json({ message: 'An error occurred while booking. Please try again.' });
+//   }
+// });
+
+
+// app.get('/bookings', async (req, res) => {
+//   try {
+//       const booking = await BookingModel.find();
+//       res.json(booking);
+//   } catch (error) {
+//       res.status(500).json({ message: error.message });
+//   }
+// });
+
+app.post('/bookings/:username', async (req, res) => {
+  
   try {
-    const { mentorName, time, duration, meetingType, location, date ,status} = req.body;
-    const newBooking = new BookingModel({ mentorName, time, duration, meetingType, location, date,status });
+    const { mentorName, time, duration, meetingType, location, date, status, username } = req.body;
+    const newBooking = new BookingModel({ mentorName, time, duration, meetingType, location, date, status, username });
     await newBooking.save();
     res.status(200).json({ message: 'Booking confirmed!', booking: newBooking });
   } catch (error) {
@@ -222,14 +258,29 @@ app.post('/bookings', async (req, res) => {
 });
 
 
-app.get('/bookings', async (req, res) => {
+
+app.post('/goal/:username', async (req, res) => {
+  const { username } = req.params;
+  const { goal, date, status } = req.body;
   try {
-      const booking = await BookingModel.find();
-      res.json(booking);
+      const newGoal = new goalModel({ username, goal, date, status });
+      await newGoal.save();
+      res.status(201).json(newGoal);
   } catch (error) {
       res.status(500).json({ message: error.message });
   }
 });
+
+app.get('/bookings/:username', async (req, res) => {
+  const { username } = req.params;
+  try {
+      const bookings = await BookingModel.find({ username });
+      res.json(bookings);
+  } catch (error) {
+      res.status(500).json({ message: error.message });
+  }
+});
+
 // Assuming 'goals' is a router configured in your Express app
 app.put('/goal/:id', async (req, res) => {
   // Update the status of the goal with the given ID
@@ -634,9 +685,12 @@ app.put('/user/:username', async (req, res) => {
 
 //PHYSICAL SECTION
 
-app.post('/formData', async (req, res) => {
+app.post('/formData/:username', async (req, res) => {
   try {
-    const formData = new physicalAttributeModel(req.body);
+    const user = await userModel.findOne({ username: req.params.username });
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    const formData = new physicalAttributeModel({ ...req.body, userId: user._id });
     await formData.save();
     res.status(201).json(formData);
   } catch (error) {
@@ -644,14 +698,41 @@ app.post('/formData', async (req, res) => {
   }
 });
 
-app.get('/formData', async (req, res) => {
+
+// Fetch physical attributes for a specific user based on username
+app.get('/formData/:username', async (req, res) => {
   try {
-    const formData = await physicalAttributeModel.find();
+    const user = await userModel.findOne({ username: req.params.username });
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    const formData = await physicalAttributeModel.findOne({ userId: user._id });
+    if (!formData) return res.status(404).json({ message: 'Physical attributes not found' });
+
     res.json(formData);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
+
+// app.post('/formData', async (req, res) => {
+//   try {
+//     const formData = new physicalAttributeModel(req.body);
+//     await formData.save();
+//     res.status(201).json(formData);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// });
+
+// app.get('/formData', async (req, res) => {
+//   try {
+//     const formData = await physicalAttributeModel.find();
+//     res.json(formData);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// });
+
 
 
 

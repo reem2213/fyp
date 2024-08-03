@@ -8,13 +8,10 @@ const physicalAttSchema = new mongoose.Schema({
     goal: String,
     medicalCondition: String,
     place: String,
-
-
-
-
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
 
 })
- 
 const physicalAttributeModel = mongoose.model("physicalAttribute", physicalAttSchema)
- 
 module.exports = physicalAttributeModel;
+
+

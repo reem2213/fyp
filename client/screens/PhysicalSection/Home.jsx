@@ -20,7 +20,7 @@ import FeedbackSection from "../../assets/communitySection.png";
 import GameSection from "../../assets/Plan.png";
 
 const Home = ({ navigation, route }) => {
-  const { username  ,height, weight} = route.params;
+  const { username } = route.params;
   const [bio, setBio] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
@@ -28,7 +28,10 @@ const Home = ({ navigation, route }) => {
   const [timeGoal, setTimeGoal] = useState(30);
   const [calorieGoal, setCalorieGoal] = useState(120);
   const [weightGoal, setWeightGoal] = useState(weight);
-  const [bmiResult , setBmiResult]=useState("");
+  const [bmiResult, setBmiResult] = useState("");
+  const[weight,setWeight]=useState();
+  const[height,setHeight]=useState();
+
   useEffect(() => {
     fetch(`http://10.0.0.21:3001/userr/${username}`)
       .then((response) => response.json())
@@ -42,17 +45,23 @@ const Home = ({ navigation, route }) => {
         console.error("Error fetching user data:", error);
       });
   }, [username]);
-  const screen2 = () => {
-    navigation.navigate("Screen2");
-  };
 
-  const toNotifications = () => {
-    navigation.navigate("Notifications");
-  };
 
-  const toPosts = () => {
-    navigation.navigate("Post", { username });
-  };
+  useEffect(() => {
+    fetch(`http://10.0.0.21:3001/formData/${username}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data) {
+          // Handle data - set it to state variables
+          setHeight(data.height);
+          setWeight(data.weight);
+          // Set other physical attributes if needed
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching physical attributes:", error);
+      });
+  }, [username]);
   const GoToGoalSection = () => {
     navigation.navigate("goal");
     startTracking("goal");
@@ -73,7 +82,7 @@ const Home = ({ navigation, route }) => {
   };
 
   const goToProfile = () => {
-    navigation.navigate("MyProfile", { username, bio, imageData });
+    navigation.navigate("SignIn", { username, bio, imageData });
   };
 
   const calculateBMI = (weight, height) => {
@@ -83,35 +92,33 @@ const Home = ({ navigation, route }) => {
   const bmi = calculateBMI(weight, height);
 
   useEffect(() => {
-
     if (bmi < 18.5) {
-      setBmiResult("Underweight")
-
+      setBmiResult("Underweight");
       setTimeGoal(30);
       setCalorieGoal(150);
       setWeightGoal(weight + 5);
-    } else if (bmi >= 18.5 && bmi < 25) {
-      setBmiResult("Normal")
 
+
+    } else if (bmi >= 18.5 && bmi < 25) {
+      setBmiResult("Normal");
       setTimeGoal(30);
       setCalorieGoal(200);
       setWeightGoal(weight);
-    } else if (bmi >= 25 && bmi < 30) {
-      setBmiResult("Overweight")
 
+    } else if (bmi >= 25 && bmi < 30) {
+      setBmiResult("Overweight");
       setTimeGoal(45);
       setCalorieGoal(250);
       setWeightGoal(weight - 5);
+
     } else {
-      setBmiResult("Obese")
+      setBmiResult("Obese");
       setTimeGoal(60);
       setCalorieGoal(300);
       setWeightGoal(weight - 10);
     }
   }, [bmi]);
 
-
-  
   return (
     <>
       <GestureHandlerRootView
@@ -146,9 +153,10 @@ const Home = ({ navigation, route }) => {
           <View style={styles.content}>
             <Text style={styles.howAreYou}>Have You Exercise today?</Text>
 
-
             <View style={styles.goalsContainer}>
-              <Text style={styles.goalsTitle}>Don't forget your daily goals!</Text>
+              <Text style={styles.goalsTitle}>
+                Don't forget your daily goals!
+              </Text>
               <View style={styles.goalItem}>
                 <Text style={styles.goalText}>Time:</Text>
                 <Text style={styles.goalValue}>{timeGoal} min</Text>
@@ -162,8 +170,6 @@ const Home = ({ navigation, route }) => {
                 <Text style={styles.goalValue}>{weightGoal} kg</Text>
               </View>
             </View>
-
-
 
             <View style={styles.container}>
               <Text style={styles.headerText}>BMI Result</Text>
@@ -187,8 +193,7 @@ const Home = ({ navigation, route }) => {
                 have more fat than muscle with normal BMI and still classify as
                 obese.
               </Text>
-              {/* <Text style={styles.bioText}>{bio}</Text> */}
-              <Text style={styles.headerText}>Our Sections</Text>
+              <Text style={styles.bmiValue}>Our Sections</Text>
 
               {imageData && (
                 <Image
@@ -197,9 +202,6 @@ const Home = ({ navigation, route }) => {
                 />
               )}
             </View>
-
-         
-
 
             <TouchableOpacity onPress={GoToGoalSection}>
               <View style={styles.section}>
@@ -386,51 +388,52 @@ const styles = StyleSheet.create({
     left: 10,
   },
 
-
   bmiValue: {
     fontSize: 22,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
   },
   bmiBar: {
-    flexDirection: 'row',
+    flexDirection: "row",
     height: 10,
-    width: '100%',
+    width: "100%",
     borderRadius: 10,
-    overflow: 'hidden',
+    overflow: "hidden",
     marginBottom: 10,
   },
   bmiSegment: {
     flex: 1,
   },
   bmiUnderweight: {
-    backgroundColor: 'blue',
+    backgroundColor: "blue",
   },
   bmiNormal: {
-    backgroundColor: 'green',
+    backgroundColor: "green",
   },
   bmiOverweight: {
-    backgroundColor: 'yellow',
+    backgroundColor: "yellow",
   },
   bmiObese: {
-    backgroundColor: 'red',
+    backgroundColor: "red",
   },
   bmiIndicator: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
-    width: 3,
-    height: '100%',
-    backgroundColor: 'black',
+    width: 8,
+    height: 90,
+    borderRadius: 100,
+    height: "100%",
+    backgroundColor: "black",
   },
   disclaimer: {
     fontSize: 12,
-    color: 'gray',
-    textAlign: 'center',
+    color: "gray",
+    textAlign: "center",
     marginVertical: 10,
   },
 
   goalsContainer: {
-    marginTop: 20,
+    marginTop: -10,
     marginBottom: 20,
     padding: 15,
     borderRadius: 10,

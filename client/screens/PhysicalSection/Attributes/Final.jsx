@@ -23,7 +23,7 @@ export default function FinalScreen({ route, navigation }) {
   }, [username]);
   const handleSubmit = async () => {
     try {
-      const response = await fetch('http://10.0.0.21:3001/formData', {
+      const response = await fetch(`http://10.0.0.21:3001/formData/${username}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ export default function FinalScreen({ route, navigation }) {
           weight,
           goal,
           medicalCondition,
-          place
+          place,
         }),
       });
 

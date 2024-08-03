@@ -224,14 +224,14 @@ const Home = ({ navigation, route }) => {
   }, [navigation]);
 
   const toNotifications = () => {
-    navigation.navigate("Notifications");
+    navigation.navigate("Notifications",{username});
   };
 
   const toPosts = () => {
     navigation.navigate("Post",{username});
   };
   const GoToGoalSection = () => {
-    navigation.navigate("goal");
+    navigation.navigate("goal",{username});
     startTracking("goal");
   };
 
@@ -265,7 +265,7 @@ const Home = ({ navigation, route }) => {
     navigation.navigate("PsychologicalSection", { username, bio, imageData });
   };
   const ToPhysicalSection = () => {
-    navigation.navigate("PhysicalSection", { username, bio, imageData });
+    navigation.navigate("PhysicalHome", { username, bio, imageData });
   };
   const ToSettings = () => {
     navigation.navigate("Settings", { username, bio, imageData });

@@ -16,7 +16,8 @@ import Calendar from "../../../assets/whiteCalendar.png";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const MentorsAvailability = ({ route, navigation }) => {
-  const { name, image, description, rating, type } = route.params;
+  const { name, image, rating, type } = route.params;
+  const {username}=route.params;
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedDuration, setSelectedDuration] = useState(null);
   const [meetingType, setMeetingType] = useState("Personal");
@@ -63,12 +64,65 @@ const MentorsAvailability = ({ route, navigation }) => {
 
   const mentorTimes = availableTime.find((mentor) => mentor.name === name);
 
+  // const handleBook = async () => {
+  //   if (!selectedTime || !selectedDuration || !dateOfBirth || !location) {
+  //     alert("Please fill out all fields.");
+  //     return;
+  //   }
+
+  //   const bookingDetails = {
+  //     mentorName: name,
+  //     time: selectedTime,
+  //     duration: selectedDuration,
+  //     meetingType,
+  //     location,
+  //     date: dateOfBirth.toDateString(),
+  //     status: "upcoming",
+  //     username
+  //   };
+
+  //   try {
+  //     const response = await axios.post(
+  //     `http://10.0.0.21:3001/bookings/${username}`,
+  //       bookingDetails
+  //     );
+  //     if (response.status === 200) {
+  //       alert("Booking confirmed!");
+
+  //       // Add the notification
+  //       const newNotification = {
+  //         message: `Booking confirmed by ${name} at ${selectedTime}`,
+  //         time: new Date().toISOString(),
+  //       };
+
+  //       let storedNotifications = await AsyncStorage.getItem("Notifications");
+  //       storedNotifications = storedNotifications
+  //         ? JSON.parse(storedNotifications)
+  //         : [];
+
+  //       storedNotifications.push(newNotification);
+  //       await AsyncStorage.setItem(
+  //         "Notifications",
+  //         JSON.stringify(storedNotifications)
+  //       );
+
+  //       navigation.navigate("Mentors");
+  //     } else {
+  //       alert("Failed to book. Please try again.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error booking appointment:", error);
+  //     alert("An error occurred while booking. Please try again.");
+  //   }
+  // };
   const handleBook = async () => {
     if (!selectedTime || !selectedDuration || !dateOfBirth || !location) {
       alert("Please fill out all fields.");
       return;
     }
-
+  
+    // const username = await AsyncStorage.getItem('username'); // Retrieve the stored username
+    console.log("Username:", username); // Log the usernam
     const bookingDetails = {
       mentorName: name,
       time: selectedTime,
@@ -76,35 +130,37 @@ const MentorsAvailability = ({ route, navigation }) => {
       meetingType,
       location,
       date: dateOfBirth.toDateString(),
-      status: "upcoming",
-    };
 
+      status: "upcoming",
+      username // Include the username
+    };
+  
     try {
       const response = await axios.post(
-        "http://10.0.0.21:3001/bookings",
+        `http://10.0.0.21:3001/bookings/${username}`,
         bookingDetails
       );
       if (response.status === 200) {
         alert("Booking confirmed!");
-
+  
         // Add the notification
         const newNotification = {
           message: `Booking confirmed for ${name} at ${selectedTime}`,
           time: new Date().toISOString(),
         };
-
+  
         let storedNotifications = await AsyncStorage.getItem("Notifications");
         storedNotifications = storedNotifications
           ? JSON.parse(storedNotifications)
           : [];
-
+  
         storedNotifications.push(newNotification);
         await AsyncStorage.setItem(
           "Notifications",
           JSON.stringify(storedNotifications)
         );
-
-        navigation.navigate("Mentors");
+  
+        navigation.navigate("Mentors",{username});
       } else {
         alert("Failed to book. Please try again.");
       }
@@ -113,9 +169,10 @@ const MentorsAvailability = ({ route, navigation }) => {
       alert("An error occurred while booking. Please try again.");
     }
   };
+  
 
   const backToHome = () => {
-    navigation.navigate("Mentors");
+    navigation.navigate("Mentors",{username});
   };
 
   return (
