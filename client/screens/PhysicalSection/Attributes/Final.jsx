@@ -42,7 +42,7 @@ export default function FinalScreen({ route, navigation }) {
       if (response.ok) {
         const result = await response.json();
         Alert.alert('Success', 'Your data has been submitted');
-        navigation.navigate('ResultScreen',{username,bio,imageData});
+        navigation.navigate('ResultScreen',{username,bio,imageData, height, weight});
       } else {
         throw new Error('Something went wrong');
       }

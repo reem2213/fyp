@@ -212,7 +212,7 @@ const App = ({route}) => {
         <Text style={styles.subtitle}>Find your way to the perfect body</Text>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('PhysicalHome',{ username, bio, imageData })}
+          onPress={() => navigation.navigate('GenderScreen',{ username, bio, imageData })}
         >
           <Text style={styles.buttonText}>Get Started</Text>
         </TouchableOpacity>

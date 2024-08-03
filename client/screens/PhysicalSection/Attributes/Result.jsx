@@ -4,7 +4,7 @@ import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function ProgressScreen({navigation,route}) {
-  const { username } = route.params;
+  const { username, height, weight } = route.params;
   const [bio, setBio] = useState("");
   const [imageData, setImageData] = useState(null);
 
@@ -22,7 +22,7 @@ export default function ProgressScreen({navigation,route}) {
       });
   }, [username]);
   const ToHome=()=>{
-    navigation.navigate('PhysicalHome',{username,bio,imageData});
+    navigation.navigate('PhysicalHome',{username,bio,imageData, height, weight});
 
   }
   return (
