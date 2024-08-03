@@ -257,20 +257,6 @@ app.post('/bookings/:username', async (req, res) => {
   }
 });
 
-
-
-app.post('/goal/:username', async (req, res) => {
-  const { username } = req.params;
-  const { goal, date, status } = req.body;
-  try {
-      const newGoal = new goalModel({ username, goal, date, status });
-      await newGoal.save();
-      res.status(201).json(newGoal);
-  } catch (error) {
-      res.status(500).json({ message: error.message });
-  }
-});
-
 app.get('/bookings/:username', async (req, res) => {
   const { username } = req.params;
   try {
