@@ -235,20 +235,21 @@ import EduBg from "../../../assets/EduBg.png";
 import LanguageSection from "../../../assets/languageSection.png";
 import { DarkModeContext } from "../../../components/DarkModeContext"; // Import the context
 
-const Home = ({ navigation }) => {
+const Home = ({ navigation,route }) => {
+  const {username}=route.params
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
 
   const toNotifications = () => {
-    navigation.navigate("Home");
+    navigation.navigate("PsychologicalSection",{username});
   };
   const GoToQuizSection = () => {
-    navigation.navigate("Quiz");
+    navigation.navigate("Quiz",{username});
   };
   const GoToLibrarySection = () => {
-    navigation.navigate("Library");
+    navigation.navigate("Library",{username});
   };
   const GoToLanguagesSection = () => {
-    navigation.navigate("Languages");
+    navigation.navigate("Languages",{username});
   };
 
   return (

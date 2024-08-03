@@ -236,17 +236,17 @@ const Home = ({ navigation, route }) => {
   };
 
   const GoToMusicSection = () => {
-    navigation.navigate("MusicTester2");
+    navigation.navigate("MusicTester2",{username});
     startTracking("music");
   };
 
   const GoToFeedbackSection = () => {
-    navigation.navigate("Feedback");
+    navigation.navigate("Feedback",{username});
     startTracking("feedback");
 
   };
   const GoToGamificationSection = () => {
-    navigation.navigate("Gamification");
+    navigation.navigate("Gamification",{username});
     startTracking("game");
 
   };

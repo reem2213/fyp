@@ -243,9 +243,11 @@ import Book4 from "../../../../assets/the-silent-patient.jpg";
 import Ato from '../../../../android/app/src/main/assets/atomicHabits.pdf'
 import Rixh from '../../../../android/app/src/main/assets/RichDadPoorDad.pdf'
 import Novemb from '../../../../android/app/src/main/assets/November9.pdf'
+import Back from "../../../../assets/back.png";
 
-const Books = ({ navigation }) => {
+const Books = ({ navigation,route }) => {
   const { isDarkMode } = useContext(DarkModeContext); // Get the dark mode state
+  const {username}=route.params
 
   const imageMap = {
     "November 9": Nov9,
@@ -307,9 +309,15 @@ const Books = ({ navigation }) => {
 
     fetchBooks();
   }, []);
+  const backToHome = () => {
+    navigation.navigate("EduSection",{username});
+  };
 
   return (
     <View style={[styles.container, { backgroundColor: isDarkMode ? "#333" : "#F9F9F9" }]}>
+       <TouchableOpacity onPress={backToHome}>
+          <Image source={Back} style={styles.backButton} />
+        </TouchableOpacity>
       <Text style={[styles.header, { color: isDarkMode ? "white" : "#B1CB14" }]}>Our Library</Text>
       <View style={styles.tabs}>
         <Text style={{ color: "#B1CB14", fontSize: 18, fontWeight: "bold" }}>All</Text>
@@ -328,7 +336,8 @@ const Books = ({ navigation }) => {
                 description: b.description,
                 rating: b.rating,
                 author: b.author,
-                pdfUri: pdfMap[b.title], // Pass the PDF file path
+                pdfUri: pdfMap[b.title],
+                username // Pass the PDF file path
               })
             }
           >
@@ -383,6 +392,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+  },
+  backButton: {
+    position: "absolute",
+    marginTop: 30,
+    marginLeft: 0,
+    width: 30,
+    height: 30,
   },
   header: {
     fontSize: 28,

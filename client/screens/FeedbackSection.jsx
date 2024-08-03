@@ -19,7 +19,9 @@ import Back from "../assets/back.png";
 import User from "../assets/user.png";
 import { DarkModeContext } from "../components/DarkModeContext";
 
-const Feedback = ({ navigation }) => {
+const Feedback = ({ navigation,route }) => {
+  const{username}=route.params;
+
   const [feedbacks, setFeedbacks] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [newType, setNewType] = useState("");
@@ -79,7 +81,7 @@ const Feedback = ({ navigation }) => {
 
   const backToHome = () => {
     
-    navigation.navigate("Home");
+    navigation.navigate("Home",{username});
   };
 
   return (

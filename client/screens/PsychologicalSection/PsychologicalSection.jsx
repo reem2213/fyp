@@ -293,11 +293,11 @@ const Home = ({ navigation,route }) => {
   const {username}=route.params
 
   const GoBack = () => {
-    navigation.navigate("Home");
+    navigation.navigate("Home",{username});
   };
 
   const GoToEducationSection = () => {
-    navigation.navigate("EduSection");
+    navigation.navigate("EduSection",{username});
   };
 
   const GoToCommunitiesSection = () => {
@@ -309,7 +309,7 @@ const Home = ({ navigation,route }) => {
   };
 
   const GoToChatBotSection = () => {
-    navigation.navigate("ChatBot");
+    navigation.navigate("ChatBot",{username});
   };
 
   return (

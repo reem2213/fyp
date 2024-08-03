@@ -264,7 +264,7 @@ export default function GroupsScreen({ navigation, route }) {
   };
 
   const BackToPsycho = () => {
-    navigation.navigate("PsychologicalSection");
+    navigation.navigate("PsychologicalSection",{username});
   };
 
   return (

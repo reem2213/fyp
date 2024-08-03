@@ -189,6 +189,8 @@ import { DarkModeContext } from "../components/DarkModeContext"; // Import the c
 const Gamification = ({ route, navigation }) => {
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
   const [scores, setScores] = useState([]);
+  const{username}=route.params;
+
 
   useEffect(() => {
     fetchScores();
@@ -204,7 +206,7 @@ const Gamification = ({ route, navigation }) => {
   };
 
   const GoBackToHome = () => {
-    navigation.navigate("Home");
+    navigation.navigate("Home",{username});
   };
 
   const getBadge = (points) => {

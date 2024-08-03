@@ -450,7 +450,7 @@ const App = ({ navigation, route }) => {
   const imgDir = FileSystem.documentDirectory + "/images";
 
   const GoBack = () => {
-    navigation.navigate("Home");
+    navigation.navigate("Home",{username});
   };
   const [posts, setPosts] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
