@@ -497,6 +497,7 @@ app.post('/groups/:id/join', async (req, res) => {
   } catch (error) {
     res.status(500).send({ message: 'Failed to join group', error });
   }
+
 });
 app.get('/groups/joined', async (req, res) => {
   const { username } = req.query;
@@ -510,6 +511,8 @@ app.get('/groups/joined', async (req, res) => {
 
 
 const typingStatus = {}; // Store typing statuses for each group
+
+
 
 app.post('/groups/:id/typing', (req, res) => {
   const { id } = req.params;

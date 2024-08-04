@@ -49,19 +49,21 @@ import { DarkModeProvider } from "./components/DarkModeContext";
 import Gamification from "./screens/Gamification.jsx";
 import ChatScreen from "./screens/PsychologicalSection/Community/Chat.jsx";
 import EditProfile from "./screens/EditProfile.jsx";
-import SplashScreenPhys from './screens/PhysicalSection/Attributes/Splash.jsx';
-import Gender from './screens/PhysicalSection/Attributes/Gender.jsx';
-import AgeScreen from './screens/PhysicalSection/Attributes/Age.jsx';
-import HeightScreen from './screens/PhysicalSection/Attributes/Height.jsx';
+import SplashScreenPhys from "./screens/PhysicalSection/Attributes/Splash.jsx";
+import Gender from "./screens/PhysicalSection/Attributes/Gender.jsx";
+import AgeScreen from "./screens/PhysicalSection/Attributes/Age.jsx";
+import HeightScreen from "./screens/PhysicalSection/Attributes/Height.jsx";
 import WeightScreen from "./screens/PhysicalSection/Attributes/Weight.jsx";
-import ResultScreen from './screens/PhysicalSection/Attributes/Result.jsx';
+import ResultScreen from "./screens/PhysicalSection/Attributes/Result.jsx";
 import PlaceScreen from "./screens/PhysicalSection/Attributes/Place.jsx";
 import GoalScreen from "./screens/PhysicalSection/Attributes/Goal.jsx";
 import ConditionScreen from "./screens/PhysicalSection/Attributes/Condition.jsx";
 import FinalScreen from "./screens/PhysicalSection/Attributes/Final.jsx";
-import PhysicalSectionHome from './screens/PhysicalSection/Home.jsx';
-import PlanScreen from './screens/PhysicalSection/Plan.jsx';
+import PhysicalSectionHome from "./screens/PhysicalSection/Home.jsx";
+import PlanScreen from "./screens/PhysicalSection/Plan.jsx";
 import Shop from "./screens/PhysicalSection/Shop.jsx";
+import PhysicalMentor from "./screens/PhysicalSection/Mentors/Mentor.jsx";
+import PhysicalMentorAvailability from "./screens/PhysicalSection/Mentors/MentorAvailability.jsx";
 export default function App() {
   const Stack = createNativeStackNavigator();
 
@@ -83,7 +85,7 @@ export default function App() {
               headerShown: false,
             }}
           />
-           <Stack.Screen
+          <Stack.Screen
             name="Plan"
             component={PlanScreen}
             options={{
@@ -93,6 +95,20 @@ export default function App() {
           <Stack.Screen
             name="Shop"
             component={Shop}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="PhysicalMentor"
+            component={PhysicalMentor}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="PhysicalMentorAvailability"
+            component={PhysicalMentorAvailability}
             options={{
               headerShown: false,
             }}
@@ -419,84 +435,82 @@ export default function App() {
             }}
           />
           <Stack.Screen
-          name="PhysicalSectionSplash"
-          component={SplashScreenPhys}
-          options={{
-            headerShown: false,
-          }}
-        />
-           <Stack.Screen
-          name="GenderScreen"
-          component={Gender}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-        <Stack.Screen
-          name="AgeScreen"
-          component={AgeScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-        <Stack.Screen
-          name="WeightScreen"
-          component={WeightScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-        <Stack.Screen
-          name="HeightScreen"
-          component={HeightScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-         <Stack.Screen
-          name="GoalScreen"
-          component={GoalScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-        
+            name="PhysicalSectionSplash"
+            component={SplashScreenPhys}
+            options={{
+              headerShown: false,
+            }}
+          />
           <Stack.Screen
-          name="ConditionScreen"
-          component={ConditionScreen}
-          options={{
-            headerShown: false,
-          }}
-          />
-
-         <Stack.Screen
-          name="PlaceScreen"
-          component={PlaceScreen}
-          options={{
-            headerShown: false,
-          }}
-          />
-
-          
-         <Stack.Screen
-          name="FinalScreen"
-          component={FinalScreen}
-          options={{
-            headerShown: false,
-          }}
+            name="GenderScreen"
+            component={Gender}
+            options={{
+              headerShown: false,
+            }}
           />
 
           <Stack.Screen
-          name="ResultScreen"
-          component={ResultScreen}
-          options={{
-            headerShown: false,
-          }}
+            name="AgeScreen"
+            component={AgeScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+
+          <Stack.Screen
+            name="WeightScreen"
+            component={WeightScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+
+          <Stack.Screen
+            name="HeightScreen"
+            component={HeightScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+
+          <Stack.Screen
+            name="GoalScreen"
+            component={GoalScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+
+          <Stack.Screen
+            name="ConditionScreen"
+            component={ConditionScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+
+          <Stack.Screen
+            name="PlaceScreen"
+            component={PlaceScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+
+          <Stack.Screen
+            name="FinalScreen"
+            component={FinalScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+
+          <Stack.Screen
+            name="ResultScreen"
+            component={ResultScreen}
+            options={{
+              headerShown: false,
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>

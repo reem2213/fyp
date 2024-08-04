@@ -64,21 +64,17 @@ const Home = ({ navigation, route }) => {
   }, [username]);
   const GoToGoalSection = () => {
     navigation.navigate("goal");
-    startTracking("goal");
   };
 
   const GoToMusicSection = () => {
-    navigation.navigate("MusicTester2");
-    startTracking("music");
+    navigation.navigate("PhysicalMentor",{username});
   };
 
   const GoToFeedbackSection = () => {
     navigation.navigate("Feedback");
-    startTracking("feedback");
   };
   const GoToGamificationSection = () => {
     navigation.navigate("Gamification");
-    startTracking("game");
   };
 
   const goToProfile = () => {
