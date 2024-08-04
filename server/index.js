@@ -91,18 +91,6 @@ app.get('/user/:username', async (req, res) => {
   }
 });
 
-
-
-// app.post('/goal', async (req, res) => {
-//   const { goal, date,status } = req.body;
-//   try {
-//       const newGoal = new goalModel({ goal, date,status });
-//       await newGoal.save();
-//       res.status(201).json(newGoal);
-//   } catch (error) {
-//       res.status(500).json({ message: error.message });
-//   }
-// });
 app.post('/goal/:username', async (req, res) => {
   const { username } = req.params;
   const { goal, date, status } = req.body;
@@ -220,30 +208,6 @@ app.get('/mentors', async (req, res) => {
 });
 
 
-
-
-// app.post('/bookings', async (req, res) => {
-//   try {
-//     const { mentorName, time, duration, meetingType, location, date ,status} = req.body;
-//     const newBooking = new BookingModel({ mentorName, time, duration, meetingType, location, date,status });
-//     await newBooking.save();
-//     res.status(200).json({ message: 'Booking confirmed!', booking: newBooking });
-//   } catch (error) {
-//     console.error('Error booking appointment:', error);
-//     res.status(500).json({ message: 'An error occurred while booking. Please try again.' });
-//   }
-// });
-
-
-// app.get('/bookings', async (req, res) => {
-//   try {
-//       const booking = await BookingModel.find();
-//       res.json(booking);
-//   } catch (error) {
-//       res.status(500).json({ message: error.message });
-//   }
-// });
-
 app.post('/bookings/:username', async (req, res) => {
   
   try {
@@ -358,21 +322,6 @@ app.post('/posts', async (req, res) => {
   }
 });
 
-// app.post('/posts/:id/toggle-like', async (req, res) => {
-//   const post = await Post.findById(req.params.id);
-//   const increment = req.body.increment;
-//   post.likes += increment ? 1 : -1;
-//   await post.save();
-//   res.json(post);
-// });
-
-// app.post('/posts/:id/toggle-repost', async (req, res) => {
-//   const post = await Post.findById(req.params.id);
-//   const increment = req.body.increment;
-//   post.reposts += increment ? 1 : -1;
-//   await post.save();
-//   res.json(post);
-// });
 
 app.post('/posts/:id/toggle-like', async (req, res) => {
   const { username } = req.body;
@@ -413,33 +362,6 @@ app.post('/posts/:id/toggle-repost', async (req, res) => {
 //GAMIFICATION
 
 
-
-// Routes
-// app.post('/save-score', async (req, res) => {
-//   const { score, points } = req.body;
-
-//   const newUser = new responseModel({
-//       score,
-//       points
-//   });
-
-//   try {
-//       const savedUser = await newUser.save();
-//       res.status(201).json(savedUser);
-//   } catch (err) {
-//       res.status(400).json({ error: err.message });
-//   }
-// });
-
-// app.get('/scores', async (req, res) => {
-//   try {
-//       const scores = await responseModel.find().sort({ date: -1 }); // Fetch scores and sort by date
-//       res.status(200).json(scores);
-//   } catch (err) {
-//       res.status(400).json({ error: err.message });
-//   }
-// });
-
 app.post('/save-score', async (req, res) => {
   const { username, score, points } = req.body;
 
@@ -473,21 +395,6 @@ app.get('/scores/:username', async (req, res) => {
 
 //POINTS IN PROFILE
 
-// app.get('/userpoints/:username', async (req, res) => {
-//   try {
-//     const { username } = req.params;
-    
-//     // Fetch user points from the database (this is a placeholder, adjust it to your schema)
-//     const user = await responseModel.findOne({ username });
-//     const points = user ? user.points : 0;
-    
-//     res.json({ points });
-//   } catch (error) {
-//     console.error('Error fetching user points:', error);
-//     res.status(500).send('Server error');
-//   }
-  
-// });
 app.get('/user-points/:username', async (req, res) => {
   try {
     const { username } = req.params;
@@ -504,12 +411,14 @@ app.get('/user-points/:username', async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
+
     res.json({ username: username, totalPoints: totalPoints[0].totalPoints });
   } catch (error) {
     console.error('Aggregation error:', error);
     res.status(500).json({ message: 'Server error', error });
   }
 });
+
 
 
 
@@ -525,7 +434,6 @@ const MemberSchema = new mongoose.Schema({
 const GroupSchema = new mongoose.Schema({
   name: String,
   description: String,
-  // members: [String], 
   members: [
     {
       username: String,
@@ -561,9 +469,7 @@ app.post('/groups', async (req, res) => {
 app.get('/groups', async (req, res) => {
   const { username } = req.query;
   const groups = await Group.find();
-  
-  // Include joined status for each group based on the requesting user
-  const userGroups = groups.map(group => {
+    const userGroups = groups.map(group => {
     const isMember = group.members.some(member => member.username === username && member.joined);
     return { ...group.toObject(), joined: isMember };
   });
@@ -592,14 +498,6 @@ app.post('/groups/:id/join', async (req, res) => {
     res.status(500).send({ message: 'Failed to join group', error });
   }
 });
-
-app.post('/groups/:id/messages', async (req, res) => {
-  const group = await Group.findById(req.params.id);
-  group.messages.push(req.body);
-  await group.save();
-  res.send(group);
-});
-
 app.get('/groups/joined', async (req, res) => {
   const { username } = req.query;
   try {
@@ -610,50 +508,62 @@ app.get('/groups/joined', async (req, res) => {
   }
 });
 
-// app.post('/users', async (req, res) => {
-//   const user = new Member(req.body);
-//   await user.save();
-//   res.send(user);
-// });
 
-// app.post('/groups', async (req, res) => {
-//   const group = new Group(req.body);
-//   await group.save();
-//   res.send(group);
-// });
+const typingStatus = {}; // Store typing statuses for each group
 
-// app.get('/groups', async (req, res) => {
-//   const groups = await Group.find();
-//   res.send(groups);
-// });
+app.post('/groups/:id/typing', (req, res) => {
+  const { id } = req.params;
+  const { username } = req.body;
+  typingStatus[id] = { message: `${username} is typing...`, username };
+  res.sendStatus(200);
+});
+
+app.post('/groups/:id/stopTyping', (req, res) => {
+  const { id } = req.params;
+  const { username } = req.body;
+  if (typingStatus[id] && typingStatus[id].username === username) {
+    delete typingStatus[id];
+  }
+  res.sendStatus(200);
+});
+
+app.get('/groups/:id/typingStatus', (req, res) => {
+  const { id } = req.params;
+  res.json({ typingStatus: typingStatus[id] || '' });
+});
+
+app.post('/groups/:id/messages', async (req, res) => {
+  try {
+    const group = await Group.findById(req.params.id);
+    if (!group) {
+      return res.status(404).send({ message: 'Group not found' });
+    }
+    group.messages.push(req.body);
+    await group.save();
+    res.send(group.messages);
+  } catch (error) {
+    res.status(500).send({ message: 'Failed to send message', error });
+  }
+});
+
+app.get('/groups/:id/messages', async (req, res) => {
+  try {
+    const group = await Group.findById(req.params.id);
+    if (!group) {
+      return res.status(404).send({ message: 'Group not found' });
+    }
+    res.send(group.messages);
+  } catch (error) {
+    res.status(500).send({ message: 'Failed to fetch messages', error });
+  }
+});
 
 
 
 
 
-// app.post('/groups/:id/join', async (req, res) => {
-//   try {
-//     const group = await Group.findById(req.params.id);
-//     if (!group) {
-//       return res.status(404).send({ message: 'Group not found' });
-//     }
-//     const { username } = req.body;
-//     console.log(`Joining group: ${group.name} with username: ${username}`);
-    
-//     if (!group.members.includes(username)) {
-//       group.members.push(username);
-//       group.status = 'joined';
-//       await group.save();
-//       console.log(`User ${username} successfully joined group ${group.name}`);
-//     } else {
-//       console.log(`User ${username} already a member of group ${group.name}`);
-//     }
-//     res.send(group);
-//   } catch (error) {
-//     console.error('Error joining group:', error);
-//     res.status(500).send({ message: 'Failed to join group', error });
-//   }
-// });
+
+
 // app.post('/groups/:id/messages', async (req, res) => {
 //   const group = await Group.findById(req.params.id);
 //   group.messages.push(req.body);
@@ -661,22 +571,53 @@ app.get('/groups/joined', async (req, res) => {
 //   res.send(group);
 // });
 
-// app.get('/groups/joined', async (req, res) => {
+
+
+// // Get messages of a specific group
+// app.get('/groups/:id/messages', async (req, res) => {
 //   try {
-//     const joinedGroups = await Group.find({ status: 'joined' });
-//     res.json(joinedGroups);
+//     const group = await Group.findById(req.params.id);
+//     if (!group) {
+//       return res.status(404).send({ message: 'Group not found' });
+//     }
+//     res.send(group.messages);
 //   } catch (error) {
-//     res.status(500).json({ message: 'Failed to fetch joined groups', error });
+//     res.status(500).send({ message: 'Failed to fetch messages', error });
 //   }
+// });
+// const typingStatus = {}; // Store typing statuses for each group
+
+// app.post('/groups/:id/typing', (req, res) => {
+//   const { id } = req.params;
+//   const { username } = req.body;
+//   typingStatus[id] = { message: `${username} is typing...`, username };
+//   res.sendStatus(200);
+// });
+
+// app.post('/groups/:id/stopTyping', (req, res) => {
+//   const { id } = req.params;
+//   const { username } = req.body;
+//   if (typingStatus[id] && typingStatus[id].username === username) {
+//     delete typingStatus[id];
+//   }
+//   res.sendStatus(200);
+// });
+
+// app.get('/groups/:id/typingStatus', (req, res) => {
+//   const { id } = req.params;
+//   res.json({ typingStatus: typingStatus[id] || '' });
 // });
 
 
 
 
 
+
+
+
+
+
 //navigatioon of user
-
-
 app.get('/userr/:username', async (req, res) => {
   try {
     const username = req.params.username;
@@ -719,7 +660,6 @@ app.post('/upload', async (req, res) => {
 
 //edit user info
 
-// In your Express backend
 app.put('/user/:username', async (req, res) => {
   const { username } = req.params;
   const updateData = req.body;
@@ -767,24 +707,7 @@ app.get('/formData/:username', async (req, res) => {
   }
 });
 
-// app.post('/formData', async (req, res) => {
-//   try {
-//     const formData = new physicalAttributeModel(req.body);
-//     await formData.save();
-//     res.status(201).json(formData);
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// });
 
-// app.get('/formData', async (req, res) => {
-//   try {
-//     const formData = await physicalAttributeModel.find();
-//     res.json(formData);
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// });
 
 
 

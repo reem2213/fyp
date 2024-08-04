@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
-import Swiper from 'react-native-swiper';
 import { useNavigation } from '@react-navigation/native';
 import Book1 from '../../../assets/Agatha2.jpg'
 const { width, height } = Dimensions.get('window');
@@ -9,7 +8,8 @@ const App = () => {
   const navigation = useNavigation();
 
   return (
-    <Swiper loop={false} dotStyle={styles.dot} activeDotStyle={styles.activeDot}>
+    <>
+ 
       <View style={styles.container}>
         <View style={styles.circleLeft} />
         <View style={styles.circleRight} />
@@ -61,8 +61,7 @@ const App = () => {
           <Text style={styles.buttonText}>Get Started</Text>
         </TouchableOpacity>
       </View>
-    </Swiper>
-  );
+      </>  );
 };
 
 const styles = StyleSheet.create({
