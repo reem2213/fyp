@@ -289,7 +289,7 @@ const SccreenTime = ({ screenTimeData }) => {
         style={{
           marginVertical: 8,
           borderRadius: 16,
-          marginTop: 50,
+          marginTop: 20,
           marginLeft: 10,
         }}
         yAxisInterval={1} // Set y-axis interval
@@ -413,6 +413,8 @@ const Home = ({ navigation,route }) => {
 
         <Text style={[styles.welcome, { color: isDarkMode ? "white" : "#1B436F" }]}>{`Learn & Grow`}</Text>
         <Image source={EduBg} style={styles.image} />
+        <Text style={[styles.screenTime, { color: isDarkMode ? "white" : "#1B436F" }]}>{`Screen Time`}</Text>
+
         <SccreenTime screenTimeData={screenTimeData} />
 
         <View style={styles.content}>
@@ -486,6 +488,14 @@ const styles = StyleSheet.create({
     top: 120,
     left: 80,
     fontSize: 35,
+    width: "90%",
+  },
+  screenTime:{
+    position: "absolute",
+    fontWeight: "bold",
+    top: 450,
+    left: 20,
+    fontSize: 25,
     width: "90%",
   },
   content: {
