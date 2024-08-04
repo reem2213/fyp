@@ -221,7 +221,9 @@ import Mondly from "../../../../assets/mondly.png";
 import Fluentu from "../../../../assets/fluentu-logo.png";
 import Back from "../../../../assets/back.png";
 
-const Apps = ({ navigation }) => {
+const Apps = ({ navigation,route }) => {
+  const{username}=route.params // Get the dark mode state
+
   const handlePress = () => {
     Linking.openURL('https://www.fluentu.com/'); 
   };
@@ -247,7 +249,7 @@ const Apps = ({ navigation }) => {
   };
 
   const backToHome = () => {
-    navigation.navigate("EduSection");
+    navigation.navigate("EduSection",{username});
   };
 
   return (

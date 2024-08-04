@@ -59,15 +59,16 @@ import { DarkModeContext } from "../../../../components/DarkModeContext"; // Adj
 import Back from "../../../../assets/back.png";
 import LangBg from "../../../../assets/langBg.png";
 
-const Language = ({ navigation }) => {
-  const { isDarkMode } = useContext(DarkModeContext); // Get the dark mode state
+const Language = ({ navigation,route }) => {
+  const { isDarkMode } = useContext(DarkModeContext);
+  const{username}=route.params // Get the dark mode state
 
   const backToHome = () => {
-    navigation.navigate("EduSection");
+    navigation.navigate("EduSection",{username});
   };
 
   const toApps = () => {
-    navigation.navigate("apps");
+    navigation.navigate("apps",{username});
     console.log("entered");
   };
 

@@ -217,7 +217,7 @@
 //   },
 // });
 
-import React, { useContext } from "react";
+import React, { useContext,useEffect,useState } from "react";
 import {
   View,
   Text,
@@ -234,23 +234,170 @@ import MusicSection from "../../../assets/BooksSection.png";
 import EduBg from "../../../assets/EduBg.png";
 import LanguageSection from "../../../assets/languageSection.png";
 import { DarkModeContext } from "../../../components/DarkModeContext"; // Import the context
+import { LineChart, BarChart } from "react-native-chart-kit";
+import { Dimensions } from "react-native";
+const screenWidth = Dimensions.get("window").width;
+const SccreenTime = ({ screenTimeData }) => {
+ 
+    const chartData = {
+      labels: ["quiz", "library", "language"],
+      datasets: [
+        {
+          data: [
+            screenTimeData.quiz || 0,
+            screenTimeData.library || 0,
+            screenTimeData.language || 0,
+          ],
+        },
+      ],
+    };
+  
+    return (
+      <BarChart
+        data={chartData}
+        width={screenWidth - 16}
+        height={220}
+        yAxisLabel=""
+        yAxisSuffix=""
+        yLabelsOffset={8}
+        fromZero={true}
+        chartConfig={{
+          backgroundColor: "yellow",
+          backgroundGradientFrom: "orange",
+          backgroundGradientTo: "yellow",
+          decimalPlaces: 0,
+          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+          style: {
+            borderRadius: 16,
+          },
+          propsForBackgroundLines: {
+            strokeDasharray: "", // Solid background lines
+            strokeWidth: 1,
+            stroke: "rgba(255, 255, 255, 0.2)",
+          },
+          formatYLabel: (yValue) => {
+            const value = Number(yValue);
+            if (!isNaN(value)) {
+              return value > 60 
+                ? `${(value / 60).toFixed(1)}min` // Convert to minutes if > 60 seconds
+                : `${value}s`; // Otherwise, show in seconds
+            }
+            return '0s'; // Fallback for invalid values
+          },
+        }}
+        verticalLabelRotation={0}
+        style={{
+          marginVertical: 8,
+          borderRadius: 16,
+          marginTop: 50,
+          marginLeft: 10,
+        }}
+        yAxisInterval={1} // Set y-axis interval
+        showBarTops={true}
+        yAxisMinValue={0} // Force min y-axis value
+        yAxisMaxValue={90} // Force max y-axis value
+      />
+    );
+};
 
 const Home = ({ navigation,route }) => {
   const {username}=route.params
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
+  const [screenTimeData, setScreenTimeData] = useState({
+    quiz: 0,
+    library: 0,
+    language: 0,
+  });
+  const [startTime, setStartTime] = useState(null);
+  const [currentSection, setCurrentSection] = useState(null);
+  const [isFocused, setIsFocused] = useState(false);
 
+  useEffect(() => {
+    const updateTime = () => {
+      if (startTime && currentSection) {
+        const elapsedTime = Math.floor((Date.now() - startTime) / 1000); // Convert to seconds
+        console.log(
+          `Updating time for ${currentSection}: ${elapsedTime} seconds`
+        );
+        setScreenTimeData((prevData) => ({
+          ...prevData,
+          [currentSection]: prevData[currentSection] + elapsedTime,
+        }));
+        setStartTime(Date.now());
+      }
+    };
+
+    const timer = setInterval(updateTime, 1000); // Update every second
+
+    return () => clearInterval(timer);
+  }, [startTime, currentSection]);
+
+  const startTracking = (section) => {
+    if (currentSection) {
+      updateTime();
+    }
+    console.log(`Starting tracking for ${section}`);
+    setCurrentSection(section);
+    setStartTime(Date.now());
+  };
+
+  const stopTracking = () => {
+    updateTime();
+    console.log(`Stopping tracking for ${currentSection}`);
+    setCurrentSection(null);
+    setStartTime(null);
+  };
+
+  const updateTime = () => {
+    if (startTime && currentSection) {
+      const elapsedTime = Math.floor((Date.now() - startTime) / 1000); // Convert to seconds
+      const elapsedMinutes = Math.floor(elapsedTime / 60); // Convert to minutes
+      const remainingSeconds = elapsedTime % 60; // Remaining seconds
+  
+      console.log(`Updating time for ${currentSection}: ${elapsedMinutes}m ${remainingSeconds}s`);
+  
+      setScreenTimeData((prevData) => ({
+        ...prevData,
+        [currentSection]: prevData[currentSection] + elapsedMinutes + remainingSeconds / 60, // Add minutes and fraction of minutes
+      }));
+      setStartTime(Date.now());
+    }
+  };
+  
+  useEffect(() => {
+    const unsubscribeFocus = navigation.addListener("focus", () => {
+      setIsFocused(true);
+      stopTracking(); // Stop tracking when Home gains focus
+    });
+
+    const unsubscribeBlur = navigation.addListener("blur", () => {
+      setIsFocused(false);
+    });
+
+    return () => {
+      unsubscribeFocus();
+      unsubscribeBlur();
+    };
+  }, [navigation]);
   const toNotifications = () => {
     navigation.navigate("PsychologicalSection",{username});
   };
   const GoToQuizSection = () => {
     navigation.navigate("Quiz",{username});
+    startTracking("quiz");
+
   };
   const GoToLibrarySection = () => {
     navigation.navigate("Library",{username});
+    startTracking("library");
+
   };
   const GoToLanguagesSection = () => {
     navigation.navigate("Languages",{username});
+    startTracking("language");
+
   };
+
 
   return (
     <GestureHandlerRootView style={[styles.container, { backgroundColor: isDarkMode ? "black" : "white" }]}>
@@ -266,6 +413,7 @@ const Home = ({ navigation,route }) => {
 
         <Text style={[styles.welcome, { color: isDarkMode ? "white" : "#1B436F" }]}>{`Learn & Grow`}</Text>
         <Image source={EduBg} style={styles.image} />
+        <SccreenTime screenTimeData={screenTimeData} />
 
         <View style={styles.content}>
           <TouchableOpacity onPress={GoToQuizSection}>
