@@ -35,7 +35,7 @@ const PhysicalMentors = ({ navigation,route }) => {
   useEffect(() => {
     const fetchMentors = async () => {
       try {
-        const response = await axios.get("http://10.0.0.21:3001/mentors");
+        const response = await axios.get("http://10.0.0.21:3001/mentors?section=Physical");
         setMentors(response.data);
       } catch (error) {
         console.error("Error fetching mentors:", error);

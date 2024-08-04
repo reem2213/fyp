@@ -196,16 +196,32 @@ app.get('/categories', async (req, res) => {
 
 
 
-
+//FETCH MENTORS:
 
 app.get('/mentors', async (req, res) => {
+  const { section } = req.query; // Get the section from query parameters
+
   try {
-      const books = await mentorModel.find();
-      res.json(books);
+    let mentors;
+    if (section) {
+      mentors = await mentorModel.find({ section }); // Filter mentors by section
+    } else {
+      mentors = await mentorModel.find(); // Get all mentors if no section is specified
+    }
+    res.json(mentors);
   } catch (error) {
-      res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 });
+
+// app.get('/mentors', async (req, res) => {
+//   try {
+//       const books = await mentorModel.find();
+//       res.json(books);
+//   } catch (error) {
+//       res.status(500).json({ message: error.message });
+//   }
+// });
 
 
 app.post('/bookings/:username', async (req, res) => {
@@ -425,8 +441,6 @@ app.get('/user-points/:username', async (req, res) => {
 
 
 //COMMUNITY
-
-
 const MemberSchema = new mongoose.Schema({
   username: String,
 });
@@ -451,8 +465,6 @@ const GroupSchema = new mongoose.Schema({
 });
 const Member = mongoose.model('Member', MemberSchema);
 const Group = mongoose.model('Group', GroupSchema);
-
-
 
 app.post('/users', async (req, res) => {
   const user = new Member(req.body);
@@ -509,11 +521,7 @@ app.get('/groups/joined', async (req, res) => {
   }
 });
 
-
 const typingStatus = {}; // Store typing statuses for each group
-
-
-
 app.post('/groups/:id/typing', (req, res) => {
   const { id } = req.params;
   const { username } = req.body;

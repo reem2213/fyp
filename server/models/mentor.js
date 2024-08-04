@@ -4,7 +4,8 @@ const mentorSchema = new mongoose.Schema({
     name: String,
     type: String,
     description:String,
-    rating:Number
+    rating:Number,
+    section: String
 
 })
  
