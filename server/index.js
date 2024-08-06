@@ -480,39 +480,30 @@ app.get('/groups', async (req, res) => {
   res.send(userGroups);
 });
 
-// app.get('/groups', async (req, res) => {
-//   const { username } = req.query;
-//   const groups = await Group.find();
-//     const userGroups = groups.map(group => {
-//     const isMember = group.members.some(member => member.username === username && member.joined);
-//     return { ...group.toObject(), joined: isMember };
-//   });
 
-//   res.send(userGroups);
+
+// app.post('/groups/:id/join', async (req, res) => {
+//   try {
+//     const group = await Group.findById(req.params.id);
+//     if (!group) {
+//       return res.status(404).send({ message: 'Group not found' });
+//     }
+//     const { username } = req.body;
+//     const memberIndex = group.members.findIndex(member => member.username === username);
+
+//     if (memberIndex === -1) {
+//       group.members.push({ username, joined: true });
+//     } else {
+//       group.members[memberIndex].joined = true;
+//     }
+
+//     await group.save();
+//     res.send(group);
+//   } catch (error) {
+//     res.status(500).send({ message: 'Failed to join group', error });
+//   }
+
 // });
-
-app.post('/groups/:id/join', async (req, res) => {
-  try {
-    const group = await Group.findById(req.params.id);
-    if (!group) {
-      return res.status(404).send({ message: 'Group not found' });
-    }
-    const { username } = req.body;
-    const memberIndex = group.members.findIndex(member => member.username === username);
-
-    if (memberIndex === -1) {
-      group.members.push({ username, joined: true });
-    } else {
-      group.members[memberIndex].joined = true;
-    }
-
-    await group.save();
-    res.send(group);
-  } catch (error) {
-    res.status(500).send({ message: 'Failed to join group', error });
-  }
-
-});
 app.get('/groups/joined', async (req, res) => {
   const { username } = req.query;
   try {
@@ -545,6 +536,54 @@ app.get('/groups/:id/typingStatus', (req, res) => {
   res.json({ typingStatus: typingStatus[id] || '' });
 });
 
+// app.post('/groups/:id/messages', async (req, res) => {
+//   try {
+//     const group = await Group.findById(req.params.id);
+//     if (!group) {
+//       return res.status(404).send({ message: 'Group not found' });
+//     }
+//     group.messages.push(req.body);
+//     await group.save();
+//     res.send(group.messages);
+//   } catch (error) {
+//     res.status(500).send({ message: 'Failed to send message', error });
+//   }
+// });
+// server.js (Node.js/Express example)
+
+app.post('/groups/:id/join', async (req, res) => {
+  try {
+    const group = await Group.findById(req.params.id);
+    if (!group) {
+      return res.status(404).send({ message: 'Group not found' });
+    }
+
+    const username = req.body.username;
+    const memberExists = group.members.some(member => member.username === username);
+
+    if (memberExists) {
+      return res.status(400).send({ message: 'User already a member of the group' });
+    }
+
+    group.members.push({ username });
+    await group.save();
+
+    // Send welcome message after joining
+    const welcomeMessage = {
+      sender: "system", // or another identifier for system messages
+      text: `Heyy ${username}, welcome to our community! Here you will find yourself better, so how can we help you?`,
+      timestamp: new Date(),
+    };
+    group.messages.push(welcomeMessage);
+    await group.save();
+
+    res.send(group);
+  } catch (error) {
+    console.error("Error joining group:", error); // Log the error
+    res.status(500).send({ message: 'Failed to join group', error: error.message });
+  }
+});
+
 app.post('/groups/:id/messages', async (req, res) => {
   try {
     const group = await Group.findById(req.params.id);
@@ -555,7 +594,8 @@ app.post('/groups/:id/messages', async (req, res) => {
     await group.save();
     res.send(group.messages);
   } catch (error) {
-    res.status(500).send({ message: 'Failed to send message', error });
+    console.error("Error sending message:", error); // Log the error
+    res.status(500).send({ message: 'Failed to send message', error: error.message });
   }
 });
 

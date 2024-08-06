@@ -124,6 +124,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#121212',
+    top:20
   },
   sentMessage: {
     alignSelf: 'flex-end',
@@ -153,6 +154,7 @@ const styles = StyleSheet.create({
   },
   backButtonText: {
     color: '#4A90E2',
+    marginTop:20
   },
   headerTitle: {
     fontSize: 20,

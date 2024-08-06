@@ -32,13 +32,32 @@ export default function PhysicalGroupsScreen({ navigation, route }) {
     }
   };
 
+  // const joinGroup = async (groupId) => {
+  //   try {
+  //     const response = await axios.post(
+  //       `http://10.0.0.21:3001/groups/${groupId}/join`,
+  //       {
+  //         username,
+  //       }
+  //     );
+  //     Alert.alert("Success", `You have joined ${response.data.name}`);
+  //     const updatedGroup = response.data;
+  //     setGroups((prevGroups) =>
+  //       prevGroups.map((group) =>
+  //         group._id === groupId ? { ...group, joined: true } : group
+  //       )
+  //     );
+  //     navigation.navigate("PhysicalChat", { groupId, username });
+  //   } catch (error) {
+  //     console.error(error);
+  //     Alert.alert("Error", "Failed to join the group");
+  //   }
+  // };
   const joinGroup = async (groupId) => {
     try {
       const response = await axios.post(
         `http://10.0.0.21:3001/groups/${groupId}/join`,
-        {
-          username,
-        }
+        { username }
       );
       Alert.alert("Success", `You have joined ${response.data.name}`);
       const updatedGroup = response.data;
@@ -47,6 +66,7 @@ export default function PhysicalGroupsScreen({ navigation, route }) {
           group._id === groupId ? { ...group, joined: true } : group
         )
       );
+
       navigation.navigate("PhysicalChat", { groupId, username });
     } catch (error) {
       console.error(error);
@@ -55,6 +75,7 @@ export default function PhysicalGroupsScreen({ navigation, route }) {
   };
 
   const BackToPsycho = () => {
+
     navigation.navigate("PsychologicalSection",{username});
   };
 
