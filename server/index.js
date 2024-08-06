@@ -722,6 +722,17 @@ app.get('/formData/:username', async (req, res) => {
 
 
 
+//SUPLEMENT SHOP
+
+app.get('/products', async (req, res) => {
+  try {
+    const products = await productModel.find();
+    res.json(products);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
 
 
 

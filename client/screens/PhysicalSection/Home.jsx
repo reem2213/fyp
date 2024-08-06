@@ -74,7 +74,7 @@ const Home = ({ navigation, route }) => {
     navigation.navigate("PhysicalCommunity",{username});
   };
   const GoToGamificationSection = () => {
-    navigation.navigate("Gamification");
+    navigation.navigate("Shop");
   };
 
   const goToProfile = () => {
