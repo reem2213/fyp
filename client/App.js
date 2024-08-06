@@ -42,7 +42,6 @@ import Chatting from "./screens/PsychologicalSection/ChatBot/ChatBot.jsx";
 import ViewPdf from "./components/ViewPdf.jsx";
 import MentorsAvailability from "./screens/PsychologicalSection/Mentors/MentorsAvailability.jsx";
 import Settings from "./screens/Settings.jsx";
-import { UserProvider } from "./components/userContext.jsx";
 import PostScreen from "./screens/Post.jsx";
 import CancelBookingScreen from "./screens/CancelBooking.jsx";
 import { DarkModeProvider } from "./components/DarkModeContext";
@@ -64,6 +63,8 @@ import PlanScreen from "./screens/PhysicalSection/Plan.jsx";
 import Shop from "./screens/PhysicalSection/Shop.jsx";
 import PhysicalMentor from "./screens/PhysicalSection/Mentors/Mentor.jsx";
 import PhysicalMentorAvailability from "./screens/PhysicalSection/Mentors/MentorAvailability.jsx";
+import PhysicalCommunity from './screens/PhysicalSection/Community/Community.jsx';
+import PhysicalChat from './screens/PhysicalSection/Community/Chat.jsx';
 export default function App() {
   const Stack = createNativeStackNavigator();
 
@@ -109,6 +110,20 @@ export default function App() {
           <Stack.Screen
             name="PhysicalMentorAvailability"
             component={PhysicalMentorAvailability}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="PhysicalCommunity"
+            component={PhysicalCommunity}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="PhysicalChat"
+            component={PhysicalChat}
             options={{
               headerShown: false,
             }}

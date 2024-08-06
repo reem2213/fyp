@@ -214,16 +214,9 @@ app.get('/mentors', async (req, res) => {
   }
 });
 
-// app.get('/mentors', async (req, res) => {
-//   try {
-//       const books = await mentorModel.find();
-//       res.json(books);
-//   } catch (error) {
-//       res.status(500).json({ message: error.message });
-//   }
-// });
 
 
+//BOOKING
 app.post('/bookings/:username', async (req, res) => {
   
   try {
@@ -247,14 +240,12 @@ app.get('/bookings/:username', async (req, res) => {
   }
 });
 
-// Assuming 'goals' is a router configured in your Express app
 app.put('/goal/:id', async (req, res) => {
   // Update the status of the goal with the given ID
   const { id } = req.params;
   const { status } = req.body;
 
   try {
-    // Assuming 'Goal' is your Mongoose model
     const updatedGoal = await goalModel.findByIdAndUpdate(id, { status }, { new: true });
 
     if (!updatedGoal) {
@@ -275,7 +266,6 @@ app.put('/bookings/:id', async (req, res) => {
   const { status } = req.body;
 
   try {
-    // Assuming 'Meeting' is your Mongoose model
     const updatedMeeting = await BookingModel.findByIdAndUpdate(id, { status }, { new: true });
 
     if (!updatedMeeting) {
@@ -461,6 +451,8 @@ const GroupSchema = new mongoose.Schema({
       timestamp: { type: Date, default: Date.now },
     },
   ],
+  section: String
+
 
 });
 const Member = mongoose.model('Member', MemberSchema);
@@ -479,15 +471,25 @@ app.post('/groups', async (req, res) => {
 });
 
 app.get('/groups', async (req, res) => {
-  const { username } = req.query;
-  const groups = await Group.find();
-    const userGroups = groups.map(group => {
+  const { username, section } = req.query;
+  const groups = await Group.find({ section });  // Filter groups by section
+  const userGroups = groups.map(group => {
     const isMember = group.members.some(member => member.username === username && member.joined);
     return { ...group.toObject(), joined: isMember };
   });
-
   res.send(userGroups);
 });
+
+// app.get('/groups', async (req, res) => {
+//   const { username } = req.query;
+//   const groups = await Group.find();
+//     const userGroups = groups.map(group => {
+//     const isMember = group.members.some(member => member.username === username && member.joined);
+//     return { ...group.toObject(), joined: isMember };
+//   });
+
+//   res.send(userGroups);
+// });
 
 app.post('/groups/:id/join', async (req, res) => {
   try {

@@ -14,7 +14,7 @@ import Back from "../../../assets/arrowBack.png";
 import { DarkModeContext } from "../../../components/DarkModeContext";
 import GrayEllipse from '../../../assets/grayEllipse.png';
 
-export default function GroupsScreen({ navigation, route }) {
+export default function PhysicalGroupsScreen({ navigation, route }) {
   const [groups, setGroups] = useState([]);
   const { username } = route.params;
   const { isDarkMode } = useContext(DarkModeContext);
@@ -25,13 +25,12 @@ export default function GroupsScreen({ navigation, route }) {
 
   const fetchGroups = async () => {
     try {
-      const response = await axios.get(`http://10.0.0.21:3001/groups?username=${username}&section=psychological`);
+      const response = await axios.get(`http://10.0.0.21:3001/groups?username=${username}&section=physical`);
       setGroups(response.data);
     } catch (error) {
       console.error(error);
     }
   };
-
 
   const joinGroup = async (groupId) => {
     try {
@@ -48,7 +47,7 @@ export default function GroupsScreen({ navigation, route }) {
           group._id === groupId ? { ...group, joined: true } : group
         )
       );
-      navigation.navigate("Chat", { groupId, username });
+      navigation.navigate("PhysicalChat", { groupId, username });
     } catch (error) {
       console.error(error);
       Alert.alert("Error", "Failed to join the group");

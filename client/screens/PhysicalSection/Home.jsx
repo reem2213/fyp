@@ -71,7 +71,7 @@ const Home = ({ navigation, route }) => {
   };
 
   const GoToFeedbackSection = () => {
-    navigation.navigate("Feedback");
+    navigation.navigate("PhysicalCommunity",{username});
   };
   const GoToGamificationSection = () => {
     navigation.navigate("Gamification");
