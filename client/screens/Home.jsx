@@ -118,19 +118,40 @@ const Home = ({ navigation, route }) => {
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
   const [imageData, setImageData] = useState(null);
 
+
+
   useEffect(() => {
     fetch(`http://10.0.0.21:3001/userr/${username}`)
       .then((response) => response.json())
       .then((data) => {
         setBio(data.bio);
         setImageData(data.image);
-
         console.log("donee");
       })
       .catch((error) => {
         console.error("Error fetching user data:", error);
       });
   }, [username]);
+
+
+  const checkPhysicalAttributes = () => {
+    fetch(`http://10.0.0.21:3001/formData/${username}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data && data.age && data.gender && data.height && data.weight) {
+          navigation.navigate("PhysicalHome", { username, bio, imageData });
+        } else {
+          navigation.navigate("PhysicalSection", { username });
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching physical attributes:", error);
+        navigation.navigate("PhysicalSection", { username });
+      });
+    }
+
+
+
   const screen2 = () => {
     navigation.navigate("Screen2");
   };
@@ -179,18 +200,7 @@ const Home = ({ navigation, route }) => {
     setStartTime(null);
   };
 
-  // const updateTime = () => {
-  //   if (startTime && currentSection) {
-  //     const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
-  //     console.log(
-  //       `Updating time for ${currentSection}: ${elapsedTime} seconds`
-  //     );
-  //     setScreenTimeData((prevData) => ({
-  //       ...prevData,
-  //       [currentSection]: prevData[currentSection] + elapsedTime,
-  //     }));
-  //   }
-  // };
+
   const updateTime = () => {
     if (startTime && currentSection) {
       const elapsedTime = Math.floor((Date.now() - startTime) / 1000); // Convert to seconds
@@ -264,9 +274,13 @@ const Home = ({ navigation, route }) => {
   const ToPsychologicalSection = () => {
     navigation.navigate("PsychologicalSection", { username, bio, imageData });
   };
+  // const ToPhysicalSection = () => {
+  //   navigation.navigate("PhysicalHome", { username, bio, imageData });
+  // };
   const ToPhysicalSection = () => {
-    navigation.navigate("PhysicalHome", { username, bio, imageData });
+    checkPhysicalAttributes();
   };
+ 
   const ToSettings = () => {
     navigation.navigate("Settings", { username, bio, imageData });
   };
@@ -351,7 +365,7 @@ const Home = ({ navigation, route }) => {
 
             <SccreenTime screenTimeData={screenTimeData} />
 
-            <TouchableOpacity onPress={GoToGoalSection}>
+            <TouchableOpacity onPress={ToPhysicalSection}>
               <View style={styles.section}>
                 <Text style={styles.sectionTitle}>Goal Crusher</Text>
                 <Text style={styles.sectionSubtitle}>
