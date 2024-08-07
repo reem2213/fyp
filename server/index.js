@@ -481,29 +481,6 @@ app.get('/groups', async (req, res) => {
 });
 
 
-
-// app.post('/groups/:id/join', async (req, res) => {
-//   try {
-//     const group = await Group.findById(req.params.id);
-//     if (!group) {
-//       return res.status(404).send({ message: 'Group not found' });
-//     }
-//     const { username } = req.body;
-//     const memberIndex = group.members.findIndex(member => member.username === username);
-
-//     if (memberIndex === -1) {
-//       group.members.push({ username, joined: true });
-//     } else {
-//       group.members[memberIndex].joined = true;
-//     }
-
-//     await group.save();
-//     res.send(group);
-//   } catch (error) {
-//     res.status(500).send({ message: 'Failed to join group', error });
-//   }
-
-// });
 app.get('/groups/joined', async (req, res) => {
   const { username } = req.query;
   try {
@@ -551,6 +528,30 @@ app.get('/groups/:id/typingStatus', (req, res) => {
 // });
 // server.js (Node.js/Express example)
 
+
+
+// app.post('/groups/:id/join', async (req, res) => {
+//   try {
+//     const group = await Group.findById(req.params.id);
+//     if (!group) {
+//       return res.status(404).send({ message: 'Group not found' });
+//     }
+//     const { username } = req.body;
+//     const memberIndex = group.members.findIndex(member => member.username === username);
+
+//     if (memberIndex === -1) {
+//       group.members.push({ username, joined: true });
+//     } else {
+//       group.members[memberIndex].joined = true;
+//     }
+
+//     await group.save();
+//     res.send(group);
+//   } catch (error) {
+//     res.status(500).send({ message: 'Failed to join group', error });
+//   }
+
+// });
 app.post('/groups/:id/join', async (req, res) => {
   try {
     const group = await Group.findById(req.params.id);

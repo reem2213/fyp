@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity,Linking } from 'react-native';
 import axios from 'axios';
 import StarRating from 'react-native-star-rating';
 import { WebView } from "react-native-webview";
@@ -9,6 +9,55 @@ import { WebView } from "react-native-webview";
 const SupplementSuggestion = () => {
   const [products, setProducts] = useState([]);
 
+  
+  const ToProduct1 = () => {
+    Linking.openURL('https://www.muscleandstrength.com/store/whey-muscle-builder.html'); 
+  };
+
+  const ToProduct2 = () => {
+    Linking.openURL('https://www.muscleandstrength.com/store/nutrex-whey.html'); 
+  };
+
+  const ToProduct3 = () => {
+
+    Linking.openURL('https://www.muscleandstrength.com/store/nutrex-isofit.html'); 
+  };
+
+  const ToProduct4 = () => {
+    Linking.openURL('https://www.muscleandstrength.com/store/dymatize-iso-100.html'); 
+  };
+
+  const ToProduct5 = () => {
+    Linking.openURL('https://www.muscleandstrength.com/store/syntha-6-isolate.html'); 
+  };
+
+  const ToProduct6 = () => {
+    Linking.openURL('https://www.muscleandstrength.com/store/primeval-labs-whey-protein-concentrate.html'); 
+  };
+
+  const ToProduct7 = () => {
+    Linking.openURL('https://www.muscleandstrength.com/store/combat-sport-bar.html'); 
+  };
+
+  const ToProduct8 = () => {
+    Linking.openURL('https://www.muscleandstrength.com/store/now-almond-packets.html'); 
+  };
+
+  const ToProduct9 = () => {
+    Linking.openURL('https://www.muscleandstrength.com/store/perfect-sports-diesel-whey-protein-isolate.html'); 
+  };
+
+  const ToProduct10 = () => {
+    Linking.openURL('https://www.muscleandstrength.com/store/hexapro-protein-bar.html'); 
+  };
+
+  const ToProduct11 = () => {
+    Linking.openURL('https://www.muscleandstrength.com/store/bpisports-isohd-whey-protein.html'); 
+  };
+
+  const ToProduct12 = () => {
+    Linking.openURL('https://www.muscleandstrength.com/store/magnum-quattro.html'); 
+  };
   useEffect(() => {
     axios.get('http://10.0.0.21:3001/products')
       .then(response => {
@@ -17,7 +66,16 @@ const SupplementSuggestion = () => {
       .catch(error => {
         console.error(error);
       });
+
   }, []);
+
+ const handleBuyClick = (url) => {
+    if (url) {
+      Linking.openURL(url).catch((err) => console.error('Failed to open URL:', err));
+    } else {
+      Alert.alert('Invalid URL', 'The product does not have a valid URL.');
+    }
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -46,9 +104,12 @@ const SupplementSuggestion = () => {
               starSize={20}
             />
             <Text style={styles.productPrice}>${product.price}</Text>
-            <TouchableOpacity style={styles.buyButton}>
+            <TouchableOpacity 
+              style={styles.buyButton} 
+              onPress={() => handleBuyClick(product.url)}
+            >
               <Text style={styles.buyButtonText}>BUY</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>          
           </View>
         ))}
       </View>

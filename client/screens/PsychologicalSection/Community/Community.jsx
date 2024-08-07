@@ -101,6 +101,7 @@ export default function GroupsScreen({ navigation, route }) {
               </View>
             </View>
           ))}
+          
         </View>
         <TouchableOpacity
           style={[styles.viewJoinedButton, { backgroundColor: isDarkMode ? "#719AEA" : "4a90e2" }]}
