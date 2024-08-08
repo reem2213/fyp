@@ -1,13 +1,16 @@
 
-import { View, Text, Image, Pressable,StyleSheet } from "react-native";
+import { View, Text, Image, Pressable,StyleSheet,Platform } from "react-native";
 import * as Google from "expo-auth-session/providers/google";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as WebBrowser from "expo-web-browser";
 import { useEffect, useState } from "react";
 import GoogleIcon from '../assets/google.png'
 import { useNavigation } from "@react-navigation/native";
+if (Platform.OS !== 'web') {
+  WebBrowser.maybeCompleteAuthSession();
+}
 
-const AuthenticationTester = () => {
+const AuthenticationTester = ({navigation}) => {
   const { navigate } = useNavigation();
 
   WebBrowser.maybeCompleteAuthSession();
@@ -19,7 +22,7 @@ const AuthenticationTester = () => {
       "401952058204-2icuf068v4pccidni0mfej7gdn9k5lvr.apps.googleusercontent.com",
     webClientId:
       "401952058204-vb1ku0ok1u9m42fp9n9s612kp1ho7u0f.apps.googleusercontent.com",
-      // scopes: ['profile', 'email'],
+      scopes: ['profile', 'email'],
   });
 
   useEffect(() => {
@@ -30,16 +33,19 @@ const AuthenticationTester = () => {
   async function handleSignInWithGoole() {
     console.log("handleSignInWithGoogle called");
 
-    const user = await AsyncStorage.getItem("@user");
+    const user = await AsyncStorage.getItem(userInfo);
 
     if (!user) {
       if (response?.type == "success") {
         console.log("Successful response:", response);
 
         await fetchUserInfo(response.authentication.accessToken);
+       navigate("Home",{userInfo});
+
       }
       else{
         console.log("No user data found in AsyncStorage");
+
 
       }
     } else {
@@ -65,13 +71,16 @@ const AuthenticationTester = () => {
 
       await AsyncStorage.setItem("@user", JSON.stringify(user));
       setUserInfo(user);
-      navigate("Home");
+      console.log(JSON.stringify(user))
+
+   navigate("Home",{userInfo});
     } catch (error) {
       console.error("Error fetching user info:", error);
     }
   }
   return (
     <View style={styles.container}>
+      
 {/* <Text>{JSON.stringify(userInfo,null,2)}</Text> */}
       <Pressable onPress={()=>promptAsync()}>
         <Image source={GoogleIcon} style={styles.googleIcon}/>
@@ -102,6 +111,32 @@ const styles=StyleSheet.create({
 export default AuthenticationTester;
 
 
+
+// email
+// : 
+// "rimdib311@gmail.com"
+// family_name
+// : 
+// "deeb"
+// given_name
+// : 
+// "reem"
+// id
+// : 
+// "107629301746397214229"
+// locale
+// : 
+// "en-US"
+// name
+// : 
+// "reem deeb"
+// picture
+// : 
+// "https://lh3.googleusercontent.com/a/ACg8ocIDl_QJwCu9odMNif1305qh1vM8Ue65z1vCGSZz0T0gwvNdL68u=s96-c"
+// verified_email
+// : 
+// true
+// [[Prototype]]
 
 
 // import { View, Text, Pressable } from "react-native";
