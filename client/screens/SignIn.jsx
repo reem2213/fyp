@@ -378,6 +378,35 @@ const styles = StyleSheet.create({
 export default SignIn;
 
 
+
+
+// import React from 'react';
+// import { Text, View } from 'react-native';
+// import { useTranslation } from 'react-i18next';
+// import './i18n'; // Import the i18n configuration
+
+// const App = () => {
+//   const { t, i18n } = useTranslation();
+
+//   const changeLanguage = (lng) => {
+//     i18n.changeLanguage(lng);
+//   };
+
+//   return (
+//     <View>
+//       <Text>{t('welcome')}</Text>
+//       <Button title="Switch to French" onPress={() => changeLanguage('fr')} />
+//     </View>
+//   );
+// };
+
+// export default App;
+
+
+
+
+
+
 // import React, { useState, useContext } from "react";
 // import {
 //   StyleSheet,

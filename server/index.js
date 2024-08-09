@@ -23,8 +23,8 @@ app.use(express.json());
 app.use(cors());
  
 
-
 const connectionString = "mongodb+srv://reemdeeb00:MdEWisOAb2UKPU0Q@cluster0.d7rojza.mongodb.net/finalYearProject?retryWrites=true&w=majority&appName=Cluster0";
+//const connectionString = "mongodb+srv://reemdeeb00:MdEWisOAb2UKPU0Q@cluster0.d7rojza.mongodb.net/finalYearProject?retryWrites=true&w=majority&appName=Cluster0";
 
 mongoose.connect(connectionString, {
   useUnifiedTopology: true, useNewUrlParser: true
@@ -81,6 +81,7 @@ app.post("/SignIn", (req, res) => {
     }
   });
 });
+
 
 app.get('/user/:username', async (req, res) => {
   try {
