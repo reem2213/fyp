@@ -365,7 +365,7 @@ const Home = ({ navigation, route }) => {
 
             <SccreenTime screenTimeData={screenTimeData} />
 
-            <TouchableOpacity onPress={ToPhysicalSection}>
+            <TouchableOpacity onPress={screen2}>
               <View style={styles.section}>
                 <Text style={styles.sectionTitle}>Goal Crusher</Text>
                 <Text style={styles.sectionSubtitle}>
