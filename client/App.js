@@ -65,6 +65,7 @@ import PhysicalMentor from "./screens/PhysicalSection/Mentors/Mentor.jsx";
 import PhysicalMentorAvailability from "./screens/PhysicalSection/Mentors/MentorAvailability.jsx";
 import PhysicalCommunity from './screens/PhysicalSection/Community/Community.jsx';
 import PhysicalChat from './screens/PhysicalSection/Community/Chat.jsx';
+import WorkoutPredictor from "./screens/PhysicalSection/Workout.jsx";
 export default function App() {
   const Stack = createNativeStackNavigator();
 
@@ -523,6 +524,14 @@ export default function App() {
           <Stack.Screen
             name="ResultScreen"
             component={ResultScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+
+<Stack.Screen
+            name="Workout"
+            component={WorkoutPredictor}
             options={{
               headerShown: false,
             }}

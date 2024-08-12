@@ -153,7 +153,7 @@ const Home = ({ navigation, route }) => {
 
 
   const screen2 = () => {
-    navigation.navigate("Screen2");
+    navigation.navigate("Workout");
   };
   const [screenTimeData, setScreenTimeData] = useState({
     goal: 0,
