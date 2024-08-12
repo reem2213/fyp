@@ -5,13 +5,13 @@ import predictWorkoutProgram from "./api"; // The API call function
 const WorkoutPredictor = () => {
   const [features, setFeatures] = useState({
     gender: "",
-    age: "",
-    weight: "",
-    height: "",
     goal: "",
     physicalLevel: "",
     placeOfExercise: "",
     medicalCondition: "",
+    age: "",
+    weight: "",
+    height: "",
   });
   const [prediction, setPrediction] = useState(null);
 
@@ -48,21 +48,7 @@ const WorkoutPredictor = () => {
         placeholder="Gender"
         onChangeText={(value) => setFeatures({ ...features, gender: value })}
       />
-      <TextInput
-        placeholder="Age"
-        keyboardType="numeric"
-        onChangeText={(value) => setFeatures({ ...features, age: value })}
-      />
-      <TextInput
-        placeholder="Height"
-        keyboardType="numeric"
-        onChangeText={(value) => setFeatures({ ...features, height: value })}
-      />
-      <TextInput
-        placeholder="Weight"
-        keyboardType="numeric"
-        onChangeText={(value) => setFeatures({ ...features, weight: value })}
-      />
+     
       <TextInput
         placeholder="Goal"
         onChangeText={(value) => setFeatures({ ...features, goal: value })}
@@ -84,6 +70,21 @@ const WorkoutPredictor = () => {
         onChangeText={(value) =>
           setFeatures({ ...features, placeOfExercise: value })
         }
+      />
+       <TextInput
+        placeholder="Age"
+        keyboardType="numeric"
+        onChangeText={(value) => setFeatures({ ...features, age: value })}
+      />
+      <TextInput
+        placeholder="Height"
+        keyboardType="numeric"
+        onChangeText={(value) => setFeatures({ ...features, height: value })}
+      />
+      <TextInput
+        placeholder="Weight"
+        keyboardType="numeric"
+        onChangeText={(value) => setFeatures({ ...features, weight: value })}
       />
 
       <Button title="Predict Workout Program" onPress={handlePredict} />
