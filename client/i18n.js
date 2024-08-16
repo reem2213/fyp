@@ -6,7 +6,6 @@ const resources = {
   en: {
     translation: {
       welcome: 'Welcome',
-      // Add other keys and translations here
     },
   },
   fr: {
