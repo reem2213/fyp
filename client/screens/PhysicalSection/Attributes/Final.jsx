@@ -1,9 +1,24 @@
-import React,{useState,useContext,useEffect} from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Alert } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useState, useContext, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function FinalScreen({ route, navigation }) {
-  const { age, gender, height ,weight , goal, medicalCondition, place } = route.params;
+  const {
+    age,
+    gender,
+    height,
+    weight,
+    goal,
+    medicalCondition,
+    place,
+  } = route.params;
   const { username } = route.params;
   const [bio, setBio] = useState("");
   const [imageData, setImageData] = useState(null);
@@ -23,31 +38,44 @@ export default function FinalScreen({ route, navigation }) {
   }, [username]);
   const handleSubmit = async () => {
     try {
-      const response = await fetch(`http://10.0.0.21:3001/formData/${username}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          age,
-          gender,
-          height,
-          weight,
-          goal,
-          medicalCondition,
-          place,
-        }),
-      });
+      const response = await fetch(
+        `http://10.0.0.21:3001/formData/${username}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            age,
+            gender,
+            height,
+            weight,
+            goal,
+            medicalCondition,
+            place,
+          }),
+        }
+      );
 
       if (response.ok) {
         const result = await response.json();
-        Alert.alert('Success', 'Your data has been submitted');
-        navigation.navigate('ResultScreen',{username,bio,imageData, height, weight});
+        Alert.alert("Success", "Your data has been submitted");
+        navigation.navigate("ResultScreen", {
+          age,
+          gender,
+          username,
+          bio,
+          imageData,
+          height,
+          weight,
+          medicalCondition,
+          place,
+        });
       } else {
-        throw new Error('Something went wrong');
+        throw new Error("Something went wrong");
       }
     } catch (error) {
-      Alert.alert('Error', error.message);
+      Alert.alert("Error", error.message);
     }
   };
 
@@ -94,75 +122,72 @@ export default function FinalScreen({ route, navigation }) {
             <Ionicons name="arrow-back" size={20} color="white" />
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.nextButton}
-            onPress={handleSubmit}
-          >
+          <TouchableOpacity style={styles.nextButton} onPress={handleSubmit}>
             <Text style={styles.nextButtonText}>Finish</Text>
             <Ionicons name="arrow-forward" size={20} color="white" />
           </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
-  );
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
   },
   content: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   headerText: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#087CEA',
+    fontWeight: "bold",
+    color: "#087CEA",
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
   infoContainer: {
     marginBottom: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   infoTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: "bold",
+    color: "#333",
   },
   infoText: {
     fontSize: 16,
-    color: '#555',
+    color: "#555",
   },
   navigationButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '80%',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "80%",
     marginTop: 20,
   },
   backButton: {
-    flexDirection: 'row',
-    backgroundColor: '#000000',
+    flexDirection: "row",
+    backgroundColor: "#000000",
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   nextButton: {
-    flexDirection: 'row',
-    backgroundColor: '#083EA7',
+    flexDirection: "row",
+    backgroundColor: "#083EA7",
     paddingHorizontal: 40,
     paddingVertical: 10,
     borderRadius: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   nextButtonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
     marginLeft: 5,
   },
@@ -170,8 +195,8 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: '#719AEA',
-    position: 'absolute',
+    backgroundColor: "#719AEA",
+    position: "absolute",
     top: 0,
     left: 0,
   },
@@ -179,8 +204,8 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: '#719AEA',
-    position: 'absolute',
+    backgroundColor: "#719AEA",
+    position: "absolute",
     top: 0,
     right: 0,
   },
@@ -188,8 +213,8 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: '#719AEA',
-    position: 'absolute',
+    backgroundColor: "#719AEA",
+    position: "absolute",
     bottom: 0,
     left: 0,
   },
@@ -197,8 +222,8 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: '#719AEA',
-    position: 'absolute',
+    backgroundColor: "#719AEA",
+    position: "absolute",
     bottom: 0,
     right: 0,
   },

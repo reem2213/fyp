@@ -22,7 +22,7 @@ export default function MedicalConditionScreen({ route, navigation }) {
       });
   }, [username]);
   const [selectedOption, setSelectedOption] = useState(null);
-  const [medicalCondition, setMedicalCondition] = useState('');
+  const [medicalCondition, setMedicalCondition] = useState('No');
 
   return (
     <SafeAreaView style={styles.container}>

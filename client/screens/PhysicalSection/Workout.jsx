@@ -35,15 +35,8 @@ const WorkoutPredictor = () => {
 
 
   return (
-    <View>
-      {/* <TextInput placeholder="Gender"  onChangeText={(value) => setFeatures({ ...features, gender: value })} />
-      <TextInput placeholder="Age"  onChangeText={(value) => setFeatures({ ...features, age: value })} />
-      <TextInput placeholder="Height" onChangeText={(value) => setFeatures({ ...features, height: value })} />
-      <TextInput placeholder="Weight"  onChangeText={(value) => setFeatures({ ...features, weight: value })} />
-      <TextInput placeholder="Goal" onChangeText={(value) => setFeatures({ ...features, goal: value })} />
-      <TextInput placeholder="Physical Level"  onChangeText={(value) => setFeatures({ ...features, physicalLevel: value })} />
-      <TextInput placeholder="Medical Condition"  onChangeText={(value) => setFeatures({ ...features, medicalCondition: value })} />
-      <TextInput placeholder="Place of Exercise" onChangeText={(value) => setFeatures({ ...features, placeOfExercise: value })} /> */}
+    <View style={{padding:20,marginTop:50}}>
+
       <TextInput
         placeholder="Gender"
         onChangeText={(value) => setFeatures({ ...features, gender: value })}

@@ -3,7 +3,7 @@ import axios from 'axios';
 const predictWorkoutProgram = async (features) => {
     try {
         console.log("Sending features:", features);
-        const response = await axios.post('http://127.0.0.1:5000/predict', {
+        const response = await axios.post('http://10.0.0.21:5000/predict', {
             features: features,
         }, {
             headers: {

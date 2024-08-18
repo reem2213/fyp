@@ -316,7 +316,7 @@ const Home = ({ navigation, route }) => {
                 ]}
                 originWhitelist={["*"]}
                 source={{
-                  html: `<img src="data:image/jpeg;base64,${imageData}" style="width:250px; height:250px;margin-top:150px;" />`,
+                  html: `<img src="data:image/jpeg;base64,${imageData}" style="width:250px; height:250px;margin-top:150px;border-radius:150px" />`,
                 }}
               />
             </TouchableOpacity>
@@ -365,7 +365,7 @@ const Home = ({ navigation, route }) => {
 
             <SccreenTime screenTimeData={screenTimeData} />
 
-            <TouchableOpacity onPress={screen2}>
+            <TouchableOpacity onPress={GoToGoalSection}>
               <View style={styles.section}>
                 <Text style={styles.sectionTitle}>Goal Crusher</Text>
                 <Text style={styles.sectionSubtitle}>

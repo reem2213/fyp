@@ -2,11 +2,25 @@ import React,{useState,useContext,useEffect} from 'react';
 import { View, Text, StyleSheet, SafeAreaView,TouchableOpacity } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { Ionicons } from '@expo/vector-icons';
+import predictWorkoutProgram from "../api"; // The API call function
 
 export default function ProgressScreen({navigation,route}) {
-  const { username, height, weight } = route.params;
+  const { username,height,weight } = route.params;
   const [bio, setBio] = useState("");
   const [imageData, setImageData] = useState(null);
+  const [features, setFeatures] = useState({
+    gender: "",
+    goal: "",
+    physicalLevel: "",
+    placeOfExercise: "",
+    medicalCondition: "",
+    age: "",
+    weight: "",
+    height: "",
+  });
+
+  
+  const [prediction, setPrediction] = useState(null);
 
   useEffect(() => {
     fetch(`http://10.0.0.21:3001/userr/${username}`)
@@ -21,10 +35,56 @@ export default function ProgressScreen({navigation,route}) {
         console.error("Error fetching user data:", error);
       });
   }, [username]);
-  const ToHome=()=>{
-    navigation.navigate('PhysicalHome',{username,bio,imageData, height, weight});
+  useEffect(() => {
+    fetch(`http://10.0.0.21:3001/formData/${username}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data) {
+          setFeatures({
+            gender: data.gender || "",
+            goal: data.goal || "",
+            physicalLevel: data.physicalLevel || "Rookie",
+            placeOfExercise: data.place || "",
+            medicalCondition: data.medicalCondition || "",
+            age: data.age || "",
+            weight: data.weight || "",
+            height: data.height || "",
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching physical attributes:", error);
+      });
+  }, [username]);
 
-  }
+  const handlePredict = async () => {
+    try {
+      const processedFeatures = Object.entries(features).map(([key, value]) => {
+        if (value === "" || value === null || value === undefined) {
+          return key === "age" || key === "weight" || key === "height"
+            ? 0
+            : "Unknown";
+        }
+        navigation.navigate("PhysicalHome", {
+          username,
+          bio,
+          imageData,
+          height,
+          weight,
+        });
+        return value;
+      });
+      console.log("Sending features:", processedFeatures);
+      const result = await predictWorkoutProgram(processedFeatures);
+      setPrediction(result);
+      console.log("the result", result);
+      
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+ 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.circleTopLeft}></View>
@@ -57,9 +117,11 @@ export default function ProgressScreen({navigation,route}) {
         <Text style={styles.authorText}>Albert Schweitzer</Text>
         <TouchableOpacity
             style={styles.nextButton}
-            onPress={ToHome}
+            onPress={handlePredict}
           >
             <Text style={styles.nextButtonText}>Finish</Text>
+            {prediction && <Text>Your Workout Program: {prediction}</Text>}
+
             <Ionicons name="arrow-forward" size={20} color="white" />
           </TouchableOpacity>
       </View>

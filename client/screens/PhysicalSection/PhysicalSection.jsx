@@ -1,6 +1,6 @@
 import React,{useState,useContext,useEffect} from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
-// import Swiper from 'react-native-swiper';
+import Swiper from 'react-native-swiper';
 import { useNavigation } from '@react-navigation/native';
 import Book1 from '../../assets/Agatha2.jpg'
 const { width, height } = Dimensions.get('window');
@@ -26,8 +26,8 @@ const App = ({route}) => {
   }, [username]);
 
   return (
-    // <Swiper loop={false} dotStyle={styles.dot} activeDotStyle={styles.activeDot}>
-    <>
+    <Swiper loop={false} dotStyle={styles.dot} activeDotStyle={styles.activeDot}>
+    
       <View style={styles.container}>
         <View style={styles.circleLeft} />
         <View style={styles.circleRight} />
@@ -79,8 +79,8 @@ const App = ({route}) => {
           <Text style={styles.buttonText}>Get Started</Text>
         </TouchableOpacity>
       </View>
-    {/* </Swiper> */}
-    </>
+    </Swiper>
+   
   );
 };
 

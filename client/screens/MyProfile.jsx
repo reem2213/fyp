@@ -485,7 +485,6 @@ const App = ({ route }) => {
               </TouchableOpacity>
             </View>
           </View>
-
           {activeSection === "Goals" && (
             <WebView
               originWhitelist={["*"]}
@@ -493,6 +492,7 @@ const App = ({ route }) => {
               style={{ top: 10 }}
             />
           )}
+         
 
           <View style={styles.statusContainer}>
             <TouchableOpacity
@@ -714,10 +714,12 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   imagee: {
-    width: 200,
-    height: 200,
-    top: 20,
+    width: 150,
+    height: 150,
+    top: -20,
     left: 10,
+    marginTop:40,
+    borderRadius:150
   },
 });
 
