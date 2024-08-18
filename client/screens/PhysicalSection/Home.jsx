@@ -78,7 +78,7 @@ const Home = ({ navigation, route }) => {
   };
 
   const goToProfile = () => {
-    navigation.navigate("SignIn", { username, bio, imageData });
+    navigation.navigate("MyProfile", { username, bio, imageData });
   };
 
   const calculateBMI = (weight, height) => {
