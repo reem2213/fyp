@@ -165,6 +165,7 @@ import Back from '../assets/back.png';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { DarkModeContext } from '../components/DarkModeContext';
 
+
 export default function MusicZoneScreen({ navigation,route }) {
   const{username}=route.params;
   
