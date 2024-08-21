@@ -195,19 +195,17 @@ const Notifications = ({ navigation,route}) => {
         ? JSON.parse(storedNotifications)
         : [];
 
-      // Check if the welcome notification already exists
       const welcomeNotificationExists = notificationsArray.some(
         (notification) =>
           notification.message === "Welcome! You have successfully signed in."
       );
 
       if (!welcomeNotificationExists) {
-        // Add the welcome notification if it doesn't exist
         const welcomeNotification = {
           message: "Welcome! You have successfully signed in.",
           time: new Date().toISOString(),
         };
-        notificationsArray.unshift(welcomeNotification); // Add to the beginning of the array
+        notificationsArray.unshift(welcomeNotification);
         await AsyncStorage.setItem(
           "Notifications",
           JSON.stringify(notificationsArray)
@@ -221,25 +219,40 @@ const Notifications = ({ navigation,route}) => {
   };
 
   const removeOldNotifications = async () => {
-    const currentTime = new Date();
-    const updatedNotifications = notifications.filter(notification => {
-      const notificationTime = new Date(notification.time);
-      const timeDifference = (currentTime - notificationTime) / 60000; // in minutes
-      return timeDifference <= 33; // Keep notifications less than or equal to 33 minutes old
-    });
+    try {
+      const currentTime = new Date();
+      const storedNotifications = await AsyncStorage.getItem("Notifications");
+      let notificationsArray = storedNotifications
+        ? JSON.parse(storedNotifications)
+        : [];
 
-    setNotifications(updatedNotifications);
-    await AsyncStorage.setItem("Notifications", JSON.stringify(updatedNotifications));
+      // Filter out only the notifications that are more than 5 minutes old
+      const updatedNotifications = notificationsArray.filter(notification => {
+        const notificationTime = new Date(notification.time);
+        const timeDifference = (currentTime - notificationTime) / (1000 * 60); // in minutes
+        return timeDifference <= 5; // Only remove the notification that exceed 5 minutes
+      });
+
+      // Save the filtered notifications back to AsyncStorage
+      await AsyncStorage.setItem("Notifications", JSON.stringify(updatedNotifications));
+
+      // Update the state to reflect the changes
+      setNotifications(updatedNotifications);
+    } catch (error) {
+      console.error("Failed to remove old notifications:", error);
+    }
   };
 
   useEffect(() => {
     fetchNotifications();
 
     const interval = setInterval(() => {
-      removeOldNotifications();
-    }, 500000); 
-    return () => clearInterval(interval); 
+      removeOldNotifications(); // Remove old notifications every 2 seconds
+    }, 2000);
+    return () => clearInterval(interval);
   }, []);
+  
+
 
   return (
     <View style={[styles.container, { backgroundColor: isDarkMode ? "#1A1A1A" : "#fff" }]}>

@@ -43,6 +43,7 @@ import SettingsIcon from "../assets/settings.png";
 import HomeIcon from "../assets/homeLight.png";
 import CommunityLight from "../assets/communityLight.png";
 import CommunityDark from "../assets/communityDark.png";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { LineChart, BarChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
@@ -229,9 +230,25 @@ const Home = ({ navigation, route }) => {
     };
   }, [navigation]);
 
-  const toNotifications = () => {
-    navigation.navigate("Notifications", { username });
+  // const toNotifications = () => {
+  //   navigation.navigate("Notifications", { username });
+  // };
+  const toNotifications = async () => {
+    // Mark all notifications as read
+    try {
+      const storedNotifications = await AsyncStorage.getItem('Notifications');
+      let notifications = storedNotifications ? JSON.parse(storedNotifications) : [];
+  
+      notifications = notifications.map(notif => ({ ...notif, read: true }));
+      await AsyncStorage.setItem('Notifications', JSON.stringify(notifications));
+      setUnreadCount(0); // Reset the unread count
+  
+      navigation.navigate("Notifications", { username });
+    } catch (error) {
+      console.error("Error updating notifications:", error);
+    }
   };
+  
 
   const toPosts = () => {
     navigation.navigate("Post", { username });
@@ -279,18 +296,44 @@ const Home = ({ navigation, route }) => {
     navigation.navigate("Settings", { username, bio, imageData });
   };
 
+
+
+
+
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const storedNotifications = await AsyncStorage.getItem('Notifications');
+        let notifications = storedNotifications ? JSON.parse(storedNotifications) : [];
+
+        // Assuming unread notifications are those that are not marked as read
+        const unreadNotifications = notifications.filter(notif => !notif.read);
+        setUnreadCount(unreadNotifications.length);
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+      }
+    };
+
+    fetchNotifications();
+  }, []);
   return (
     <>
       <GestureHandlerRootView
         style={[
           styles.container,
+
           { backgroundColor: isDarkMode ? "black" : "#fff" },
         ]}
       >
         <ScrollView showsVerticalScrollIndicator={false}>
           <Pressable onPress={toNotifications}>
             <Image style={styles.notiImage} source={Noti} />
+            <Text style={{ color: 'white',backgroundColor:"#032b79", width:20,padding:7,height:23, fontWeight: 'bold', top: 65, left:325,borderRadius:100,fontSize:7}}>{unreadCount}</Text>
+
           </Pressable>
+          
 
           <Pressable onPress={toPosts}>
             <Image style={styles.notiImage2} source={Plus} />
@@ -458,7 +501,7 @@ const styles = StyleSheet.create({
   },
   notiImage: {
     position: "absolute",
-    top: 50,
+    top: 75,
     width: 30,
     height: 30,
     left: 330,

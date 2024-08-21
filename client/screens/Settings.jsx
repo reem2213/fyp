@@ -59,15 +59,7 @@ const Settings = ({ navigation,route }) => {
           </Text>
         </TouchableOpacity>
 
-        <Text
-          style={{
-            fontSize: 20,
-            fontWeight: "500",
-            color: isDarkMode ? "white" : "black",
-          }}
-        >
-          Reset Password
-        </Text>
+       
         <Text
           style={{
             fontSize: 20,
