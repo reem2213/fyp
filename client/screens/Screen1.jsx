@@ -22,7 +22,7 @@ const PhysicalChatScreen = () => {
         setStatus('Workout program has been generated and saved successfully.');
       }
     } catch (error) {
-      setStatus('Failed to generate workout program.');
+      setStatus('generate workout program.');
     }
   };
 

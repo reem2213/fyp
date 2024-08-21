@@ -18,6 +18,7 @@ const responseModel = require("./models/userResponse");
 const userModel=require('./models/user');
 const BookingModel=require('./models/booking')
 const physicalAttributeModel= require('./models/physicalAtt')
+const predictionModel=require('./models/prediction')
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -779,6 +780,41 @@ app.get('/products', async (req, res) => {
 
 
 
+
+//GENERATE PROGRAM:
+app.post('/savePrediction', async (req, res) => {
+  const { username, prediction } = req.body;
+
+  if (!username || !prediction) {
+    return res.status(400).json({ error: 'Username and prediction are required' });
+  }
+
+  try {
+    const newPrediction = new predictionModel({ username, prediction });
+    await newPrediction.save();
+    res.status(201).json({ message: 'Prediction saved successfully' });
+  } catch (error) {
+    console.error('Error saving prediction:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+
+
+app.get('/getPrediction/:username', async (req, res) => {
+  const { username } = req.params;
+
+  try {
+    const prediction = await predictionModel.findOne({ username }).sort({ createdAt: -1 }); // Fetch the latest prediction for the user
+    if (!prediction) {
+      return res.status(404).json({ error: 'Prediction not found' });
+    }
+    res.json({ prediction: prediction.prediction });
+  } catch (error) {
+    console.error('Error fetching prediction:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
 
 
 

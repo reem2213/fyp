@@ -31,7 +31,10 @@ const Home = ({ navigation, route }) => {
   const [bmiResult, setBmiResult] = useState("");
   const[weight,setWeight]=useState();
   const[height,setHeight]=useState();
+  const [prediction, setPrediction] = useState(null);  // New state for prediction
 
+
+  
   useEffect(() => {
     fetch(`http://10.0.0.21:3001/userr/${username}`)
       .then((response) => response.json())
@@ -62,8 +65,23 @@ const Home = ({ navigation, route }) => {
         console.error("Error fetching physical attributes:", error);
       });
   }, [username]);
+
+
+
+  useEffect(() => {
+    fetch(`http://10.0.0.21:3001/getPrediction/${username}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data && data.prediction) {
+          setPrediction(data.prediction);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching prediction:", error);
+      });
+  }, [username]);
   const GoToGoalSection = () => {
-    navigation.navigate("goal");
+    navigation.navigate("Plan",{prediction});
   };
 
   const GoToMusicSection = () => {
@@ -80,6 +98,10 @@ const Home = ({ navigation, route }) => {
   const goToProfile = () => {
     navigation.navigate("MyProfile", { username, bio, imageData });
   };
+  const GoToBodyPlanAssistant = () => {
+    navigation.navigate("Screen2", { username, bio, imageData });
+  };
+  
 
   const calculateBMI = (weight, height) => {
     return (weight / (height / 100) ** 2).toFixed(1);
@@ -144,6 +166,8 @@ const Home = ({ navigation, route }) => {
             </TouchableOpacity>
 
             <Text style={styles.welcome}>Hello {username}</Text>
+                  <Text>Your Prediction: {prediction}</Text>
+
           </View>
 
           <View style={styles.content}>
@@ -236,6 +260,15 @@ const Home = ({ navigation, route }) => {
                 <Text style={styles.sectionTitle}>Shop</Text>
                 <Text style={styles.sectionSubtitle}>
                   Complete tasks, earn badges, level up!
+                </Text>
+                <Image source={GameSection} style={styles.sectionImage} />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={GoToBodyPlanAssistant}>
+              <View style={styles.section5}>
+                <Text style={styles.sectionTitle}>Body Program Assistant </Text>
+                <Text style={styles.sectionSubtitle}>
+                focus on personalized plans based on the user's body metrics
                 </Text>
                 <Image source={GameSection} style={styles.sectionImage} />
               </View>
@@ -337,6 +370,20 @@ const styles = StyleSheet.create({
     height: 150,
     borderRadius: 30,
     backgroundColor: "#719AEA",
+    shadowOffset: {
+      width: 0,
+      height: 40,
+    },
+    shadowColor: "rgba(0, 0, 0, 1.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  section5: {
+    marginBottom: 20,
+    width: "100%",
+    height: 150,
+    borderRadius: 30,
+    backgroundColor: "purple",
     shadowOffset: {
       width: 0,
       height: 40,
@@ -456,3 +503,6 @@ const styles = StyleSheet.create({
     color: "white",
   },
 });
+
+
+

@@ -40,9 +40,9 @@ export default function App({navigation,route}) {
         <TouchableOpacity
           style={[
             styles.button,
-            selectedGender === 'male' ? styles.selectedButton : styles.deselectedButton,
+            selectedGender === 'Male' ? styles.selectedButton : styles.deselectedButton,
           ]}
-          onPress={() => handleGenderSelection('male')}
+          onPress={() => handleGenderSelection('Male')}
         >
           <Ionicons name="male" size={50} color="white" />
           <Text style={styles.buttonText}>Male</Text>

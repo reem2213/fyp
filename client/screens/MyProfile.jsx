@@ -90,25 +90,24 @@
 //   const fetchUserPoints = async () => {
 //     try {
 //       const response = await fetch(`http://10.0.0.21:3001/user-points/${username}`);
-      
+
 //       // Check if the response is valid
 //       if (!response.ok) {
 //         throw new Error(`HTTP error! status: ${response.status}`);
 //       }
-  
+
 //       const data = await response.json();
-  
+
 //       setPoints(data.totalPoints);
 //       console.log(data.totalPoints)
 //     } catch (error) {
 //       console.error('Error fetching points:', error);
 //     }
 //   };
-  
+
 //   useEffect(() => {
 //     fetchUserPoints();
 //   }, []);
-  
 
 //   const handleStatusChange = async (id, newStatus, oldStatus) => {
 //     try {
@@ -282,7 +281,7 @@
 //         </style>
 //       </head>
 //       <body>
-      
+
 //         <canvas id="goalChart"></canvas>
 //         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 //         <script>
@@ -294,7 +293,7 @@
 //               datasets: [{
 //                 label: 'Goal Status',
 //                 data: ['30', '60','10'],
-//                 backgroundColor: ['#032B79', '#F44336', 'yellow'], 
+//                 backgroundColor: ['#032B79', '#F44336', 'yellow'],
 //               }],
 //             },
 //             options: {
@@ -493,7 +492,6 @@
 //               style={{ top: 10 }}
 //             />
 //           )}
-         
 
 //           <View style={styles.statusContainer}>
 //             <TouchableOpacity
@@ -726,10 +724,6 @@
 
 // export default App;
 
-
-
-
-
 import React, { useState, useEffect, useContext } from "react";
 import {
   StyleSheet,
@@ -821,26 +815,27 @@ const App = ({ route }) => {
 
   const fetchUserPoints = async () => {
     try {
-      const response = await fetch(`http://10.0.0.21:3001/user-points/${username}`);
-      
+      const response = await fetch(
+        `http://10.0.0.21:3001/user-points/${username}`
+      );
+
       // Check if the response is valid
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-  
+
       const data = await response.json();
-  
+
       setPoints(data.totalPoints);
-      console.log(data.totalPoints)
+      console.log(data.totalPoints);
     } catch (error) {
-      console.error('Error fetching points:', error);
+      console.error("Error fetching points:", error);
     }
   };
-  
+
   useEffect(() => {
     fetchUserPoints();
   }, []);
-  
 
   const handleStatusChange = async (id, newStatus, oldStatus) => {
     try {
@@ -1184,54 +1179,56 @@ const App = ({ route }) => {
           </View>
 
           {/* Add a simple bar chart using View components */}
-          <View style={styles.chartContainer}>
-            <Text style={styles.chartTitle}>Goal Status</Text>
-            <View style={styles.barContainer}>
-              <Text style={styles.barLabel}>In Progress</Text>
-              <View
-                style={[
-                  styles.bar,
-                  {
-                    width: `${goalPercentages.inProgress}%`,
-                    backgroundColor: "yellow",
-                  },
-                ]}
-              />
-              <Text style={styles.percentageLabel}>
-                {goalPercentages.inProgress.toFixed(2)}%
-              </Text>
+          {activeSection === "Goals" && (
+            <View style={styles.chartContainer}>
+              <Text style={styles.chartTitle}>Goal Status</Text>
+              <View style={styles.barContainer}>
+                <Text style={styles.barLabel}>In Progress</Text>
+                <View
+                  style={[
+                    styles.bar,
+                    {
+                      width: `${goalPercentages.inProgress}%`,
+                      backgroundColor: "yellow",
+                    },
+                  ]}
+                />
+                <Text style={styles.percentageLabel}>
+                  {goalPercentages.inProgress.toFixed(2)}%
+                </Text>
+              </View>
+              <View style={styles.barContainer}>
+                <Text style={styles.barLabel}>Completed</Text>
+                <View
+                  style={[
+                    styles.bar,
+                    {
+                      width: `${goalPercentages.completed}%`,
+                      backgroundColor: "blue",
+                    },
+                  ]}
+                />
+                <Text style={styles.percentageLabel}>
+                  {goalPercentages.completed.toFixed(2)}%
+                </Text>
+              </View>
+              <View style={styles.barContainer}>
+                <Text style={styles.barLabel}>Cancelled</Text>
+                <View
+                  style={[
+                    styles.bar,
+                    {
+                      width: `${goalPercentages.canceled}%`,
+                      backgroundColor: "red",
+                    },
+                  ]}
+                />
+                <Text style={styles.percentageLabel}>
+                  {goalPercentages.canceled.toFixed(2)}%
+                </Text>
+              </View>
             </View>
-            <View style={styles.barContainer}>
-              <Text style={styles.barLabel}>Completed</Text>
-              <View
-                style={[
-                  styles.bar,
-                  {
-                    width: `${goalPercentages.completed}%`,
-                    backgroundColor: "blue",
-                  },
-                ]}
-              />
-              <Text style={styles.percentageLabel}>
-                {goalPercentages.completed.toFixed(2)}%
-              </Text>
-            </View>
-            <View style={styles.barContainer}>
-              <Text style={styles.barLabel}>Cancelled</Text>
-              <View
-                style={[
-                  styles.bar,
-                  {
-                    width: `${goalPercentages.canceled}%`,
-                    backgroundColor: "red",
-                  },
-                ]}
-              />
-              <Text style={styles.percentageLabel}>
-                {goalPercentages.canceled.toFixed(2)}%
-              </Text>
-            </View>
-          </View>
+          )}
 
           <View style={styles.statusContainer}>
             <TouchableOpacity

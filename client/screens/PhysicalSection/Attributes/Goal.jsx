@@ -29,7 +29,8 @@ export default function GoalSelectionScreen({ route, navigation }) {
 
   const goals = [
     "Gain Weight",
-    "Lose weight",
+    "Weight Loss",
+    "Strength",
     "Get fitter",
     "Gain more flexible",
     "Learn the basic",

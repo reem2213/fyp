@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity,Linking } from 'react-native';
 import axios from 'axios';
-// import StarRating from 'react-native-star-rating';
+import StarRating from 'react-native-star-rating';
 import { WebView } from "react-native-webview";
 
 
@@ -95,14 +95,14 @@ const SupplementSuggestion = () => {
               />
             <Image source={{ uri: product.image }} style={styles.productImage} />
             <Text style={styles.productName}>{product.name}</Text>
-            {/* <StarRating
+            <StarRating
 
               disabled={true}
               maxStars={5}
               rating={product.rating}
               fullStarColor={'gold'}
               starSize={20}
-            /> */}
+            />
             <Text style={styles.productPrice}>${product.price}</Text>
             <TouchableOpacity 
               style={styles.buyButton} 
@@ -121,7 +121,6 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 16,
-    backgroundColor: '#f0f0f0',
     marginTop:50
   },
   

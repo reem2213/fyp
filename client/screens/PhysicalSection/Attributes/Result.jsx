@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, SafeAreaView,TouchableOpacity } from 'react-nat
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { Ionicons } from '@expo/vector-icons';
 import predictWorkoutProgram from "../api"; // The API call function
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ProgressScreen({navigation,route}) {
   const { username,height,weight } = route.params;
@@ -43,7 +44,7 @@ export default function ProgressScreen({navigation,route}) {
           setFeatures({
             gender: data.gender || "",
             goal: data.goal || "",
-            physicalLevel: data.physicalLevel || "Rookie",
+            physicalLevel: data.physicalLevel || "True Beast",
             placeOfExercise: data.place || "",
             medicalCondition: data.medicalCondition || "",
             age: data.age || "",
@@ -57,32 +58,46 @@ export default function ProgressScreen({navigation,route}) {
       });
   }, [username]);
 
-  const handlePredict = async () => {
-    try {
-      const processedFeatures = Object.entries(features).map(([key, value]) => {
-        if (value === "" || value === null || value === undefined) {
-          return key === "age" || key === "weight" || key === "height"
-            ? 0
-            : "Unknown";
-        }
-        navigation.navigate("PhysicalHome", {
-          username,
-          bio,
-          imageData,
-          height,
-          weight,
-        });
-        return value;
-      });
-      console.log("Sending features:", processedFeatures);
-      const result = await predictWorkoutProgram(processedFeatures);
-      setPrediction(result);
-      console.log("the result", result);
-      
-    } catch (error) {
-      console.error(error);
-    }
-  };
+
+const handlePredict = async () => {
+  try {
+    const processedFeatures = Object.entries(features).map(([key, value]) => {
+      if (value === "" || value === null || value === undefined) {
+        return key === "age" || key === "weight" || key === "height"
+          ? 0
+          : "Unknown";
+      }
+      return value;
+    });
+
+    console.log("Sending features:", processedFeatures);
+    const result = await predictWorkoutProgram(processedFeatures);
+    setPrediction(result);
+    console.log("The result:", result);
+
+    // Save the prediction to AsyncStorage
+    await fetch('http://10.0.0.21:3001/savePrediction', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, prediction: result }),
+    });
+    // Now navigate to PhysicalHome with the prediction result
+    navigation.navigate("PhysicalHome", {
+      username,
+      bio,
+      imageData,
+      height,
+      weight,
+      prediction: result, // Pass the prediction result
+    });
+    
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 
  
   return (
