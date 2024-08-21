@@ -8,6 +8,7 @@ import {
   Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { DarkModeContext } from "../../../components/DarkModeContext"; // Import the context
 
 export default function FinalScreen({ route, navigation }) {
   const {
@@ -22,6 +23,8 @@ export default function FinalScreen({ route, navigation }) {
   const { username } = route.params;
   const [bio, setBio] = useState("");
   const [imageData, setImageData] = useState(null);
+  const { isDarkMode } = useContext(DarkModeContext); // Use the context
+
 
   useEffect(() => {
     fetch(`http://10.0.0.21:3001/userr/${username}`)
@@ -80,38 +83,38 @@ export default function FinalScreen({ route, navigation }) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container,{ backgroundColor: isDarkMode ? "black" : "#fff" }]}>
       <View style={styles.circleTopLeft}></View>
       <View style={styles.circleTopRight}></View>
       <View style={styles.circleBottomLeft}></View>
       <View style={styles.circleBottomRight}></View>
 
       <View style={styles.content}>
-        <Text style={styles.headerText}>Your Information</Text>
+        <Text style={[styles.headerText,{color: isDarkMode ? "white" : "black"}]}>Your Information</Text>
 
         <View style={styles.infoContainer}>
-          <Text style={styles.infoTitle}>Gender:</Text>
-          <Text style={styles.infoText}>{gender}</Text>
+          <Text style={[styles.infoTitle,{color: isDarkMode ? "white" : "black"}]}>Gender:</Text>
+          <Text style={[styles.infoText,{color: isDarkMode ? "white" : "black"}]}>{gender}</Text>
         </View>
 
         <View style={styles.infoContainer}>
-          <Text style={styles.infoTitle}>Height:</Text>
-          <Text style={styles.infoText}>{height} cm</Text>
+          <Text style={[styles.infoTitle,{color: isDarkMode ? "white" : "black"}]}>Height:</Text>
+          <Text style={[styles.infoText,{color: isDarkMode ? "white" : "black"}]}>{height} cm</Text>
         </View>
 
         <View style={styles.infoContainer}>
-          <Text style={styles.infoTitle}>Goal:</Text>
-          <Text style={styles.infoText}>{goal}</Text>
+          <Text style={[styles.infoTitle,{color: isDarkMode ? "white" : "black"}]}>Goal:</Text>
+          <Text style={[styles.infoText,{color: isDarkMode ? "white" : "black"}]}>{goal}</Text>
         </View>
 
         <View style={styles.infoContainer}>
-          <Text style={styles.infoTitle}>Medical Condition:</Text>
-          <Text style={styles.infoText}>{medicalCondition || "None"}</Text>
+          <Text style={[styles.infoTitle,{color: isDarkMode ? "white" : "black"}]}>Medical Condition:</Text>
+          <Text style={[styles.infoText,{color: isDarkMode ? "white" : "black"}]}>{medicalCondition || "None"}</Text>
         </View>
 
         <View style={styles.infoContainer}>
-          <Text style={styles.infoTitle}>Favorite Place to Exercise:</Text>
-          <Text style={styles.infoText}>{place}</Text>
+          <Text style={[styles.infoTitle,{color: isDarkMode ? "white" : "black"}]}>Favorite Place to Exercise:</Text>
+          <Text style={[styles.infoText,{color: isDarkMode ? "white" : "black"}]}>{place}</Text>
         </View>
 
         <View style={styles.navigationButtons}>

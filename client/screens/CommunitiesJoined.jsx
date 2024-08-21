@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   groupItem: {
-    width: "48%",
+    width: "100%",
     marginBottom: 20,
     padding: 20,
     backgroundColor: "#fff",

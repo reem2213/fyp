@@ -181,27 +181,34 @@
 
 // export default Plan;
 
-
-
-import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, ScrollView, TouchableOpacity, ImageBackground } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState, useEffect, useContext } from "react";
+import {
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  ImageBackground,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { DarkModeContext } from "../../components/DarkModeContext"; // Import the context
 
 const Plan = ({ route }) => {
   const { prediction } = route.params;
   const [completedExercises, setCompletedExercises] = useState({});
+  const { isDarkMode } = useContext(DarkModeContext); // Use the context
 
   // Load completed exercises from AsyncStorage when the component mounts
   useEffect(() => {
     const loadCompletedExercises = async () => {
       try {
-        const savedData = await AsyncStorage.getItem('completedExercises');
+        const savedData = await AsyncStorage.getItem("completedExercises");
         if (savedData) {
           setCompletedExercises(JSON.parse(savedData));
         }
       } catch (error) {
-        console.error('Failed to load completed exercises', error);
+        console.error("Failed to load completed exercises", error);
       }
     };
     loadCompletedExercises();
@@ -211,9 +218,12 @@ const Plan = ({ route }) => {
   useEffect(() => {
     const saveCompletedExercises = async () => {
       try {
-        await AsyncStorage.setItem('completedExercises', JSON.stringify(completedExercises));
+        await AsyncStorage.setItem(
+          "completedExercises",
+          JSON.stringify(completedExercises)
+        );
       } catch (error) {
-        console.error('Failed to save completed exercises', error);
+        console.error("Failed to save completed exercises", error);
       }
     };
     saveCompletedExercises();
@@ -233,23 +243,73 @@ const Plan = ({ route }) => {
   if (prediction === "6") {
     planSections = [
       {
-        day: 'Day 1: Full Body Circuit',
+        day: "Day 1: Full Body Circuit",
         exercises: [
-          { id: '1-1', title: 'Bodyweight Squats', description: '15 reps', level: 'Beginner' },
-          { id: '1-2', title: 'Push-Ups', description: '10 reps', level: 'Beginner' },
-          { id: '1-3', title: 'Glute Bridges', description: '15 reps', level: 'Beginner' },
-          { id: '1-4', title: 'Bent-Over Rows', description: '15 reps', level: 'Intermediate' },
-          { id: '1-5', title: 'Plank', description: '20 seconds', level: 'Beginner' },
+          {
+            id: "1-1",
+            title: "Bodyweight Squats",
+            description: "15 reps",
+            level: "Beginner",
+          },
+          {
+            id: "1-2",
+            title: "Push-Ups",
+            description: "10 reps",
+            level: "Beginner",
+          },
+          {
+            id: "1-3",
+            title: "Glute Bridges",
+            description: "15 reps",
+            level: "Beginner",
+          },
+          {
+            id: "1-4",
+            title: "Bent-Over Rows",
+            description: "15 reps",
+            level: "Intermediate",
+          },
+          {
+            id: "1-5",
+            title: "Plank",
+            description: "20 seconds",
+            level: "Beginner",
+          },
         ],
       },
       {
-        day: 'Day 2: Lower Body Focus',
+        day: "Day 2: Lower Body Focus",
         exercises: [
-          { id: '2-1', title: 'Lunges', description: '12 reps each leg', level: 'Intermediate' },
-          { id: '2-2', title: 'Wall Sit', description: '30 seconds', level: 'Beginner' },
-          { id: '2-3', title: 'Side Leg Raises', description: '15 reps each side', level: 'Beginner' },
-          { id: '2-4', title: 'Calf Raises', description: '20 reps', level: 'Beginner' },
-          { id: '2-5', title: 'Glute Bridges', description: '20 reps', level: 'Beginner' },
+          {
+            id: "2-1",
+            title: "Lunges",
+            description: "12 reps each leg",
+            level: "Intermediate",
+          },
+          {
+            id: "2-2",
+            title: "Wall Sit",
+            description: "30 seconds",
+            level: "Beginner",
+          },
+          {
+            id: "2-3",
+            title: "Side Leg Raises",
+            description: "15 reps each side",
+            level: "Beginner",
+          },
+          {
+            id: "2-4",
+            title: "Calf Raises",
+            description: "20 reps",
+            level: "Beginner",
+          },
+          {
+            id: "2-5",
+            title: "Glute Bridges",
+            description: "20 reps",
+            level: "Beginner",
+          },
         ],
       },
       // Add other days similarly...
@@ -257,23 +317,73 @@ const Plan = ({ route }) => {
   } else if (prediction === "4") {
     planSections = [
       {
-        day: 'Day 1: Upper Body Strength',
+        day: "Day 1: Upper Body Strength",
         exercises: [
-          { id: '4-1', title: 'Push-Ups', description: '3 sets of 20-25 reps', level: 'Intermediate' },
-          { id: '4-2', title: 'Pull-Ups', description: '3 sets to failure', level: 'Advanced' },
-          { id: '4-3', title: 'Dumbbell Bench Press', description: '3 sets of 10-12 reps', level: 'Intermediate' },
-          { id: '4-4', title: 'Bent-Over Rows', description: '3 sets of 12-15 reps', level: 'Intermediate' },
-          { id: '4-5', title: 'Dumbbell Shoulder Press', description: '3 sets of 10-12 reps', level: 'Intermediate' },
+          {
+            id: "4-1",
+            title: "Push-Ups",
+            description: "3 sets of 20-25 reps",
+            level: "Intermediate",
+          },
+          {
+            id: "4-2",
+            title: "Pull-Ups",
+            description: "3 sets to failure",
+            level: "Advanced",
+          },
+          {
+            id: "4-3",
+            title: "Dumbbell Bench Press",
+            description: "3 sets of 10-12 reps",
+            level: "Intermediate",
+          },
+          {
+            id: "4-4",
+            title: "Bent-Over Rows",
+            description: "3 sets of 12-15 reps",
+            level: "Intermediate",
+          },
+          {
+            id: "4-5",
+            title: "Dumbbell Shoulder Press",
+            description: "3 sets of 10-12 reps",
+            level: "Intermediate",
+          },
         ],
       },
       {
-        day: 'Day 2: Lower Body Strength',
+        day: "Day 2: Lower Body Strength",
         exercises: [
-          { id: '5-1', title: 'Squats', description: '4 sets of 15-20 reps', level: 'Intermediate' },
-          { id: '5-2', title: 'Lunges', description: '3 sets of 12 reps per leg', level: 'Intermediate' },
-          { id: '5-3', title: 'Bulgarian Split Squats', description: '3 sets of 12 reps per leg', level: 'Advanced' },
-          { id: '5-4', title: 'Deadlifts', description: '4 sets of 10-12 reps', level: 'Advanced' },
-          { id: '5-5', title: 'Calf Raises', description: '4 sets of 20 reps', level: 'Beginner' },
+          {
+            id: "5-1",
+            title: "Squats",
+            description: "4 sets of 15-20 reps",
+            level: "Intermediate",
+          },
+          {
+            id: "5-2",
+            title: "Lunges",
+            description: "3 sets of 12 reps per leg",
+            level: "Intermediate",
+          },
+          {
+            id: "5-3",
+            title: "Bulgarian Split Squats",
+            description: "3 sets of 12 reps per leg",
+            level: "Advanced",
+          },
+          {
+            id: "5-4",
+            title: "Deadlifts",
+            description: "4 sets of 10-12 reps",
+            level: "Advanced",
+          },
+          {
+            id: "5-5",
+            title: "Calf Raises",
+            description: "4 sets of 20 reps",
+            level: "Beginner",
+          },
         ],
       },
       // Add other days similarly...
@@ -281,10 +391,15 @@ const Plan = ({ route }) => {
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={[
+        styles.container,
+        { backgroundColor: isDarkMode ? "black" : "#fff" },
+      ]}
+    >
       <View style={styles.headerContainer}>
         <ImageBackground
-          source={require('../../assets/bgChatBot.png')} // Replace with your background image path
+          source={require("../../assets/gymBg.jpg")} // Replace with your background image path
           style={styles.headerBackground}
           imageStyle={styles.headerImage}
         >
@@ -300,21 +415,49 @@ const Plan = ({ route }) => {
       </View>
 
       {planSections.length === 0 ? (
-        <Text style={styles.noPlanText}>No workout plan available for this prediction.</Text>
+        <Text style={styles.noPlanText}>
+          No workout plan available for this prediction.
+        </Text>
       ) : (
         planSections.map((section, index) => (
           <View key={index} style={styles.dayContainer}>
-            <Text style={styles.dayTitle}>{section.day}</Text>
+            <Text
+              style={[
+                styles.dayTitle,
+                { color: isDarkMode ? "white" : "black" },
+              ]}
+            >
+              {section.day}
+            </Text>
             {section.exercises.map((exercise) => (
-              <View key={exercise.id} style={styles.exerciseContainer}>
+              <View
+                key={exercise.id}
+                style={[
+                  styles.exerciseContainer,
+                  { color: isDarkMode ? "white" : "black" },
+                ]}
+              >
                 <View style={styles.exerciseDetails}>
-                  <Text style={styles.exerciseTitle}>{exercise.title}</Text>
-                  <Text style={styles.exerciseDescription}>{exercise.description}</Text>
+                  <Text
+                    style={[
+                      styles.exerciseTitle,
+                      { color: isDarkMode ? "white" : "black" },
+                    ]}
+                  >
+                    {[exercise.title]}
+                  </Text>
+                  <Text style={styles.exerciseDescription}>
+                    {exercise.description}
+                  </Text>
                   <Text style={styles.exerciseLevel}>{exercise.level}</Text>
                 </View>
                 <TouchableOpacity onPress={() => toggleCompletion(exercise.id)}>
                   <Ionicons
-                    name={completedExercises[exercise.id] ? "checkmark-circle" : "checkmark-circle-outline"}
+                    name={
+                      completedExercises[exercise.id]
+                        ? "checkmark-circle"
+                        : "checkmark-circle-outline"
+                    }
                     size={24}
                     color={completedExercises[exercise.id] ? "green" : "grey"}
                   />
@@ -328,56 +471,56 @@ const Plan = ({ route }) => {
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   headerContainer: {
     height: 250,
   },
   headerBackground: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   headerImage: {
     borderRadius: 20,
   },
   headerContent: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     padding: 20,
     borderRadius: 20,
+    marginTop:50
   },
   headerTitle: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#fff',
+    fontWeight: "bold",
+    color: "#fff",
   },
   headerSubtitle: {
     fontSize: 16,
-    color: '#fff',
+    color: "#fff",
     marginTop: 5,
   },
   daysLeftContainer: {
     marginTop: 20,
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    alignItems: "center",
+    backgroundColor: "#fff",
     borderRadius: 50,
     padding: 10,
     width: 80,
   },
   daysLeftText: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#083EA7',
+    fontWeight: "bold",
+    color: "#083EA7",
   },
   daysLeftLabel: {
     fontSize: 12,
-    color: '#333',
+    color: "#333",
   },
   dayContainer: {
     marginTop: 20,
@@ -385,31 +528,31 @@ const styles = StyleSheet.create({
   },
   dayTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   exerciseContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingVertical: 10,
-    borderBottomColor: '#ddd',
+    borderBottomColor: "#ddd",
     borderBottomWidth: 1,
   },
   exerciseDetails: {
-    maxWidth: '80%',
+    maxWidth: "80%",
   },
   exerciseTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   exerciseDescription: {
     fontSize: 14,
-    color: '#888',
+    color: "#888",
   },
   exerciseLevel: {
     fontSize: 14,
-    color: '#888',
+    color: "#888",
   },
 });
 

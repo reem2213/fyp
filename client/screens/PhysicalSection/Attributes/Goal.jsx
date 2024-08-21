@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect ,useContext} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, FlatList, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { DarkModeContext } from "../../../components/DarkModeContext"; // Import the context
 
 const ITEM_HEIGHT = 60; // Adjust height of each item
 const { height } = Dimensions.get('window');
@@ -10,6 +11,7 @@ export default function GoalSelectionScreen({ route, navigation }) {
   const { username } = route.params;
   const [bio, setBio] = useState("");
   const [imageData, setImageData] = useState(null);
+  const { isDarkMode } = useContext(DarkModeContext); // Use the context
 
   useEffect(() => {
     fetch(`http://10.0.0.21:3001/userr/${username}`)
@@ -51,14 +53,14 @@ export default function GoalSelectionScreen({ route, navigation }) {
 
   const renderItem = ({ item }) => (
     <View style={styles.item}>
-      <Text style={item === selectedGoal ? styles.selectedItemText : styles.itemText}>
+      <Text style={[item === selectedGoal ? styles.selectedItemText : styles.itemText,{color: isDarkMode ? "white" : "black"}]}>
         {item}
       </Text>
     </View>
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container,{ backgroundColor: isDarkMode ? "black" : "#fff" }]}>
       <View style={styles.circleTopLeft}></View>
       <View style={styles.circleTopRight}></View>
       <View style={styles.circleBottomLeft}></View>

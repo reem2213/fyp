@@ -4,11 +4,14 @@ import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { Ionicons } from '@expo/vector-icons';
 import predictWorkoutProgram from "../api"; // The API call function
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { DarkModeContext } from "../../../components/DarkModeContext"; // Import the context
 
 export default function ProgressScreen({navigation,route}) {
   const { username,height,weight } = route.params;
   const [bio, setBio] = useState("");
   const [imageData, setImageData] = useState(null);
+  const { isDarkMode } = useContext(DarkModeContext); // Use the context
+
   const [features, setFeatures] = useState({
     gender: "",
     goal: "",
@@ -101,7 +104,7 @@ const handlePredict = async () => {
 
  
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container,{ backgroundColor: isDarkMode ? "black" : "#fff" }]}>
       <View style={styles.circleTopLeft}></View>
       <View style={styles.circleTopRight}></View>
       <View style={styles.circleBottomLeft}></View>
@@ -124,17 +127,16 @@ const handlePredict = async () => {
           )}
         </AnimatedCircularProgress>
 
-        <Text style={styles.statusText}>Almost there ...</Text>
+        <Text style={[styles.statusText,{color: isDarkMode ? "white" : "black"}]}>Almost there ...</Text>
 
         <Text style={styles.quoteText}>
           "Success is not the key to happiness. Happiness is the key to success. If you love what you are doing, you will be successful."
         </Text>
-        <Text style={styles.authorText}>Albert Schweitzer</Text>
         <TouchableOpacity
             style={styles.nextButton}
             onPress={handlePredict}
           >
-            <Text style={styles.nextButtonText}>Finish</Text>
+            <Text style={[styles.nextButtonText,{color: isDarkMode ? "white" : "black"}]}>Finish</Text>
             {prediction && <Text>Your Workout Program: {prediction}</Text>}
 
             <Ionicons name="arrow-forward" size={20} color="white" />

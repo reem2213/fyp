@@ -8,7 +8,7 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
 } from "react-native";
 import axios from "axios";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -19,8 +19,8 @@ import Back from "../assets/back.png";
 import User from "../assets/user.png";
 import { DarkModeContext } from "../components/DarkModeContext";
 
-const Feedback = ({ navigation,route }) => {
-  const{username}=route.params;
+const Feedback = ({ navigation, route }) => {
+  const { username } = route.params;
 
   const [feedbacks, setFeedbacks] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -47,7 +47,7 @@ const Feedback = ({ navigation,route }) => {
         const response = await axios.post("http://10.0.0.21:3001/feedback", {
           type: newType,
           content: newContent,
-          rating: 2 // Assuming a default rating for new feedbacks
+          rating: 2, // Assuming a default rating for new feedbacks
         });
         setFeedbacks([response.data, ...feedbacks]);
         setIsModalVisible(false);
@@ -70,9 +70,12 @@ const Feedback = ({ navigation,route }) => {
     setFeedbacks(updatedFeedbacks);
 
     try {
-      const response = await axios.put(`http://10.0.0.21:3001/feedback/${feedback._id}`, {
-        rating: rating
-      });
+      const response = await axios.put(
+        `http://10.0.0.21:3001/feedback/${feedback._id}`,
+        {
+          rating: rating,
+        }
+      );
       console.log("Rating updated:", response.data);
     } catch (error) {
       console.error("Error updating rating:", error);
@@ -80,17 +83,21 @@ const Feedback = ({ navigation,route }) => {
   };
 
   const backToHome = () => {
-    
-    navigation.navigate("Home",{username});
+    navigation.navigate("Home", { username });
   };
 
   return (
     <>
+    <View style={[{color:"black"},          { backgroundColor: isDarkMode ? "black" : "#fff" },
+]}>
+
       <View style={[styles.container, isDarkMode && styles.darkContainer]}>
         <TouchableOpacity onPress={backToHome}>
           <Image source={Back} style={styles.backButton} />
         </TouchableOpacity>
-        <Text style={[styles.header, isDarkMode && styles.darkText]}>Feedback Hub</Text>
+        <Text style={[styles.header, isDarkMode && styles.darkText]}>
+          Feedback Hub
+        </Text>
         <Image source={FeedbackImage} style={styles.feedbackImage} />
       </View>
 
@@ -102,7 +109,10 @@ const Feedback = ({ navigation,route }) => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <TouchableOpacity style={styles.closeButton} onPress={() => setIsModalVisible(false)}>
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setIsModalVisible(false)}
+            >
               <Text style={styles.closeText}>x</Text>
             </TouchableOpacity>
 
@@ -125,17 +135,45 @@ const Feedback = ({ navigation,route }) => {
         </View>
       </Modal>
 
-      <GestureHandlerRootView style={styles.scrollViewContainer}>
+      <GestureHandlerRootView
+        style={[
+          styles.scrollViewContainer,
+          { backgroundColor: isDarkMode ? "black" : "#fff" },
+        ]}
+      >
         <ScrollView showsVerticalScrollIndicator={false}>
           {feedbacks.map((feedback, index) => (
-            <View key={index} style={[styles.feedbackItem, isDarkMode && styles.darkFeedbackItem]}>
+            <View
+              key={index}
+              style={[
+                styles.feedbackItem,
+                isDarkMode && styles.darkFeedbackItem,
+              ]}
+            >
               <Image source={User} style={styles.userIcon} />
-              <Text style={[styles.feedbackType, isDarkMode && styles.darkText]}>{feedback.type}</Text>
-              <Text style={[styles.feedbackContent, isDarkMode && styles.darkFeedbackContent]}>{feedback.content}</Text>
+              <Text
+                style={[styles.feedbackType, isDarkMode && styles.darkText]}
+              >
+                {feedback.type}
+              </Text>
+              <Text
+                style={[
+                  styles.feedbackContent,
+                  isDarkMode && styles.darkFeedbackContent,
+                ]}
+              >
+                {feedback.content}
+              </Text>
               <View style={styles.ratingContainer}>
                 {[1, 2, 3, 4, 5].map((star) => (
-                  <TouchableOpacity key={star} onPress={() => handleRatingChange(star, index)}>
-                    <Image style={styles.star} source={feedback.rating >= star ? StarFilled : StarCorner} />
+                  <TouchableOpacity
+                    key={star}
+                    onPress={() => handleRatingChange(star, index)}
+                  >
+                    <Image
+                      style={styles.star}
+                      source={feedback.rating >= star ? StarFilled : StarCorner}
+                    />
                   </TouchableOpacity>
                 ))}
               </View>
@@ -143,30 +181,38 @@ const Feedback = ({ navigation,route }) => {
           ))}
         </ScrollView>
       </GestureHandlerRootView>
-
-      <TouchableOpacity style={[styles.addFeedbackButton, isDarkMode && styles.darkAddFeedbackButton]} onPress={() => setIsModalVisible(true)}>
+      
+      </View>
+      <TouchableOpacity
+        style={[
+          styles.addFeedbackButton,
+          isDarkMode && styles.darkAddFeedbackButton,
+        ]}
+        onPress={() => setIsModalVisible(true)}
+      >
         <Text style={styles.addFeedbackText}>Write Review</Text>
       </TouchableOpacity>
     </>
+    
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#FFAE64",
-    height: "50%",
+    height: "40%",
     borderRadius: 70,
-    marginTop: -50
+    marginTop: -50,
   },
   darkContainer: {
-    backgroundColor: "#333",
+    backgroundColor: "#FFAE64",
   },
   backButton: {
     position: "absolute",
     marginTop: 110,
     marginLeft: 30,
     width: 30,
-    height: 30
+    height: 30,
   },
   header: {
     color: "white",
@@ -174,39 +220,39 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     position: "absolute",
     marginTop: 150,
-    marginLeft: 80
+    marginLeft: 80,
   },
   feedbackImage: {
     width: 250,
     height: 180,
     marginTop: 200,
-    marginLeft: 70
+    marginLeft: 70,
   },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)"
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
     backgroundColor: "white",
     padding: 20,
     borderRadius: 10,
-    width: 300
+    width: 300,
   },
   closeButton: {
-    alignSelf: "flex-end"
+    alignSelf: "flex-end",
   },
   closeText: {
     color: "gray",
-    fontSize: 25
+    fontSize: 25,
   },
   input: {
     height: 40,
     borderColor: "#ddd",
     borderWidth: 1,
     marginBottom: 20,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
   },
   darkInput: {
     borderColor: "#555",
@@ -214,7 +260,7 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   scrollViewContainer: {
-    height: "40%"
+    height: "80%",
   },
   feedbackItem: {
     flexDirection: "row",
@@ -222,11 +268,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 15,
     backgroundColor: "white",
-    width:"85%",
+    width: "85%",
     borderRadius: 15,
-    marginLeft:30,
-    marginTop:10,
-    height: 80
+    marginLeft: 30,
+    marginTop: 10,
+    height: 80,
   },
   darkFeedbackItem: {
     backgroundColor: "#444",
@@ -234,7 +280,7 @@ const styles = StyleSheet.create({
   userIcon: {
     width: 50,
     height: 50,
-    marginLeft: 10
+    marginLeft: 10,
   },
   feedbackType: {
     fontSize: 15,
@@ -254,14 +300,14 @@ const styles = StyleSheet.create({
     color: "#ccc",
   },
   ratingContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginRight: 60,
-    marginTop: -55
+    marginTop: -55,
   },
   star: {
     width: 12,
     height: 12,
-    resizeMode: 'cover'
+    resizeMode: "cover",
   },
   addFeedbackButton: {
     width: 250,
@@ -271,25 +317,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     position: "absolute",
-    marginTop: 670,
-    marginLeft: 70
+    marginTop: 770,
+    marginLeft: 70,
   },
   darkAddFeedbackButton: {
     backgroundColor: "#555",
   },
   addFeedbackText: {
     color: "white",
-    fontSize: 18
+    fontSize: 18,
   },
   darkText: {
     color: "#fff",
-  }
+  },
 });
 
 export default Feedback;
-
-
-
 
 // import React, { useEffect, useState } from "react";
 // import {
@@ -329,9 +372,6 @@ export default Feedback;
 //     fetchFeedbacks();
 //   }, []);
 
-
-
-
 //  const handleAddFeedback = async () => {
 //   if (newType.trim() && newContent.trim()) {
 //     try {
@@ -352,12 +392,8 @@ export default Feedback;
 //       console.error("Error saving feedback:", error);
 //     }
 
-
-    
 //   }
 // };
-
-
 
 //   const handleRatingChange = async (rating, index) => {
 //     const feedback = feedbacks[index];
@@ -368,7 +404,7 @@ export default Feedback;
 //       return fb;
 //     });
 //     setFeedbacks(updatedFeedbacks);
-  
+
 //     try {
 //       const response = await axios.put(`http://10.0.0.21:3001/feedback/${feedback._id}`, {
 //         rating: rating
@@ -379,7 +415,6 @@ export default Feedback;
 //     }
 //     fetchFeedbacks();
 //   };
-  
 
 //   const backToHome = () => {
 //     navigation.navigate("Home");
@@ -428,7 +463,6 @@ export default Feedback;
 //               value={newContent}
 //               onChangeText={(text) => setNewContent(text)}
 //             />
-           
 
 //             <Button
 //               title="Add feedback"

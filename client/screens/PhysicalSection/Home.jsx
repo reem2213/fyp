@@ -29,12 +29,10 @@ const Home = ({ navigation, route }) => {
   const [calorieGoal, setCalorieGoal] = useState(120);
   const [weightGoal, setWeightGoal] = useState(weight);
   const [bmiResult, setBmiResult] = useState("");
-  const[weight,setWeight]=useState();
-  const[height,setHeight]=useState();
-  const [prediction, setPrediction] = useState(null);  // New state for prediction
+  const [weight, setWeight] = useState();
+  const [height, setHeight] = useState();
+  const [prediction, setPrediction] = useState(null); // New state for prediction
 
-
-  
   useEffect(() => {
     fetch(`http://10.0.0.21:3001/userr/${username}`)
       .then((response) => response.json())
@@ -48,7 +46,6 @@ const Home = ({ navigation, route }) => {
         console.error("Error fetching user data:", error);
       });
   }, [username]);
-
 
   useEffect(() => {
     fetch(`http://10.0.0.21:3001/formData/${username}`)
@@ -66,8 +63,6 @@ const Home = ({ navigation, route }) => {
       });
   }, [username]);
 
-
-
   useEffect(() => {
     fetch(`http://10.0.0.21:3001/getPrediction/${username}`)
       .then((response) => response.json())
@@ -81,15 +76,15 @@ const Home = ({ navigation, route }) => {
       });
   }, [username]);
   const GoToGoalSection = () => {
-    navigation.navigate("Plan",{prediction});
+    navigation.navigate("Plan", { prediction });
   };
 
   const GoToMusicSection = () => {
-    navigation.navigate("PhysicalMentor",{username});
+    navigation.navigate("PhysicalMentor", { username });
   };
 
   const GoToFeedbackSection = () => {
-    navigation.navigate("PhysicalCommunity",{username});
+    navigation.navigate("PhysicalCommunity", { username });
   };
   const GoToGamificationSection = () => {
     navigation.navigate("Shop");
@@ -101,7 +96,6 @@ const Home = ({ navigation, route }) => {
   const GoToBodyPlanAssistant = () => {
     navigation.navigate("Screen2", { username, bio, imageData });
   };
-  
 
   const calculateBMI = (weight, height) => {
     return (weight / (height / 100) ** 2).toFixed(1);
@@ -115,20 +109,16 @@ const Home = ({ navigation, route }) => {
       setTimeGoal(30);
       setCalorieGoal(150);
       setWeightGoal(weight + 5);
-
-
     } else if (bmi >= 18.5 && bmi < 25) {
       setBmiResult("Normal");
       setTimeGoal(30);
       setCalorieGoal(200);
       setWeightGoal(weight);
-
     } else if (bmi >= 25 && bmi < 30) {
       setBmiResult("Overweight");
       setTimeGoal(45);
       setCalorieGoal(250);
       setWeightGoal(weight - 5);
-
     } else {
       setBmiResult("Obese");
       setTimeGoal(60);
@@ -160,14 +150,12 @@ const Home = ({ navigation, route }) => {
                 ]}
                 originWhitelist={["*"]}
                 source={{
-                  html: `<img src="data:image/jpeg;base64,${imageData}" style="width:250px; height:250px;margin-top:150px;" />`,
+                  html: `<img src="data:image/jpeg;base64,${imageData}" style="width:250px; height:250px;margin-top:150px;border-radius:50%" />`,
                 }}
               />
             </TouchableOpacity>
 
-            <Text style={styles.welcome}>Hello {username}</Text>
-                  <Text>Your Prediction: {prediction}</Text>
-
+            <Text style={[styles.welcome,{ color: isDarkMode ? "white" : "#1B436F" },]}>Hello {username}</Text>
           </View>
 
           <View style={styles.content}>
@@ -191,9 +179,26 @@ const Home = ({ navigation, route }) => {
               </View>
             </View>
 
-            <View style={styles.container}>
-              <Text style={styles.headerText}>BMI Result</Text>
-              <Text style={styles.bmiValue}>
+            <View
+              style={[
+                styles.container,
+                { backgroundColor: isDarkMode ? "black" : "#fff" },
+              ]}
+            >
+              <Text
+                style={[
+                  styles.headerText,
+                  { color: isDarkMode ? "white" : "black" },
+                ]}
+              >
+                BMI Result
+              </Text>
+              <Text
+                style={[
+                  styles.bmiValue,
+                  { color: isDarkMode ? "white" : "black" },
+                ]}
+              >
                 {bmi} ({bmiResult})
               </Text>
               <View style={styles.bmiBar}>
@@ -208,12 +213,24 @@ const Home = ({ navigation, route }) => {
                   ]}
                 />
               </View>
-              <Text style={styles.disclaimer}>
+              <Text
+                style={[
+                  styles.disclaimer,
+                  { color: isDarkMode ? "white" : "gray" },
+                ]}
+              >
                 You can't judge if you're "obese" just by BMI value. People can
                 have more fat than muscle with normal BMI and still classify as
                 obese.
               </Text>
-              <Text style={styles.bmiValue}>Our Sections</Text>
+              <Text
+                style={[
+                  styles.bmiValue,
+                  { color: isDarkMode ? "white" : "black" },
+                ]}
+              >
+                Our Sections
+              </Text>
 
               {imageData && (
                 <Image
@@ -266,9 +283,9 @@ const Home = ({ navigation, route }) => {
             </TouchableOpacity>
             <TouchableOpacity onPress={GoToBodyPlanAssistant}>
               <View style={styles.section5}>
-                <Text style={styles.sectionTitle}>Body Program Assistant </Text>
+                <Text style={styles.sectionTitle5}>Body Program Assistant </Text>
                 <Text style={styles.sectionSubtitle}>
-                focus on personalized plans based on the user's body metrics
+                  focus on personalized plans based on the user's body metrics
                 </Text>
                 <Image source={GameSection} style={styles.sectionImage} />
               </View>
@@ -290,11 +307,10 @@ const styles = StyleSheet.create({
   welcome: {
     position: "absolute",
     fontWeight: "bold",
-    top: 180,
-    left: 90,
+    top: 160,
+    left: 80,
     color: "#1B436F",
     fontSize: 20,
-    width: "50%",
   },
   content: {
     paddingVertical: 20,
@@ -409,6 +425,15 @@ const styles = StyleSheet.create({
     marginLeft: -230,
     top: 15,
   },
+  sectionTitle5: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 25,
+    marginBottom: 5,
+    marginLeft: -40,
+    top: 15,
+    width: "80%",
+  },
   sectionSubtitle: {
     color: "white",
     fontWeight: "400",
@@ -503,6 +528,3 @@ const styles = StyleSheet.create({
     color: "white",
   },
 });
-
-
-

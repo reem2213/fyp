@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import { View, TextInput, Button, Text, ScrollView, Image, StyleSheet } from 'react-native';
 import { getGPTResponse } from '../openai';
+import { DarkModeContext } from "../components/DarkModeContext"; // Import the context
 
 const PhysicalChatScreen = () => {
   const [conversation, setConversation] = useState([]);
   const [userInput, setUserInput] = useState('');
   const [status, setStatus] = useState('');
+  const { isDarkMode } = useContext(DarkModeContext); // Use the context
 
   const handleSend = async () => {
     const newConversation = [...conversation, { role: 'user', content: userInput }];
@@ -27,7 +29,8 @@ const PhysicalChatScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,        { backgroundColor: isDarkMode ? "black" : "#fff" },
+]}>
       <ScrollView style={styles.chatArea}>
         {conversation.map((message, index) => (
           <View key={index} style={styles.messageRow}>
@@ -43,7 +46,7 @@ const PhysicalChatScreen = () => {
         ))}
       </ScrollView>
       <TextInput
-        style={styles.input}
+        style={[styles.input,{ color: isDarkMode ? "white" : "blackdm" }]}
         value={userInput}
         onChangeText={setUserInput}
         placeholder="Type your message..."
@@ -71,12 +74,15 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     marginRight: 10,
+    marginTop:40
+
   },
   message: {
     backgroundColor: '#f0f0f0',
     padding: 10,
     borderRadius: 5,
     flex: 1,
+    marginTop:40
   },
   input: {
     borderColor: '#ccc',

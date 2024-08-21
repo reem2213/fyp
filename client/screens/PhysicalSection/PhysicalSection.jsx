@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'rea
 import Swiper from 'react-native-swiper';
 import { useNavigation } from '@react-navigation/native';
 import Book1 from '../../assets/Agatha2.jpg'
+import { DarkModeContext } from "../../components/DarkModeContext"; // Import the context
+
 const { width, height } = Dimensions.get('window');
 
 const App = ({route}) => {
@@ -10,6 +12,7 @@ const App = ({route}) => {
   const { username } = route.params;
   const [bio, setBio] = useState("");
   const [imageData, setImageData] = useState(null);
+  const { isDarkMode } = useContext(DarkModeContext); // Use the context
 
   useEffect(() => {
     fetch(`http://10.0.0.21:3001/userr/${username}`)
@@ -28,40 +31,40 @@ const App = ({route}) => {
   return (
     <Swiper loop={false} dotStyle={styles.dot} activeDotStyle={styles.activeDot}>
     
-      <View style={styles.container}>
+      <View style={[styles.container,{ backgroundColor: isDarkMode ? "black" : "#fff" },]}>
         <View style={styles.circleLeft} />
         <View style={styles.circleRight} />
         <Image
           source={Book1} // Adjust the path as needed
           style={styles.image}
         />
-        <Text style={styles.title}>Sweat It Out!</Text>
+        <Text style={[styles.title,{color: isDarkMode ? "white" : "black" }]}>Sweat It Out!</Text>
         <Text style={styles.subtitle}>Find your way to the perfect body</Text>
       </View>
 
-      <View style={styles.container}>
+      <View style={[styles.container,{ backgroundColor: isDarkMode ? "black" : "#fff" },]}>
         <View style={styles.circleLeft} />
         <View style={styles.circleRight} />
         <Image
           source={Book1} // Adjust the path as needed
           style={styles.image}
         />
-        <Text style={styles.title}>Track your Active Lifestyle</Text>
+        <Text style={[styles.title,{color: isDarkMode ? "white" : "black" }]}>Track your Active Lifestyle</Text>
         <Text style={styles.subtitle}>Find your way to the perfect body</Text>
       </View>
 
-      <View style={styles.container}>
+      <View style={[styles.container,{ backgroundColor: isDarkMode ? "black" : "#fff" },]}>
         <View style={styles.circleLeft} />
         <View style={styles.circleRight} />
         <Image
           source={Book1} // Adjust the path as needed
           style={styles.image}
         />
-        <Text style={styles.title}>Stay Fit!</Text>
+        <Text style={[styles.title,{color: isDarkMode ? "white" : "black" }]}>Stay Fit!</Text>
         <Text style={styles.subtitle}>Find your way to the perfect body</Text>
       </View>
 
-      <View style={styles.container}>
+      <View style={[styles.container,{ backgroundColor: isDarkMode ? "black" : "#fff" },]}>
         <View style={styles.circleLeft} />
         <View style={styles.circleRight} />
         <View style={styles.imageContainer}>
@@ -70,7 +73,7 @@ const App = ({route}) => {
             style={styles.image}
           />
         </View>
-        <Text style={styles.title}>Track your Active Lifestyle</Text>
+        <Text style={[styles.title,{color: isDarkMode ? "white" : "black" }]}>Track your Active Lifestyle</Text>
         <Text style={styles.subtitle}>Find your way to the perfect body</Text>
         <TouchableOpacity
           style={styles.button}

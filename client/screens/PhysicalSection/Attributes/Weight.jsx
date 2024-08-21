@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect ,useContext} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, FlatList, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { DarkModeContext } from "../../../components/DarkModeContext"; // Import the context
 
 const ITEM_WIDTH = 48; // Adjusted to match the design
 const { width } = Dimensions.get('window');
@@ -12,6 +13,7 @@ export default function WeightSelectionScreen({ route, navigation }) {
   const { username } = route.params;
   const [bio, setBio] = useState("");
   const [imageData, setImageData] = useState(null);
+  const { isDarkMode } = useContext(DarkModeContext); // Use the context
 
   useEffect(() => {
     fetch(`http://10.0.0.21:3001/userr/${username}`)
@@ -32,7 +34,7 @@ export default function WeightSelectionScreen({ route, navigation }) {
   const renderItem = ({ item }) => (
     <View style={styles.item}>
       {item % 5 === 0 ? (
-        <Text style={item === selectedWeight ? styles.selectedItemText : styles.itemText}>{item}</Text>
+        <Text style={[item === selectedWeight ? styles.selectedItemText : styles.itemText,{color: isDarkMode ? "white" : "black"}]}>{item}</Text>
       ) : (
         <View style={styles.markContainer}>
           <View style={item % 5 === 0 ? styles.longMark : styles.shortMark} />
@@ -53,7 +55,7 @@ export default function WeightSelectionScreen({ route, navigation }) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container,{ backgroundColor: isDarkMode ? "black" : "#fff" }]}>
       <View style={styles.circleTopLeft}></View>
       <View style={styles.circleTopRight}></View>
       <View style={styles.circleBottomLeft}></View>
@@ -63,7 +65,7 @@ export default function WeightSelectionScreen({ route, navigation }) {
         <Text style={styles.headerText}>What’s your weight?</Text>
         <Text style={styles.subHeaderText}>You can always change this later</Text>
 
-        <Text style={styles.selectedWeightText}>{selectedWeight} <Text style={styles.unitText}>kg</Text></Text>
+      <Text style={[styles.selectedWeightText,{color: isDarkMode ? "white" : "black"}]}>{selectedWeight} <Text style={styles.unitText}>kg</Text></Text>
 
         <View style={styles.pickerContainer}>
           <FlatList

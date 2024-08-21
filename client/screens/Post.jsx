@@ -450,7 +450,7 @@ const App = ({ navigation, route }) => {
   const imgDir = FileSystem.documentDirectory + "/images";
 
   const GoBack = () => {
-    navigation.navigate("Home",{username});
+    navigation.navigate("Home", { username });
   };
   const [posts, setPosts] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
@@ -618,14 +618,14 @@ const App = ({ navigation, route }) => {
   };
 
   return (
-   
     <View
       style={[
         styles.container,
-        { backgroundColor: isDarkMode ? "#1A1A1A" : "#fff" },
+        { backgroundColor: isDarkMode ? "black" : "#fff" },
       ]}
     >
-      <View style={styles.header}>
+      <View style={[styles.header,        { backgroundColor: isDarkMode ? "black" : "#fff" },
+]}>
         <Pressable onPress={GoBack}>
           <Image
             style={styles.notiImage}
@@ -649,7 +649,13 @@ const App = ({ navigation, route }) => {
         >
           Posts
         </Text>
-        <Image source={PostBg} style={{ width: 250, height: 250 }} />
+        <Image
+          source={PostBg}
+          style={[
+            { width: 250, height: 250 },
+            { backgroundColor: isDarkMode ? "black" : "#fff" },
+          ]}
+        />
       </View>
       <Text
         style={[styles.headerText2, { color: isDarkMode ? "#fff" : "#1B436F" }]}

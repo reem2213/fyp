@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect ,useContext} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, FlatList, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { DarkModeContext } from "../../../components/DarkModeContext"; // Import the context
 
 const ITEM_HEIGHT = 40;
 const { height } = Dimensions.get('window');
@@ -9,12 +10,13 @@ export default function AgeSelectionScreen({ route, navigation }) {
   const { gender } = route.params;
   const [selectedAge, setSelectedAge] = useState(20);
   const flatListRef = useRef();
+  const { isDarkMode } = useContext(DarkModeContext); // Use the context
 
   const ages = Array.from({ length: 100 }, (_, i) => i + 1);
 
   const renderItem = ({ item }) => (
     <View style={styles.item}>
-      <Text style={item === selectedAge ? styles.selectedItemText : styles.itemText}>{item}</Text>
+      <Text style={[item === selectedAge ? styles.selectedItemText : styles.itemText,{color: isDarkMode ? "white" : "black"}]}>{item}</Text>
     </View>
   );
 
@@ -48,7 +50,7 @@ export default function AgeSelectionScreen({ route, navigation }) {
       });
   }, [username]);
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container,{ backgroundColor: isDarkMode ? "black" : "#fff" }]}>
       <View style={styles.circleTopLeft}></View>
       <View style={styles.circleTopRight}></View>
       <View style={styles.circleBottomLeft}></View>

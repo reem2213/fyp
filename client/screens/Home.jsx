@@ -48,67 +48,66 @@ import { LineChart, BarChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
 const screenWidth = Dimensions.get("window").width;
 const SccreenTime = ({ screenTimeData }) => {
- 
-    const chartData = {
-      labels: ["Goal", "Music", "Game", "Feedback"],
-      datasets: [
-        {
-          data: [
-            screenTimeData.goal || 0,
-            screenTimeData.music || 0,
-            screenTimeData.game || 0,
-            screenTimeData.feedback || 0,
-          ],
-        },
-      ],
-    };
-  
-    return (
-      <BarChart
-        data={chartData}
-        width={screenWidth - 16}
-        height={220}
-        yAxisLabel=""
-        yAxisSuffix=""
-        yLabelsOffset={8}
-        fromZero={true}
-        chartConfig={{
-          backgroundColor: "white",
-          backgroundGradientFrom: "blue",
-          backgroundGradientTo: "gray",
-          decimalPlaces: 0,
-          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          style: {
-            borderRadius: 16,
-          },
-          propsForBackgroundLines: {
-            strokeDasharray: "", // Solid background lines
-            strokeWidth: 1,
-            stroke: "rgba(255, 255, 255, 0.2)",
-          },
-          formatYLabel: (yValue) => {
-            const value = Number(yValue);
-            if (!isNaN(value)) {
-              return value > 60 
-                ? `${(value / 60).toFixed(1)}min` // Convert to minutes if > 60 seconds
-                : `${value}s`; // Otherwise, show in seconds
-            }
-            return '0s'; // Fallback for invalid values
-          },
-        }}
-        verticalLabelRotation={0}
-        style={{
-          marginVertical: 8,
+  const chartData = {
+    labels: ["Goal", "Music", "Game", "Feedback"],
+    datasets: [
+      {
+        data: [
+          screenTimeData.goal || 0,
+          screenTimeData.music || 0,
+          screenTimeData.game || 0,
+          screenTimeData.feedback || 0,
+        ],
+      },
+    ],
+  };
+
+  return (
+    <BarChart
+      data={chartData}
+      width={screenWidth - 16}
+      height={220}
+      yAxisLabel=""
+      yAxisSuffix=""
+      yLabelsOffset={8}
+      fromZero={true}
+      chartConfig={{
+        backgroundColor: "white",
+        backgroundGradientFrom: "blue",
+        backgroundGradientTo: "gray",
+        decimalPlaces: 0,
+        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+        style: {
           borderRadius: 16,
-          marginTop: 50,
-          marginLeft: -10,
-        }}
-        yAxisInterval={1} // Set y-axis interval
-        showBarTops={true}
-        yAxisMinValue={0} // Force min y-axis value
-        yAxisMaxValue={90} // Force max y-axis value
-      />
-    );
+        },
+        propsForBackgroundLines: {
+          strokeDasharray: "", // Solid background lines
+          strokeWidth: 1,
+          stroke: "rgba(255, 255, 255, 0.2)",
+        },
+        formatYLabel: (yValue) => {
+          const value = Number(yValue);
+          if (!isNaN(value)) {
+            return value > 60
+              ? `${(value / 60).toFixed(1)}min` // Convert to minutes if > 60 seconds
+              : `${value}s`; // Otherwise, show in seconds
+          }
+          return "0s"; // Fallback for invalid values
+        },
+      }}
+      verticalLabelRotation={0}
+      style={{
+        marginVertical: 8,
+        borderRadius: 16,
+        marginTop: 50,
+        marginLeft: -10,
+      }}
+      yAxisInterval={1} // Set y-axis interval
+      showBarTops={true}
+      yAxisMinValue={0} // Force min y-axis value
+      yAxisMaxValue={90} // Force max y-axis value
+    />
+  );
 };
 
 const Home = ({ navigation, route }) => {
@@ -117,8 +116,6 @@ const Home = ({ navigation, route }) => {
   const [isFocused, setIsFocused] = useState(false);
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
   const [imageData, setImageData] = useState(null);
-
-
 
   useEffect(() => {
     fetch(`http://10.0.0.21:3001/userr/${username}`)
@@ -132,7 +129,6 @@ const Home = ({ navigation, route }) => {
         console.error("Error fetching user data:", error);
       });
   }, [username]);
-
 
   const checkPhysicalAttributes = () => {
     fetch(`http://10.0.0.21:3001/formData/${username}`)
@@ -148,9 +144,7 @@ const Home = ({ navigation, route }) => {
         console.error("Error fetching physical attributes:", error);
         navigation.navigate("PhysicalSection", { username });
       });
-    }
-
-
+  };
 
   const screen2 = () => {
     navigation.navigate("Workout");
@@ -200,23 +194,25 @@ const Home = ({ navigation, route }) => {
     setStartTime(null);
   };
 
-
   const updateTime = () => {
     if (startTime && currentSection) {
       const elapsedTime = Math.floor((Date.now() - startTime) / 1000); // Convert to seconds
       const elapsedMinutes = Math.floor(elapsedTime / 60); // Convert to minutes
       const remainingSeconds = elapsedTime % 60; // Remaining seconds
-  
-      console.log(`Updating time for ${currentSection}: ${elapsedMinutes}m ${remainingSeconds}s`);
-  
+
+      console.log(
+        `Updating time for ${currentSection}: ${elapsedMinutes}m ${remainingSeconds}s`
+      );
+
       setScreenTimeData((prevData) => ({
         ...prevData,
-        [currentSection]: prevData[currentSection] + elapsedMinutes + remainingSeconds / 60, // Add minutes and fraction of minutes
+        [currentSection]:
+          prevData[currentSection] + elapsedMinutes + remainingSeconds / 60, // Add minutes and fraction of minutes
       }));
       setStartTime(Date.now());
     }
   };
-  
+
   useEffect(() => {
     const unsubscribeFocus = navigation.addListener("focus", () => {
       setIsFocused(true);
@@ -234,31 +230,29 @@ const Home = ({ navigation, route }) => {
   }, [navigation]);
 
   const toNotifications = () => {
-    navigation.navigate("Notifications",{username});
+    navigation.navigate("Notifications", { username });
   };
 
   const toPosts = () => {
-    navigation.navigate("Post",{username});
+    navigation.navigate("Post", { username });
   };
   const GoToGoalSection = () => {
-    navigation.navigate("goal",{username});
+    navigation.navigate("goal", { username });
     startTracking("goal");
   };
 
   const GoToMusicSection = () => {
-    navigation.navigate("MusicTester2",{username});
+    navigation.navigate("MusicTester2", { username });
     startTracking("music");
   };
 
   const GoToFeedbackSection = () => {
-    navigation.navigate("Feedback",{username});
+    navigation.navigate("Feedback", { username });
     startTracking("feedback");
-
   };
   const GoToGamificationSection = () => {
-    navigation.navigate("Gamification",{username});
+    navigation.navigate("Gamification", { username });
     startTracking("game");
-
   };
 
   const goToProfile = () => {
@@ -280,7 +274,7 @@ const Home = ({ navigation, route }) => {
   const ToPhysicalSection = () => {
     checkPhysicalAttributes();
   };
- 
+
   const ToSettings = () => {
     navigation.navigate("Settings", { username, bio, imageData });
   };
@@ -321,7 +315,14 @@ const Home = ({ navigation, route }) => {
               />
             </TouchableOpacity>
 
-            <Text style={styles.welcome}>{username}</Text>
+            <Text
+              style={[
+                styles.welcome,
+                { color: isDarkMode ? "white" : "black" },
+              ]}
+            >
+              {username}
+            </Text>
           </View>
 
           <View style={styles.content}>
@@ -416,7 +417,7 @@ const Home = ({ navigation, route }) => {
             left: 0,
             paddingTop: -10,
           },
-          { backgroundColor: isDarkMode ? "gray" : "#fff" },
+          { backgroundColor: isDarkMode ? "black" : "#fff" },
         ]}
       >
         <TouchableOpacity onPress={ToHome}>

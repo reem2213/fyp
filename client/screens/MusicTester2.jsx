@@ -66,7 +66,6 @@
 //           { title: "Music 5", source: require("../tracks/BetterDays.mp3") },
 //           { title: "Music 6", source: require("../tracks/SweetMath.mp3") },
 
-
 //         ].map((track, index) => (
 //           <View key={index} style={{ flexDirection: "row", gap: 10 }}>
 //             <TouchableOpacity
@@ -156,19 +155,24 @@
 //   },
 // });
 
+import React, { useContext, useState, useEffect } from "react";
+import {
+  View,
+  StyleSheet,
+  Button,
+  Image,
+  Text,
+  TouchableOpacity,
+} from "react-native";
+import { Audio } from "expo-av";
+import FeedbackImage from "../assets/musicbg.png";
+import Back from "../assets/back.png";
+import AntDesign from "react-native-vector-icons/AntDesign";
+import { DarkModeContext } from "../components/DarkModeContext";
 
-import React, { useContext, useState, useEffect } from 'react';
-import { View, StyleSheet, Button, Image, Text, TouchableOpacity } from 'react-native';
-import { Audio } from 'expo-av';
-import FeedbackImage from '../assets/musicbg.png';
-import Back from '../assets/back.png';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import { DarkModeContext } from '../components/DarkModeContext';
+export default function MusicZoneScreen({ navigation, route }) {
+  const { username } = route.params;
 
-
-export default function MusicZoneScreen({ navigation,route }) {
-  const{username}=route.params;
-  
   const { isDarkMode } = useContext(DarkModeContext);
   const [playingIndex, setPlayingIndex] = useState(null);
   const [sound, setSound] = useState(null);
@@ -198,45 +202,84 @@ export default function MusicZoneScreen({ navigation,route }) {
   }, [sound]);
 
   const backToHome = () => {
-    navigation.navigate('Home',{username});
+    navigation.navigate("Home", { username });
   };
 
   return (
     <>
-      <View style={[styles.bigContainer, { backgroundColor: isDarkMode ? '#121212' : '#22CFE7' }]}>
+      <View
+        style={[
+          { color: "black",position:"absolute",height:"100%",width:"100%" },
+          { backgroundColor: isDarkMode ? "black" : "#fff" },
+        ]}
+      >
+      <View
+        style={[
+          styles.bigContainer,
+          { backgroundColor: isDarkMode ? "#22CFE7" : "#22CFE7" },
+        ]}
+      >
         <TouchableOpacity onPress={backToHome}>
           <Image source={Back} style={styles.backButton} />
         </TouchableOpacity>
-        <Text style={[styles.header, { color: isDarkMode ? 'white' : 'white' }]}>Music Zone</Text>
+        <Text
+          style={[styles.header, { color: isDarkMode ? "white" : "white" }]}
+        >
+          Music Zone
+        </Text>
         <Image source={FeedbackImage} style={styles.feedbackImage} />
       </View>
-      <View style={[styles.container, { backgroundColor: isDarkMode ? '#333' : 'white' }]}>
+      <View
+        style={[
+          styles.container,
+          { backgroundColor: isDarkMode ? "#333" : "white" },
+        ]}
+      >
         {[
-          { title: 'Better Days', source: require('../tracks/BetterDays.mp3') },
-          { title: 'A Sitar Story', source: require('../tracks/ASitarStory.mp3') },
-          { title: 'Sweet Math', source: require('../tracks/SweetMath.mp3') },
-          { title: 'Two Hearts', source: require('../tracks/TwoHearts.mp3') },
-          { title: 'Music 5', source: require('../tracks/BetterDays.mp3') },
-          { title: 'Music 6', source: require('../tracks/SweetMath.mp3') },
+          { title: "Better Days", source: require("../tracks/BetterDays.mp3") },
+          {
+            title: "A Sitar Story",
+            source: require("../tracks/ASitarStory.mp3"),
+          },
+          { title: "Sweet Math", source: require("../tracks/SweetMath.mp3") },
+          { title: "Two Hearts", source: require("../tracks/TwoHearts.mp3") },
+          { title: "Music 5", source: require("../tracks/BetterDays.mp3") },
+          { title: "Music 6", source: require("../tracks/SweetMath.mp3") },
         ].map((track, index) => (
-          <View key={index} style={{ flexDirection: 'row', gap: 10 }}>
-            <TouchableOpacity style={styles.playPauseBtn} onPress={() => togglePlaySound(index, track.source)}>
-              <AntDesign name={playingIndex === index ? 'pausecircleo' : 'playcircleo'} size={20} color="white" />
+          <View key={index} style={{ flexDirection: "row", gap: 10 }}>
+            <TouchableOpacity
+              style={styles.playPauseBtn}
+              onPress={() => togglePlaySound(index, track.source)}
+            >
+              <AntDesign
+                name={playingIndex === index ? "pausecircleo" : "playcircleo"}
+                size={20}
+                color="white"
+              />
             </TouchableOpacity>
-            <Text style={{ marginTop: 10, left: -5, color: isDarkMode ? 'white' : 'black' }}>{track.title}</Text>
+            <Text
+              style={{
+                marginTop: 10,
+                left: -5,
+                color: isDarkMode ? "white" : "black",
+              }}
+            >
+              {track.title}
+            </Text>
             <View
               style={{
-                backgroundColor: '#D6D7D8',
+                backgroundColor: "#D6D7D8",
                 borderRadius: 50,
                 width: 220,
                 height: 5,
-                position: 'absolute',
+                position: "absolute",
                 top: 40,
                 left: 65,
               }}
             />
           </View>
         ))}
+      </View>
       </View>
     </>
   );
@@ -245,8 +288,8 @@ export default function MusicZoneScreen({ navigation,route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    width: '85%',
+    justifyContent: "center",
+    width: "85%",
     marginLeft: 30,
     marginTop: 20,
     padding: 10,
@@ -256,12 +299,12 @@ const styles = StyleSheet.create({
     marginBottom: 25,
   },
   bigContainer: {
-    height: '50%',
+    height: "50%",
     borderRadius: 70,
-    marginTop: -50,
+    marginTop: -40,
   },
   backButton: {
-    position: 'absolute',
+    position: "absolute",
     marginTop: 110,
     marginLeft: 30,
     width: 30,
@@ -269,8 +312,8 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 35,
-    fontWeight: 'bold',
-    position: 'absolute',
+    fontWeight: "bold",
+    position: "absolute",
     marginTop: 150,
     marginLeft: 100,
   },
@@ -281,18 +324,18 @@ const styles = StyleSheet.create({
     marginLeft: 70,
   },
   containerr: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    margin: 0,    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    margin: 0,
+    alignItems: "center",
   },
   playPauseBtn: {
     width: 40,
     height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 100,
     margin: 10,
-    backgroundColor: '#22CFE7',
+    backgroundColor: "#22CFE7",
   },
 });
-
