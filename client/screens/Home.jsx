@@ -109,10 +109,11 @@ const SccreenTime = ({ screenTimeData }) => {
       yAxisMaxValue={90} // Force max y-axis value
     />
   );
+
 };
 
 const Home = ({ navigation, route }) => {
-  const { username } = route.params;
+  const { username ,userId} = route.params;
   const [bio, setBio] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
@@ -251,10 +252,10 @@ const Home = ({ navigation, route }) => {
   
 
   const toPosts = () => {
-    navigation.navigate("Post", { username });
+    navigation.navigate("Post", { username,userId });
   };
   const GoToGoalSection = () => {
-    navigation.navigate("goal", { username });
+    navigation.navigate("goal", { username ,userId});
     startTracking("goal");
   };
 
@@ -273,17 +274,17 @@ const Home = ({ navigation, route }) => {
   };
 
   const goToProfile = () => {
-    navigation.navigate("MyProfile", { username, bio, imageData });
+    navigation.navigate("MyProfile", { username, bio, imageData,userId });
   };
 
   const ToHome = () => {
-    navigation.navigate("Home", { username, bio, imageData });
+    navigation.navigate("Home", { username, bio, imageData ,userId});
   };
   const ToCommunity = () => {
-    navigation.navigate("Community", { username, bio, imageData });
+    navigation.navigate("Community", { username, bio, imageData,userId });
   };
   const ToPsychologicalSection = () => {
-    navigation.navigate("PsychologicalSection", { username, bio, imageData });
+    navigation.navigate("PsychologicalSection", { username, bio, imageData ,userId});
   };
   // const ToPhysicalSection = () => {
   //   navigation.navigate("PhysicalHome", { username, bio, imageData });
@@ -364,6 +365,7 @@ const Home = ({ navigation, route }) => {
             >
               {username}
             </Text>
+            <Text>{userId}</Text>
           </View>
 
           <View style={styles.content}>

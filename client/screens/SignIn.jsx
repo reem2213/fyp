@@ -54,7 +54,9 @@ const SignIn = ({ navigation, route }) => {
           username,
           password,
         });
-        if (response.data === "Successss") {
+        if (response.data.status === "Success") {
+          const userId = response.data.userId; // Get user ID from response
+
           const welcomeMessage = `Welcome back, ${username}!`;
           const newNotification = { message: welcomeMessage, time: new Date() };
 
@@ -68,7 +70,7 @@ const SignIn = ({ navigation, route }) => {
             notifications.push(newNotification);
             await AsyncStorage.setItem('Notifications', JSON.stringify(notifications));
             console.log('New Notifications:', notifications); // Debugging line
-            navigation.navigate("Home", { username, bio });
+            navigation.navigate("Home", { username, bio,userId });
           } catch (error) {
             console.error("Failed to save notification:", error);
           }

@@ -13,7 +13,7 @@ import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
 
 const EditProfileScreen = ({ route, navigation }) => {
-  const { username, bio, email, imageData } = route.params;
+  const { username, bio, email, imageData,userId } = route.params;
   const [newUsername, setNewUsername] = useState(username);
   const [newBio, setNewBio] = useState(bio);
   const [newEmail, setNewEmail] = useState(email);
@@ -81,10 +81,10 @@ const EditProfileScreen = ({ route, navigation }) => {
 
     }
   };
-  
-  
+
   return (
     <View style={styles.container}>
+
       <TouchableOpacity onPress={pickImage}>
         <Image
           style={styles.profileImage}

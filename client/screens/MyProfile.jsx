@@ -744,7 +744,7 @@ import { DarkModeContext } from "../components/DarkModeContext"; // Import the c
 
 const App = ({ route }) => {
   const { navigate } = useNavigation();
-  const { username } = route.params;
+  const { username,userId } = route.params;
   const [bio, setBio] = useState("");
   const [points, setPoints] = useState(0); // Add state for points
   const [email, setEmail] = useState("");
@@ -779,6 +779,7 @@ const App = ({ route }) => {
       console.error("Error fetching user profile:", error);
     }
   };
+
 
 
   const fetchMeetings = async () => {
@@ -970,14 +971,14 @@ const App = ({ route }) => {
         );
 
   const goToSettings = () => {
-    navigate("Settings", { username });
+    navigate("Settings", { username,userId });
   };
 
   const goBack = () => {
-    navigate("Home", { username });
+    navigate("Home", { username,userId });
   };
   const goToEditProfile = () => {
-    navigate("EditProfile", { username, bio, imageData, email });
+    navigate("EditProfile", { username, bio, imageData, email ,userId});
   };
 
   const calculateGoalPercentages = () => {

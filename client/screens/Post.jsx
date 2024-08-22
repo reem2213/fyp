@@ -445,12 +445,12 @@ import { DarkModeContext } from "../components/DarkModeContext";
 import WhiteArrowBack from "../assets/whiteArrowBack.png";
 
 const App = ({ navigation, route }) => {
-  const { username } = route.params;
+  const { username,userId } = route.params;
   const { isDarkMode } = useContext(DarkModeContext);
   const imgDir = FileSystem.documentDirectory + "/images";
 
   const GoBack = () => {
-    navigation.navigate("Home", { username });
+    navigation.navigate("Home", { username,userId });
   };
   const [posts, setPosts] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);

@@ -307,7 +307,7 @@ import TrashIcon from "../assets/trashIcon.png";
 import { DarkModeContext } from "../components/DarkModeContext";
 
 const Goal = ({ navigation ,route}) => {
-  const {username}=route.params;
+  const {username,userId}=route.params;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [newGoal, setNewGoal] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
@@ -317,12 +317,12 @@ const Goal = ({ navigation ,route}) => {
 
   useEffect(() => {
     const fetchGoals = async () => {
-      const responses = await axios.get('http://10.0.0.21:3001/get-userid', { params: { username } });
-      const userId = responses.data.userId;
+      // const responses = await axios.get('http://10.0.0.21:3001/get-userid', { params: { username } });
+      // const userId = responses.data.userId;
       try {
         const response = await axios.get(`http://10.0.0.21:3001/goal/${userId}`);
         setGoals(response.data);
-        // console.log(userId)
+        console.log(userId)
 
       } catch (error) {
         console.error("Error fetching goals:", error);
@@ -335,7 +335,7 @@ const Goal = ({ navigation ,route}) => {
   }, [goals]);
 
   const BackToHome = () => {
-    navigation.navigate("Home",{username});
+    navigation.navigate("Home",{username,userId});
   };
 
   const handleAddGoal = () => {

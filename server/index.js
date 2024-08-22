@@ -68,19 +68,53 @@ app.post('/SignUp', async (req, res) => {
 
 
 
+// app.post("/SignIn", (req, res) => {
+//   const { username, password } = req.body;
+//   userModel.findOne({ username: username }).then((user) => {
+//     if (user) {
+//       if (user.password === password) {
+//         res.json("Successss");
+//       } else {
+//         res.json("incorrect passs");
+//       }
+//     } else {
+//       res.json("record not exist!!");
+//     }
+//   });
+// });
 app.post("/SignIn", (req, res) => {
   const { username, password } = req.body;
-  userModel.findOne({ username: username }).then((user) => {
-    if (user) {
-      if (user.password === password) {
-        res.json("Successss");
+
+  userModel.findOne({ username: username })
+    .then((user) => {
+      if (user) {
+        if (user.password === password) {
+          // Return the user ID along with the success message
+          res.json({
+            status: "Success",
+            userId: user._id, // MongoDB document ID
+            message: "Sign in successful"
+          });
+        } else {
+          res.json({
+            status: "Error",
+            message: "Incorrect password"
+          });
+        }
       } else {
-        res.json("incorrect passs");
+        res.json({
+          status: "Error",
+          message: "User does not exist"
+        });
       }
-    } else {
-      res.json("record not exist!!");
-    }
-  });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({
+        status: "Error",
+        message: "An error occurred during the sign-in process"
+      });
+    });
 });
 
 
