@@ -297,14 +297,12 @@ const Home = ({ navigation, route }) => {
   };
 
 
-
-
-
   const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
+        
         const storedNotifications = await AsyncStorage.getItem('Notifications');
         let notifications = storedNotifications ? JSON.parse(storedNotifications) : [];
 

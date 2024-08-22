@@ -198,7 +198,12 @@ const Gamification = ({ route, navigation }) => {
 
   const fetchScores = async () => {
     try {
-      const response = await axios.get(`http://10.0.0.21:3001/scores/${username}`);
+      const responses = await axios.get('http://10.0.0.21:3001/get-userid', { params: { username } });
+      const userId = responses.data.userId;
+      console.log(userId)
+  
+      
+      const response = await axios.get(`http://10.0.0.21:3001/scores/${userId}`);
       setScores(response.data);
     } catch (error) {
       console.error(error);

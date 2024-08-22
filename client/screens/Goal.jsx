@@ -317,13 +317,19 @@ const Goal = ({ navigation ,route}) => {
 
   useEffect(() => {
     const fetchGoals = async () => {
+      const responses = await axios.get('http://10.0.0.21:3001/get-userid', { params: { username } });
+      const userId = responses.data.userId;
       try {
-        const response = await axios.get(`http://10.0.0.21:3001/goal/${username}`);
+        const response = await axios.get(`http://10.0.0.21:3001/goal/${userId}`);
         setGoals(response.data);
+        // console.log(userId)
+
       } catch (error) {
         console.error("Error fetching goals:", error);
         
       }
+
+      
     };
     fetchGoals();
   }, [goals]);
@@ -338,12 +344,16 @@ const Goal = ({ navigation ,route}) => {
 
   const handleSaveGoal = async () => {
     if (newGoal.trim() !== "") {
+      const responses = await axios.get('http://10.0.0.21:3001/get-userid', { params: { username } });
+      const userId = responses.data.userId;
       try {
-        const response = await axios.post(`http://10.0.0.21:3001/goal/${username}`, {
+        const response = await axios.post(`http://10.0.0.21:3001/goal/${userId}`, {
           goal: newGoal,
           date: selectedDate,
-          status:"in progress"
+          status:"in progress",
+          userId
         });
+
         console.log("Goal saved:", response.data);
         setIsModalVisible(false);
         setNewGoal("");

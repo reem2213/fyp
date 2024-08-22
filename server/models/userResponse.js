@@ -4,7 +4,7 @@ const responseSchema= new mongoose.Schema({
     score: Number,
   points: Number,
   date: { type: Date, default: Date.now },
-  username: String,
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
 
 
 })

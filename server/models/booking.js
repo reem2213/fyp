@@ -8,7 +8,7 @@ const bookingSchema = new mongoose.Schema({
     location:String,
     date:Date,
     status:String,
-    username: String 
+    userId: { type: mongoose.Schema.Types.ObjectId, required: true }, // Replace username with userId
 })
  
 const bookingModel = mongoose.model("booking", bookingSchema)

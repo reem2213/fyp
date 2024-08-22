@@ -145,20 +145,43 @@ const ScoreScreen = ({ route, navigation }) => {
     points = 0;
   }
 
-  const saveScoreToDB = async () => {
+  // const saveScoreToDB = async () => {
 
+  //   try {
+  //     await axios.post('http://10.0.0.21:3001/save-score', { score, points ,username});
+  //     console.log(username)
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   saveScoreToDB();
+  // }, []);
+
+
+  const saveScoreToDB = async () => {
     try {
-      await axios.post('http://10.0.0.21:3001/save-score', { score, points ,username});
-      console.log(username)
+      // Fetch the userId based on the username
+      const response = await axios.get('http://10.0.0.21:3001/get-userid', { params: { username } });
+      const userId = response.data.userId;
+  
+      if (userId) {
+        // Save the score using the fetched userId
+        await axios.post('http://10.0.0.21:3001/save-score', { score, points, userId });
+        console.log(userId);
+      } else {
+        console.error('User ID not found');
+      }
     } catch (error) {
       console.error(error);
     }
   };
-
+  
   useEffect(() => {
     saveScoreToDB();
   }, []);
-
+  
   return (
     <View style={[styles.container, { backgroundColor: isDarkMode ? "black" : "#FF6B00" }]}>
       <Text style={[styles.scoreText, { color: isDarkMode ? "white" : "black" }]}>

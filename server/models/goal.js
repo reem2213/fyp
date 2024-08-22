@@ -4,7 +4,8 @@ const goalSchema = new mongoose.Schema({
     goal:String,
     date:Date,
     status:String,
-    username: { type: String, required: true }, // Add this line
+    userId: { type: mongoose.Schema.Types.ObjectId, required: true }, // Replace username with userId
+
 
 
 

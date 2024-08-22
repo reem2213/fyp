@@ -747,31 +747,15 @@ const App = ({ route }) => {
   const { username } = route.params;
   const [bio, setBio] = useState("");
   const [points, setPoints] = useState(0); // Add state for points
-
+  const [email, setEmail] = useState("");
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
 
   const [imageData, setImageData] = useState(null);
-  const [userProfile, setUserProfile] = useState({
-    username: "",
-    bio: "",
-    imageData: "",
-  });
+
   const [activeSection, setActiveSection] = useState("Meetings");
   const [activeStatus, setActiveStatus] = useState("upcoming");
   const [meetings, setMeetings] = useState([]);
   const [goals, setGoals] = useState([]);
-
-  useEffect(() => {
-    fetch(`http://10.0.0.21:3001/userr/${username}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setBio(data.bio);
-        setImageData(data.image);
-      })
-      .catch((error) => {
-        console.error("Error fetching user data:", error);
-      });
-  }, [username]);
 
   useEffect(() => {
     fetchUserProfile();
@@ -781,20 +765,28 @@ const App = ({ route }) => {
   }, []);
 
   const fetchUserProfile = async () => {
+    const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
+      params: { username },
+    });
+    const userId = responses.data.userId;
     try {
-      const response = await axios.get(
-        `http://10.0.0.21:3001/user/${username}`
-      );
-      setUserProfile(response.data);
+      const response = await axios.get(`http://10.0.0.21:3001/user/${userId}`);
+      setBio(response.data.bio);
+      setImageData(response.data.image);
+      setEmail(response.data.email);
     } catch (error) {
       console.error("Error fetching user profile:", error);
     }
   };
 
   const fetchMeetings = async () => {
+    const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
+      params: { username },
+    });
+    const userId = responses.data.userId;
     try {
       const response = await axios.get(
-        `http://10.0.0.21:3001/bookings/${username}`
+        `http://10.0.0.21:3001/bookings/${userId}`
       );
       setMeetings(response.data);
     } catch (error) {
@@ -803,11 +795,14 @@ const App = ({ route }) => {
   };
 
   const fetchGoals = async () => {
+    const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
+      params: { username },
+    });
+    const userId = responses.data.userId;
     try {
-      const response = await axios.get(
-        `http://10.0.0.21:3001/goal/${username}`
-      );
+      const response = await axios.get(`http://10.0.0.21:3001/goal/${userId}`);
       setGoals(response.data);
+      // console.log(userId)
     } catch (error) {
       console.error("Error fetching goals:", error);
     }
@@ -815,19 +810,20 @@ const App = ({ route }) => {
 
   const fetchUserPoints = async () => {
     try {
-      const response = await fetch(
-        `http://10.0.0.21:3001/user-points/${username}`
+      // Fetch userId from username
+      const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
+        params: { username },
+      });
+      const userId = responses.data.userId;
+
+      // Fetch user points using userId
+      const response = await axios.get(
+        `http://10.0.0.21:3001/user-points/${userId}`
       );
 
-      // Check if the response is valid
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      setPoints(data.totalPoints);
-      console.log(data.totalPoints);
+      // Set the points if the response is successful
+      setPoints(response.data.totalPoints);
+      console.log(response.data.totalPoints);
     } catch (error) {
       console.error("Error fetching points:", error);
     }
@@ -979,7 +975,7 @@ const App = ({ route }) => {
     navigate("Home", { username });
   };
   const goToEditProfile = () => {
-    navigate("EditProfile", { username });
+    navigate("EditProfile", { username, bio, imageData, email });
   };
 
   const calculateGoalPercentages = () => {
@@ -1061,6 +1057,7 @@ const App = ({ route }) => {
           >
             {points} Points
           </Text>
+
           {/* <View style={styles.pointsContainer}>
         <Image source={Coin} style={styles.coinIcon} />
         <Text style={styles.pointsText}>{points} Points</Text>
@@ -1299,6 +1296,7 @@ const App = ({ route }) => {
   );
 };
 
+
 const styles = StyleSheet.create({
   container: {
     top: -70,
@@ -1423,6 +1421,7 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
   itemTitle: {
+
     fontSize: 16,
     fontWeight: "bold",
     color: "white",
@@ -1494,3 +1493,6 @@ const styles = StyleSheet.create({
 });
 
 export default App;
+
+
+

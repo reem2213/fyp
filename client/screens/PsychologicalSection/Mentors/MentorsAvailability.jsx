@@ -64,65 +64,15 @@ const MentorsAvailability = ({ route, navigation }) => {
 
   const mentorTimes = availableTime.find((mentor) => mentor.name === name);
 
-  // const handleBook = async () => {
-  //   if (!selectedTime || !selectedDuration || !dateOfBirth || !location) {
-  //     alert("Please fill out all fields.");
-  //     return;
-  //   }
-
-  //   const bookingDetails = {
-  //     mentorName: name,
-  //     time: selectedTime,
-  //     duration: selectedDuration,
-  //     meetingType,
-  //     location,
-  //     date: dateOfBirth.toDateString(),
-  //     status: "upcoming",
-  //     username
-  //   };
-
-  //   try {
-  //     const response = await axios.post(
-  //     `http://10.0.0.21:3001/bookings/${username}`,
-  //       bookingDetails
-  //     );
-  //     if (response.status === 200) {
-  //       alert("Booking confirmed!");
-
-  //       // Add the notification
-  //       const newNotification = {
-  //         message: `Booking confirmed by ${name} at ${selectedTime}`,
-  //         time: new Date().toISOString(),
-  //       };
-
-  //       let storedNotifications = await AsyncStorage.getItem("Notifications");
-  //       storedNotifications = storedNotifications
-  //         ? JSON.parse(storedNotifications)
-  //         : [];
-
-  //       storedNotifications.push(newNotification);
-  //       await AsyncStorage.setItem(
-  //         "Notifications",
-  //         JSON.stringify(storedNotifications)
-  //       );
-
-  //       navigation.navigate("Mentors");
-  //     } else {
-  //       alert("Failed to book. Please try again.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error booking appointment:", error);
-  //     alert("An error occurred while booking. Please try again.");
-  //   }
-  // };
   const handleBook = async () => {
     if (!selectedTime || !selectedDuration || !dateOfBirth || !location) {
       alert("Please fill out all fields.");
       return;
     }
+    const responses = await axios.get('http://10.0.0.21:3001/get-userid', { params: { username } });
+    const userId = responses.data.userId;
   
-    // const username = await AsyncStorage.getItem('username'); // Retrieve the stored username
-    console.log("Username:", username); // Log the usernam
+    console.log("Username:", username); 
     const bookingDetails = {
       mentorName: name,
       time: selectedTime,
@@ -132,12 +82,12 @@ const MentorsAvailability = ({ route, navigation }) => {
       date: dateOfBirth.toDateString(),
 
       status: "upcoming",
-      username // Include the username
+      userId // Include the username
     };
   
     try {
       const response = await axios.post(
-        `http://10.0.0.21:3001/bookings/${username}`,
+        `http://10.0.0.21:3001/bookings/${userId}`,
         bookingDetails
       );
       if (response.status === 200) {

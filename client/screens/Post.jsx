@@ -499,6 +499,7 @@ const App = ({ navigation, route }) => {
       console.error(error);
     }
   };
+  
 
   const addNewPost = async () => {
     try {

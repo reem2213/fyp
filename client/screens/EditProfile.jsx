@@ -1,63 +1,27 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState } from "react";
 import {
-  StyleSheet,
   View,
   Text,
   TextInput,
   Button,
   Image,
   TouchableOpacity,
-  ScrollView
+  StyleSheet,
+  Alert,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
-import { DarkModeContext } from "../components/DarkModeContext"; // Import the context
 
-const EditProfile = ({ route,navigation }) => {
-  const { username } = route.params;
-  const { isDarkMode } = useContext(DarkModeContext); // Use the context
-
-  const [userProfile, setUserProfile] = useState({
-    username: "",
-    email: "",
-    bio: "",
-    password: "",
-    image: ""
-  });
-
-  useEffect(() => {
-    fetchUserProfile();
-  }, []);
-
-  const fetchUserProfile = async () => {
-    try {
-      const response = await axios.get(`http://10.0.0.21:3001/user/${username}`);
-      setUserProfile(response.data);
-    } catch (error) {
-      console.error("Error fetching user profile:", error);
-    }
-  };
-
-  const handleInputChange = (field, value) => {
-    setUserProfile({ ...userProfile, [field]: value });
-  };
-
-  const handleUpdateProfile = async () => {
-    try {
-      await axios.put(`http://10.0.0.21:3001/user/${username}`, userProfile);
-      alert("Profile updated successfully!");
-      // Navigate back to profile or any other screen
-      navigation.navigate("Profile", { username });
-    } catch (error) {
-      console.error("Error updating profile:", error);
-      alert("Failed to update profile.");
-    }
-  };
+const EditProfileScreen = ({ route, navigation }) => {
+  const { username, bio, email, imageData } = route.params;
+  const [newUsername, setNewUsername] = useState(username);
+  const [newBio, setNewBio] = useState(bio);
+  const [newEmail, setNewEmail] = useState(email);
+  const [newImage, setNewImage] = useState(imageData);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
@@ -65,54 +29,94 @@ const EditProfile = ({ route,navigation }) => {
     });
 
     if (!result.canceled) {
-      setUserProfile({ ...userProfile, image: result.assets[0].base64 });
+      setNewImage(result.assets[0].base64);
     }
   };
 
+  // const handleUpdate = async () => {
+  //   try {
+  //     const response = await axios.put(`http://10.0.0.21:3001/user/${username}`, {
+  //       newUsername: newUsername, // Updated this line
+  //       bio: newBio,
+  //       email: newEmail,
+  //       image: newImage,
+  //     });
+  //     if (response.status === 200) {
+  //       Alert.alert("Profile Updated", "Your profile has been updated successfully.");
+  //       navigation.navigate("MyProfile",{username,bio,email,imageData});
+  //     }
+  //   } catch (error) {
+  //     console.error("Error updating profile:", error);
+  //     Alert.alert("Error", "There was an error updating your profile. Please try again.");
+  //   }
+  // };
+  const handleUpdate = async () => {
+    const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
+      params: { username },
+    });
+    const userId = responses.data.userId;
+
+    try {
+      const response = await axios.put(`http://10.0.0.21:3001/user/${userId}`, {
+        username: newUsername,
+        bio: newBio,
+        email: newEmail,
+        image: newImage,
+      });
+  
+      if (response.status === 200) {
+        Alert.alert("Profile Updated", "Your profile has been updated successfully.");
+        navigation.navigate("MyProfile", {
+          userId, // Pass the user ID instead of the username
+          bio: newBio,
+          email: newEmail,
+          imageData: newImage,
+          
+          username:newUsername
+        });
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      Alert.alert("Error", "There was an error updating your profile. Please try again.");
+      console.log('userId:', userId); // Add this to see if userId is available
+
+    }
+  };
+  
+  
   return (
-    <ScrollView style={[styles.container, { backgroundColor: isDarkMode ? "black" : "#FAFAFA" }]}>
-      <Text style={[styles.label, { color: isDarkMode ? "white" : "black" }]}>Username:</Text>
-      <TextInput
-        style={styles.input}
-        value={userProfile.username}
-        onChangeText={(text) => handleInputChange("username", text)}
-      />
-
-      <Text style={[styles.label, { color: isDarkMode ? "white" : "black" }]}>Email:</Text>
-      <TextInput
-        style={styles.input}
-        value={userProfile.email}
-        onChangeText={(text) => handleInputChange("email", text)}
-      />
-
-      <Text style={[styles.label, { color: isDarkMode ? "white" : "black" }]}>Bio:</Text>
-      <TextInput
-        style={styles.input}
-        value={userProfile.bio}
-        onChangeText={(text) => handleInputChange("bio", text)}
-      />
-
-      <Text style={[styles.label, { color: isDarkMode ? "white" : "black" }]}>Password:</Text>
-      <TextInput
-        style={styles.input}
-        secureTextEntry
-        value={userProfile.password}
-        onChangeText={(text) => handleInputChange("password", text)}
-      />
-
-      <Text style={[styles.label, { color: isDarkMode ? "white" : "black" }]}>Profile Image:</Text>
+    <View style={styles.container}>
       <TouchableOpacity onPress={pickImage}>
-        <Text style={styles.imagePickerButton}>Pick an image</Text>
-      </TouchableOpacity>
-      {userProfile.image ? (
         <Image
-          source={{ uri: `data:image/jpeg;base64,${userProfile.image}` }}
-          style={styles.image}
+          style={styles.profileImage}
+          source={{
+            uri: `data:image/jpeg;base64,${newImage}`,
+          }}
         />
-      ) : null}
-
-      <Button title="Update Profile" onPress={handleUpdateProfile} />
-    </ScrollView>
+        <Text style={styles.changeImageText}>Change Profile Image</Text>
+      </TouchableOpacity>
+      <TextInput
+        style={styles.input}
+        placeholder="Username"
+        value={newUsername}
+        onChangeText={setNewUsername}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        value={newEmail}
+        onChangeText={setNewEmail}
+        keyboardType="email-address"
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Bio"
+        value={newBio}
+        onChangeText={setNewBio}
+        multiline
+      />
+      <Button title="Update Profile" onPress={handleUpdate} />
+    </View>
   );
 };
 
@@ -120,27 +124,27 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    backgroundColor: "#fff",
+    paddingTop:70
   },
-  label: {
-    fontSize: 18,
-    marginBottom: 8,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ddd",
-    padding: 8,
-    marginBottom: 16,
-    borderRadius: 4,
-  },
-  imagePickerButton: {
-    color: "#0066CC",
-    marginBottom: 16,
-  },
-  image: {
+  profileImage: {
     width: 100,
     height: 100,
-    marginBottom: 16,
+    borderRadius: 50,
+    alignSelf: "center",
+    marginBottom: 20,
+  },
+  changeImageText: {
+    textAlign: "center",
+    color: "#007AFF",
+    marginBottom: 20,
+  },
+  input: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    padding: 10,
+    marginBottom: 20,
   },
 });
 
-export default EditProfile;
+export default EditProfileScreen;

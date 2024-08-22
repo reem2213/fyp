@@ -84,20 +84,33 @@ app.post("/SignIn", (req, res) => {
 });
 
 
-app.get('/user/:username', async (req, res) => {
+// app.get('/user/:username', async (req, res) => {
+//   try {
+//       const user = await userModel.find();
+//       res.json(user);
+//   } catch (error) {
+//       res.status(500).json({ message: error.message });
+//   }
+// });
+app.get('/user/:userId', async (req, res) => {
+  const { userId } = req.params;
   try {
-      const user = await userModel.find();
-      res.json(user);
+      const user = await userModel.findById(userId); // Use findById to get the user by userId
+      if (user) {
+          res.json(user);
+      } else {
+          res.status(404).json({ message: 'User not found' });
+      }
   } catch (error) {
       res.status(500).json({ message: error.message });
   }
 });
 
-app.post('/goal/:username', async (req, res) => {
-  const { username } = req.params;
+app.post('/goal/:userId', async (req, res) => {
+  const { userId } = req.params;
   const { goal, date, status } = req.body;
   try {
-      const newGoal = new goalModel({ username, goal, date, status });
+      const newGoal = new goalModel({ userId, goal, date, status });
       await newGoal.save();
       res.status(201).json(newGoal);
   } catch (error) {
@@ -105,10 +118,10 @@ app.post('/goal/:username', async (req, res) => {
   }
 });
 
-app.get('/goal/:username', async (req, res) => {
-  const { username } = req.params;
+app.get('/goal/:userId', async (req, res) => {
+  const { userId } = req.params;
   try {
-      const goals = await goalModel.find({ username });
+      const goals = await goalModel.find({ userId });
       res.json(goals);
   } catch (error) {
       res.status(500).json({ message: error.message });
@@ -219,11 +232,12 @@ app.get('/mentors', async (req, res) => {
 
 
 //BOOKING
-app.post('/bookings/:username', async (req, res) => {
+app.post('/bookings/:userId', async (req, res) => {
   
   try {
-    const { mentorName, time, duration, meetingType, location, date, status, username } = req.body;
-    const newBooking = new BookingModel({ mentorName, time, duration, meetingType, location, date, status, username });
+    const { userId } = req.params;
+    const { mentorName, time, duration, meetingType, location, date, status } = req.body;
+    const newBooking = new BookingModel({ mentorName, time, duration, meetingType, location, date, status, userId });
     await newBooking.save();
     res.status(200).json({ message: 'Booking confirmed!', booking: newBooking });
   } catch (error) {
@@ -232,15 +246,17 @@ app.post('/bookings/:username', async (req, res) => {
   }
 });
 
-app.get('/bookings/:username', async (req, res) => {
-  const { username } = req.params;
+app.get('/bookings/:userId', async (req, res) => {
+  const { userId } = req.params;
   try {
-      const bookings = await BookingModel.find({ username });
+      const bookings = await BookingModel.find({ userId });
       res.json(bookings);
   } catch (error) {
       res.status(500).json({ message: error.message });
   }
 });
+
+
 
 app.put('/goal/:id', async (req, res) => {
   // Update the status of the goal with the given ID
@@ -370,27 +386,76 @@ app.post('/posts/:id/toggle-repost', async (req, res) => {
 //GAMIFICATION
 
 
-app.post('/save-score', async (req, res) => {
-  const { username, score, points } = req.body;
+// app.post('/save-score', async (req, res) => {
+//   const { username, score, points } = req.body;
 
-  const newUser = new responseModel({
-      username,
-      score,
-      points
-  });
+//   const newUser = new responseModel({
+//       username,
+//       score,
+//       points,
+//   });
+
+//   try {
+//       const savedUser = await newUser.save();
+//       res.status(201).json(savedUser);
+//   } catch (err) {
+//       res.status(400).json({ error: err.message });
+//   }
+// });
+
+
+
+
+
+app.get('/get-userid', async (req, res) => {
+  const { username } = req.query;
 
   try {
-      const savedUser = await newUser.save();
-      res.status(201).json(savedUser);
+    const user = await userModel.findOne({ username });
+    if (user) {
+      res.status(200).json({ userId: user._id });
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
   } catch (err) {
-      res.status(400).json({ error: err.message });
+    res.status(500).json({ error: err.message });
   }
 });
 
-app.get('/scores/:username', async (req, res) => {
-  const { username } = req.params;
+
+
+app.post('/save-score', async (req, res) => {
+  const { userId, score, points } = req.body;
+
+  const newUserResponse = new responseModel({
+    userId,
+    score,
+    points,
+  });
+
   try {
-      const scores = await responseModel.find({ username }).sort({ date: -1 });
+    const savedUserResponse = await newUserResponse.save();
+    res.status(201).json(savedUserResponse);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// app.get('/scores/:username', async (req, res) => {
+//   const { username } = req.params;
+//   try {
+//       const scores = await responseModel.find({ username }).sort({ date: -1 });
+//       res.status(200).json(scores);
+//   } catch (err) {
+//       res.status(400).json({ error: err.message });
+//   }
+// });
+
+app.get('/scores/:userId', async (req, res) => {
+  const { userId } = req.params;
+  try {
+      // Assuming userId is stored as an ObjectId in MongoDB
+      const scores = await responseModel.find({ userId: userId }).sort({ date: -1 });
       res.status(200).json(scores);
   } catch (err) {
       res.status(400).json({ error: err.message });
@@ -403,29 +468,38 @@ app.get('/scores/:username', async (req, res) => {
 
 //POINTS IN PROFILE
 
-app.get('/user-points/:username', async (req, res) => {
+app.get('/user-points/:userId', async (req, res) => {
   try {
-    const { username } = req.params;
-    console.log(`Fetching points for username: ${username}`);  // Log the request
+    const { userId } = req.params;
+    console.log(`Fetching points for userId: ${userId}`);  // Log the request
 
+    // Validate userId format
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      console.log('Invalid user ID format');
+      return res.status(400).json({ message: 'Invalid user ID format' });
+    }
+
+    // Correctly instantiate ObjectId with 'new'
     const totalPoints = await responseModel.aggregate([
-      { $match: { username: username } },
-      { $group: { _id: '$username', totalPoints: { $sum: '$points' } } }
+      { $match: { userId: new mongoose.Types.ObjectId(userId) } },  // Use 'new' keyword with ObjectId
+      { $group: { _id: '$userId', totalPoints: { $sum: '$points' } } }
     ]);
 
     console.log(`Aggregation result: ${JSON.stringify(totalPoints)}`);  // Log the aggregation result
 
     if (totalPoints.length === 0) {
-      return res.status(404).json({ message: 'User not found' });
+      console.log('User not found or no points available');
+      return res.status(404).json({ message: 'User not found or no points available' });
     }
 
-
-    res.json({ username: username, totalPoints: totalPoints[0].totalPoints });
+    res.json({ userId: userId, totalPoints: totalPoints[0].totalPoints });
   } catch (error) {
     console.error('Aggregation error:', error);
-    res.status(500).json({ message: 'Server error', error });
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
+
+
 
 
 
@@ -515,45 +589,7 @@ app.get('/groups/:id/typingStatus', (req, res) => {
   res.json({ typingStatus: typingStatus[id] || '' });
 });
 
-// app.post('/groups/:id/messages', async (req, res) => {
-//   try {
-//     const group = await Group.findById(req.params.id);
-//     if (!group) {
-//       return res.status(404).send({ message: 'Group not found' });
-//     }
-//     group.messages.push(req.body);
-//     await group.save();
-//     res.send(group.messages);
-//   } catch (error) {
-//     res.status(500).send({ message: 'Failed to send message', error });
-//   }
-// });
-// server.js (Node.js/Express example)
 
-
-
-// app.post('/groups/:id/join', async (req, res) => {
-//   try {
-//     const group = await Group.findById(req.params.id);
-//     if (!group) {
-//       return res.status(404).send({ message: 'Group not found' });
-//     }
-//     const { username } = req.body;
-//     const memberIndex = group.members.findIndex(member => member.username === username);
-
-//     if (memberIndex === -1) {
-//       group.members.push({ username, joined: true });
-//     } else {
-//       group.members[memberIndex].joined = true;
-//     }
-
-//     await group.save();
-//     res.send(group);
-//   } catch (error) {
-//     res.status(500).send({ message: 'Failed to join group', error });
-//   }
-
-// });
 app.post('/groups/:id/join', async (req, res) => {
   try {
     const group = await Group.findById(req.params.id);
@@ -620,52 +656,6 @@ app.get('/groups/:id/messages', async (req, res) => {
 
 
 
-// app.post('/groups/:id/messages', async (req, res) => {
-//   const group = await Group.findById(req.params.id);
-//   group.messages.push(req.body);
-//   await group.save();
-//   res.send(group);
-// });
-
-
-
-// // Get messages of a specific group
-// app.get('/groups/:id/messages', async (req, res) => {
-//   try {
-//     const group = await Group.findById(req.params.id);
-//     if (!group) {
-//       return res.status(404).send({ message: 'Group not found' });
-//     }
-//     res.send(group.messages);
-//   } catch (error) {
-//     res.status(500).send({ message: 'Failed to fetch messages', error });
-//   }
-// });
-// const typingStatus = {}; // Store typing statuses for each group
-
-// app.post('/groups/:id/typing', (req, res) => {
-//   const { id } = req.params;
-//   const { username } = req.body;
-//   typingStatus[id] = { message: `${username} is typing...`, username };
-//   res.sendStatus(200);
-// });
-
-// app.post('/groups/:id/stopTyping', (req, res) => {
-//   const { id } = req.params;
-//   const { username } = req.body;
-//   if (typingStatus[id] && typingStatus[id].username === username) {
-//     delete typingStatus[id];
-//   }
-//   res.sendStatus(200);
-// });
-
-// app.get('/groups/:id/typingStatus', (req, res) => {
-//   const { id } = req.params;
-//   res.json({ typingStatus: typingStatus[id] || '' });
-// });
-
-
-
 
 
 
@@ -716,17 +706,17 @@ app.post('/upload', async (req, res) => {
 
 //edit user info
 
-app.put('/user/:username', async (req, res) => {
-  const { username } = req.params;
-  const updateData = req.body;
+// app.put('/user/:username', async (req, res) => {
+//   const { username } = req.params;
+//   const updateData = req.body;
 
-  try {
-    const user = await userModel.findOneAndUpdate({ username }, updateData, { new: true });
-    res.json(user);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
+//   try {
+//     const user = await userModel.findOneAndUpdate({ username }, updateData, { new: true });
+//     res.json(user);
+//   } catch (error) {
+//     res.status(500).send(error);
+//   }
+// });
 
 
 
@@ -813,6 +803,54 @@ app.get('/getPrediction/:username', async (req, res) => {
   } catch (error) {
     console.error('Error fetching prediction:', error);
     res.status(500).json({ error: 'Server error' });
+  }
+});
+
+
+
+
+//EDIT PROFILE:
+
+
+
+// app.put('/user/:username', async (req, res) => {
+//   try {
+//     const { username } = req.params;
+//     const { newUsername, bio, email, image } = req.body;
+    
+//     const updatedUser = await userModel.findOneAndUpdate(
+//       { username },
+//       { username: newUsername, bio, email, image },
+//       { new: true }
+//     );
+
+//     if (updatedUser) {
+//       res.status(200).json(updatedUser);
+//     } else {
+//       res.status(404).json({ error: "User not found" });
+//     }
+//   } catch (error) {
+//     res.status(500).json({ error: "Server error" });
+//   }
+// });
+app.put('/user/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { newUsername, bio, email, image } = req.body;
+    
+    const updatedUser = await userModel.findOneAndUpdate(
+      { _id: userId },
+      { username: newUsername, bio, email, image },
+      { new: true }
+    );
+
+    if (updatedUser) {
+      res.status(200).json(updatedUser);
+    } else {
+      res.status(404).json({ error: "User not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
   }
 });
 
