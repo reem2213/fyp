@@ -58,7 +58,7 @@ const EditProfileScreen = ({ route, navigation }) => {
 
     try {
       const response = await axios.put(`http://10.0.0.21:3001/user/${userId}`, {
-        username: newUsername,
+        newUsername: newUsername,
         bio: newBio,
         email: newEmail,
         image: newImage,
@@ -71,7 +71,6 @@ const EditProfileScreen = ({ route, navigation }) => {
           bio: newBio,
           email: newEmail,
           imageData: newImage,
-          
           username:newUsername
         });
       }

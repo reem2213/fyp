@@ -230,7 +230,7 @@ const Notifications = ({ navigation,route}) => {
       const updatedNotifications = notificationsArray.filter(notification => {
         const notificationTime = new Date(notification.time);
         const timeDifference = (currentTime - notificationTime) / (1000 * 60); // in minutes
-        return timeDifference <= 5; // Only remove the notification that exceed 5 minutes
+        return timeDifference <= 60; // Only remove the notification that exceed 5 minutes
       });
 
       // Save the filtered notifications back to AsyncStorage

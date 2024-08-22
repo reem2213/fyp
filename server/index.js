@@ -386,27 +386,6 @@ app.post('/posts/:id/toggle-repost', async (req, res) => {
 //GAMIFICATION
 
 
-// app.post('/save-score', async (req, res) => {
-//   const { username, score, points } = req.body;
-
-//   const newUser = new responseModel({
-//       username,
-//       score,
-//       points,
-//   });
-
-//   try {
-//       const savedUser = await newUser.save();
-//       res.status(201).json(savedUser);
-//   } catch (err) {
-//       res.status(400).json({ error: err.message });
-//   }
-// });
-
-
-
-
-
 app.get('/get-userid', async (req, res) => {
   const { username } = req.query;
 
@@ -441,20 +420,10 @@ app.post('/save-score', async (req, res) => {
   }
 });
 
-// app.get('/scores/:username', async (req, res) => {
-//   const { username } = req.params;
-//   try {
-//       const scores = await responseModel.find({ username }).sort({ date: -1 });
-//       res.status(200).json(scores);
-//   } catch (err) {
-//       res.status(400).json({ error: err.message });
-//   }
-// });
 
 app.get('/scores/:userId', async (req, res) => {
   const { userId } = req.params;
   try {
-      // Assuming userId is stored as an ObjectId in MongoDB
       const scores = await responseModel.find({ userId: userId }).sort({ date: -1 });
       res.status(200).json(scores);
   } catch (err) {
@@ -517,7 +486,7 @@ const GroupSchema = new mongoose.Schema({
   members: [
     {
       username: String,
-      joined: { type: Boolean, default: false },
+      joined: { type: Boolean },
     }
   ],
   messages: [
@@ -703,25 +672,6 @@ app.post('/upload', async (req, res) => {
 
 
 
-
-//edit user info
-
-// app.put('/user/:username', async (req, res) => {
-//   const { username } = req.params;
-//   const updateData = req.body;
-
-//   try {
-//     const user = await userModel.findOneAndUpdate({ username }, updateData, { new: true });
-//     res.json(user);
-//   } catch (error) {
-//     res.status(500).send(error);
-//   }
-// });
-
-
-
-
-
 //PHYSICAL SECTION
 
 app.post('/formData/:username', async (req, res) => {
@@ -737,8 +687,6 @@ app.post('/formData/:username', async (req, res) => {
   }
 });
 
-
-// Fetch physical attributes for a specific user based on username
 app.get('/formData/:username', async (req, res) => {
   try {
     const user = await userModel.findOne({ username: req.params.username });
@@ -773,14 +721,14 @@ app.get('/products', async (req, res) => {
 
 //GENERATE PROGRAM:
 app.post('/savePrediction', async (req, res) => {
-  const { username, prediction } = req.body;
+  const { userId, prediction } = req.body;
 
-  if (!username || !prediction) {
-    return res.status(400).json({ error: 'Username and prediction are required' });
+  if (!userId || !prediction) {
+    return res.status(400).json({ error: 'User ID and prediction are required' });
   }
 
   try {
-    const newPrediction = new predictionModel({ username, prediction });
+    const newPrediction = new predictionModel({ userId, prediction });
     await newPrediction.save();
     res.status(201).json({ message: 'Prediction saved successfully' });
   } catch (error) {
@@ -789,13 +737,11 @@ app.post('/savePrediction', async (req, res) => {
   }
 });
 
-
-
-app.get('/getPrediction/:username', async (req, res) => {
-  const { username } = req.params;
+app.get('/getPrediction/:userId', async (req, res) => {
+  const { userId } = req.params;
 
   try {
-    const prediction = await predictionModel.findOne({ username }).sort({ createdAt: -1 }); // Fetch the latest prediction for the user
+    const prediction = await predictionModel.findOne({ userId }).sort({ createdAt: -1 }); // Fetch the latest prediction for the user
     if (!prediction) {
       return res.status(404).json({ error: 'Prediction not found' });
     }
@@ -808,31 +754,8 @@ app.get('/getPrediction/:username', async (req, res) => {
 
 
 
-
 //EDIT PROFILE:
 
-
-
-// app.put('/user/:username', async (req, res) => {
-//   try {
-//     const { username } = req.params;
-//     const { newUsername, bio, email, image } = req.body;
-    
-//     const updatedUser = await userModel.findOneAndUpdate(
-//       { username },
-//       { username: newUsername, bio, email, image },
-//       { new: true }
-//     );
-
-//     if (updatedUser) {
-//       res.status(200).json(updatedUser);
-//     } else {
-//       res.status(404).json({ error: "User not found" });
-//     }
-//   } catch (error) {
-//     res.status(500).json({ error: "Server error" });
-//   }
-// });
 app.put('/user/:userId', async (req, res) => {
   try {
     const { userId } = req.params;

@@ -3,9 +3,8 @@ import { View, Text, StyleSheet, SafeAreaView,TouchableOpacity } from 'react-nat
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { Ionicons } from '@expo/vector-icons';
 import predictWorkoutProgram from "../api"; // The API call function
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DarkModeContext } from "../../../components/DarkModeContext"; // Import the context
-
+import axios from 'axios';
 export default function ProgressScreen({navigation,route}) {
   const { username,height,weight } = route.params;
   const [bio, setBio] = useState("");
@@ -63,6 +62,10 @@ export default function ProgressScreen({navigation,route}) {
 
 
 const handlePredict = async () => {
+  const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
+    params: { username },
+  });
+  const userId = responses.data.userId;
   try {
     const processedFeatures = Object.entries(features).map(([key, value]) => {
       if (value === "" || value === null || value === undefined) {
@@ -84,7 +87,7 @@ const handlePredict = async () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username, prediction: result }),
+      body: JSON.stringify({ userId, prediction: result }), // Pass userId here
     });
     // Now navigate to PhysicalHome with the prediction result
     navigation.navigate("PhysicalHome", {

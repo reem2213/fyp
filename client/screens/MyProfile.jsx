@@ -762,6 +762,7 @@ const App = ({ route }) => {
     fetchMeetings();
     fetchGoals();
     fetchUserPoints(); // Fetch user points
+    
   }, []);
 
   const fetchUserProfile = async () => {
@@ -778,6 +779,7 @@ const App = ({ route }) => {
       console.error("Error fetching user profile:", error);
     }
   };
+
 
   const fetchMeetings = async () => {
     const responses = await axios.get("http://10.0.0.21:3001/get-userid", {

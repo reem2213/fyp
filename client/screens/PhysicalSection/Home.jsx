@@ -18,7 +18,7 @@ import GoalSection from "../../assets/Plan.png";
 import MusicSection from "../../assets/mentorsSection.png";
 import FeedbackSection from "../../assets/communitySection.png";
 import GameSection from "../../assets/Plan.png";
-
+import axios from "axios";
 const Home = ({ navigation, route }) => {
   const { username } = route.params;
   const [bio, setBio] = useState("");
@@ -63,8 +63,12 @@ const Home = ({ navigation, route }) => {
       });
   }, [username]);
 
-  useEffect(() => {
-    fetch(`http://10.0.0.21:3001/getPrediction/${username}`)
+  const fecthPreductin = async () => {
+    const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
+      params: { username },
+    });
+    const userId = responses.data.userId;
+    fetch(`http://10.0.0.21:3001/getPrediction/${userId}`)
       .then((response) => response.json())
       .then((data) => {
         if (data && data.prediction) {
@@ -74,6 +78,9 @@ const Home = ({ navigation, route }) => {
       .catch((error) => {
         console.error("Error fetching prediction:", error);
       });
+  };
+  useEffect(() => {
+    fecthPreductin();
   }, [username]);
   const GoToGoalSection = () => {
     navigation.navigate("Plan", { prediction });
@@ -155,7 +162,14 @@ const Home = ({ navigation, route }) => {
               />
             </TouchableOpacity>
 
-            <Text style={[styles.welcome,{ color: isDarkMode ? "white" : "#1B436F" },]}>Hello {username}</Text>
+            <Text
+              style={[
+                styles.welcome,
+                { color: isDarkMode ? "white" : "#1B436F" },
+              ]}
+            >
+              Hello {username}
+            </Text>
           </View>
 
           <View style={styles.content}>
@@ -283,7 +297,9 @@ const Home = ({ navigation, route }) => {
             </TouchableOpacity>
             <TouchableOpacity onPress={GoToBodyPlanAssistant}>
               <View style={styles.section5}>
-                <Text style={styles.sectionTitle5}>Body Program Assistant </Text>
+                <Text style={styles.sectionTitle5}>
+                  Body Program Assistant{" "}
+                </Text>
                 <Text style={styles.sectionSubtitle}>
                   focus on personalized plans based on the user's body metrics
                 </Text>
