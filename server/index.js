@@ -519,17 +519,34 @@ const GroupSchema = new mongoose.Schema({
   description: String,
   members: [
     {
-      username: String,
-      joined: { type: Boolean },
+      userId: mongoose.Schema.Types.ObjectId,
+      joined: { type: Boolean,default:true },
     }
   ],
+  // messages: [
+  //   {
+  //     sender: mongoose.Schema.Types.ObjectId,
+  //     text: String,
+  //     timestamp: { type: Date, default: Date.now },
+  //   },
+  // ],
   messages: [
     {
-      sender: String,
-      text: String,
-      timestamp: { type: Date, default: Date.now },
+        sender: {
+            type: mongoose.Schema.Types.Mixed,  // Allows ObjectId or String
+            required: true,
+            validate: {
+                validator: function(value) {
+                    // Allow either an ObjectId or the string "system"
+                    return mongoose.Types.ObjectId.isValid(value) || typeof value === 'string';
+                },
+                message: props => `${props.value} is not a valid sender!`
+            }
+        },
+        text: String,
+        timestamp: { type: Date, default: Date.now },
     },
-  ],
+],
   section: String
 
 
@@ -548,27 +565,137 @@ app.post('/groups', async (req, res) => {
   await group.save();
   res.send(group);
 });
+async function convertUsernamesToObjectIds() {
+  const groups = await Group.find();
+  for (const group of groups) {
+    let updated = false;
+    for (const message of group.messages) {
+      if (typeof message.sender === 'string') {
+        const user = await Member.findOne({ username: message.sender });
+        if (user) {
+          message.sender = user._id;
+          updated = true;
+        }
+      }
+    }
+    if (updated) {
+      await group.save();
+    }
+  }
+  console.log('Conversion complete');
+}
 
+convertUsernamesToObjectIds();
+
+// app.get('/groups', async (req, res) => {
+//   const { username, section } = req.query;
+//   const groups = await Group.find({ section });  // Filter groups by section
+//   const userGroups = groups.map(group => {
+//     const isMember = group.members.some(member => member.username === username && member.joined);
+//     return { ...group.toObject(), joined: isMember };
+//   });
+//   res.send(userGroups);
+// });
+
+
+// app.get('/groups/joined', async (req, res) => {
+//   const { username } = req.query;
+//   try {
+//     const joinedGroups = await Group.find({ 'members.username': username, 'members.joined': true });
+//     res.json(joinedGroups);
+//   } catch (error) {
+//     res.status(500).json({ message: 'Failed to fetch joined groups', error });
+//   }
+// });
 app.get('/groups', async (req, res) => {
-  const { username, section } = req.query;
+  const { userId, section } = req.query;
   const groups = await Group.find({ section });  // Filter groups by section
   const userGroups = groups.map(group => {
-    const isMember = group.members.some(member => member.username === username && member.joined);
+    const isMember = group.members.some(member => member.userId.equals(userId) && member.joined);
     return { ...group.toObject(), joined: isMember };
   });
   res.send(userGroups);
 });
 
-
 app.get('/groups/joined', async (req, res) => {
-  const { username } = req.query;
+  const { userId } = req.query;
   try {
-    const joinedGroups = await Group.find({ 'members.username': username, 'members.joined': true });
+    const joinedGroups = await Group.find({ 'members.userId': userId, 'members.joined': true });
     res.json(joinedGroups);
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch joined groups', error });
   }
 });
+
+app.post('/groups/:id/join', async (req, res) => {
+  try {
+    const group = await Group.findById(req.params.id);
+    if (!group) {
+      return res.status(404).send({ message: 'Group not found' });
+    }
+
+    const { userId } = req.body;
+
+    const memberExists = group.members.some(member => member.userId.equals(userId));
+
+    if (memberExists) {
+      return res.status(400).send({ message: 'User already a member of the group' });
+    }
+
+    group.members.push({ userId: new mongoose.Types.ObjectId(userId) });
+    await group.save();
+
+    // Use a system user ObjectId or handle system messages with a specific identifier
+    const systemUserId = new mongoose.Types.ObjectId("64a9f8a7f6c7d9bcbdd741e3"); // Example system user ID
+
+    const welcomeMessage = {
+      sender: systemUserId,  // Use the system user ID
+      text: `Heyy, welcome to our community!`,
+      timestamp: new Date(),
+    };
+    group.messages.push(welcomeMessage);
+    await group.save();
+
+    res.send(group);
+  } catch (error) {
+    console.error("Error joining group:", error);
+    res.status(500).send({ message: 'Failed to join group', error: error.message });
+  }
+});
+
+
+
+app.post('/groups/:id/messages', async (req, res) => {
+  try {
+    const group = await Group.findById(req.params.id);
+    if (!group) {
+      return res.status(404).send({ message: 'Group not found' });
+    }
+
+    const { sender, text } = req.body;
+
+    // Check if sender is a valid ObjectId
+    let senderId;
+    if (sender === 'system') {
+      senderId = systemUserId;  // Use the system user ID or handle it as needed
+    } else {
+      senderId = new mongoose.Types.ObjectId(sender);
+    }
+
+    group.messages.push({
+      sender: senderId,  // Convert to ObjectId
+      text,
+    });
+
+    await group.save();
+    res.send(group.messages);
+
+  } catch (error) {
+    console.error("Error sending message:", error);
+    res.status(500).send({ message: 'Failed to send message', error: error.message });
+  }
+});
+
 
 const typingStatus = {}; // Store typing statuses for each group
 app.post('/groups/:id/typing', (req, res) => {
@@ -593,53 +720,53 @@ app.get('/groups/:id/typingStatus', (req, res) => {
 });
 
 
-app.post('/groups/:id/join', async (req, res) => {
-  try {
-    const group = await Group.findById(req.params.id);
-    if (!group) {
-      return res.status(404).send({ message: 'Group not found' });
-    }
+// app.post('/groups/:id/join', async (req, res) => {
+//   try {
+//     const group = await Group.findById(req.params.id);
+//     if (!group) {
+//       return res.status(404).send({ message: 'Group not found' });
+//     }
 
-    const username = req.body.username;
-    const memberExists = group.members.some(member => member.username === username);
+//     const username = req.body.username;
+//     const memberExists = group.members.some(member => member.username === username);
 
-    if (memberExists) {
-      return res.status(400).send({ message: 'User already a member of the group' });
-    }
+//     if (memberExists) {
+//       return res.status(400).send({ message: 'User already a member of the group' });
+//     }
 
-    group.members.push({ username });
-    await group.save();
+//     group.members.push({ username });
+//     await group.save();
 
-    // Send welcome message after joining
-    const welcomeMessage = {
-      sender: "system", // or another identifier for system messages
-      text: `Heyy ${username}, welcome to our community! Here you will find yourself better, so how can we help you?`,
-      timestamp: new Date(),
-    };
-    group.messages.push(welcomeMessage);
-    await group.save();
+//     // Send welcome message after joining
+//     const welcomeMessage = {
+//       sender: "system", // or another identifier for system messages
+//       text: `Heyy ${username}, welcome to our community! Here you will find yourself better, so how can we help you?`,
+//       timestamp: new Date(),
+//     };
+//     group.messages.push(welcomeMessage);
+//     await group.save();
 
-    res.send(group);
-  } catch (error) {
-    console.error("Error joining group:", error); // Log the error
-    res.status(500).send({ message: 'Failed to join group', error: error.message });
-  }
-});
+//     res.send(group);
+//   } catch (error) {
+//     console.error("Error joining group:", error); // Log the error
+//     res.status(500).send({ message: 'Failed to join group', error: error.message });
+//   }
+// });
 
-app.post('/groups/:id/messages', async (req, res) => {
-  try {
-    const group = await Group.findById(req.params.id);
-    if (!group) {
-      return res.status(404).send({ message: 'Group not found' });
-    }
-    group.messages.push(req.body);
-    await group.save();
-    res.send(group.messages);
-  } catch (error) {
-    console.error("Error sending message:", error); // Log the error
-    res.status(500).send({ message: 'Failed to send message', error: error.message });
-  }
-});
+// app.post('/groups/:id/messages', async (req, res) => {
+//   try {
+//     const group = await Group.findById(req.params.id);
+//     if (!group) {
+//       return res.status(404).send({ message: 'Group not found' });
+//     }
+//     group.messages.push(req.body);
+//     await group.save();
+//     res.send(group.messages);
+//   } catch (error) {
+//     console.error("Error sending message:", error); // Log the error
+//     res.status(500).send({ message: 'Failed to send message', error: error.message });
+//   }
+// });
 
 app.get('/groups/:id/messages', async (req, res) => {
   try {

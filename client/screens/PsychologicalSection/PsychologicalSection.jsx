@@ -290,26 +290,26 @@ import { DarkModeContext } from "../../components/DarkModeContext"; // Assuming 
 
 const Home = ({ navigation,route }) => {
   const { isDarkMode } = useContext(DarkModeContext);
-  const {username}=route.params
+  const {username,userId}=route.params
 
   const GoBack = () => {
-    navigation.navigate("Home",{username});
+    navigation.navigate("Home",{username,userId});
   };
 
   const GoToEducationSection = () => {
-    navigation.navigate("EduSection",{username});
+    navigation.navigate("EduSection",{username,userId});
   };
 
   const GoToCommunitiesSection = () => {
-  navigation.navigate("Communities",{username});
+  navigation.navigate("Communities",{username,userId});
   };
 
   const GoToMentorsSection = () => {
-    navigation.navigate("Mentors",{username});
+    navigation.navigate("Mentors",{username,userId});
   };
 
   const GoToChatBotSection = () => {
-    navigation.navigate("ChatBot",{username});
+    navigation.navigate("ChatBot",{username,userId});
   };
 
   return (

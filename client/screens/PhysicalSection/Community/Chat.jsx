@@ -3,7 +3,7 @@ import { View, FlatList, Text, TextInput, TouchableOpacity, StyleSheet, Keyboard
 import axios from 'axios';
 
 export default function ChatScreen({ route, navigation }) {
-  const { groupId, username } = route.params;
+  const { groupId, username,userId } = route.params;
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState('');
   const [typingStatus, setTypingStatus] = useState('');
@@ -28,10 +28,39 @@ export default function ChatScreen({ route, navigation }) {
     }
   };
 
+  // const sendMessage = async () => {
+  //   try {
+  //     await axios.post(`http://10.0.0.21:3001/groups/${groupId}/messages`, {
+  //       sender: username,
+  //       text,
+  //     });
+  //     setText('');
+  //     fetchMessages();
+  //     stopTyping();
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  // const startTyping = () => {
+  //   if (typingTimeoutRef.current) {
+  //     clearTimeout(typingTimeoutRef.current);
+  //   }
+  //   axios.post(`http://10.0.0.21:3001/groups/${groupId}/typing`, { username });
+
+  //   typingTimeoutRef.current = setTimeout(() => {
+  //     stopTyping();
+  //   }, 3000); // 3 seconds of inactivity will stop typing status
+  // };
+
+  // const stopTyping = () => {
+  //   axios.post(`http://10.0.0.21:3001/groups/${groupId}/stopTyping`, { username });
+  // };
+
   const sendMessage = async () => {
     try {
       await axios.post(`http://10.0.0.21:3001/groups/${groupId}/messages`, {
-        sender: username,
+        sender: userId,
         text,
       });
       setText('');
@@ -46,15 +75,15 @@ export default function ChatScreen({ route, navigation }) {
     if (typingTimeoutRef.current) {
       clearTimeout(typingTimeoutRef.current);
     }
-    axios.post(`http://10.0.0.21:3001/groups/${groupId}/typing`, { username });
+    axios.post(`http://10.0.0.21:3001/groups/${groupId}/typing`, { userId });
 
     typingTimeoutRef.current = setTimeout(() => {
       stopTyping();
-    }, 3000); // 3 seconds of inactivity will stop typing status
+    }, 3000);
   };
 
   const stopTyping = () => {
-    axios.post(`http://10.0.0.21:3001/groups/${groupId}/stopTyping`, { username });
+    axios.post(`http://10.0.0.21:3001/groups/${groupId}/stopTyping`, { userId });
   };
 
   useEffect(() => {

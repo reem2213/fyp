@@ -15,24 +15,33 @@ import GrayEllipse from '../assets/grayEllipse.png';
 
 export default function CommunitiesJoinedScreen({ navigation, route }) {
   const [joinedGroups, setJoinedGroups] = useState([]);
-  const { username } = route.params;
+  const { username ,userId} = route.params;
   const { isDarkMode } = useContext(DarkModeContext);
 
   useEffect(() => {
     fetchJoinedGroups();
   }, []);
 
+  // const fetchJoinedGroups = async () => {
+  //   try {
+  //     const response = await axios.get(`http://10.0.0.21:3001/groups/joined?username=${username}`);
+  //     setJoinedGroups(response.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
   const fetchJoinedGroups = async () => {
     try {
-      const response = await axios.get(`http://10.0.0.21:3001/groups/joined?username=${username}`);
+      const response = await axios.get(`http://10.0.0.21:3001/groups/joined?userId=${userId}`);
       setJoinedGroups(response.data);
     } catch (error) {
       console.error(error);
     }
   };
+  
 
   const BackToGroups = () => {
-    navigation.navigate("Home", { username });
+    navigation.navigate("Home", { username ,userId});
   };
 
  

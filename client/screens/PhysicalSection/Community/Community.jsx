@@ -23,22 +23,21 @@ export default function PhysicalGroupsScreen({ navigation, route }) {
     fetchGroups();
   }, []);
 
-  const fetchGroups = async () => {
-    try {
-      const response = await axios.get(`http://10.0.0.21:3001/groups?username=${username}&section=physical`);
-      setGroups(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const fetchGroups = async () => {
+  //   try {
+  //     const response = await axios.get(`http://10.0.0.21:3001/groups?username=${username}&section=physical`);
+  //     setGroups(response.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
 
   // const joinGroup = async (groupId) => {
   //   try {
   //     const response = await axios.post(
   //       `http://10.0.0.21:3001/groups/${groupId}/join`,
-  //       {
-  //         username,
-  //       }
+  //       { username }
   //     );
   //     Alert.alert("Success", `You have joined ${response.data.name}`);
   //     const updatedGroup = response.data;
@@ -47,17 +46,27 @@ export default function PhysicalGroupsScreen({ navigation, route }) {
   //         group._id === groupId ? { ...group, joined: true } : group
   //       )
   //     );
+
   //     navigation.navigate("PhysicalChat", { groupId, username });
   //   } catch (error) {
   //     console.error(error);
   //     Alert.alert("Error", "Failed to join the group");
   //   }
   // };
+  const fetchGroups = async () => {
+    try {
+      const response = await axios.get(`http://10.0.0.21:3001/groups?userId=${userId}&section=physical`);
+      setGroups(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
   const joinGroup = async (groupId) => {
     try {
       const response = await axios.post(
         `http://10.0.0.21:3001/groups/${groupId}/join`,
-        { username }
+        { userId }  // Pass userId instead of username
       );
       Alert.alert("Success", `You have joined ${response.data.name}`);
       const updatedGroup = response.data;
@@ -66,13 +75,14 @@ export default function PhysicalGroupsScreen({ navigation, route }) {
           group._id === groupId ? { ...group, joined: true } : group
         )
       );
-
-      navigation.navigate("PhysicalChat", { groupId, username });
+  
+      navigation.navigate("PhysicalChat", { groupId, userId });
     } catch (error) {
       console.error(error);
       Alert.alert("Error", "Failed to join the group");
     }
   };
+  
 
   const BackToPsycho = () => {
 
@@ -124,7 +134,7 @@ export default function PhysicalGroupsScreen({ navigation, route }) {
         </View>
         <TouchableOpacity
           style={[styles.viewJoinedButton, { backgroundColor: isDarkMode ? "#719AEA" : "4a90e2" }]}
-          onPress={() => navigation.navigate("Community", { username })}
+          onPress={() => navigation.navigate("Community", { username,userId })}
         >
           <Text style={styles.viewJoinedButtonText}>
             View Joined Communities

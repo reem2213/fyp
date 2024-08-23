@@ -16,7 +16,7 @@ import GrayEllipse from '../../../assets/grayEllipse.png';
 
 export default function GroupsScreen({ navigation, route }) {
   const [groups, setGroups] = useState([]);
-  const { username } = route.params;
+  const { username,userId } = route.params;
   const { isDarkMode } = useContext(DarkModeContext);
 
   useEffect(() => {
@@ -25,21 +25,18 @@ export default function GroupsScreen({ navigation, route }) {
 
   const fetchGroups = async () => {
     try {
-      const response = await axios.get(`http://10.0.0.21:3001/groups?username=${username}&section=psychological`);
+      const response = await axios.get(`http://10.0.0.21:3001/groups?userId=${userId}&section=psychological`);
       setGroups(response.data);
     } catch (error) {
       console.error(error);
     }
   };
-
-
+  
   const joinGroup = async (groupId) => {
     try {
       const response = await axios.post(
         `http://10.0.0.21:3001/groups/${groupId}/join`,
-        {
-          username,
-        }
+        { userId }  // Pass userId instead of username
       );
       Alert.alert("Success", `You have joined ${response.data.name}`);
       const updatedGroup = response.data;
@@ -48,15 +45,17 @@ export default function GroupsScreen({ navigation, route }) {
           group._id === groupId ? { ...group, joined: true } : group
         )
       );
-      navigation.navigate("Chat", { groupId, username });
+  
+      navigation.navigate("Chat", { groupId, userId });
     } catch (error) {
       console.error(error);
       Alert.alert("Error", "Failed to join the group");
     }
   };
+  
 
   const BackToPsycho = () => {
-    navigation.navigate("PsychologicalSection",{username});
+    navigation.navigate("PsychologicalSection",{username,userId});
   };
 
   return (
