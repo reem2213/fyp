@@ -332,7 +332,7 @@ export default function ChatScreen({ route, navigation }) {
             styles.messageCard,
             item.sender === userId ? styles.sentMessage : styles.receivedMessage
           ]}>
-            <Text style={styles.senderName}>{item.sender === userId ? "You" : item.sender}</Text>
+            <Text style={styles.senderName}>{item.sender === userId ? "You" : item.sender=username}</Text>
             <Text style={styles.messageText}>{item.text}</Text>
           </View>
         )}
