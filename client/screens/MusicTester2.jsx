@@ -171,7 +171,7 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import { DarkModeContext } from "../components/DarkModeContext";
 
 export default function MusicZoneScreen({ navigation, route }) {
-  const { username } = route.params;
+  const { username,userId } = route.params;
 
   const { isDarkMode } = useContext(DarkModeContext);
   const [playingIndex, setPlayingIndex] = useState(null);
@@ -202,7 +202,7 @@ export default function MusicZoneScreen({ navigation, route }) {
   }, [sound]);
 
   const backToHome = () => {
-    navigation.navigate("Home", { username });
+    navigation.navigate("Home", { username,userId });
   };
 
   return (

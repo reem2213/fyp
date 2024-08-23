@@ -20,7 +20,7 @@ export default function FinalScreen({ route, navigation }) {
     medicalCondition,
     place,
   } = route.params;
-  const { username } = route.params;
+  const { username,userId } = route.params;
   const [bio, setBio] = useState("");
   const [imageData, setImageData] = useState(null);
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
@@ -73,6 +73,7 @@ export default function FinalScreen({ route, navigation }) {
           weight,
           medicalCondition,
           place,
+          userId
         });
       } else {
         throw new Error("Something went wrong");

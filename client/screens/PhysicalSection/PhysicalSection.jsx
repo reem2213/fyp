@@ -9,7 +9,7 @@ const { width, height } = Dimensions.get('window');
 
 const App = ({route}) => {
   const navigation = useNavigation();
-  const { username } = route.params;
+  const { username,userId } = route.params;
   const [bio, setBio] = useState("");
   const [imageData, setImageData] = useState(null);
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
@@ -40,6 +40,8 @@ const App = ({route}) => {
         />
         <Text style={[styles.title,{color: isDarkMode ? "white" : "black" }]}>Sweat It Out!</Text>
         <Text style={styles.subtitle}>Find your way to the perfect body</Text>
+        <Text style={styles.subtitle}>{userId}</Text>
+
       </View>
 
       <View style={[styles.container,{ backgroundColor: isDarkMode ? "black" : "#fff" },]}>
@@ -77,7 +79,7 @@ const App = ({route}) => {
         <Text style={styles.subtitle}>Find your way to the perfect body</Text>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('GenderScreen',{ username, bio, imageData })}
+          onPress={() => navigation.navigate('GenderScreen',{ username, bio, imageData,userId })}
         >
           <Text style={styles.buttonText}>Get Started</Text>
         </TouchableOpacity>

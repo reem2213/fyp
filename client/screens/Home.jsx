@@ -137,9 +137,9 @@ const Home = ({ navigation, route }) => {
       .then((response) => response.json())
       .then((data) => {
         if (data && data.age && data.gender && data.height && data.weight) {
-          navigation.navigate("PhysicalHome", { username, bio, imageData });
+          navigation.navigate("PhysicalHome", { username, bio, imageData,userId });
         } else {
-          navigation.navigate("PhysicalSection", { username });
+          navigation.navigate("PhysicalSection", { username,userId });
         }
       })
       .catch((error) => {
@@ -244,7 +244,7 @@ const Home = ({ navigation, route }) => {
       await AsyncStorage.setItem('Notifications', JSON.stringify(notifications));
       setUnreadCount(0); // Reset the unread count
   
-      navigation.navigate("Notifications", { username });
+      navigation.navigate("Notifications", { username,userId });
     } catch (error) {
       console.error("Error updating notifications:", error);
     }
@@ -260,16 +260,16 @@ const Home = ({ navigation, route }) => {
   };
 
   const GoToMusicSection = () => {
-    navigation.navigate("MusicTester2", { username });
+    navigation.navigate("MusicTester2", { username,userId });
     startTracking("music");
   };
 
   const GoToFeedbackSection = () => {
-    navigation.navigate("Feedback", { username });
+    navigation.navigate("Feedback", { username ,userId});
     startTracking("feedback");
   };
   const GoToGamificationSection = () => {
-    navigation.navigate("Gamification", { username });
+    navigation.navigate("Gamification", { username,userId });
     startTracking("game");
   };
 
@@ -294,7 +294,7 @@ const Home = ({ navigation, route }) => {
   };
 
   const ToSettings = () => {
-    navigation.navigate("Settings", { username, bio, imageData });
+    navigation.navigate("Settings", { username, bio, imageData ,userId});
   };
 
 

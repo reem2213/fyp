@@ -7,7 +7,7 @@ const ITEM_HEIGHT = 40;
 const { height } = Dimensions.get('window');
 
 export default function AgeSelectionScreen({ route, navigation }) {
-  const { gender } = route.params;
+  const { gender,userId } = route.params;
   const [selectedAge, setSelectedAge] = useState(20);
   const flatListRef = useRef();
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
@@ -96,7 +96,7 @@ export default function AgeSelectionScreen({ route, navigation }) {
           <TouchableOpacity
             style={styles.nextButton}
             onPress={() => {
-              navigation.navigate('WeightScreen', { gender, age: selectedAge,username,bio,imageData });
+              navigation.navigate('WeightScreen', {userId, gender, age: selectedAge,username,bio,imageData });
             }}
           >
             <Text style={styles.nextButtonText}>Next</Text>

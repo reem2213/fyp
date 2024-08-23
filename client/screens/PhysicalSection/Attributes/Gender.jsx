@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { DarkModeContext } from "../../../components/DarkModeContext"; // Import the context
 
 export default function App({navigation,route}) {
-  const { username } = route.params;
+  const { username,userId } = route.params;
   const [bio, setBio] = useState("");
   const [imageData, setImageData] = useState(null);
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
@@ -66,7 +66,7 @@ export default function App({navigation,route}) {
           onPress={() => {
             if (selectedGender) {
            
-              navigation.navigate('AgeScreen', { gender: selectedGender,username,bio,imageData });
+              navigation.navigate('AgeScreen', { userId,gender: selectedGender,username,bio,imageData });
             }
           }}
         >

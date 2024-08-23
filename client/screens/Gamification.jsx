@@ -189,7 +189,7 @@ import { DarkModeContext } from "../components/DarkModeContext"; // Import the c
 const Gamification = ({ route, navigation }) => {
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
   const [scores, setScores] = useState([]);
-  const{username}=route.params;
+  const{username,userId}=route.params;
 
 
   useEffect(() => {
@@ -198,8 +198,8 @@ const Gamification = ({ route, navigation }) => {
 
   const fetchScores = async () => {
     try {
-      const responses = await axios.get('http://10.0.0.21:3001/get-userid', { params: { username } });
-      const userId = responses.data.userId;
+      // const responses = await axios.get('http://10.0.0.21:3001/get-userid', { params: { username } });
+      // const userId = responses.data.userId;
       console.log(userId)
   
       
@@ -211,7 +211,7 @@ const Gamification = ({ route, navigation }) => {
   };
 
   const GoBackToHome = () => {
-    navigation.navigate("Home",{username});
+    navigation.navigate("Home",{username,userId});
     
   };
 

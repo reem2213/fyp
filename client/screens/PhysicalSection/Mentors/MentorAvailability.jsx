@@ -17,7 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const MentorsAvailability = ({ route, navigation }) => {
   const { name, image, rating, type } = route.params;
-  const {username}=route.params;
+  const {username,userId}=route.params;
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedDuration, setSelectedDuration] = useState(null);
   const [meetingType, setMeetingType] = useState("Personal");
@@ -69,8 +69,8 @@ const MentorsAvailability = ({ route, navigation }) => {
       alert("Please fill out all fields.");
       return;
     }
-    const responses = await axios.get('http://10.0.0.21:3001/get-userid', { params: { username } });
-    const userId = responses.data.userId;
+    // const responses = await axios.get('http://10.0.0.21:3001/get-userid', { params: { username } });
+    // const userId = responses.data.userId;
   
     console.log("Username:", username); 
     const bookingDetails = {
@@ -110,7 +110,7 @@ const MentorsAvailability = ({ route, navigation }) => {
           JSON.stringify(storedNotifications)
         );
   
-        navigation.navigate("Mentors",{username});
+        navigation.navigate("PhysicalHome",{username,userId});
       } else {
         alert("Failed to book. Please try again.");
       }

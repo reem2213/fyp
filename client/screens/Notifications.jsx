@@ -181,11 +181,11 @@ import WhiteArrowBack from '../assets/whiteArrowBack.png'
 const Notifications = ({ navigation,route}) => {
   const { isDarkMode } = useContext(DarkModeContext);
   const [notifications, setNotifications] = useState([]);
-  const{username}=route.params;
+  const{username,userId}=route.params;
 
 
   const GoBack = () => {
-    navigation.navigate("Home",{username});
+    navigation.navigate("Home",{username,userId});
   };
 
   const fetchNotifications = async () => {

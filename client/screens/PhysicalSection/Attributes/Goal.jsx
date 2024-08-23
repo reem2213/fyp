@@ -8,7 +8,7 @@ const { height } = Dimensions.get('window');
 
 export default function GoalSelectionScreen({ route, navigation }) {
   const { age, gender, weight, height: userHeight } = route.params;
-  const { username } = route.params;
+  const { username,userId } = route.params;
   const [bio, setBio] = useState("");
   const [imageData, setImageData] = useState(null);
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
@@ -111,7 +111,7 @@ export default function GoalSelectionScreen({ route, navigation }) {
           <TouchableOpacity
             style={[styles.nextButton, { opacity: selectedGoal ? 1 : 0.5 }]}
             onPress={() => {
-              navigation.navigate('ConditionScreen', { age ,gender,weight, height: userHeight, goal: selectedGoal,username,bio,imageData });
+              navigation.navigate('ConditionScreen', { userId,age ,gender,weight, height: userHeight, goal: selectedGoal,username,bio,imageData });
             }}
             disabled={!selectedGoal}
           >

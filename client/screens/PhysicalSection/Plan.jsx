@@ -240,7 +240,7 @@ const Plan = ({ route }) => {
   // Define workout plan sections based on the prediction
   let planSections = [];
 
-  if (prediction === "6") {
+  if (prediction === "3") {
     planSections = [
       {
         day: "Day 1: Full Body Circuit",

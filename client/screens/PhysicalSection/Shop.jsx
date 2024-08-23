@@ -14,8 +14,9 @@ import axios from "axios";
 import StarRating from "react-native-star-rating";
 import { DarkModeContext } from "../../components/DarkModeContext"; // Import the context
 
-const SupplementSuggestion = () => {
+const SupplementSuggestion = ({route}) => {
   const [products, setProducts] = useState([]);
+  const {userId}=route.params;
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
 
   useEffect(() => {
@@ -50,6 +51,9 @@ const SupplementSuggestion = () => {
     >
       <Text style={[styles.title, { color: isDarkMode ? "white" : "black" }]}>
         Supplement suggestion
+      </Text>
+      <Text style={[styles.title, { color: isDarkMode ? "white" : "black" }]}>
+        {userId}
       </Text>
       <Text
         style={[styles.subtitle, { color: isDarkMode ? "white" : "black" }]}

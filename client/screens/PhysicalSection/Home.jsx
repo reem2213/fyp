@@ -20,7 +20,7 @@ import FeedbackSection from "../../assets/communitySection.png";
 import GameSection from "../../assets/Plan.png";
 import axios from "axios";
 const Home = ({ navigation, route }) => {
-  const { username } = route.params;
+  const { username,userId } = route.params;
   const [bio, setBio] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
@@ -83,25 +83,25 @@ const Home = ({ navigation, route }) => {
     fecthPreductin();
   }, [username]);
   const GoToGoalSection = () => {
-    navigation.navigate("Plan", { prediction });
+    navigation.navigate("Plan", { prediction ,userId});
   };
 
   const GoToMusicSection = () => {
-    navigation.navigate("PhysicalMentor", { username });
+    navigation.navigate("PhysicalMentor", { username ,userId});
   };
 
   const GoToFeedbackSection = () => {
-    navigation.navigate("PhysicalCommunity", { username });
+    navigation.navigate("PhysicalCommunity", { username ,userId});
   };
   const GoToGamificationSection = () => {
-    navigation.navigate("Shop");
+    navigation.navigate("Shop",{userId});
   };
 
   const goToProfile = () => {
-    navigation.navigate("MyProfile", { username, bio, imageData });
+    navigation.navigate("MyProfile", { username, bio, imageData,userId });
   };
   const GoToBodyPlanAssistant = () => {
-    navigation.navigate("Screen2", { username, bio, imageData });
+    navigation.navigate("Screen2", { username, bio, imageData,userId });
   };
 
   const calculateBMI = (weight, height) => {
@@ -170,6 +170,7 @@ const Home = ({ navigation, route }) => {
             >
               Hello {username}
             </Text>
+            <Text>{userId}</Text>
           </View>
 
           <View style={styles.content}>

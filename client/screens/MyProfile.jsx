@@ -766,10 +766,10 @@ const App = ({ route }) => {
   }, []);
 
   const fetchUserProfile = async () => {
-    const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
-      params: { username },
-    });
-    const userId = responses.data.userId;
+    // const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
+    //   params: { username },
+    // });
+    // const userId = responses.data.userId;
     try {
       const response = await axios.get(`http://10.0.0.21:3001/user/${userId}`);
       setBio(response.data.bio);
@@ -783,10 +783,10 @@ const App = ({ route }) => {
 
 
   const fetchMeetings = async () => {
-    const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
-      params: { username },
-    });
-    const userId = responses.data.userId;
+    // const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
+    //   params: { username },
+    // });
+    // const userId = responses.data.userId;
     try {
       const response = await axios.get(
         `http://10.0.0.21:3001/bookings/${userId}`
@@ -798,10 +798,10 @@ const App = ({ route }) => {
   };
 
   const fetchGoals = async () => {
-    const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
-      params: { username },
-    });
-    const userId = responses.data.userId;
+    // const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
+    //   params: { username },
+    // });
+    // const userId = responses.data.userId;
     try {
       const response = await axios.get(`http://10.0.0.21:3001/goal/${userId}`);
       setGoals(response.data);
@@ -814,10 +814,10 @@ const App = ({ route }) => {
   const fetchUserPoints = async () => {
     try {
       // Fetch userId from username
-      const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
-        params: { username },
-      });
-      const userId = responses.data.userId;
+      // const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
+      //   params: { username },
+      // });
+      // const userId = responses.data.userId;
 
       // Fetch user points using userId
       const response = await axios.get(

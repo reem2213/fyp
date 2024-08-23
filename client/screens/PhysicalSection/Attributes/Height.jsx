@@ -8,7 +8,7 @@ const { height } = Dimensions.get('window');
 
 export default function HeightSelectionScreen({ route, navigation }) {
   const { age ,gender,weight } = route.params;
-  const { username } = route.params;
+  const { username,userId } = route.params;
   const [bio, setBio] = useState("");
   const [imageData, setImageData] = useState(null);
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
@@ -97,7 +97,7 @@ export default function HeightSelectionScreen({ route, navigation }) {
           <TouchableOpacity
             style={styles.nextButton}
             onPress={() => {
-              navigation.navigate('GoalScreen', { age, gender, weight , height: selectedHeight,username,bio,imageData });
+              navigation.navigate('GoalScreen', {userId, age, gender, weight , height: selectedHeight,username,bio,imageData });
             }}
           >
             <Text style={styles.nextButtonText}>Next</Text>

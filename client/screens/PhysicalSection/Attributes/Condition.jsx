@@ -5,7 +5,7 @@ import { DarkModeContext } from "../../../components/DarkModeContext"; // Import
 
 export default function MedicalConditionScreen({ route, navigation }) {
   const {age, gender, height, weight, goal } = route.params;
-  const { username } = route.params;
+  const { username,userId } = route.params;
   const [bio, setBio] = useState("");
   const [imageData, setImageData] = useState(null);
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
@@ -78,7 +78,7 @@ export default function MedicalConditionScreen({ route, navigation }) {
             ]}
             onPress={() => {
               if (selectedOption === 'No' || (selectedOption === 'Yes' && medicalCondition)) {
-                navigation.navigate('PlaceScreen', { age ,gender,weight, height, goal, medicalCondition,username,bio,imageData });
+                navigation.navigate('PlaceScreen', {userId, age ,gender,weight, height, goal, medicalCondition,username,bio,imageData });
               }
             }}
             disabled={selectedOption === 'Yes' && !medicalCondition}

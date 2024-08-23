@@ -16,7 +16,7 @@ import GrayEllipse from '../../../assets/grayEllipse.png';
 
 export default function PhysicalGroupsScreen({ navigation, route }) {
   const [groups, setGroups] = useState([]);
-  const { username } = route.params;
+  const { username,userId } = route.params;
   const { isDarkMode } = useContext(DarkModeContext);
 
   useEffect(() => {
@@ -76,7 +76,7 @@ export default function PhysicalGroupsScreen({ navigation, route }) {
 
   const BackToPsycho = () => {
 
-    navigation.navigate("PsychologicalSection",{username});
+    navigation.navigate("PhysicalHome",{username,userId});
   };
 
   return (

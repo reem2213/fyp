@@ -51,10 +51,10 @@ const EditProfileScreen = ({ route, navigation }) => {
   //   }
   // };
   const handleUpdate = async () => {
-    const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
-      params: { username },
-    });
-    const userId = responses.data.userId;
+    // const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
+    //   params: { username },
+    // });
+    // const userId = responses.data.userId;
 
     try {
       const response = await axios.put(`http://10.0.0.21:3001/user/${userId}`, {

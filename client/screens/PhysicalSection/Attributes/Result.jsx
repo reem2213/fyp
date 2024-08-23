@@ -6,7 +6,7 @@ import predictWorkoutProgram from "../api"; // The API call function
 import { DarkModeContext } from "../../../components/DarkModeContext"; // Import the context
 import axios from 'axios';
 export default function ProgressScreen({navigation,route}) {
-  const { username,height,weight } = route.params;
+  const { username,height,weight ,userId} = route.params;
   const [bio, setBio] = useState("");
   const [imageData, setImageData] = useState(null);
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
@@ -91,6 +91,7 @@ const handlePredict = async () => {
     });
     // Now navigate to PhysicalHome with the prediction result
     navigation.navigate("PhysicalHome", {
+      userId,
       username,
       bio,
       imageData,

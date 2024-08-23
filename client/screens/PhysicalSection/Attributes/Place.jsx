@@ -8,7 +8,7 @@ const { height } = Dimensions.get('window');
 
 export default function FavoritePlaceScreen({ route, navigation }) {
   const {age, gender,weight, height, goal, medicalCondition } = route.params;
-  const { username } = route.params;
+  const { username,userId } = route.params;
   const [bio, setBio] = useState("");
   const [imageData, setImageData] = useState(null);
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
@@ -100,7 +100,7 @@ export default function FavoritePlaceScreen({ route, navigation }) {
           <TouchableOpacity
             style={styles.nextButton}
             onPress={() => {
-              navigation.navigate('FinalScreen', {age, gender,weight, height, goal, medicalCondition, place: selectedPlace,username,bio,imageData });
+              navigation.navigate('FinalScreen', {userId,age, gender,weight, height, goal, medicalCondition, place: selectedPlace,username,bio,imageData });
             }}
           >
             <Text style={styles.nextButtonText}>Start</Text>

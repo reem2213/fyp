@@ -7,7 +7,7 @@ const ITEM_WIDTH = 48; // Adjusted to match the design
 const { width } = Dimensions.get('window');
 
 export default function WeightSelectionScreen({ route, navigation }) {
-  const { age ,gender } = route.params || {};
+  const { age ,gender,userId } = route.params || {};
   const [selectedWeight, setSelectedWeight] = useState(54);
   const flatListRef = useRef();
   const { username } = route.params;
@@ -101,7 +101,7 @@ export default function WeightSelectionScreen({ route, navigation }) {
           <TouchableOpacity
             style={styles.nextButton}
             onPress={() => {
-              navigation.navigate('HeightScreen', { age, gender, weight: selectedWeight,imageData,username,bio });
+              navigation.navigate('HeightScreen', { userId,age, gender, weight: selectedWeight,imageData,username,bio });
             }}
           >
             <Text style={styles.nextButtonText}>Next</Text>
