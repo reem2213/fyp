@@ -587,26 +587,7 @@ async function convertUsernamesToObjectIds() {
 
 convertUsernamesToObjectIds();
 
-// app.get('/groups', async (req, res) => {
-//   const { username, section } = req.query;
-//   const groups = await Group.find({ section });  // Filter groups by section
-//   const userGroups = groups.map(group => {
-//     const isMember = group.members.some(member => member.username === username && member.joined);
-//     return { ...group.toObject(), joined: isMember };
-//   });
-//   res.send(userGroups);
-// });
 
-
-// app.get('/groups/joined', async (req, res) => {
-//   const { username } = req.query;
-//   try {
-//     const joinedGroups = await Group.find({ 'members.username': username, 'members.joined': true });
-//     res.json(joinedGroups);
-//   } catch (error) {
-//     res.status(500).json({ message: 'Failed to fetch joined groups', error });
-//   }
-// });
 app.get('/groups', async (req, res) => {
   const { userId, section } = req.query;
   const groups = await Group.find({ section });  // Filter groups by section
@@ -626,6 +607,7 @@ app.get('/groups/joined', async (req, res) => {
     res.status(500).json({ message: 'Failed to fetch joined groups', error });
   }
 });
+
 
 app.post('/groups/:id/join', async (req, res) => {
   try {
@@ -673,6 +655,8 @@ app.post('/groups/:id/messages', async (req, res) => {
     }
 
     const { sender, text } = req.body;
+    console.log(`Received message from user: ${sender}`); // Add this line
+
 
     // Check if sender is a valid ObjectId
     let senderId;
@@ -689,6 +673,8 @@ app.post('/groups/:id/messages', async (req, res) => {
 
     await group.save();
     res.send(group.messages);
+    console.log('Message sender:', senderId);
+
 
   } catch (error) {
     console.error("Error sending message:", error);
@@ -697,28 +683,63 @@ app.post('/groups/:id/messages', async (req, res) => {
 });
 
 
+// const typingStatus = {}; // Store typing statuses for each group
+// app.post('/groups/:id/typing', (req, res) => {
+//   const { id } = req.params;
+//   const { username } = req.body;
+//   typingStatus[id] = { message: `${username} is typing...`, username };
+//   res.sendStatus(200);
+// });
+
+// app.post('/groups/:id/stopTyping', (req, res) => {
+//   const { id } = req.params;
+//   const { username } = req.body;
+//   if (typingStatus[id] && typingStatus[id].username === username) {
+//     delete typingStatus[id];
+//   }
+//   res.sendStatus(200);
+// });
+
+// app.get('/groups/:id/typingStatus', (req, res) => {
+//   const { id } = req.params;
+//   res.json({ typingStatus: typingStatus[id] || '' });
+// });
+
 const typingStatus = {}; // Store typing statuses for each group
+
 app.post('/groups/:id/typing', (req, res) => {
-  const { id } = req.params;
-  const { username } = req.body;
-  typingStatus[id] = { message: `${username} is typing...`, username };
+  const { id } = req.params; // group ID
+  const { userId, username } = req.body;
+
+  // Store the typing status
+  typingStatus[id] = { message: `${username} is typing...`, userId };
+  
   res.sendStatus(200);
 });
 
 app.post('/groups/:id/stopTyping', (req, res) => {
-  const { id } = req.params;
-  const { username } = req.body;
-  if (typingStatus[id] && typingStatus[id].username === username) {
+  const { id } = req.params; // group ID
+  const { userId } = req.body;
+
+  // Clear the typing status only if the same user who started typing stops typing
+  if (typingStatus[id] && typingStatus[id].userId === userId) {
     delete typingStatus[id];
   }
+
   res.sendStatus(200);
 });
 
 app.get('/groups/:id/typingStatus', (req, res) => {
-  const { id } = req.params;
-  res.json({ typingStatus: typingStatus[id] || '' });
-});
+  const { id } = req.params; // group ID
+  const { userId } = req.query; // Current user's ID
 
+  // Check if someone else is typing in the group
+  if (typingStatus[id] && typingStatus[id].userId !== userId) {
+    res.json({ typingStatus: typingStatus[id].message });
+  } else {
+    res.json({ typingStatus: '' });
+  }
+});
 
 // app.post('/groups/:id/join', async (req, res) => {
 //   try {
@@ -861,6 +882,7 @@ app.get('/formData/:username', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
 
 
 

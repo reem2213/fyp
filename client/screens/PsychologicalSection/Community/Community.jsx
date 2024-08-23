@@ -46,7 +46,7 @@ export default function GroupsScreen({ navigation, route }) {
         )
       );
   
-      navigation.navigate("Chat", { groupId, userId });
+      navigation.navigate("Chat", { groupId, userId,username });
     } catch (error) {
       console.error(error);
       Alert.alert("Error", "Failed to join the group");

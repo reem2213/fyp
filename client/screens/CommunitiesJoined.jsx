@@ -74,7 +74,7 @@ export default function CommunitiesJoinedScreen({ navigation, route }) {
             <TouchableOpacity
             key={item._id}
             style={[styles.groupItem, { backgroundColor: isDarkMode ? "gray" : "#fff" }]}
-            onPress={() => navigation.navigate("Chat", { groupId: item._id, username })}
+            onPress={() => navigation.navigate("Chat", { groupId: item._id, username ,userId})}
           >
                <View key={item._id} style={[styles.groupItem, { backgroundColor: isDarkMode ? "gray" : "#fff" }]}>
               <Text style={[styles.groupName, { color: isDarkMode ? "white" : "black" }]}>{item.name}</Text>

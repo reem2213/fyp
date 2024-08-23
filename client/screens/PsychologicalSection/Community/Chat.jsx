@@ -210,13 +210,12 @@
 //     textAlign: 'center',
 //   },
 // });
-
 import React, { useState, useEffect, useRef } from 'react';
 import { View, FlatList, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import axios from 'axios';
 
 export default function ChatScreen({ route, navigation }) {
-  const { groupId, username,userId } = route.params;
+  const { groupId, userId,username } = route.params;
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState('');
   const [typingStatus, setTypingStatus] = useState('');
@@ -225,7 +224,7 @@ export default function ChatScreen({ route, navigation }) {
 
   useEffect(() => {
     fetchMessages();
-    const intervalId = setInterval(fetchMessages, 2000); // Poll the server every 3 seconds
+    const intervalId = setInterval(fetchMessages, 2000);
     return () => clearInterval(intervalId);
   }, []);
 
@@ -241,36 +240,8 @@ export default function ChatScreen({ route, navigation }) {
     }
   };
 
-  // const sendMessage = async () => {
-  //   try {
-  //     await axios.post(`http://10.0.0.21:3001/groups/${groupId}/messages`, {
-  //       sender: username,
-  //       text,
-  //     });
-  //     setText('');
-  //     fetchMessages();
-  //     stopTyping();
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // const startTyping = () => {
-  //   if (typingTimeoutRef.current) {
-  //     clearTimeout(typingTimeoutRef.current);
-  //   }
-  //   axios.post(`http://10.0.0.21:3001/groups/${groupId}/typing`, { username });
-
-  //   typingTimeoutRef.current = setTimeout(() => {
-  //     stopTyping();
-  //   }, 3000); // 3 seconds of inactivity will stop typing status
-  // };
-
-  // const stopTyping = () => {
-  //   axios.post(`http://10.0.0.21:3001/groups/${groupId}/stopTyping`, { username });
-  // };
-
   const sendMessage = async () => {
+    console.log('Sending message as user:', userId);  // Add this line to debug
     try {
       await axios.post(`http://10.0.0.21:3001/groups/${groupId}/messages`, {
         sender: userId,
@@ -283,12 +254,11 @@ export default function ChatScreen({ route, navigation }) {
       console.error(error);
     }
   };
-
   const startTyping = () => {
     if (typingTimeoutRef.current) {
       clearTimeout(typingTimeoutRef.current);
     }
-    axios.post(`http://10.0.0.21:3001/groups/${groupId}/typing`, { userId });
+    axios.post(`http://10.0.0.21:3001/groups/${groupId}/typing`, { userId, username });
 
     typingTimeoutRef.current = setTimeout(() => {
       stopTyping();
@@ -306,12 +276,41 @@ export default function ChatScreen({ route, navigation }) {
 
   const checkTypingStatus = async () => {
     try {
-      const response = await axios.get(`http://10.0.0.21:3001/groups/${groupId}/typingStatus`);
+      const response = await axios.get(`http://10.0.0.21:3001/groups/${groupId}/typingStatus?userId=${userId}`);
       setTypingStatus(response.data.typingStatus);
     } catch (error) {
       console.error(error);
     }
   };
+
+  // const startTyping = () => {
+  //   if (typingTimeoutRef.current) {
+  //     clearTimeout(typingTimeoutRef.current);
+  //   }
+  //   axios.post(`http://10.0.0.21:3001/groups/${groupId}/typing`, { userId });
+
+  //   typingTimeoutRef.current = setTimeout(() => {
+  //     stopTyping();
+  //   }, 3000);
+  // };
+
+  // const stopTyping = () => {
+  //   axios.post(`http://10.0.0.21:3001/groups/${groupId}/stopTyping`, { userId });
+  // };
+
+  // useEffect(() => {
+  //   const typingInterval = setInterval(checkTypingStatus, 1000);
+  //   return () => clearInterval(typingInterval);
+  // }, []);
+
+  // const checkTypingStatus = async () => {
+  //   try {
+  //     const response = await axios.get(`http://10.0.0.21:3001/groups/${groupId}/typingStatus`);
+  //     setTypingStatus(response.data.typingStatus);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <KeyboardAvoidingView
@@ -319,7 +318,7 @@ export default function ChatScreen({ route, navigation }) {
       style={styles.container}
     >
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+        <TouchableOpacity onPress={() => navigation.navigate("Communities",{username,userId})} style={styles.backButton}>
           <Text style={styles.backButtonText}>Back</Text>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Chat</Text>
@@ -331,18 +330,19 @@ export default function ChatScreen({ route, navigation }) {
         renderItem={({ item }) => (
           <View style={[
             styles.messageCard,
-            item.sender === username ? styles.sentMessage : styles.receivedMessage
+            item.sender === userId ? styles.sentMessage : styles.receivedMessage
           ]}>
-            <Text style={styles.senderName}>{item.sender}</Text>
+            <Text style={styles.senderName}>{item.sender === userId ? "You" : item.sender}</Text>
             <Text style={styles.messageText}>{item.text}</Text>
           </View>
         )}
         contentContainerStyle={styles.messagesContainer}
         onContentSizeChange={() => flatListRef.current.scrollToEnd({ animated: true })}
       />
-      {typingStatus && typingStatus.username !== username ? (
-        <Text style={styles.typingStatus}>{typingStatus.message}</Text>
-      ) : null}
+     {typingStatus && (
+        <Text style={styles.typingStatus}>{typingStatus}</Text>
+      )}
+
       <View style={styles.inputContainer}>
         <TextInput
           value={text}
