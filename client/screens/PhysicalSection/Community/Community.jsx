@@ -76,7 +76,7 @@ export default function PhysicalGroupsScreen({ navigation, route }) {
         )
       );
   
-      navigation.navigate("PhysicalChat", { groupId, userId });
+      navigation.navigate("PhysicalChat", { groupId, userId,username });
     } catch (error) {
       console.error(error);
       Alert.alert("Error", "Failed to join the group");

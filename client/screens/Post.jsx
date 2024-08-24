@@ -474,10 +474,11 @@ const App = ({ navigation, route }) => {
     await FileSystem.copyAsync({ from: uri, to: dest });
   };
 
+
   useEffect(() => {
     fetchPosts();
   }, []);
-
+  
   const fetchPosts = async () => {
     try {
       const response = await axios.get("http://10.0.0.21:3001/posts");
@@ -486,19 +487,24 @@ const App = ({ navigation, route }) => {
         image: post.image || null,
       }));
       setPosts(postsWithImages);
-
+  
       const initialLikedPosts = {};
       const initialRepostedPosts = {};
+      
       postsWithImages.forEach((post) => {
-        initialLikedPosts[post._id] = post.likedBy.includes(username);
-        initialRepostedPosts[post._id] = post.repostedBy.includes(username);
+        initialLikedPosts[post._id] = (post.likedBy || []).includes(userId); // Check using userId
+        initialRepostedPosts[post._id] = (post.repostedBy || []).includes(userId); // Check using userId
       });
+      
       setLikedPosts(initialLikedPosts);
       setRepostedPosts(initialRepostedPosts);
     } catch (error) {
       console.error(error);
     }
   };
+  
+  
+  
   
 
   const addNewPost = async () => {
@@ -565,12 +571,14 @@ const App = ({ navigation, route }) => {
       console.log("Error while picking an image:", error);
     }
   };
+
+
   const toggleLikePost = async (id) => {
     try {
       const isLiked = likedPosts[id];
       const response = await axios.post(
         `http://10.0.0.21:3001/posts/${id}/toggle-like`,
-        { username }
+        { userId } // Use userId here
       );
       const updatedPosts = posts.map((post) =>
         post._id === id ? response.data : post
@@ -581,13 +589,13 @@ const App = ({ navigation, route }) => {
       console.error(error);
     }
   };
-
+  
   const toggleRepostPost = async (id) => {
     try {
       const isReposted = repostedPosts[id];
       const response = await axios.post(
         `http://10.0.0.21:3001/posts/${id}/toggle-repost`,
-        { username }
+        { userId } // Use userId here
       );
       const updatedPosts = posts.map((post) =>
         post._id === id ? response.data : post
@@ -598,19 +606,21 @@ const App = ({ navigation, route }) => {
       console.error(error);
     }
   };
+  
 
   const renderRepostText = (repostedBy) => {
-    if (repostedBy.length === 0) return null;
+    if (!Array.isArray(repostedBy) || repostedBy.length === 0) return null;
     if (repostedBy.length === 1) return `${repostedBy[0]} reposted this post`;
-    return `${repostedBy[0]} and ${repostedBy.length -
-      1} others reposted this post`;
+    return `${repostedBy[0]} and ${repostedBy.length - 1} others reposted this post`;
   };
+  
   const renderLikedText = (likedBy) => {
-    if (likedBy.length === 0) return null;
+    if (!Array.isArray(likedBy) || likedBy.length === 0) return null;
     if (likedBy.length === 1) return `${likedBy[0]} liked this post`;
     return `${likedBy[0]} and ${likedBy.length - 1} others liked this post`;
   };
-
+  
+  
   const handleRepostedUsersClick = (repostedBy) => {
     alert(`Reposted by: ${repostedBy.join(", ")}`);
   };
@@ -663,88 +673,87 @@ const App = ({ navigation, route }) => {
       >
         Top Posts
       </Text>
-
       <FlatList
-        data={posts}
-        keyExtractor={(item) => item._id}
-        renderItem={({ item }) => (
-          <View
+  data={posts}
+  keyExtractor={(item) => item._id}
+  renderItem={({ item }) => (
+    <View
+      style={[
+        styles.post,
+        { backgroundColor: isDarkMode ? "#333" : "#F4F7FC" },
+      ]}
+    >
+      <Text
+        style={[styles.postText, { color: isDarkMode ? "#fff" : "#333" }]}
+      >
+        {item.text}
+      </Text>
+      <View style={styles.postFooter}>
+        <Text
+          style={[
+            styles.postDate,
+            { color: isDarkMode ? "#ccc" : "#888" },
+          ]}
+        >
+          {item.date}
+        </Text>
+        <View style={styles.postIcons}>
+          <TouchableOpacity onPress={() => toggleLikePost(item._id)}>
+            <Image
+              source={likedPosts[item._id] ? likedImage : likeImage} // Red heart for liked
+              style={styles.icon}
+            />
+          </TouchableOpacity>
+          <Text
             style={[
-              styles.post,
-              { backgroundColor: isDarkMode ? "#333" : "#F4F7FC" },
+              styles.postLikes,
+              { color: isDarkMode ? "#fff" : "#000" },
             ]}
           >
-            <Text
-              style={[styles.postText, { color: isDarkMode ? "#fff" : "#333" }]}
-            >
-              {item.text}
-            </Text>
-            <View style={styles.postFooter}>
-              <Text
-                style={[
-                  styles.postDate,
-                  { color: isDarkMode ? "#ccc" : "#888" },
-                ]}
-              >
-                {item.date}
-              </Text>
-              <View style={styles.postIcons}>
-                <TouchableOpacity onPress={() => toggleLikePost(item._id)}>
-                  <Image
-                    source={likedPosts[item._id] ? likedImage : likeImage}
-                    style={styles.icon}
-                  />
-                </TouchableOpacity>
-                <Text
-                  style={[
-                    styles.postLikes,
-                    { color: isDarkMode ? "#fff" : "#000" },
-                  ]}
-                >
-                  {item.likes}
-                </Text>
-                <Text
-                  style={[
-                    styles.likedBy,
-                    { color: isDarkMode ? "#fff" : "#000" },
-                  ]}
-                  onPress={() => handleLikedUsersClick(item.likedBy)}
-                >
-                  {renderLikedText(item.likedBy)}
-                </Text>
-                <TouchableOpacity onPress={() => toggleRepostPost(item._id)}>
-                  <Image
-                    source={
-                      repostedPosts[item._id] ? repostedImage : repostImage
-                    }
-                    style={styles.icon}
-                  />
-                </TouchableOpacity>
-                <Text
-                  style={[
-                    styles.postReposts,
-                    { color: isDarkMode ? "#fff" : "#000" },
-                  ]}
-                >
-                  {item.reposts}
-                </Text>
-                <Text
-                  style={[
-                    styles.repostedBy,
-                    { color: isDarkMode ? "#fff" : "#000" },
-                  ]}
-                  onPress={() => handleRepostedUsersClick(item.repostedBy)}
-                >
-                  {renderRepostText(item.repostedBy)}
-                </Text>
-              </View>
-            </View>
-            {item.image && (
-              <Image source={{ uri: item.image }} style={styles.postImage} />
-            )}
-          </View>
-        )}
-      />
+            {item.likes}
+          </Text>
+          <Text
+            style={[
+              styles.likedBy,
+              { color: isDarkMode ? "#fff" : "#000" },
+            ]}
+            onPress={() => handleLikedUsersClick(item.likedBy)}
+          >
+            {renderLikedText(item.likedBy)}
+          </Text>
+          <TouchableOpacity onPress={() => toggleRepostPost(item._id)}>
+            <Image
+              source={
+                repostedPosts[item._id] ? repostedImage : repostImage // Green repost for reposted
+              }
+              style={styles.icon}
+            />
+          </TouchableOpacity>
+          <Text
+            style={[
+              styles.postReposts,
+              { color: isDarkMode ? "#fff" : "#000" },
+            ]}
+          >
+            {item.reposts}
+          </Text>
+          <Text
+            style={[
+              styles.repostedBy,
+              { color: isDarkMode ? "#fff" : "#000" },
+            ]}
+            onPress={() => handleRepostedUsersClick(item.repostedBy)}
+          >
+            {renderRepostText(item.repostedBy)}
+          </Text>
+        </View>
+      </View>
+      {item.image && (
+        <Image source={{ uri: item.image }} style={styles.postImage} />
+      )}
+    </View>
+  )}
+/>
       <TouchableOpacity
         style={[
           styles.addButton,

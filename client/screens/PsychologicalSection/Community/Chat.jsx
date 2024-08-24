@@ -318,7 +318,7 @@ export default function ChatScreen({ route, navigation }) {
       style={styles.container}
     >
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.navigate("Communities",{username,userId})} style={styles.backButton}>
+        <TouchableOpacity onPress={() => navigation.navigate("Community",{username,userId})} style={styles.backButton}>
           <Text style={styles.backButtonText}>Back</Text>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Chat</Text>
@@ -332,7 +332,7 @@ export default function ChatScreen({ route, navigation }) {
             styles.messageCard,
             item.sender === userId ? styles.sentMessage : styles.receivedMessage
           ]}>
-            <Text style={styles.senderName}>{item.sender === userId ? "You" : item.sender=username}</Text>
+            <Text style={styles.senderName}>{item.sender === userId ? "You" : item.sender}</Text>
             <Text style={styles.messageText}>{item.text}</Text>
           </View>
         )}

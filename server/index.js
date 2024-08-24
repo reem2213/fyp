@@ -349,8 +349,8 @@ const PostSchema = new mongoose.Schema({
   likes: { type: Number, default: 0 },
   reposts: { type: Number, default: 0 },
   image:String,
-  repostedBy: { type: [String], default: [] },
-  likedBy: { type: [String], default: [] } // New field to store usernames of users who liked
+  repostedBy: { type: [mongoose.Schema.Types.ObjectId], ref: 'user', default: [] }, // Store user IDs
+  likedBy: { type: [mongoose.Schema.Types.ObjectId], ref: 'user', default: [] }
 
 });
 
@@ -360,6 +360,7 @@ app.get('/posts', async (req, res) => {
   const posts = await Post.find();
   res.json(posts);
 });
+// the liked and rposted by should be fetched by userId if I sign in by a userId and enter to the post screen the post i have liked and reposted (the icons should be in red and green )
 
 
 app.post('/posts', async (req, res) => {
@@ -381,36 +382,79 @@ app.post('/posts', async (req, res) => {
 });
 
 
+// app.post('/posts/:id/toggle-like', async (req, res) => {
+//   const { username } = req.body;
+//   const post = await Post.findById(req.params.id);
+
+//   if (!post.likedBy.includes(username)) {
+//     post.likes += 1;
+//     post.likedBy.push(username);
+//   } else {
+//     post.likes -= 1;
+//     post.likedBy = post.likedBy.filter(user => user !== username);
+//   }
+
+//   await post.save();
+//   res.json(post);
+// });
+// app.post('/posts/:id/toggle-repost', async (req, res) => {
+//   const { username } = req.body;
+//   const post = await Post.findById(req.params.id);
+
+//   if (!post.repostedBy.includes(username)) {
+//     post.reposts += 1;
+//     post.repostedBy.push(username);
+//   } else {
+//     post.reposts -= 1;
+//     post.repostedBy = post.repostedBy.filter(user => user !== username);
+//   }
+
+//   await post.save();
+//   res.json(post);
+// });
+
 app.post('/posts/:id/toggle-like', async (req, res) => {
-  const { username } = req.body;
+  const { userId } = req.body;
   const post = await Post.findById(req.params.id);
 
-  if (!post.likedBy.includes(username)) {
+  if (!Array.isArray(post.likedBy)) {
+    post.likedBy = [];
+  }
+
+  if (!post.likedBy.includes(userId)) {
     post.likes += 1;
-    post.likedBy.push(username);
+    post.likedBy.push(userId);
   } else {
     post.likes -= 1;
-    post.likedBy = post.likedBy.filter(user => user !== username);
+    post.likedBy = post.likedBy.filter(user => user.toString() !== userId);
   }
 
   await post.save();
   res.json(post);
 });
+
 app.post('/posts/:id/toggle-repost', async (req, res) => {
-  const { username } = req.body;
+  const { userId } = req.body;
   const post = await Post.findById(req.params.id);
 
-  if (!post.repostedBy.includes(username)) {
+  if (!Array.isArray(post.repostedBy)) {
+    post.repostedBy = [];
+  }
+
+  if (!post.repostedBy.includes(userId)) {
     post.reposts += 1;
-    post.repostedBy.push(username);
+    post.repostedBy.push(userId);
+
   } else {
     post.reposts -= 1;
-    post.repostedBy = post.repostedBy.filter(user => user !== username);
+    post.repostedBy = post.repostedBy.filter(user => user.toString() !== userId);
   }
 
   await post.save();
   res.json(post);
 });
+
+
 
 
 
