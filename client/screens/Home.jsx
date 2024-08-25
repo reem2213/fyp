@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
+  Animated,
 } from "react-native";
 import { DarkModeContext } from "../components/DarkModeContext"; // Import the context
 
@@ -19,22 +20,6 @@ import GoalSection from "../assets/goalSection.png";
 import MusicSection from "../assets/music.png";
 import FeedbackSection from "../assets/feedback.png";
 import GameSection from "../assets/game.png";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeLight from "../assets/homeLight.png";
-import HomeDark from "../assets/homeDark.png";
-import PhysicalLight from "../assets/physicalSectionLight.png";
-import PhysicalDark from "../assets/physicalSectionDark.png";
-import PsycoLight from "../assets/psychologicLight.png";
-import PsycoDark from "../assets/psychologicDark.png";
-import UserLight from "../assets/userLight.png";
-import UserDark from "../assets/userDark.png";
-import CommDark from "../assets/communityDark.png";
-import CommLight from "../assets/communityLight.png";
-import Community from "./CommunitiesJoined";
-import Settings from "./Settings";
-import PhysicalSection from "./PhysicalSection/PhysicalSection";
-import PsychologicalSection from "./PsychologicalSection/PsychologicalSection";
-import MyProfile from "./MyProfile";
 import Plus from "../assets/plus.png";
 
 import Psycho from "../assets/psychologicLight.png";
@@ -42,10 +27,10 @@ import Physical from "../assets/physicalSectionLight.png";
 import SettingsIcon from "../assets/settings.png";
 import HomeIcon from "../assets/homeLight.png";
 import CommunityLight from "../assets/communityLight.png";
-import CommunityDark from "../assets/communityDark.png";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import AwesomeAlert from "react-native-awesome-alerts";
 
-import { LineChart, BarChart } from "react-native-chart-kit";
+import { BarChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
 const screenWidth = Dimensions.get("window").width;
 const SccreenTime = ({ screenTimeData }) => {
@@ -109,15 +94,73 @@ const SccreenTime = ({ screenTimeData }) => {
       yAxisMaxValue={90} // Force max y-axis value
     />
   );
-
 };
 
 const Home = ({ navigation, route }) => {
-  const { username ,userId} = route.params;
+  const { username, userId } = route.params;
   const [bio, setBio] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
   const [imageData, setImageData] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertTitle, setAlertTitle] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
+  const [confirmButtonColor, setConfirmButtonColor] = useState("#DD6B55");
+  const [overlayColor, setOverlayColor] = useState("rgba(0, 0, 0, 0.7)");
+  const showMotivationalAlert = (mood) => {
+    let message = "";
+    let title = "";
+    let buttonColor = "#DD6B55"; // Default color
+    let bgColor = "rgba(0, 0, 0, 0.7)"; // Default color
+
+    switch (mood) {
+      case "Calm":
+        title = "Stay Calm";
+        message = "Keep the calmness within you. It brings peace and clarity!😄";
+        buttonColor = "blue";
+        bgColor = "rgba(0, 0, 255, 0.7)"; // Blue with opacity
+
+        break;
+      case "Happy":
+        title = "Spread Happiness";
+        message = "Happiness is contagious. Spread it everywhere you go!";
+        buttonColor = "pink";
+        bgColor = "rgba(255, 105, 180, 0.7)"; // Pink with opacity
+
+        break;
+      case "Sad":
+        title = "It's Okay to be Sad";
+        message = "It's okay to feel sad. Better days are coming!";
+        buttonColor = "green";
+        bgColor = "rgba(0, 128, 0, 0.7)"; // Green with opacity
+
+        break;
+      case "Angry":
+        title = "Control Your Anger";
+        message =
+          "Take a deep breath. Anger is a passing storm, calm is your true nature.";
+        buttonColor = "red";
+        bgColor = "rgba(255, 0, 0, 0.7)"; // Red with opacity
+
+        break;
+      default:
+        message = "Stay positive!";
+    }
+
+    setAlertMessage(message);
+    setAlertTitle(title);
+    setConfirmButtonColor(buttonColor);
+    setOverlayColor(bgColor);
+    setShowAlert(true);
+
+ 
+  };
+
+  const closeAlert = () => {
+    // Stop the animation and hide the emojis
+    setShowAlert(false);
+    
+  };
 
   useEffect(() => {
     fetch(`http://10.0.0.21:3001/userr/${username}`)
@@ -137,9 +180,14 @@ const Home = ({ navigation, route }) => {
       .then((response) => response.json())
       .then((data) => {
         if (data && data.age && data.gender && data.height && data.weight) {
-          navigation.navigate("PhysicalHome", { username, bio, imageData,userId });
+          navigation.navigate("PhysicalHome", {
+            username,
+            bio,
+            imageData,
+            userId,
+          });
         } else {
-          navigation.navigate("PhysicalSection", { username,userId });
+          navigation.navigate("PhysicalSection", { username, userId });
         }
       })
       .catch((error) => {
@@ -148,9 +196,6 @@ const Home = ({ navigation, route }) => {
       });
   };
 
-  const screen2 = () => {
-    navigation.navigate("Workout");
-  };
   const [screenTimeData, setScreenTimeData] = useState({
     goal: 0,
     music: 0,
@@ -231,85 +276,87 @@ const Home = ({ navigation, route }) => {
     };
   }, [navigation]);
 
-  // const toNotifications = () => {
-  //   navigation.navigate("Notifications", { username });
-  // };
   const toNotifications = async () => {
-    // Mark all notifications as read
     try {
-      const storedNotifications = await AsyncStorage.getItem('Notifications');
-      let notifications = storedNotifications ? JSON.parse(storedNotifications) : [];
-  
-      notifications = notifications.map(notif => ({ ...notif, read: true }));
-      await AsyncStorage.setItem('Notifications', JSON.stringify(notifications));
+      const storedNotifications = await AsyncStorage.getItem("Notifications");
+      let notifications = storedNotifications
+        ? JSON.parse(storedNotifications)
+        : [];
+
+      notifications = notifications.map((notif) => ({ ...notif, read: true }));
+      await AsyncStorage.setItem(
+        "Notifications",
+        JSON.stringify(notifications)
+      );
       setUnreadCount(0); // Reset the unread count
-  
-      navigation.navigate("Notifications", { username,userId });
+
+      navigation.navigate("Notifications", { username, userId });
     } catch (error) {
       console.error("Error updating notifications:", error);
     }
   };
-  
 
   const toPosts = () => {
-    navigation.navigate("Post", { username,userId });
+    navigation.navigate("Post", { username, userId });
     startTracking("post");
   };
   const GoToGoalSection = () => {
-    navigation.navigate("goal", { username ,userId});
+    navigation.navigate("goal", { username, userId });
     startTracking("goal");
   };
 
   const GoToMusicSection = () => {
-    navigation.navigate("MusicTester2", { username,userId });
+    navigation.navigate("MusicTester2", { username, userId });
     startTracking("music");
   };
 
   const GoToFeedbackSection = () => {
-    navigation.navigate("Feedback", { username ,userId});
-    
+    navigation.navigate("Feedback", { username, userId });
   };
   const GoToGamificationSection = () => {
-    navigation.navigate("Gamification", { username,userId });
+    navigation.navigate("Gamification", { username, userId });
     startTracking("game");
   };
 
   const goToProfile = () => {
-    navigation.navigate("MyProfile", { username, bio, imageData,userId });
+    navigation.navigate("MyProfile", { username, bio, imageData, userId });
   };
 
   const ToHome = () => {
-    navigation.navigate("Home", { username, bio, imageData ,userId});
+    navigation.navigate("Home", { username, bio, imageData, userId });
   };
   const ToCommunity = () => {
-    navigation.navigate("Community", { username, bio, imageData,userId });
+    navigation.navigate("Community", { username, bio, imageData, userId });
   };
   const ToPsychologicalSection = () => {
-    navigation.navigate("PsychologicalSection", { username, bio, imageData ,userId});
+    navigation.navigate("PsychologicalSection", {
+      username,
+      bio,
+      imageData,
+      userId,
+    });
   };
-  // const ToPhysicalSection = () => {
-  //   navigation.navigate("PhysicalHome", { username, bio, imageData });
-  // };
+
   const ToPhysicalSection = () => {
     checkPhysicalAttributes();
   };
 
   const ToSettings = () => {
-    navigation.navigate("Settings", { username, bio, imageData ,userId});
+    navigation.navigate("Settings", { username, bio, imageData, userId });
   };
-
 
   const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        
-        const storedNotifications = await AsyncStorage.getItem('Notifications');
-        let notifications = storedNotifications ? JSON.parse(storedNotifications) : [];
-
-        // Assuming unread notifications are those that are not marked as read
-        const unreadNotifications = notifications.filter(notif => !notif.read);
+        const storedNotifications = await AsyncStorage.getItem("Notifications");
+        let notifications = storedNotifications
+          ? JSON.parse(storedNotifications)
+          : [];
+        const unreadNotifications = notifications.filter(
+          (notif) => !notif.read
+        );
         setUnreadCount(unreadNotifications.length);
       } catch (error) {
         console.error("Error fetching notifications:", error);
@@ -318,6 +365,8 @@ const Home = ({ navigation, route }) => {
 
     fetchNotifications();
   }, []);
+  const { width, height } = Dimensions.get("window");
+
   return (
     <>
       <GestureHandlerRootView
@@ -330,10 +379,23 @@ const Home = ({ navigation, route }) => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <Pressable onPress={toNotifications}>
             <Image style={styles.notiImage} source={Noti} />
-            <Text style={{ color: 'white',backgroundColor:"#032b79", width:20,padding:7,height:23, fontWeight: 'bold', top: 65, left:325,borderRadius:100,fontSize:7}}>{unreadCount}</Text>
-
+            <Text
+              style={{
+                color: "white",
+                backgroundColor: "#032b79",
+                width: 20,
+                padding: 7,
+                height: 23,
+                fontWeight: "bold",
+                top: 65,
+                left: 325,
+                borderRadius: 100,
+                fontSize: 7,
+              }}
+            >
+              {unreadCount}
+            </Text>
           </Pressable>
-          
 
           <Pressable onPress={toPosts}>
             <Image style={styles.notiImage2} source={Plus} />
@@ -371,43 +433,71 @@ const Home = ({ navigation, route }) => {
 
           <View style={styles.content}>
             <Text style={styles.howAreYou}>How are you feeling today?</Text>
-
-            <View style={[styles.moodContainer, styles.calm]}>
+            <TouchableOpacity
+              style={[styles.moodContainer, styles.calm]}
+              onPress={() => showMotivationalAlert("Calm")}
+            >
               <View style={styles.rect} />
               <Text style={styles.moodText}>Calm</Text>
               <Image
                 style={styles.icon}
                 source={require("../assets/calm.png")}
               />
-            </View>
-            <View style={[styles.focusLayout]}>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.focusLayout}
+              onPress={() => showMotivationalAlert("Happy")}
+            >
               <View style={[styles.rect1, styles.rect1Bg]} />
               <Text style={[styles.happy1, styles.manicTypo]}>Happy</Text>
               <Image
                 style={[styles.happyIcon, styles.iconPosition1]}
-                contentFit="cover"
                 source={require("../assets/happy.png")}
               />
-            </View>
-            <View style={[styles.focusLayout2]}>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.focusLayout2}
+              onPress={() => showMotivationalAlert("Sad")}
+            >
               <View style={[styles.rect12, styles.rect1Bg2]} />
               <Text style={[styles.manicTypo2]}>Sad</Text>
               <Image
                 style={[styles.happyIcon2, styles.iconPosition12]}
-                contentFit="cover"
                 source={require("../assets/sad.png")}
               />
-            </View>
-            <View style={[styles.focusLayout3]}>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.focusLayout3}
+              onPress={() => showMotivationalAlert("Angry")}
+            >
               <View style={[styles.rect3, styles.rect1Bg3]} />
               <Text style={[styles.manicTypo3]}>Angry</Text>
               <Image
                 style={[styles.happyIcon3, styles.iconPosition3]}
-                contentFit="cover"
                 source={require("../assets/angry.png")}
               />
-            </View>
+            </TouchableOpacity>
 
+            {showAlert && (
+              <View style={[styles.overlay]}>
+                <AwesomeAlert
+                  show={showAlert}
+                  showProgress={false}
+                  title={alertTitle}
+                  message={alertMessage}
+                  closeOnTouchOutside={true}
+                  closeOnHardwareBackPress={false}
+                  showConfirmButton={true}
+                  confirmText="OKay"
+                  confirmButtonColor={confirmButtonColor}
+                  onConfirmPressed={closeAlert}
+                  overlayStyle={{ backgroundColor: overlayColor, opacity:0.5}} // Custom overlay color
+                />
+              </View>
+            )}
             <SccreenTime screenTimeData={screenTimeData} />
 
             <TouchableOpacity onPress={GoToGoalSection}>
@@ -656,12 +746,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
 
-  image: {
-    width: 400,
-    height: 300,
-    marginTop: 80,
-    marginLeft: -30,
-  },
   section: {
     marginBottom: 20,
     width: "100%",
