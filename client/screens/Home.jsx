@@ -50,14 +50,14 @@ import { Dimensions } from "react-native";
 const screenWidth = Dimensions.get("window").width;
 const SccreenTime = ({ screenTimeData }) => {
   const chartData = {
-    labels: ["Goal", "Music", "Game", "Feedback"],
+    labels: ["Goal", "Music", "Game", "Post"],
     datasets: [
       {
         data: [
           screenTimeData.goal || 0,
           screenTimeData.music || 0,
           screenTimeData.game || 0,
-          screenTimeData.feedback || 0,
+          screenTimeData.post || 0,
         ],
       },
     ],
@@ -155,7 +155,7 @@ const Home = ({ navigation, route }) => {
     goal: 0,
     music: 0,
     game: 0,
-    feedback: 0,
+    post: 0,
   });
   const [startTime, setStartTime] = useState(null);
   const [currentSection, setCurrentSection] = useState(null);
@@ -253,6 +253,7 @@ const Home = ({ navigation, route }) => {
 
   const toPosts = () => {
     navigation.navigate("Post", { username,userId });
+    startTracking("post");
   };
   const GoToGoalSection = () => {
     navigation.navigate("goal", { username ,userId});
@@ -266,7 +267,7 @@ const Home = ({ navigation, route }) => {
 
   const GoToFeedbackSection = () => {
     navigation.navigate("Feedback", { username ,userId});
-    startTracking("feedback");
+    
   };
   const GoToGamificationSection = () => {
     navigation.navigate("Gamification", { username,userId });

@@ -6,6 +6,7 @@ const physicalAttSchema = new mongoose.Schema({
     weight: Number,
     height: Number,
     goal: String,
+    physicalLevel:String,
     medicalCondition: String,
     place: String,
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },

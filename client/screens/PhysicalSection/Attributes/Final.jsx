@@ -17,6 +17,7 @@ export default function FinalScreen({ route, navigation }) {
     height,
     weight,
     goal,
+    physicalLevel,
     medicalCondition,
     place,
   } = route.params;
@@ -54,6 +55,7 @@ export default function FinalScreen({ route, navigation }) {
             height,
             weight,
             goal,
+            physicalLevel,
             medicalCondition,
             place,
           }),
@@ -71,8 +73,10 @@ export default function FinalScreen({ route, navigation }) {
           imageData,
           height,
           weight,
+          physicalLevel,
           medicalCondition,
           place,
+          
           userId
         });
       } else {
@@ -116,6 +120,10 @@ export default function FinalScreen({ route, navigation }) {
         <View style={styles.infoContainer}>
           <Text style={[styles.infoTitle,{color: isDarkMode ? "white" : "black"}]}>Favorite Place to Exercise:</Text>
           <Text style={[styles.infoText,{color: isDarkMode ? "white" : "black"}]}>{place}</Text>
+        </View>
+        <View style={styles.infoContainer}>
+          <Text style={[styles.infoTitle,{color: isDarkMode ? "white" : "black"}]}>Favorite Place to Exercise:</Text>
+          <Text style={[styles.infoText,{color: isDarkMode ? "white" : "black"}]}>{physicalLevel}</Text>
         </View>
 
         <View style={styles.navigationButtons}>

@@ -30,12 +30,10 @@ export default function GoalSelectionScreen({ route, navigation }) {
   const flatListRef = useRef();
 
   const goals = [
-    "Gain Weight",
     "Weight Loss",
     "Strength",
-    "Get fitter",
-    "Gain more flexible",
-    "Learn the basic",
+    "Muscle Building",
+   
   ];
 
   useEffect(() => {
@@ -111,7 +109,7 @@ export default function GoalSelectionScreen({ route, navigation }) {
           <TouchableOpacity
             style={[styles.nextButton, { opacity: selectedGoal ? 1 : 0.5 }]}
             onPress={() => {
-              navigation.navigate('ConditionScreen', { userId,age ,gender,weight, height: userHeight, goal: selectedGoal,username,bio,imageData });
+              navigation.navigate('Level', { userId,age ,gender,weight, height: userHeight, goal: selectedGoal,username,bio,imageData });
             }}
             disabled={!selectedGoal}
           >

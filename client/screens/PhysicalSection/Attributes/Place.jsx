@@ -7,7 +7,7 @@ const ITEM_HEIGHT = 50;
 const { height } = Dimensions.get('window');
 
 export default function FavoritePlaceScreen({ route, navigation }) {
-  const {age, gender,weight, height, goal, medicalCondition } = route.params;
+  const {age, gender,weight, height, goal,physicalLevel, medicalCondition } = route.params;
   const { username,userId } = route.params;
   const [bio, setBio] = useState("");
   const [imageData, setImageData] = useState(null);
@@ -30,7 +30,6 @@ export default function FavoritePlaceScreen({ route, navigation }) {
   const flatListRef = useRef();
 
   const places = [
-    "Group Fitness Fun",
     "Gym",
     "Embrace Nature",
     "Home",
@@ -100,7 +99,7 @@ export default function FavoritePlaceScreen({ route, navigation }) {
           <TouchableOpacity
             style={styles.nextButton}
             onPress={() => {
-              navigation.navigate('FinalScreen', {userId,age, gender,weight, height, goal, medicalCondition, place: selectedPlace,username,bio,imageData });
+              navigation.navigate('FinalScreen', {userId,age, gender,weight, height, goal,physicalLevel, medicalCondition, place: selectedPlace,username,bio,imageData });
             }}
           >
             <Text style={styles.nextButtonText}>Start</Text>

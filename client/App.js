@@ -67,6 +67,7 @@ import PhysicalCommunity from "./screens/PhysicalSection/Community/Community.jsx
 import PhysicalChat from "./screens/PhysicalSection/Community/Chat.jsx";
 import WorkoutPredictor from "./screens/PhysicalSection/Workout.jsx";
 import CreateGroupScreen from "./screens/CreateGroup.jsx";
+import Level from "./screens/PhysicalSection/Attributes/Level.jsx";
 export default function App() {
   const Stack = createNativeStackNavigator();
 
@@ -509,6 +510,13 @@ export default function App() {
           <Stack.Screen
             name="PlaceScreen"
             component={PlaceScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+           <Stack.Screen
+            name="Level"
+            component={Level}
             options={{
               headerShown: false,
             }}

@@ -46,7 +46,7 @@ export default function ProgressScreen({navigation,route}) {
           setFeatures({
             gender: data.gender || "",
             goal: data.goal || "",
-            physicalLevel: data.physicalLevel || "True Beast",
+            physicalLevel: data.physicalLevel || "",
             placeOfExercise: data.place || "",
             medicalCondition: data.medicalCondition || "",
             age: data.age || "",

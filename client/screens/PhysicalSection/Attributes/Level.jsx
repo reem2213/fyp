@@ -1,10 +1,13 @@
-import React,{useState,useContext,useEffect} from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, TextInput } from 'react-native';
+import React, { useState, useRef, useEffect,useContext } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, FlatList, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { DarkModeContext } from "../../../components/DarkModeContext"; // Import the context
 
-export default function MedicalConditionScreen({ route, navigation }) {
-  const {age, gender, height, weight, goal,physicalLevel } = route.params;
+const ITEM_HEIGHT = 50;
+const { height } = Dimensions.get('window');
+
+export default function Level({ route, navigation }) {
+  const {age, gender,weight, height, goal, medicalCondition } = route.params;
   const { username,userId } = route.params;
   const [bio, setBio] = useState("");
   const [imageData, setImageData] = useState(null);
@@ -23,8 +26,33 @@ export default function MedicalConditionScreen({ route, navigation }) {
         console.error("Error fetching user data:", error);
       });
   }, [username]);
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [medicalCondition, setMedicalCondition] = useState('No');
+  const [selectedLevel, setSelectedLevel] = useState("Rookie");
+  const flatListRef = useRef();
+
+  const levels = [
+    "True Beast",
+    "Rookie",
+    "Intermediate",
+    "Advanced",
+    "Beginner"
+  ];
+
+  const renderItem = ({ item }) => (
+    <View style={styles.item}>
+      <Text style={[item === selectedLevel ? styles.selectedItemText : styles.itemText,{color: isDarkMode ? "white" : "black"}]}>{item}</Text>
+    </View>
+  );
+
+  useEffect(() => {
+    scrollToSelectedPlace();
+  }, []);
+
+  const scrollToSelectedPlace = () => {
+    const index = levels.findIndex(place => place === selectedLevel);
+    if (flatListRef.current) {
+      flatListRef.current.scrollToIndex({ index, animated: true });
+    }
+  };
 
   return (
     <SafeAreaView style={[styles.container,{ backgroundColor: isDarkMode ? "black" : "#fff" }]}>
@@ -34,34 +62,33 @@ export default function MedicalConditionScreen({ route, navigation }) {
       <View style={styles.circleBottomRight}></View>
 
       <View style={styles.content}>
-        <Text style={styles.headerText}>Do you have any medical condition?</Text>
+        <Text style={styles.headerText}>What’s your favorite place to exercise?</Text>
         <Text style={styles.subHeaderText}>This helps us create your personalized plan</Text>
 
-        <View style={styles.optionsContainer}>
-          <TouchableOpacity
-            style={[styles.optionButton, selectedOption === 'Yes' && styles.selectedButton]}
-            onPress={() => setSelectedOption('Yes')}
-          >
-            <Text style={styles.optionText}>Yes</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.optionButton, selectedOption === 'No' && styles.selectedButton]}
-            onPress={() => setSelectedOption('No')}
-          >
-            <Text style={styles.optionText}>No</Text>
-          </TouchableOpacity>
-        </View>
-
-        {selectedOption === 'Yes' && (
-          <TextInput
-            style={styles.textArea}
-            placeholder="Enter if you have a medical condition..."
-            multiline={true}
-            numberOfLines={4}
-            value={medicalCondition}
-            onChangeText={setMedicalCondition}
+        <View style={styles.pickerContainer}>
+          <FlatList
+            data={levels}
+            ref={flatListRef}
+            keyExtractor={(item) => item}
+            renderItem={renderItem}
+            style={styles.picker}
+            contentContainerStyle={styles.pickerContent}
+            snapToOffsets={[...Array(levels.length).keys()].map((i) => i * ITEM_HEIGHT)}
+            snapToAlignment="center"
+            decelerationRate="fast"
+            showsVerticalScrollIndicator={false}
+            onMomentumScrollEnd={(event) => {
+              const index = Math.round(event.nativeEvent.contentOffset.y / ITEM_HEIGHT);
+              setSelectedLevel(levels[index]);
+            }}
+            initialScrollIndex={levels.indexOf(selectedLevel)}
+            getItemLayout={(data, index) => (
+              { length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index }
+            )}
+            onScrollToIndexFailed={() => {}}
           />
-        )}
+          <View style={styles.selectedItemBorder} />
+        </View>
 
         <View style={styles.navigationButtons}>
           <TouchableOpacity
@@ -72,18 +99,12 @@ export default function MedicalConditionScreen({ route, navigation }) {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[
-              styles.nextButton,
-              { opacity: (selectedOption === 'Yes' && !medicalCondition) ? 0.5 : 1 },
-            ]}
+            style={styles.nextButton}
             onPress={() => {
-              if (selectedOption === 'No' || (selectedOption === 'Yes' && medicalCondition)) {
-                navigation.navigate('PlaceScreen', {userId, age ,gender,weight, height, goal,physicalLevel, medicalCondition,username,bio,imageData });
-              }
+              navigation.navigate('ConditionScreen', {userId,age, gender,weight, height, goal, physicalLevel: selectedLevel,username,bio,imageData });
             }}
-            disabled={selectedOption === 'Yes' && !medicalCondition}
           >
-            <Text style={styles.nextButtonText}>Next</Text>
+            <Text style={styles.nextButtonText}>Start</Text>
             <Ionicons name="arrow-forward" size={20} color="white" />
           </TouchableOpacity>
         </View>
@@ -107,7 +128,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#87CEEB',
+    color: '#087CEA',
     marginBottom: 10,
     textAlign: 'center',
   },
@@ -118,43 +139,47 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingHorizontal: 20,
   },
-  optionsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '60%',
-    marginBottom: 20,
-  },
-  optionButton: {
-    backgroundColor: '#719AEA',
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-    borderRadius: 50,
+  pickerContainer: {
+    height: ITEM_HEIGHT * 5, // Show 5 items
     alignItems: 'center',
     justifyContent: 'center',
-    width: 100,
-    height: 100,
   },
-  selectedButton: {
-    backgroundColor: '#083EA7',
+  picker: {
+    width: '100%',
   },
-  optionText: {
-    fontSize: 18,
-    color: '#fff',
+  pickerContent: {
+    paddingVertical: ITEM_HEIGHT * 2, // Center the items
   },
-  textArea: {
-    height: 100,
-    width: '80%',
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 10,
-    padding: 10,
-    textAlignVertical: 'top',
-    marginBottom: 20,
+  item: {
+    height: ITEM_HEIGHT,
+    justifyContent: 'center',
+  },
+  itemText: {
+    fontSize: 24,
+    color: '#888',
+    textAlign: 'center',
+  },
+  selectedItemText: {
+    fontSize: 36,
+    color: '#000',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  selectedItemBorder: {
+    position: 'absolute',
+    top: (ITEM_HEIGHT * 2.5) - (ITEM_HEIGHT / 2.5), // Center the border
+    left: 0,
+    right: 0,
+    height: ITEM_HEIGHT,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: '#083EA7',
   },
   navigationButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '80%',
+    marginTop: 20,
   },
   backButton: {
     flexDirection: 'row',
