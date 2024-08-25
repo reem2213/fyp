@@ -22,7 +22,8 @@ const predictionModel=require('./models/prediction')
 const app = express();
 app.use(express.json());
 app.use(cors());
- 
+const bcrypt = require('bcryptjs');
+
 
 const connectionString = "mongodb+srv://reemdeeb00:MdEWisOAb2UKPU0Q@cluster0.d7rojza.mongodb.net/finalYearProject?retryWrites=true&w=majority&appName=Cluster0";
 //const connectionString = "mongodb+srv://reemdeeb00:MdEWisOAb2UKPU0Q@cluster0.d7rojza.mongodb.net/finalYearProject?retryWrites=true&w=majority&appName=Cluster0";
@@ -38,6 +39,34 @@ mongoose.connect(connectionString, {
 
 
 
+// app.post('/SignUp', async (req, res) => {
+//   const { username, email, password, gender, dateOfBirth, phoneNo, bio, image } = req.body;
+
+//   if (!image) {
+//     return res.status(400).json({ error: 'Image is required' });
+//   }
+
+//   try {
+//     const user = new userModel({
+//       username,
+//       email,
+//       password,
+//       gender,
+//       dateOfBirth,
+//       phoneNo,
+//       bio,
+//       image,
+//     });
+
+//     await user.save();
+
+//     res.status(200).json({ message: 'User created successfully', user });
+//   } catch (error) {
+//     console.error('Error creating user:', error);
+//     res.status(500).json({ error: 'Error creating user' });
+//   }
+// });
+
 app.post('/SignUp', async (req, res) => {
   const { username, email, password, gender, dateOfBirth, phoneNo, bio, image } = req.body;
 
@@ -46,10 +75,21 @@ app.post('/SignUp', async (req, res) => {
   }
 
   try {
+    // Check if the username already exists
+    const existingUser = await userModel.findOne({ username });
+    if (existingUser) {
+      return res.status(400).json({ error: 'Username already exists' });
+    }
+
+    // Encrypt the password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Create a new user with the hashed password
     const user = new userModel({
       username,
       email,
-      password,
+      password: hashedPassword, // Store the hashed password
       gender,
       dateOfBirth,
       phoneNo,
@@ -57,6 +97,7 @@ app.post('/SignUp', async (req, res) => {
       image,
     });
 
+    // Save the user to the database
     await user.save();
 
     res.status(200).json({ message: 'User created successfully', user });
@@ -65,8 +106,6 @@ app.post('/SignUp', async (req, res) => {
     res.status(500).json({ error: 'Error creating user' });
   }
 });
-
-
 
 // app.post("/SignIn", (req, res) => {
 //   const { username, password } = req.body;
@@ -82,13 +121,19 @@ app.post('/SignUp', async (req, res) => {
 //     }
 //   });
 // });
+
+
+
 app.post("/SignIn", (req, res) => {
   const { username, password } = req.body;
 
   userModel.findOne({ username: username })
-    .then((user) => {
+    .then(async (user) => {
       if (user) {
-        if (user.password === password) {
+        // Compare the hashed password in the database with the provided password
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        if (isMatch) {
           // Return the user ID along with the success message
           res.json({
             status: "Success",
@@ -116,6 +161,41 @@ app.post("/SignIn", (req, res) => {
       });
     });
 });
+
+// app.post("/SignIn", (req, res) => {
+//   const { username, password } = req.body;
+
+//   userModel.findOne({ username: username })
+//     .then((user) => {
+//       if (user) {
+//         if (user.password === password) {
+//           // Return the user ID along with the success message
+//           res.json({
+//             status: "Success",
+//             userId: user._id, // MongoDB document ID
+//             message: "Sign in successful"
+//           });
+//         } else {
+//           res.json({
+//             status: "Error",
+//             message: "Incorrect password"
+//           });
+//         }
+//       } else {
+//         res.json({
+//           status: "Error",
+//           message: "User does not exist"
+//         });
+//       }
+//     })
+//     .catch((err) => {
+//       console.error(err);
+//       res.status(500).json({
+//         status: "Error",
+//         message: "An error occurred during the sign-in process"
+//       });
+//     });
+// });
 
 
 // app.get('/user/:username', async (req, res) => {

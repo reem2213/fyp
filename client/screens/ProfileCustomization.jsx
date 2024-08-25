@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import {
-  KeyboardAvoidingView,
-  Platform,
+
   StyleSheet,
   View,
   Image,
@@ -18,6 +17,8 @@ import GrayEllipse from "../assets/grayEllipse.png";
 import People from "../assets/people-remover.png";
 import Camera from "../assets/camera.png";
 import axios from "axios";
+import { Asset } from 'expo-asset';
+
 import { DarkModeContext } from "../components/DarkModeContext"; 
 
 const imgDir = FileSystem.documentDirectory + "/images";
@@ -42,6 +43,8 @@ const ProfileCustomization = ({ navigation, route }) => {
   const [phoneNoError, setPhoneNoError] = useState("");
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
   const [usernameExists, setUsernameExists] = useState(false);
+
+
 
   useEffect(() => {
     if (route.params && route.params.username && route.params.email) {
@@ -136,50 +139,6 @@ const ProfileCustomization = ({ navigation, route }) => {
   };
 
 
-
-
-  // const handleSignUp = async () => {
-  //   if (validateForm()) {
-  //     try {
-  //       console.log("SignUp data:", {
-  //         username,
-  //         email,
-  //         password,
-  //         gender,
-  //         dateOfBirth,
-  //         phoneNo,
-  //         bio,
-  //         imageUri,
-  //       });
-  
-  //       const response = await axios.post("http://10.0.0.21:3001/SignUp", {
-  //         username,
-  //         email,
-  //         password,
-  //         gender,
-  //         dateOfBirth,
-  //         phoneNo,
-  //         bio,
-  //         imageUri,
-  //       });
-  
-  //       if (response.status === 200) {
-  //         console.log("SignUp success:", response.data);
-  //         navigation.navigate("MyProfile", { username, bio, imageUri });
-  //       } else {
-  //         console.error("SignUp error: Unexpected status code", response.status);
-  //         alert("Error: Failed to create account");
-  //       }
-  //     } catch (error) {
-  //       console.error("SignUp error:", error);
-  //       if (error.response) {
-  //         alert(`Error: ${error.response.data.error}`);
-  //       } else {
-  //         alert("Error: No response received from server");
-  //       }
-  //     }
-  //   }
-  // };
   
  
   const ensureDirExists = async () => {
@@ -193,51 +152,25 @@ const ProfileCustomization = ({ navigation, route }) => {
   useEffect(() => {
     ensureDirExists();
   }, []);
-  // const pickImageAsync = async (useLibrary) => {
-  //   try {
-  //     await ensureDirExists();
-  //     let result;
-  
-  //     if (useLibrary) {
-  //       const options = {
-  //         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  //         allowsEditing: true,
-  //         aspect: [4, 3],
-  //         quality: 1,
-  //       };
-  //       result = await ImagePicker.launchImageLibraryAsync(options);
-  //     } else {
-  //       const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-  
-  //       if (!permissionResult.granted) {
-  //         alert("Permission denied to access camera!");
-  //         return;
-  //       }
-  
-  //       result = await ImagePicker.launchCameraAsync({
-  //         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  //         allowsEditing: true,
-  //         aspect: [4, 3],
-  //         quality: 1,
-  //       });
-  //     }
-  
-  //     if (!result.cancelled) {
-  //       const uri = result.uri;
-  //       const base64Image = await FileSystem.readAsStringAsync(uri, {
-  //         encoding: FileSystem.EncodingType.Base64,
-  //       });
-  //       setImageUri(`data:image/jpeg;base64,${base64Image}`);
-  //     } else {
-  //       alert("You did not select any image.");
-  //     }
-  //   } catch (error) {
-  //     console.log("Error while picking an image:", error);
-  //   }
-  // };
+
   
   const handleSignUp = async () => {
     if (validateForm()) {
+      let imageToUpload = imageUri;
+
+      if (!imageUri) {
+        // Load the default image asset
+        const asset = Asset.fromModule(User);
+        await asset.downloadAsync(); // Ensure the image is available locally
+        const defaultImageUri = asset.localUri || asset.uri;
+        
+        // Convert the default image to Base64
+        const base64Image = await FileSystem.readAsStringAsync(defaultImageUri, {
+          encoding: FileSystem.EncodingType.Base64,
+        });
+        
+        imageToUpload = `${base64Image}`;
+      }
       try {
         const response = await axios.post("http://10.0.0.21:3001/SignUp", {
           username,
@@ -247,12 +180,14 @@ const ProfileCustomization = ({ navigation, route }) => {
           dateOfBirth,
           phoneNo,
           bio,
-          image: imageUri, // Send the base64 encoded image
+          image: imageToUpload, // Send the base64 encoded image
         });
   
         if (response.status === 200) {
+          const userId = response.data.user._id; // Extract the _id from the response
           console.log("SignUp success:", response.data);
-          navigation.navigate("Home", { username, bio, imageUri });
+          console.log("UserId:", userId); // Log to confirm it's extracted correctly
+          navigation.navigate("Home", { username, bio, imageUri, userId:  response.data.user._id }); // Pass userId to Home
         } else {
           console.error("SignUp error: Unexpected status code", response.status);
           alert("Error: Failed to create account");

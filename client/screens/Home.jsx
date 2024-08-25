@@ -29,7 +29,7 @@ import HomeIcon from "../assets/homeLight.png";
 import CommunityLight from "../assets/communityLight.png";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AwesomeAlert from "react-native-awesome-alerts";
-
+import axios from "axios";
 import { BarChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
 const screenWidth = Dimensions.get("window").width;
@@ -81,6 +81,7 @@ const SccreenTime = ({ screenTimeData }) => {
           return "0s"; // Fallback for invalid values
         },
       }}
+
       verticalLabelRotation={0}
       style={{
         marginVertical: 8,
@@ -107,6 +108,9 @@ const Home = ({ navigation, route }) => {
   const [alertMessage, setAlertMessage] = useState("");
   const [confirmButtonColor, setConfirmButtonColor] = useState("#DD6B55");
   const [overlayColor, setOverlayColor] = useState("rgba(0, 0, 0, 0.7)");
+
+
+  console.log("UserId in Home:", userId);
   const showMotivationalAlert = (mood) => {
     let message = "";
     let title = "";
@@ -163,17 +167,23 @@ const Home = ({ navigation, route }) => {
   };
 
   useEffect(() => {
-    fetch(`http://10.0.0.21:3001/userr/${username}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setBio(data.bio);
-        setImageData(data.image);
-        console.log("donee");
-      })
-      .catch((error) => {
-        console.error("Error fetching user data:", error);
-      });
-  }, [username]);
+    fetchUserProfile()
+  }, []);
+  
+
+  const fetchUserProfile = async () => {
+    // const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
+    //   params: { username },
+    // });
+    // const userId = responses.data.userId;
+    try {
+      const response = await axios.get(`http://10.0.0.21:3001/user/${userId}`);
+      setBio(response.data.bio);
+      setImageData(response.data.image);
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+    }
+  };
 
   const checkPhysicalAttributes = () => {
     fetch(`http://10.0.0.21:3001/formData/${username}`)
@@ -408,7 +418,7 @@ const Home = ({ navigation, route }) => {
             ]}
           >
             <TouchableOpacity onPress={goToProfile}>
-              <WebView
+              {/* <WebView
                 style={[
                   styles.imagee,
                   { backgroundColor: isDarkMode ? "black" : "#fff" },
@@ -417,7 +427,15 @@ const Home = ({ navigation, route }) => {
                 source={{
                   html: `<img src="data:image/jpeg;base64,${imageData}" style="width:250px; height:250px;margin-top:150px;border-radius:150px" />`,
                 }}
-              />
+              /> */}
+              {imageData ? (
+            <Image
+              style={styles.imagee}
+              source={{ uri: `data:image/jpeg;base64,${imageData} ` }}
+            />
+          ) : (
+            <Text>no imageeeeeeeeeee</Text>
+          )}
             </TouchableOpacity>
 
             <Text
