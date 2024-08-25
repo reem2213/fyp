@@ -218,7 +218,7 @@ import Star from "../../../assets/star_filled.png";
 import { DarkModeContext } from "../../../components/DarkModeContext"; // Adjust the path as per your project structure
 
 const Mentors = ({ navigation,route }) => {
-  const {username}=route.params;
+  const {username,userId}=route.params;
   const { isDarkMode } = useContext(DarkModeContext);
 
   const imageMap = {
@@ -244,7 +244,7 @@ const Mentors = ({ navigation,route }) => {
   }, []);
 
   const backToPsychoSection = () => {
-    navigation.navigate("PsychologicalSection",{username});
+    navigation.navigate("PsychologicalSection",{username,userId});
   };
 
   return (

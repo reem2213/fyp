@@ -12,6 +12,7 @@ import BlueEllipse from "../assets/blueEllipse.png";
 import Back from "../assets/arrowBack.png";
 import { DarkModeContext } from "../components/DarkModeContext";
 import GrayEllipse from '../assets/grayEllipse.png';
+import PlusIcon from "../assets/bgChatBot.png";  // Import your plus icon image here
 
 export default function CommunitiesJoinedScreen({ navigation, route }) {
   const [joinedGroups, setJoinedGroups] = useState([]);
@@ -22,14 +23,7 @@ export default function CommunitiesJoinedScreen({ navigation, route }) {
     fetchJoinedGroups();
   }, []);
 
-  // const fetchJoinedGroups = async () => {
-  //   try {
-  //     const response = await axios.get(`http://10.0.0.21:3001/groups/joined?username=${username}`);
-  //     setJoinedGroups(response.data);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+ 
   const fetchJoinedGroups = async () => {
     try {
       const response = await axios.get(`http://10.0.0.21:3001/groups/joined?userId=${userId}`);
@@ -45,7 +39,10 @@ export default function CommunitiesJoinedScreen({ navigation, route }) {
   };
 
  
-  
+  const navigateToCreateGroup = () => {
+    navigation.navigate("CreateGroup", { username, userId });  // Ensure "CreateGroup" is the correct route
+  };
+
   return (
     <View style={[{ height: "100%", backgroundColor: "#f5f5f5" }, { backgroundColor: isDarkMode ? "black" : "#f5f5f5" }]}>
       {isDarkMode ? (
@@ -86,7 +83,12 @@ export default function CommunitiesJoinedScreen({ navigation, route }) {
           ))}
         </View>
       </ScrollView>
-
+      <TouchableOpacity onPress={navigateToCreateGroup} style={styles.floatingButton}>
+        <Image
+          source={PlusIcon}  // Use your plus icon image here
+          style={{ width: 50, height: 50 }}
+        />
+      </TouchableOpacity>
       {isDarkMode ? (
         <Image
           source={GrayEllipse}
@@ -149,5 +151,20 @@ const styles = StyleSheet.create({
   groupMembers: {
     fontSize: 12,
     color: "#666",
+  },
+  floatingButton: {
+    position: 'absolute',
+    width: 60,
+    height: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+    right: 20,
+    bottom: 30,
+    backgroundColor: '#4A90E2',
+    borderRadius: 30,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 5 },
   },
 });

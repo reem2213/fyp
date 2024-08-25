@@ -63,9 +63,10 @@ import PlanScreen from "./screens/PhysicalSection/Plan.jsx";
 import Shop from "./screens/PhysicalSection/Shop.jsx";
 import PhysicalMentor from "./screens/PhysicalSection/Mentors/Mentor.jsx";
 import PhysicalMentorAvailability from "./screens/PhysicalSection/Mentors/MentorAvailability.jsx";
-import PhysicalCommunity from './screens/PhysicalSection/Community/Community.jsx';
-import PhysicalChat from './screens/PhysicalSection/Community/Chat.jsx';
+import PhysicalCommunity from "./screens/PhysicalSection/Community/Community.jsx";
+import PhysicalChat from "./screens/PhysicalSection/Community/Chat.jsx";
 import WorkoutPredictor from "./screens/PhysicalSection/Workout.jsx";
+import CreateGroupScreen from "./screens/CreateGroup.jsx";
 export default function App() {
   const Stack = createNativeStackNavigator();
 
@@ -529,9 +530,16 @@ export default function App() {
             }}
           />
 
-<Stack.Screen
+          <Stack.Screen
             name="Workout"
             component={WorkoutPredictor}
+            options={{
+              headerShown: false,
+            }}
+          />
+           <Stack.Screen
+            name="CreateGroup"
+            component={CreateGroupScreen}
             options={{
               headerShown: false,
             }}
@@ -550,4 +558,3 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-

@@ -455,6 +455,17 @@ app.post('/posts/:id/toggle-repost', async (req, res) => {
 });
 
 
+app.post('/get-usernames', async (req, res) => {
+  const { userIds } = req.body;
+  try {
+    const users = await userModel.find({ _id: { $in: userIds } }, 'username');
+    const usernames = users.map(user => user.username);
+    res.json(usernames);
+  } catch (error) {
+    console.error('Error fetching usernames:', error);
+    res.status(500).json({ error: 'Error fetching usernames' });
+  }
+});
 
 
 
@@ -567,13 +578,7 @@ const GroupSchema = new mongoose.Schema({
       joined: { type: Boolean,default:true },
     }
   ],
-  // messages: [
-  //   {
-  //     sender: mongoose.Schema.Types.ObjectId,
-  //     text: String,
-  //     timestamp: { type: Date, default: Date.now },
-  //   },
-  // ],
+
   messages: [
     {
         sender: {
@@ -605,10 +610,28 @@ app.post('/users', async (req, res) => {
 });
 
 app.post('/groups', async (req, res) => {
-  const group = new Group(req.body);
-  await group.save();
-  res.send(group);
+  try {
+    const systemUserId = new mongoose.Types.ObjectId("64a9f8a7f6c7d9bcbdd741e3"); // Example system user ID
+
+    // Create the group with only the system admin as the member
+    const group = new Group({
+      name: req.body.name,
+      description: req.body.description,
+      members: [{ userId: systemUserId, joined: true }], // Only add the system user as a member
+      section: req.body.section || '',
+      messages: [],
+    });
+
+    console.log('Group to be saved:', group); // Log the group object before saving
+
+    await group.save();
+    res.send(group);
+  } catch (error) {
+    console.error("Error creating group:", error);
+    res.status(500).send({ message: 'Failed to create group', error: error.message });
+  }
 });
+
 async function convertUsernamesToObjectIds() {
   const groups = await Group.find();
   for (const group of groups) {
@@ -727,27 +750,6 @@ app.post('/groups/:id/messages', async (req, res) => {
 });
 
 
-// const typingStatus = {}; // Store typing statuses for each group
-// app.post('/groups/:id/typing', (req, res) => {
-//   const { id } = req.params;
-//   const { username } = req.body;
-//   typingStatus[id] = { message: `${username} is typing...`, username };
-//   res.sendStatus(200);
-// });
-
-// app.post('/groups/:id/stopTyping', (req, res) => {
-//   const { id } = req.params;
-//   const { username } = req.body;
-//   if (typingStatus[id] && typingStatus[id].username === username) {
-//     delete typingStatus[id];
-//   }
-//   res.sendStatus(200);
-// });
-
-// app.get('/groups/:id/typingStatus', (req, res) => {
-//   const { id } = req.params;
-//   res.json({ typingStatus: typingStatus[id] || '' });
-// });
 
 const typingStatus = {}; // Store typing statuses for each group
 
@@ -844,6 +846,114 @@ app.get('/groups/:id/messages', async (req, res) => {
     res.status(500).send({ message: 'Failed to fetch messages', error });
   }
 });
+
+// app.post('/groups/:id/quit', async (req, res) => {
+//   try {
+//     const group = await Group.findById(req.params.id);
+//     if (!group) {
+//       return res.status(404).send({ message: 'Group not found' });
+//     }
+
+//     const { userId } = req.body;
+
+//     // Remove the user from the group's members array
+//     group.members = group.members.filter(member => !member.userId.equals(userId));
+
+//     await group.save();
+//     res.send({ message: 'User has quit the group' });
+//   } catch (error) {
+//     console.error("Error quitting group:", error);
+//     res.status(500).send({ message: 'Failed to quit group', error: error.message });
+//   }
+// });
+
+app.post('/groups/:id/quit', async (req, res) => {
+  try {
+    const group = await Group.findById(req.params.id);
+    if (!group) {
+      return res.status(404).send({ message: 'Group not found' });
+    }
+
+    const { userId } = req.body;
+
+    // Find the username of the user who is leaving
+    const user = await userModel.findById(userId);
+    const username = user.username;
+
+    // Remove the user from the group's members array
+    group.members = group.members.filter(member => !member.userId.equals(userId));
+
+    // Add a system message to notify other users that the user has left
+    const systemUserId = new mongoose.Types.ObjectId("64a9f8a7f6c7d9bcbdd741e3"); // Example system user ID
+
+    const leaveMessage = {
+      sender: "System",  // Use the system user ID
+      text: `${username} has left the group.`,
+      timestamp: new Date(),
+    };
+    group.messages.push(leaveMessage);
+
+    await group.save();
+    res.send({ message: 'User has quit the group' });
+  } catch (error) {
+    console.error("Error quitting group:", error);
+    res.status(500).send({ message: 'Failed to quit group', error: error.message });
+  }
+});
+app.get('/groups/:id/members', async (req, res) => {
+  try {
+    const group = await Group.findById(req.params.id);
+    if (!group) {
+      return res.status(404).send({ message: 'Group not found' });
+    }
+
+    const systemUserId = "64a9f8a7f6c7d9bcbdd741e3"; // System user ID
+    const joinedMembers = group.members.filter(member => member.joined);
+
+    // Fetch the usernames for each member
+    const memberList = await Promise.all(joinedMembers.map(async (member) => {
+      const user = await userModel.findById(member.userId, 'username'); // Fetch the username
+      return {
+        userId: member.userId,
+        username: user ? user.username : 'Advisor',
+        isAdmin: member.userId.equals(systemUserId) // Check if the member is the admin
+      };
+    }));
+
+    res.send(memberList);
+  } catch (error) {
+    console.error("Error fetching group members:", error);
+    res.status(500).send({ message: 'Failed to fetch group members', error: error.message });
+  }
+});
+
+
+// app.get('/groups/:id/members', async (req, res) => {
+//   try {
+//     const group = await Group.findById(req.params.id);
+//     if (!group) {
+//       return res.status(404).send({ message: 'Group not found' });
+//     }
+
+//     // Filter the members who have joined
+//     const joinedMembers = group.members.filter(member => member.joined);
+
+//     // Fetch the usernames for each member
+//     const memberList = await Promise.all(joinedMembers.map(async (member) => {
+//       const user = await userModel.findById(member.userId, 'username'); // Fetch the username
+//       return {
+//         userId: member.userId,
+//         username: user ? user.username : 'Unknown User', // Handle case where user is not found
+//       };
+//     }));
+
+//     res.send(memberList);
+//   } catch (error) {
+//     console.error("Error fetching group members:", error);
+//     res.status(500).send({ message: 'Failed to fetch group members', error: error.message });
+//   }
+// });
+
 
 
 

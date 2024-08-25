@@ -3,7 +3,7 @@
 // import axios from 'axios';
 
 // export default function ChatScreen({ route, navigation }) {
-//   const { groupId, username } = route.params;
+//   const { groupId, userId,username } = route.params;
 //   const [messages, setMessages] = useState([]);
 //   const [text, setText] = useState('');
 //   const [typingStatus, setTypingStatus] = useState('');
@@ -12,7 +12,7 @@
 
 //   useEffect(() => {
 //     fetchMessages();
-//     const intervalId = setInterval(fetchMessages, 2000); // Poll the server every 3 seconds
+//     const intervalId = setInterval(fetchMessages, 2000);
 //     return () => clearInterval(intervalId);
 //   }, []);
 
@@ -29,9 +29,10 @@
 //   };
 
 //   const sendMessage = async () => {
+//     console.log('Sending message as user:', userId);  // Add this line to debug
 //     try {
 //       await axios.post(`http://10.0.0.21:3001/groups/${groupId}/messages`, {
-//         sender: username,
+//         sender: userId,
 //         text,
 //       });
 //       setText('');
@@ -41,20 +42,19 @@
 //       console.error(error);
 //     }
 //   };
-
 //   const startTyping = () => {
 //     if (typingTimeoutRef.current) {
 //       clearTimeout(typingTimeoutRef.current);
 //     }
-//     axios.post(`http://10.0.0.21:3001/groups/${groupId}/typing`, { username });
+//     axios.post(`http://10.0.0.21:3001/groups/${groupId}/typing`, { userId, username });
 
 //     typingTimeoutRef.current = setTimeout(() => {
 //       stopTyping();
-//     }, 3000); // 3 seconds of inactivity will stop typing status
+//     }, 3000);
 //   };
 
 //   const stopTyping = () => {
-//     axios.post(`http://10.0.0.21:3001/groups/${groupId}/stopTyping`, { username });
+//     axios.post(`http://10.0.0.21:3001/groups/${groupId}/stopTyping`, { userId });
 //   };
 
 //   useEffect(() => {
@@ -64,23 +64,34 @@
 
 //   const checkTypingStatus = async () => {
 //     try {
-//       const response = await axios.get(`http://10.0.0.21:3001/groups/${groupId}/typingStatus`);
+//       const response = await axios.get(`http://10.0.0.21:3001/groups/${groupId}/typingStatus?userId=${userId}`);
 //       setTypingStatus(response.data.typingStatus);
 //     } catch (error) {
 //       console.error(error);
 //     }
 //   };
-
+//   const quitGroup = async () => {
+//     try {
+//       await axios.post(`http://10.0.0.21:3001/groups/${groupId}/quit`, { userId });
+//       navigation.navigate("Community", { username, userId });
+//     } catch (error) {
+//       console.error("Failed to quit group:", error);
+//     }
+//   };
+ 
 //   return (
 //     <KeyboardAvoidingView
 //       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
 //       style={styles.container}
 //     >
 //       <View style={styles.header}>
-//         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+//         <TouchableOpacity onPress={() => navigation.navigate("Community",{username,userId})} style={styles.backButton}>
 //           <Text style={styles.backButtonText}>Back</Text>
 //         </TouchableOpacity>
 //         <Text style={styles.headerTitle}>Chat</Text>
+//         <TouchableOpacity onPress={quitGroup} style={styles.quitButton}>
+//           <Text style={styles.quitButtonText}>Quit</Text>
+//         </TouchableOpacity>
 //       </View>
 //       <FlatList
 //         ref={flatListRef}
@@ -89,18 +100,19 @@
 //         renderItem={({ item }) => (
 //           <View style={[
 //             styles.messageCard,
-//             item.sender === username ? styles.sentMessage : styles.receivedMessage
+//             item.sender === userId ? styles.sentMessage : styles.receivedMessage
 //           ]}>
-//             <Text style={styles.senderName}>{item.sender}</Text>
+//             <Text style={styles.senderName}>{item.sender === userId ? "You" : item.sender}</Text>
 //             <Text style={styles.messageText}>{item.text}</Text>
 //           </View>
 //         )}
 //         contentContainerStyle={styles.messagesContainer}
 //         onContentSizeChange={() => flatListRef.current.scrollToEnd({ animated: true })}
 //       />
-//       {typingStatus && typingStatus.username !== username ? (
-//         <Text style={styles.typingStatus}>{typingStatus.message}</Text>
-//       ) : null}
+//      {typingStatus && (
+//         <Text style={styles.typingStatus}>{typingStatus}</Text>
+//       )}
+
 //       <View style={styles.inputContainer}>
 //         <TextInput
 //           value={text}
@@ -124,6 +136,7 @@
 //   container: {
 //     flex: 1,
 //     backgroundColor: '#121212',
+//     top:20
 //   },
 //   sentMessage: {
 //     alignSelf: 'flex-end',
@@ -153,6 +166,7 @@
 //   },
 //   backButtonText: {
 //     color: '#4A90E2',
+//     marginTop:20
 //   },
 //   headerTitle: {
 //     fontSize: 20,
@@ -209,16 +223,26 @@
 //     color: '#888',
 //     textAlign: 'center',
 //   },
+//   quitButton: {
+//     marginLeft: 'auto',
+//   },
+//   quitButtonText: {
+//     color: '#FF4D4D',
+//     fontWeight: 'bold',
+//   },
 // });
+
 import React, { useState, useEffect, useRef } from 'react';
-import { View, FlatList, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, FlatList, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform, Modal } from 'react-native';
 import axios from 'axios';
 
 export default function ChatScreen({ route, navigation }) {
-  const { groupId, userId,username } = route.params;
+  const { groupId, userId, username } = route.params;
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState('');
   const [typingStatus, setTypingStatus] = useState('');
+  const [members, setMembers] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
   const typingTimeoutRef = useRef(null);
   const flatListRef = useRef(null);
 
@@ -240,8 +264,18 @@ export default function ChatScreen({ route, navigation }) {
     }
   };
 
+  const fetchGroupMembers = async () => {
+    try {
+      const response = await axios.get(`http://10.0.0.21:3001/groups/${groupId}/members`);
+      setMembers(response.data);
+      console.log(response.data)
+      setModalVisible(true);
+    } catch (error) {
+      console.error('Error fetching group members:', error);
+    }
+  };
+
   const sendMessage = async () => {
-    console.log('Sending message as user:', userId);  // Add this line to debug
     try {
       await axios.post(`http://10.0.0.21:3001/groups/${groupId}/messages`, {
         sender: userId,
@@ -254,6 +288,7 @@ export default function ChatScreen({ route, navigation }) {
       console.error(error);
     }
   };
+
   const startTyping = () => {
     if (typingTimeoutRef.current) {
       clearTimeout(typingTimeoutRef.current);
@@ -283,34 +318,14 @@ export default function ChatScreen({ route, navigation }) {
     }
   };
 
-  // const startTyping = () => {
-  //   if (typingTimeoutRef.current) {
-  //     clearTimeout(typingTimeoutRef.current);
-  //   }
-  //   axios.post(`http://10.0.0.21:3001/groups/${groupId}/typing`, { userId });
-
-  //   typingTimeoutRef.current = setTimeout(() => {
-  //     stopTyping();
-  //   }, 3000);
-  // };
-
-  // const stopTyping = () => {
-  //   axios.post(`http://10.0.0.21:3001/groups/${groupId}/stopTyping`, { userId });
-  // };
-
-  // useEffect(() => {
-  //   const typingInterval = setInterval(checkTypingStatus, 1000);
-  //   return () => clearInterval(typingInterval);
-  // }, []);
-
-  // const checkTypingStatus = async () => {
-  //   try {
-  //     const response = await axios.get(`http://10.0.0.21:3001/groups/${groupId}/typingStatus`);
-  //     setTypingStatus(response.data.typingStatus);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+  const quitGroup = async () => {
+    try {
+      await axios.post(`http://10.0.0.21:3001/groups/${groupId}/quit`, { userId });
+      navigation.navigate("Community", { username, userId });
+    } catch (error) {
+      console.error("Failed to quit group:", error);
+    }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -318,10 +333,16 @@ export default function ChatScreen({ route, navigation }) {
       style={styles.container}
     >
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.navigate("Community",{username,userId})} style={styles.backButton}>
+        <TouchableOpacity onPress={() => navigation.navigate("Community", { username, userId })} style={styles.backButton}>
           <Text style={styles.backButtonText}>Back</Text>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Chat</Text>
+        <TouchableOpacity onPress={fetchGroupMembers} style={styles.infoButton}>
+          <Text style={styles.infoButtonText}>Info</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={quitGroup} style={styles.quitButton}>
+          <Text style={styles.quitButtonText}>Quit</Text>
+        </TouchableOpacity>
       </View>
       <FlatList
         ref={flatListRef}
@@ -339,7 +360,7 @@ export default function ChatScreen({ route, navigation }) {
         contentContainerStyle={styles.messagesContainer}
         onContentSizeChange={() => flatListRef.current.scrollToEnd({ animated: true })}
       />
-     {typingStatus && (
+      {typingStatus && (
         <Text style={styles.typingStatus}>{typingStatus}</Text>
       )}
 
@@ -358,6 +379,46 @@ export default function ChatScreen({ route, navigation }) {
           <Text style={styles.sendButtonText}>Send</Text>
         </TouchableOpacity>
       </View>
+
+      {/* Modal to display group members */}
+      {/* <Modal
+        visible={modalVisible}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Group Members</Text>
+            {members.map((member) => (
+              <Text key={member.userId} style={styles.memberName}>{member.username}</Text>
+            ))}
+            <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeButton}>
+              <Text style={styles.closeButtonText}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal> */}
+      <Modal
+        visible={modalVisible}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Group Members</Text>
+            {members.map((member) => (
+              <Text key={member.userId} style={styles.memberName}>
+                {member.username} {member.isAdmin && '(admin)'}
+              </Text>
+            ))}
+            <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeButton}>
+              <Text style={styles.closeButtonText}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </KeyboardAvoidingView>
   );
 }
@@ -366,7 +427,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#121212',
-    top:20
+    top: 20
   },
   sentMessage: {
     alignSelf: 'flex-end',
@@ -396,7 +457,22 @@ const styles = StyleSheet.create({
   },
   backButtonText: {
     color: '#4A90E2',
-    marginTop:20
+    marginTop: 20
+  },
+  infoButton: {
+    marginLeft: 'auto',
+    marginRight: 10,
+  },
+  infoButtonText: {
+    color: '#4A90E2',
+    fontWeight: 'bold',
+  },
+  quitButton: {
+    marginLeft: 'auto',
+  },
+  quitButtonText: {
+    color: '#FF4D4D',
+    fontWeight: 'bold',
   },
   headerTitle: {
     fontSize: 20,
@@ -452,5 +528,39 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     color: '#888',
     textAlign: 'center',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalContent: {
+    width: '80%',
+    backgroundColor: '#FFFFFF',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  memberName: {
+    fontSize: 16,
+    marginVertical: 5,
+    color:"red"
+  },
+  closeButton: {
+    marginTop: 20,
+    backgroundColor: '#4A90E2',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+  },
+  closeButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
   },
 });
