@@ -1173,14 +1173,45 @@ app.get('/getPrediction/:userId', async (req, res) => {
 
 //EDIT PROFILE:
 
+// app.put('/user/:userId', async (req, res) => {
+//   try {
+//     const { userId } = req.params;
+//     const { newUsername, bio, email, image,phoneNo,password } = req.body;
+//     const salt = await bcrypt.genSalt(10);
+//     const hashedPassword = await bcrypt.hash(password, salt);
+//     const updatedUser = await userModel.findOneAndUpdate(
+//       { _id: userId },
+//       { username: newUsername, bio, email, image,phoneNo, password:hashedPassword },
+//       { new: true }
+//     );
+
+//     if (updatedUser) {
+//       res.status(200).json(updatedUser);
+//     } else {
+//       res.status(404).json({ error: "User not found" });
+//     }
+//   } catch (error) {
+//     res.status(500).json({ error: "Server error" });
+//   }
+// });
+
+
 app.put('/user/:userId', async (req, res) => {
   try {
     const { userId } = req.params;
-    const { newUsername, bio, email, image } = req.body;
-    
-    const updatedUser = await userModel.findOneAndUpdate(
-      { _id: userId },
-      { username: newUsername, bio, email, image },
+    const { password, ...otherData } = req.body;
+
+    const updatedData = { ...otherData };
+
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+      updatedData.password = hashedPassword;
+    }
+
+    const updatedUser = await userModel.findByIdAndUpdate(
+      userId,
+      updatedData,
       { new: true }
     );
 
@@ -1190,7 +1221,8 @@ app.put('/user/:userId', async (req, res) => {
       res.status(404).json({ error: "User not found" });
     }
   } catch (error) {
-    res.status(500).json({ error: "Server error" });
+    console.error("Error updating user:", error);
+    res.status(500).json({ error: "Server error", details: error.message });
   }
 });
 

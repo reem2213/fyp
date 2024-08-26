@@ -5,19 +5,20 @@ import { useNavigation } from "@react-navigation/native";
 import { DarkModeContext } from "../components/DarkModeContext";
 
 const Settings = ({ navigation,route }) => {
-  const {username,userId}=route.params
+  const {username,userId,bio, imageData, email,phoneNo}=route.params
   const { isDarkMode, toggleDarkMode } = useContext(DarkModeContext);
 
   const BackToProfile = () => {
     navigation.navigate("MyProfile",{username,userId});
   };
   const goToMusic = () => {
-    navigation.navigate("MusicTester2");
+    navigation.navigate("EditProfile", { username, bio, imageData, email ,userId,phoneNo});
   };
 
   const Logout = () => {
     navigation.navigate("SignIn",{userId});
   };
+
 
   return (
     <View style={{ flex: 1, backgroundColor: isDarkMode ? "black" : "white" }}>

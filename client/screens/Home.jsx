@@ -183,6 +183,7 @@ const Home = ({ navigation, route }) => {
     } catch (error) {
       console.error("Error fetching user profile:", error);
     }
+
   };
 
   const checkPhysicalAttributes = () => {
@@ -389,22 +390,24 @@ const Home = ({ navigation, route }) => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <Pressable onPress={toNotifications}>
             <Image style={styles.notiImage} source={Noti} />
+            {unreadCount >0 &&
             <Text
               style={{
                 color: "white",
                 backgroundColor: "#032b79",
-                width: 20,
-                padding: 7,
-                height: 23,
-                fontWeight: "bold",
-                top: 65,
-                left: 325,
+                width: 24,
+                padding: 6,
+                height: 24,
+                top: 55,
+                left: 350,
                 borderRadius: 100,
-                fontSize: 7,
+                fontSize: 8,
+                textAlign:"center",
+                position:"absolute"
               }}
             >
               {unreadCount}
-            </Text>
+            </Text>}
           </Pressable>
 
           <Pressable onPress={toPosts}>
@@ -441,12 +444,12 @@ const Home = ({ navigation, route }) => {
             <Text
               style={[
                 styles.welcome,
-                { color: isDarkMode ? "white" : "black" },
+                { color: isDarkMode ? "white" : "#032B79" },
               ]}
             >
               {username}
             </Text>
-            <Text>{userId}</Text>
+            {/* <Text>{userId}</Text> */}
           </View>
 
           <View style={styles.content}>
@@ -610,27 +613,27 @@ const styles = StyleSheet.create({
   },
   notiImage: {
     position: "absolute",
-    top: 75,
-    width: 30,
-    height: 30,
-    left: 330,
+    top: 60,
+    width: 40,
+    height: 40,
+    left: 350,
   },
 
   notiImage2: {
     position: "absolute",
-    top: 50,
-    width: 30,
-    height: 30,
-    left: 290,
+    top: 60,
+    width: 40,
+    height: 40,
+    left: 300,
   },
   welcome: {
     position: "absolute",
     fontWeight: "bold",
-    top: 160,
-    left: 80,
+    top: 170,
+    left: 90,
     color: "#1B436F",
-    fontSize: 30,
-    width: "40%",
+    fontSize: 20,
+    width: "70%",
   },
   content: {
     paddingVertical: 20,
@@ -920,9 +923,13 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   imagee: {
-    width: 200,
-    height: 200,
-    top: 100,
-    left: 10,
+    width: 60,
+    height: 60,
+    top: 150,
+    left: 20,
+    borderColor:"#032B79",
+    borderWidth:2,
+    borderRadius:120,
+    marginBottom:150
   },
 });

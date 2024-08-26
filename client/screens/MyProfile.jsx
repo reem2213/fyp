@@ -748,7 +748,8 @@ const App = ({ route }) => {
   const [bio, setBio] = useState("");
   const [points, setPoints] = useState(0); // Add state for points
   const [email, setEmail] = useState("");
-  const { isDarkMode } = useContext(DarkModeContext); // Use the context
+  const { isDarkMode } = useContext(DarkModeContext); 
+  const[phoneNo,setphoneNo]= useState(0);
 
   const [imageData, setImageData] = useState(null);
 
@@ -756,6 +757,7 @@ const App = ({ route }) => {
   const [activeStatus, setActiveStatus] = useState("upcoming");
   const [meetings, setMeetings] = useState([]);
   const [goals, setGoals] = useState([]);
+  console.log(bio);
 
   useEffect(() => {
     fetchUserProfile();
@@ -764,6 +766,7 @@ const App = ({ route }) => {
     fetchUserPoints(); // Fetch user points
     
   }, []);
+
 
   const fetchUserProfile = async () => {
     // const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
@@ -775,10 +778,13 @@ const App = ({ route }) => {
       setBio(response.data.bio);
       setImageData(response.data.image);
       setEmail(response.data.email);
+      setphoneNo(response.data.phoneNo)
     } catch (error) {
       console.error("Error fetching user profile:", error);
     }
   };
+
+
 
 
 
@@ -971,14 +977,14 @@ const App = ({ route }) => {
         );
 
   const goToSettings = () => {
-    navigate("Settings", { username,userId });
+    navigate("Settings", { username,userId ,bio, imageData, email,phoneNo});
   };
 
   const goBack = () => {
     navigate("Home", { username,userId });
   };
   const goToEditProfile = () => {
-    navigate("EditProfile", { username, bio, imageData, email ,userId});
+    navigate("EditProfile", { username, bio, imageData, email ,userId,phoneNo});
   };
 
   const calculateGoalPercentages = () => {
@@ -1039,7 +1045,7 @@ const App = ({ route }) => {
           </Text>
           <TouchableOpacity onPress={goToSettings} style={{ width: "10%" }}>
             <Image
-              style={{ width: 45, height: 45, left: 320, top: -10 }}
+              style={{ width: 45, height: 45, left: 330, top: -45 }}
               source={Settings}
             />
           </TouchableOpacity>
@@ -1061,11 +1067,6 @@ const App = ({ route }) => {
             {points} Points
           </Text>
 
-          {/* <View style={styles.pointsContainer}>
-        <Image source={Coin} style={styles.coinIcon} />
-        <Text style={styles.pointsText}>{points} Points</Text>
-      </View> */}
-
           {imageData ? (
             <Image
               style={styles.imagee}
@@ -1078,8 +1079,8 @@ const App = ({ route }) => {
 
         <View
           style={[
-            { top: -20, left: 20 },
-            { backgroundColor: isDarkMode ? "black" : "#FAFAFA" },
+            { top: -40, left: 20 },
+            // { backgroundColor: isDarkMode ? "black" : "#FAFAFA" },
           ]}
         >
           <Text
@@ -1438,11 +1439,14 @@ const styles = StyleSheet.create({
   upcoming: {
     backgroundColor: "#2196F3",
     color: "#fff",
+    
   },
   completed: {
     backgroundColor: "#4CAF50",
     color: "#fff",
   },
+
+
   cancelled: {
     backgroundColor: "#F44336",
     color: "#fff",
@@ -1455,9 +1459,11 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     top: -20,
-    left: 10,
+    left: 30,
     marginTop: 40,
     borderRadius: 150,
+    borderColor:"#032B79",
+    borderWidth:4,
   },
   chartContainer: {
     padding: 20,
