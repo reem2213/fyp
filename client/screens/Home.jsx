@@ -15,16 +15,19 @@ import { DarkModeContext } from "../components/DarkModeContext"; // Import the c
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { WebView } from "react-native-webview";
 import Noti from "../assets/notification.png";
-import ScreenTime from "../assets/screenTime.png";
 import GoalSection from "../assets/goalSection.png";
 import MusicSection from "../assets/music.png";
 import FeedbackSection from "../assets/feedback.png";
 import GameSection from "../assets/game.png";
 import Plus from "../assets/plus.png";
-
+import CommunityDark from "../assets/communityDark.png";
+import HomeDark from "../assets/homeDark.png";
+import SettingsDark from "../assets/settings.png";
+import PsychoDark from "../assets/psychologicDark.png";
+import PhysicalDark from "../assets/physicalSectionDark.png";
 import Psycho from "../assets/psychologicLight.png";
 import Physical from "../assets/physicalSectionLight.png";
-import SettingsIcon from "../assets/settings.png";
+import SettingsIcon from "../assets/LightSettings.png";
 import HomeIcon from "../assets/homeLight.png";
 import CommunityLight from "../assets/communityLight.png";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -51,7 +54,7 @@ const SccreenTime = ({ screenTimeData }) => {
   return (
     <BarChart
       data={chartData}
-      width={screenWidth - 16}
+      width={screenWidth - 20}
       height={220}
       yAxisLabel=""
       yAxisSuffix=""
@@ -81,7 +84,6 @@ const SccreenTime = ({ screenTimeData }) => {
           return "0s"; // Fallback for invalid values
         },
       }}
-
       verticalLabelRotation={0}
       style={{
         marginVertical: 8,
@@ -100,7 +102,7 @@ const SccreenTime = ({ screenTimeData }) => {
 const Home = ({ navigation, route }) => {
   const { username, userId } = route.params;
   const [bio, setBio] = useState("");
-  const [isFocused, setIsFocused] = useState(false);
+  const [focusedButton, setFocusedButton] = useState(null);
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
   const [imageData, setImageData] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
@@ -108,7 +110,7 @@ const Home = ({ navigation, route }) => {
   const [alertMessage, setAlertMessage] = useState("");
   const [confirmButtonColor, setConfirmButtonColor] = useState("#DD6B55");
   const [overlayColor, setOverlayColor] = useState("rgba(0, 0, 0, 0.7)");
-
+  const [isFocused, setIsFocused] = useState(false);
 
   console.log("UserId in Home:", userId);
   const showMotivationalAlert = (mood) => {
@@ -120,7 +122,8 @@ const Home = ({ navigation, route }) => {
     switch (mood) {
       case "Calm":
         title = "Stay Calm";
-        message = "Keep the calmness within you. It brings peace and clarity!😄";
+        message =
+          "Keep the calmness within you. It brings peace and clarity!😄";
         buttonColor = "blue";
         bgColor = "rgba(0, 0, 255, 0.7)"; // Blue with opacity
 
@@ -156,26 +159,19 @@ const Home = ({ navigation, route }) => {
     setConfirmButtonColor(buttonColor);
     setOverlayColor(bgColor);
     setShowAlert(true);
-
- 
   };
 
   const closeAlert = () => {
     // Stop the animation and hide the emojis
     setShowAlert(false);
-    
   };
 
   useEffect(() => {
-    fetchUserProfile()
+    fetchUserProfile();
   }, []);
-  
 
   const fetchUserProfile = async () => {
-    // const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
-    //   params: { username },
-    // });
-    // const userId = responses.data.userId;
+  
     try {
       const response = await axios.get(`http://10.0.0.21:3001/user/${userId}`);
       setBio(response.data.bio);
@@ -183,7 +179,6 @@ const Home = ({ navigation, route }) => {
     } catch (error) {
       console.error("Error fetching user profile:", error);
     }
-
   };
 
   const checkPhysicalAttributes = () => {
@@ -333,13 +328,16 @@ const Home = ({ navigation, route }) => {
     navigation.navigate("MyProfile", { username, bio, imageData, userId });
   };
 
-  const ToHome = () => {
+  const ToHome = (button) => {
+    setFocusedButton(button);
     navigation.navigate("Home", { username, bio, imageData, userId });
   };
-  const ToCommunity = () => {
+  const ToCommunity = (button) => {
+    setFocusedButton(button);
     navigation.navigate("Community", { username, bio, imageData, userId });
   };
-  const ToPsychologicalSection = () => {
+  const ToPsychologicalSection = (button) => {
+    setFocusedButton(button);
     navigation.navigate("PsychologicalSection", {
       username,
       bio,
@@ -348,11 +346,13 @@ const Home = ({ navigation, route }) => {
     });
   };
 
-  const ToPhysicalSection = () => {
+  const ToPhysicalSection = (button) => {
+    setFocusedButton(button);
     checkPhysicalAttributes();
   };
 
-  const ToSettings = () => {
+  const ToSettings = (button) => {
+    setFocusedButton(button);
     navigation.navigate("Settings", { username, bio, imageData, userId });
   };
 
@@ -390,24 +390,25 @@ const Home = ({ navigation, route }) => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <Pressable onPress={toNotifications}>
             <Image style={styles.notiImage} source={Noti} />
-            {unreadCount >0 &&
-            <Text
-              style={{
-                color: "white",
-                backgroundColor: "#032b79",
-                width: 24,
-                padding: 6,
-                height: 24,
-                top: 55,
-                left: 350,
-                borderRadius: 100,
-                fontSize: 8,
-                textAlign:"center",
-                position:"absolute"
-              }}
-            >
-              {unreadCount}
-            </Text>}
+            {unreadCount > 0 && (
+              <Text
+                style={{
+                  color: "white",
+                  backgroundColor: "#032b79",
+                  width: 24,
+                  padding: 6,
+                  height: 24,
+                  top: 55,
+                  left: 350,
+                  borderRadius: 100,
+                  fontSize: 8,
+                  textAlign: "center",
+                  position: "absolute",
+                }}
+              >
+                {unreadCount}
+              </Text>
+            )}
           </Pressable>
 
           <Pressable onPress={toPosts}>
@@ -432,13 +433,13 @@ const Home = ({ navigation, route }) => {
                 }}
               /> */}
               {imageData ? (
-            <Image
-              style={styles.imagee}
-              source={{ uri: `data:image/jpeg;base64,${imageData} ` }}
-            />
-          ) : (
-            <Text>no imageeeeeeeeeee</Text>
-          )}
+                <Image
+                  style={styles.imagee}
+                  source={{ uri: `data:image/jpeg;base64,${imageData} ` }}
+                />
+              ) : (
+                <Text>no imageeeeeeeeeee</Text>
+              )}
             </TouchableOpacity>
 
             <Text
@@ -515,11 +516,22 @@ const Home = ({ navigation, route }) => {
                   confirmText="OKay"
                   confirmButtonColor={confirmButtonColor}
                   onConfirmPressed={closeAlert}
-                  overlayStyle={{ backgroundColor: overlayColor, opacity:0.5}} // Custom overlay color
+                  overlayStyle={{ backgroundColor: overlayColor, opacity: 0.5 }} // Custom overlay color
                 />
               </View>
             )}
             <SccreenTime screenTimeData={screenTimeData} />
+            <Text
+              style={{
+                marginBottom: 20,
+                marginTop: 20,
+                fontSize: 30,
+                fontWeight: "bold",
+                color: "#032B79",
+              }}
+            >
+              Our Sections
+            </Text>
 
             <TouchableOpacity onPress={GoToGoalSection}>
               <View style={styles.section}>
@@ -568,37 +580,100 @@ const Home = ({ navigation, route }) => {
           {
             flexDirection: "row",
             height: 70,
-            padding: 10,
-            left: 0,
-            paddingTop: -10,
+            padding: 7,
+            top: -5,
+            justifyContent: "space-around",
           },
           { backgroundColor: isDarkMode ? "black" : "#fff" },
         ]}
       >
-        <TouchableOpacity onPress={ToHome}>
-          <Image source={HomeIcon} style={{ margin: 10 }} />
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={ToCommunity}>
+        <TouchableOpacity onPress={() => ToHome("home")}>
           <Image
-            source={CommunityLight}
-            style={{ margin: 10, width: 50, height: 50 }}
+            source={focusedButton === "home" ? HomeDark : HomeDark}
+            style={{ margin: 10, width: 50, height: 50, top: -5 }}
           />
+          <Text
+            style={{
+              fontSize: 8,
+              position: "absolute",
+              top: 52,
+              left: 25,
+              color: "#032B79",
+            }}
+          >
+            Home
+          </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={ToPsychologicalSection}>
+        <TouchableOpacity onPress={() => ToCommunity("community")}>
           <Image
-            source={Psycho}
-            style={{ margin: 10, width: 50, height: 50 }}
+            source={
+              focusedButton === "community" ? CommunityLight : CommunityLight
+            }
+            style={{ margin: 10, width: 50, height: 50, top: -5 }}
           />
+          <Text
+            style={{
+              fontSize: 8,
+              position: "absolute",
+              top: 52,
+              left: 15,
+              color: "#032B79",
+            }}
+          >
+            Community
+          </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={ToPhysicalSection}>
-          <Image source={Physical} style={{ margin: 10 }} />
+        <TouchableOpacity onPress={() => ToPsychologicalSection("psychoSection")}>
+          <Image
+            source={focusedButton === "psychoSection" ?Psycho:Psycho}
+            style={{ margin: 10, width: 45, height: 45, top: -5 }}
+          />
+          <Text
+            style={{
+              fontSize: 8,
+              position: "absolute",
+              top: 52,
+              left: 15,
+              color: "#032B79",
+            }}
+          >
+            PsychoSection
+          </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={ToSettings}>
-          <Image source={SettingsIcon} style={{ margin: 10 }} />
+        <TouchableOpacity onPress={() => ToPhysicalSection("physicalSection")}>
+          <Image
+            source={focusedButton === "physicalSection" ?Physical:Physical}
+            style={{ margin: 10, width: 40, height: 40, top: -5 }}
+          />
+          <Text
+            style={{
+              fontSize: 8,
+              position: "absolute",
+              top: 52,
+              left: 15,
+              color: "#032B79",
+            }}
+          >
+            Physical
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => ToSettings("settings")}>
+          <Image source={focusedButton === "settings" ?SettingsIcon:SettingsIcon} style={{ margin: 10, top: -5 }} />
+          <Text
+            style={{
+              fontSize: 8,
+              position: "absolute",
+              top: 52,
+              left: 20,
+              color: "#032B79",
+            }}
+          >
+            Settings
+          </Text>
         </TouchableOpacity>
       </View>
     </>
@@ -653,7 +728,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     color: "#6D6D6D",
     marginTop: -50,
-    marginLeft: 20,
+    marginLeft: 25,
     position: "absolute",
   },
   moodContainer: {
@@ -927,9 +1002,9 @@ const styles = StyleSheet.create({
     height: 60,
     top: 150,
     left: 20,
-    borderColor:"#032B79",
-    borderWidth:2,
-    borderRadius:120,
-    marginBottom:150
+    borderColor: "#032B79",
+    borderWidth: 2,
+    borderRadius: 120,
+    marginBottom: 130,
   },
 });

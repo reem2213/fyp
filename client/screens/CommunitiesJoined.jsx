@@ -84,10 +84,11 @@ export default function CommunitiesJoinedScreen({ navigation, route }) {
         </View>
       </ScrollView>
       <TouchableOpacity onPress={navigateToCreateGroup} style={styles.floatingButton}>
-        <Image
+        {/* <Image
           source={PlusIcon}  // Use your plus icon image here
           style={{ width: 50, height: 50 }}
-        />
+        /> */}
+        <Text style={{color:"white"}}>+</Text>
       </TouchableOpacity>
       {isDarkMode ? (
         <Image

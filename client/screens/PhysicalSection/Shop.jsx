@@ -11,7 +11,7 @@ import {
   Alert,
 } from "react-native";
 import axios from "axios";
-// import StarRating from "react-native-star-rating";
+import StarRating from "react-native-star-rating";
 import { DarkModeContext } from "../../components/DarkModeContext"; // Import the context
 
 const SupplementSuggestion = ({route}) => {
@@ -20,12 +20,13 @@ const SupplementSuggestion = ({route}) => {
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
 
   useEffect(() => {
-    axios
-      .get("http://10.0.0.21:3001/products")
+    axios.get("http://10.0.0.21:3001/products")
       .then((response) => {
         setProducts(response.data);
         
+
       })
+
       .catch((error) => {
         console.error(error);
       });
@@ -34,6 +35,7 @@ const SupplementSuggestion = ({route}) => {
 
   const handleBuyClick = (url) => {
     if (url) {
+
       Linking.openURL(url).catch((err) =>
         console.error("Failed to open URL:", err)
       );
@@ -52,9 +54,9 @@ const SupplementSuggestion = ({route}) => {
       <Text style={[styles.title, { color: isDarkMode ? "white" : "black" }]}>
         Supplement suggestion
       </Text>
-      <Text style={[styles.title, { color: isDarkMode ? "white" : "black" }]}>
+      {/* <Text style={[styles.title, { color: isDarkMode ? "white" : "black" }]}>
         {userId}
-      </Text>
+      </Text> */}
       <Text
         style={[styles.subtitle, { color: isDarkMode ? "white" : "black" }]}
       >
@@ -75,13 +77,13 @@ const SupplementSuggestion = ({route}) => {
               style={styles.productImage}
             />
             <Text style={styles.productName}>{product.name}</Text>
-            {/* <StarRating
+            <StarRating
               disabled={true}
               maxStars={5}
               rating={product.rating}
               fullStarColor={"gold"}
               starSize={20}
-            /> */}
+            />
             <Text style={styles.productPrice}>${product.price}</Text>
             <TouchableOpacity
               style={styles.buyButton}
@@ -130,10 +132,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   productImage: {
-    width: 100,
-    height: 100,
+    width: 150,
+    height: 180,
     marginBottom: 8,
-    backgroundColor: "gray",
+    // backgroundColor: "gray",
   },
   productName: {
     fontSize: 14,
