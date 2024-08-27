@@ -17,7 +17,9 @@ import { WebView } from "react-native-webview";
 import GoalSection from "../../assets/Plan.png";
 import MusicSection from "../../assets/mentorsSection.png";
 import FeedbackSection from "../../assets/communitySection.png";
+import BodyFit from '../../assets/bodyFit.png';
 import GameSection from "../../assets/Plan.png";
+import Suplement from '../../assets/suplements.png';
 import axios from "axios";
 const Home = ({ navigation, route }) => {
   const { username,userId } = route.params;
@@ -32,7 +34,7 @@ const Home = ({ navigation, route }) => {
   const [weight, setWeight] = useState();
   const [height, setHeight] = useState();
   const [prediction, setPrediction] = useState(null); // New state for prediction
-
+console.log(userId)
   useEffect(() => {
     fetch(`http://10.0.0.21:3001/userr/${username}`)
       .then((response) => response.json())
@@ -94,7 +96,7 @@ const Home = ({ navigation, route }) => {
     navigation.navigate("PhysicalCommunity", { username ,userId});
   };
   const GoToGamificationSection = () => {
-    navigation.navigate("Shop",{userId});
+    navigation.navigate("Shop",{userId,username});
   };
 
   const goToProfile = () => {
@@ -170,7 +172,7 @@ const Home = ({ navigation, route }) => {
             >
               Hello {username}
             </Text>
-            <Text>{userId}</Text>
+            {/* <Text>{userId}</Text> */}
           </View>
 
           <View style={styles.content}>
@@ -293,18 +295,18 @@ const Home = ({ navigation, route }) => {
                 <Text style={styles.sectionSubtitle}>
                   Complete tasks, earn badges, level up!
                 </Text>
-                <Image source={GameSection} style={styles.sectionImage} />
+                <Image source={Suplement} style={styles.sectionImage} />
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={GoToBodyPlanAssistant}>
               <View style={styles.section5}>
                 <Text style={styles.sectionTitle5}>
-                  Body Program Assistant{" "}
+                  Body Program Assistant
                 </Text>
                 <Text style={styles.sectionSubtitle}>
                   focus on personalized plans based on the user's body metrics
                 </Text>
-                <Image source={GameSection} style={styles.sectionImage} />
+                <Image source={BodyFit} style={styles.sectionImage} />
               </View>
             </TouchableOpacity>
           </View>
@@ -340,12 +342,12 @@ const styles = StyleSheet.create({
   },
 
   howAreYou: {
-    marginBottom: 20,
+    marginBottom: 0,
     fontSize: 15,
     fontWeight: "500",
     color: "#6D6D6D",
-    marginTop: -50,
-    marginLeft: 20,
+    marginTop: -60,
+    marginLeft: 22,
     position: "absolute",
   },
 
@@ -445,8 +447,8 @@ const styles = StyleSheet.create({
   sectionTitle5: {
     color: "white",
     fontWeight: "bold",
-    fontSize: 25,
-    marginBottom: 5,
+    fontSize: 22,
+    marginBottom: 15,
     marginLeft: -40,
     top: 15,
     width: "80%",
@@ -460,10 +462,10 @@ const styles = StyleSheet.create({
     width: "60%",
   },
   sectionImage: {
-    width: "40%",
-    height: 100,
-    marginTop: -20,
-    marginLeft: 170,
+    width: "30%",
+    height: 90,
+    marginTop: -30,
+    marginLeft: 190,
   },
 
   imagee: {

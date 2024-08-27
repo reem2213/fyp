@@ -4,7 +4,7 @@ import {
   View,
   Text,
   Image,
-
+  Pressable,
   ScrollView,
   TouchableOpacity,
   Linking,
@@ -13,10 +13,11 @@ import {
 import axios from "axios";
 import StarRating from "react-native-star-rating";
 import { DarkModeContext } from "../../components/DarkModeContext"; // Import the context
-
-const SupplementSuggestion = ({route}) => {
+import BlueEllipse from '../../assets/blueEllipse.png';
+import ArrowBack from '../../assets/arrowBack.png';
+const SupplementSuggestion = ({route,navigation}) => {
   const [products, setProducts] = useState([]);
-  const {userId}=route.params;
+  const {userId,username}=route.params;
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
 
   useEffect(() => {
@@ -43,22 +44,30 @@ const SupplementSuggestion = ({route}) => {
       Alert.alert("Invalid URL", "The product does not have a valid URL.");
     }
   };
+  const BackToHome = () => {
+    navigation.navigate("PhysicalHome",{username,userId});
+  };
 
   return (
+    <>
     <ScrollView
       contentContainerStyle={[
         styles.container,
-        { backgroundColor: isDarkMode ? "black" : "#fff" },
+        { backgroundColor: isDarkMode ? "black" : "#FAFAFA" },
       ]}
-    >
-      <Text style={[styles.title, { color: isDarkMode ? "white" : "black" }]}>
+    ><Pressable onPress={BackToHome}>
+        <Image source={ArrowBack} style={styles.arrow} />
+      </Pressable>
+          <Image style={styles.blueEllispe} source={BlueEllipse} />
+          
+
+
+
+      <Text style={[styles.title, { color: isDarkMode ? "white" : "#032B79" }]}>
         Supplement suggestion
       </Text>
-      {/* <Text style={[styles.title, { color: isDarkMode ? "white" : "black" }]}>
-        {userId}
-      </Text> */}
       <Text
-        style={[styles.subtitle, { color: isDarkMode ? "white" : "black" }]}
+        style={[styles.subtitle, { color: isDarkMode ? "white" : "#032B79" }]}
       >
         "To accelerate your journey to achieving your fitness goals, consider
         integrating these supplements into your regimen for enhanced results."
@@ -89,12 +98,16 @@ const SupplementSuggestion = ({route}) => {
               style={styles.buyButton}
               onPress={() => handleBuyClick(product.url)}
             >
-              <Text style={styles.buyButtonText}>BUY</Text>
+              <Text style={styles.buyButtonText}>Buy</Text>
             </TouchableOpacity>
           </View>
         ))}
       </View>
+
     </ScrollView>
+    <Image style={styles.blueEllispe2} source={BlueEllipse} />
+    </>
+
   );
 };
 
@@ -103,18 +116,39 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: 16,
   },
-
+  arrow: {
+    marginTop: 70,
+    marginLeft: 20,
+    width: 30,
+    height: 30,
+  },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 8,
+    color:"#032B79",
     top: 20,
+  },
+  blueEllispe: {
+    width: 150,
+    height: 150,
+    marginLeft: 300,
+    marginTop: -150,
+
+  },
+  blueEllispe2: {
+    width: 150,
+    height: 150,
+    marginLeft: -50,
+    marginTop: 770,
+    position:"absolute"
   },
   subtitle: {
     fontSize: 12,
     textAlign: "center",
     marginBottom: 16,
+    color:"#032B79",
     top: 20,
   },
   productsContainer: {
@@ -125,34 +159,33 @@ const styles = StyleSheet.create({
   },
   productCard: {
     width: "45%",
-    backgroundColor: "#fff",
+    backgroundColor: "red",
     borderRadius: 10,
     padding: 16,
     marginBottom: 16,
     alignItems: "center",
   },
   productImage: {
-    width: 150,
-    height: 180,
+    width: 90,
+    height: 120,
     marginBottom: 8,
-    // backgroundColor: "gray",
   },
   productName: {
     fontSize: 14,
-    fontWeight: "bold",
+    // fontWeight: "bold",
     textAlign: "center",
     marginBottom: 8,
   },
   productPrice: {
     fontSize: 16,
-    color: "#333",
+    color: "gray",
     marginBottom: 8,
   },
   buyButton: {
-    backgroundColor: "#007bff",
+    backgroundColor: "#719AEA",
     paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 5,
+    paddingHorizontal: 25,
+    borderRadius: 20,
   },
   buyButtonText: {
     color: "#fff",

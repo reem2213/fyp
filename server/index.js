@@ -778,7 +778,7 @@ app.post('/groups/:id/join', async (req, res) => {
     const systemUserId = new mongoose.Types.ObjectId("64a9f8a7f6c7d9bcbdd741e3"); // Example system user ID
 
     const welcomeMessage = {
-      sender: systemUserId,  // Use the system user ID
+      sender: "system",  // Use the system user ID
       text: `Heyy, welcome to our community!`,
       timestamp: new Date(),
     };
