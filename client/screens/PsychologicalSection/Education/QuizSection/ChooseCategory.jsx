@@ -117,7 +117,7 @@ import { DarkModeContext } from "../../../../components/DarkModeContext"; // Imp
 const CategoryScreen = ({ navigation,route }) => {
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
   const [categories, setCategories] = useState([]);
-  const {username}=route.params
+  const {username,userId}=route.params
 
   useEffect(() => {
     axios
@@ -132,11 +132,15 @@ const CategoryScreen = ({ navigation,route }) => {
   }, []);
 
   return (
-    <View style={[styles.container, { backgroundColor: isDarkMode ? "black" : "#FFD3B3" }]}>
+    <View style={[styles.container, { backgroundColor: isDarkMode ? "black" : "white" }]}>
       <View style={[styles.ellipse, { backgroundColor: isDarkMode ? "#ff8c00" : "#FF6B00" }]}></View>
       <View style={[styles.ellipse2, { backgroundColor: isDarkMode ? "#ff8c00" : "#FF6B00" }]}></View>
+      <View style={[styles.ellipse3, { backgroundColor: isDarkMode ? "#ff8c00" : "#FF6B00" }]}></View>
+      <View style={[styles.ellipse4, { backgroundColor: isDarkMode ? "#ff8c00" : "#FF6B00" }]}></View>
 
-      <Text style={[styles.title, { color: isDarkMode ? "white" : "white" }]}>
+
+
+      <Text style={[styles.title, { color: isDarkMode ? "white" : "#FF6B00" }]}>
         Choose a Category
       </Text>
       <View style={styles.box}>
@@ -145,7 +149,7 @@ const CategoryScreen = ({ navigation,route }) => {
             <TouchableOpacity
               style={[styles.boxes, { backgroundColor: isDarkMode ? "#ff8c00" : "#FF6B00" }]}
               key={index}
-              onPress={() => navigation.navigate("StartQuiz", { category,username })}
+              onPress={() => navigation.navigate("StartQuiz", { category,username,userId })}
             >
               <Text style={{ color: "white", fontWeight: "bold" }}>{category}</Text>
             </TouchableOpacity>
@@ -164,6 +168,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
+
   },
   title: {
     fontSize: 24,
@@ -187,6 +192,22 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 180,
     left: -90,
+    borderRadius: 100,
+  },
+  ellipse3: {
+    width: 150,
+    height: 150,
+    position: "absolute",
+    top: 750,
+    left: -70,
+    borderRadius: 100,
+  },
+  ellipse4: {
+    width: 150,
+    height: 150,
+    position: "absolute",
+    top: 670,
+    left: 350,
     borderRadius: 100,
   },
   boxes: {

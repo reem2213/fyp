@@ -741,7 +741,7 @@ import Settings from "../assets/settings.png";
 import Coin from "../assets/coin.png";
 import Back from "../assets/arrowBack.png";
 import { DarkModeContext } from "../components/DarkModeContext"; // Import the context
-
+import GoalIcon from '../assets/goalIcon.png';
 const App = ({ route }) => {
   const { navigate } = useNavigation();
   const { username,userId } = route.params;
@@ -936,6 +936,8 @@ const App = ({ route }) => {
       return (
         <View style={styles.itemContainer}>
           <Text style={styles.itemTitle}>{item.goal}</Text>
+          <Image source={GoalIcon} style={{width:50,height:50, position:"absolute", top:12,left:12}}/>
+
           <View style={styles.statusContainer}>
             {(item.status === "upcoming" || item.status === "in progress") && (
               <View style={styles.actionButtons}>
@@ -945,7 +947,7 @@ const App = ({ route }) => {
                     handleStatusChange(item._id, "Completed", item.status)
                   }
                 >
-                  <Text style={styles.actionButtonText2}>Done</Text>
+                  <Text style={styles.actionButtonText2}>Mark as completed</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[styles.actionButton, styles.cancelButton]}
@@ -953,7 +955,7 @@ const App = ({ route }) => {
                     handleStatusChange(item._id, "Cancelled", item.status)
                   }
                 >
-                  <Text style={styles.actionButtonText}>Cancel</Text>
+                  <Text style={styles.actionButtonText}>Mark as failed</Text>
                 </TouchableOpacity>
               </View>
             )}
@@ -1051,20 +1053,20 @@ const App = ({ route }) => {
           </TouchableOpacity>
           <Image
             source={Coin}
-            style={{ position: "absolute", top: 135, left: 10 }}
+            style={{ position: "absolute", top: 130, left: 30 }}
           />
           <Text
             style={[
               {
                 fontSize: 20,
                 fontWeight: "600",
-                left: 60,
-                top: 10,
+                left: 80,
+                top: 3,
               },
               { color: isDarkMode ? "white" : "gray" },
             ]}
           >
-            {points} Points
+            {points}
           </Text>
 
           {imageData ? (
@@ -1231,7 +1233,7 @@ const App = ({ route }) => {
             </View>
           )}
 
-          <View style={styles.statusContainer}>
+          <View style={styles.statusContainer2}>
             <TouchableOpacity
               style={[
                 styles.statusButton,
@@ -1330,16 +1332,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#032B79",
   },
   actionButtonText: {
-    fontSize: 15,
-    fontWeight: "bold",
+    fontSize: 10,
     color: "red",
-    top: 0,
+    top: 20,
+    left:-50
   },
   actionButtonText2: {
-    fontSize: 15,
-    fontWeight: "bold",
+    fontSize: 10,
     color: "white",
-    top: 0,
+    top: 20,
+    left:-50
   },
 
   header: {
@@ -1386,7 +1388,13 @@ const styles = StyleSheet.create({
   statusContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 15,
+    marginBottom: 40,
+    top: 0,
+  },
+  statusContainer2: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 20,
     top: 0,
   },
   listContainer: {
@@ -1416,9 +1424,9 @@ const styles = StyleSheet.create({
 
   itemContainer: {
     backgroundColor: "#032B79",
-    borderRadius: 20,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
+    borderRadius: 15,
+    paddingVertical: 15,
+    paddingHorizontal: 100,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -1426,9 +1434,12 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
 
-    fontSize: 16,
-    fontWeight: "bold",
+    position:"absolute",
+    fontSize: 18,
+    // fontWeight: "bold",
     color: "white",
+    top:10,
+    left:72
   },
   itemStatus: {
     fontSize: 14,
@@ -1494,7 +1505,7 @@ const styles = StyleSheet.create({
     color: "#032B79",
   },
   percentageLabel: {
-    marginLeft: 10,
+    marginLeft: 5,
     fontSize: 14,
     fontWeight: "bold",
     color: "#032B79",

@@ -390,6 +390,9 @@ const Goal = ({ navigation ,route}) => {
 
       <Image style={styles.blueEllispe} source={BlueEllipse} />
       <Image style={styles.blueEllispe2} source={BlueEllipse} />
+      <Image style={styles.blueEllispe3} source={BlueEllipse} />
+
+
 
       <Text style={[styles.AchieveYourDream, isDarkMode && styles.darkText]}>Achieve Your Dreams</Text>
       <Image source={GoalScreen} style={styles.goalImage} />
@@ -491,6 +494,15 @@ const styles = StyleSheet.create({
     marginTop: -70,
     opacity: 0.5,
   },
+  blueEllispe3: {
+    width: 150,
+    height: 150,
+    marginLeft: -80,
+    marginTop:780,
+    position:"absolute"
+    
+  },
+
   AchieveYourDream: {
     marginLeft: 55,
     marginTop: 10,
@@ -514,8 +526,8 @@ const styles = StyleSheet.create({
   add: {
     width: 250,
     height: 50,
-    marginTop: 670,
-    marginLeft: 70,
+    marginTop: 750,
+    marginLeft: 80,
     backgroundColor: "#1B436F",
     borderRadius: 20,
     alignItems: "center",

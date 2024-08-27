@@ -50,13 +50,13 @@ import { DarkModeContext } from "../../../../components/DarkModeContext"; // Imp
 
 const Quiz = ({ navigation,route }) => {
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
-  const {username}=route.params
+  const {username,userId}=route.params
 
   const backToHome = () => {
-    navigation.navigate("EduSection",{username});
+    navigation.navigate("EduSection",{username,userId});
   };
   const Start = () => {
-    navigation.navigate("QuizCategory",{username});
+    navigation.navigate("QuizCategory",{username,userId});
   };
 
   return (

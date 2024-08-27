@@ -17,7 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const MentorsAvailability = ({ route, navigation }) => {
   const { name, image, rating, type } = route.params;
-  const {username}=route.params;
+  const {username,userId}=route.params;
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedDuration, setSelectedDuration] = useState(null);
   const [meetingType, setMeetingType] = useState("Personal");
@@ -110,7 +110,7 @@ const MentorsAvailability = ({ route, navigation }) => {
           JSON.stringify(storedNotifications)
         );
   
-        navigation.navigate("Mentors",{username});
+        navigation.navigate("Mentors",{username,userId});
       } else {
         alert("Failed to book. Please try again.");
       }

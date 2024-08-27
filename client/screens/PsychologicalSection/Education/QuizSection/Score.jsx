@@ -128,7 +128,7 @@ import { DarkModeContext } from "../../../../components/DarkModeContext"; // Imp
 
 const ScoreScreen = ({ route, navigation }) => {
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
-  const { score, totalQuestions, questions,username } = route.params;
+  const { score, totalQuestions, questions,username ,userId} = route.params;
 
 
   // Calculate points based on the score
@@ -203,7 +203,7 @@ const ScoreScreen = ({ route, navigation }) => {
         </>
       )}
       <TouchableOpacity
-        onPress={() => navigation.navigate("Gamification", { points,username })}
+        onPress={() => navigation.navigate("Gamification", { points,username,userId })}
         style={[styles.bttn, { backgroundColor: isDarkMode ? "gray" : "white" }]}
       >
         <Text style={{ color: "#FF6B00", fontSize: 15, fontWeight: "bold" }}>Go to Home</Text>

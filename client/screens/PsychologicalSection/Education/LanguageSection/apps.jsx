@@ -222,7 +222,7 @@ import Fluentu from "../../../../assets/fluentu-logo.png";
 import Back from "../../../../assets/back.png";
 
 const Apps = ({ navigation,route }) => {
-  const{username}=route.params // Get the dark mode state
+  const{username,userId}=route.params // Get the dark mode state
 
   const handlePress = () => {
     Linking.openURL('https://www.fluentu.com/'); 
@@ -249,7 +249,7 @@ const Apps = ({ navigation,route }) => {
   };
 
   const backToHome = () => {
-    navigation.navigate("EduSection",{username});
+    navigation.navigate("EduSection",{username,userId});
   };
 
   return (

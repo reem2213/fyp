@@ -61,14 +61,14 @@ import LangBg from "../../../../assets/langBg.png";
 
 const Language = ({ navigation,route }) => {
   const { isDarkMode } = useContext(DarkModeContext);
-  const{username}=route.params // Get the dark mode state
+  const{username,userId}=route.params // Get the dark mode state
 
   const backToHome = () => {
-    navigation.navigate("EduSection",{username});
+    navigation.navigate("EduSection",{username,userId});
   };
 
   const toApps = () => {
-    navigation.navigate("apps",{username});
+    navigation.navigate("apps",{username,userId});
     console.log("entered");
   };
 

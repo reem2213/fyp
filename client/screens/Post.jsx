@@ -871,6 +871,9 @@ const App = ({ navigation, route }) => {
               { backgroundColor: isDarkMode ? "#333" : "#F4F7FC" },
             ]}
           >
+           {item.image && (
+              <Image source={{ uri: item.image }} style={styles.postImage} />
+            )}
             <Text
               style={[styles.postText, { color: isDarkMode ? "#fff" : "#333" }]}
             >
@@ -922,9 +925,7 @@ const App = ({ navigation, route }) => {
                 </Text>
               </View>
             </View>
-            {item.image && (
-              <Image source={{ uri: item.image }} style={styles.postImage} />
-            )}
+           
           </View>
         )}
       />
@@ -1049,7 +1050,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#1B436F",
     left: 20,
-    marginTop: 20,
+    marginTop: 0,
   },
 
   post: {
@@ -1064,6 +1065,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#333",
     marginBottom: 10,
+    left:5,
+    top:7
   },
   postFooter: {
     flexDirection: "row",
@@ -1073,20 +1076,33 @@ const styles = StyleSheet.create({
   postDate: {
     fontSize: 12,
     color: "#888",
+    left:280,
+    top:5
   },
   postIcons: {
-    flexDirection: "col",
+    flexDirection: "row",
+    right:240,
+    top:5
   },
   icon: {
     width: 24,
     height: 24,
-    marginLeft: 10,
+    marginLeft: 20,
+   
   },
   postImage: {
     width: "100%",
     height: 200,
     marginTop: 10,
     borderRadius: 10,
+  },
+  postLikes:{
+    left:5,
+    top:2
+  },
+  postReposts:{
+    left:5,
+    top:2
   },
   addButton: {
     backgroundColor: "#719AEA",

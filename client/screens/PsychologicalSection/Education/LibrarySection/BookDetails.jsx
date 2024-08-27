@@ -210,12 +210,12 @@ import Nov9 from '../../../../assets/nov9.jpg';
 
 function BookDetails({ route, navigation }) {
   const { title, image, author, description, rating, pdfUri } = route.params;
-  const {username}=route.params
+  const {username,userId}=route.params
 
   const { isDarkMode } = useContext(DarkModeContext); // Get the dark mode state
 
   const backToHome = () => {
-    navigation.navigate("books",{username});
+    navigation.navigate("books",{username,userId});
   };
 
   const goToPdf = () => {

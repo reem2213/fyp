@@ -341,7 +341,8 @@ const Mentors = ({ navigation,route }) => {
                     rating: b.rating,
                     type: b.type,
                     availableTimes: b.availableTimes,
-                    username
+                    username,
+                    userId
                   })
                 }
               >

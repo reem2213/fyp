@@ -301,7 +301,7 @@ const SccreenTime = ({ screenTimeData }) => {
 };
 
 const Home = ({ navigation,route }) => {
-  const {username}=route.params
+  const {username,userId}=route.params
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
   const [screenTimeData, setScreenTimeData] = useState({
     quiz: 0,
@@ -380,20 +380,20 @@ const Home = ({ navigation,route }) => {
     };
   }, [navigation]);
   const toNotifications = () => {
-    navigation.navigate("PsychologicalSection",{username});
+    navigation.navigate("PsychologicalSection",{username,userId});
   };
   const GoToQuizSection = () => {
-    navigation.navigate("Quiz",{username});
+    navigation.navigate("Quiz",{username,userId});
     startTracking("quiz");
 
   };
   const GoToLibrarySection = () => {
-    navigation.navigate("Library",{username});
+    navigation.navigate("Library",{username,userId});
     startTracking("library");
 
   };
   const GoToLanguagesSection = () => {
-    navigation.navigate("Languages",{username});
+    navigation.navigate("Languages",{username,userId});
     startTracking("language");
 
   };

@@ -89,16 +89,16 @@ import LangBg from "../../../../assets/LibBg.png";
 import Next from "../../../../assets/arrowRight.png";
 
 const Library = ({ navigation,route }) => {
-  const {username}=route.params
+  const {username,userId}=route.params
 
   const { isDarkMode } = useContext(DarkModeContext); // Get the dark mode state
 
   const backToHome = () => {
-    navigation.navigate("EduSection",{username});
+    navigation.navigate("EduSection",{username,userId});
   };
 
   const toApps = () => {
-    navigation.navigate("books",{username});
+    navigation.navigate("books",{username,userId});
     console.log("enterreeeddd");
   };
 

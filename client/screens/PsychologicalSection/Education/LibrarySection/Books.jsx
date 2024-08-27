@@ -247,7 +247,7 @@ import Back from "../../../../assets/back.png";
 
 const Books = ({ navigation,route }) => {
   const { isDarkMode } = useContext(DarkModeContext); // Get the dark mode state
-  const {username}=route.params
+  const {username,userId}=route.params
 
   const imageMap = {
     "November 9": Nov9,
@@ -310,7 +310,7 @@ const Books = ({ navigation,route }) => {
     fetchBooks();
   }, []);
   const backToHome = () => {
-    navigation.navigate("EduSection",{username});
+    navigation.navigate("EduSection",{username,userId});
   };
 
   return (
@@ -337,7 +337,7 @@ const Books = ({ navigation,route }) => {
                 rating: b.rating,
                 author: b.author,
                 pdfUri: pdfMap[b.title],
-                username // Pass the PDF file path
+                username ,userId// Pass the PDF file path
               })
             }
           >
