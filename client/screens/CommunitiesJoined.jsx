@@ -84,7 +84,7 @@ export default function CommunitiesJoinedScreen({ navigation, route }) {
               key={item._id}
               style={[
                 styles.groupItem,
-                { backgroundColor: isDarkMode ? "gray" : "#fff" },
+                { backgroundColor: isDarkMode ? "#3E3E3E" : "#fff" },
               ]}
               onPress={() =>
                 navigation.navigate("Chat", {
@@ -99,7 +99,7 @@ export default function CommunitiesJoinedScreen({ navigation, route }) {
                 key={item._id}
                 style={[
                   styles.groupItem,
-                  { backgroundColor: isDarkMode ? "gray" : "#fff" },
+                  { backgroundColor: isDarkMode ? "#3E3E3E" : "#fff" },
                 ]}
               >
                 <Text
@@ -166,8 +166,8 @@ const styles = StyleSheet.create({
   },
   groupItem: {
     width:170,
-    height:170,
-    marginBottom: 20,
+    height:150,
+    marginBottom: 50,
     padding: 20,
     backgroundColor: "#fff",
     borderRadius: 15,

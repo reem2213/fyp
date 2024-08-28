@@ -648,38 +648,60 @@ app.get('/user-points/:userId', async (req, res) => {
 const MemberSchema = new mongoose.Schema({
   username: String,
 });
-
 const GroupSchema = new mongoose.Schema({
   name: String,
   description: String,
   members: [
     {
       userId: mongoose.Schema.Types.ObjectId,
-      joined: { type: Boolean,default:true },
+      username: String,  // Add the username here
+      joined: { type: Boolean, default: true },
     }
   ],
-
   messages: [
     {
-        sender: {
-            type: mongoose.Schema.Types.Mixed,  // Allows ObjectId or String
-            required: true,
-            validate: {
-                validator: function(value) {
-                    // Allow either an ObjectId or the string "system"
-                    return mongoose.Types.ObjectId.isValid(value) || typeof value === 'string';
-                },
-                message: props => `${props.value} is not a valid sender!`
-            }
-        },
-        text: String,
-        timestamp: { type: Date, default: Date.now },
+      sender: {
+        userId: mongoose.Schema.Types.ObjectId,
+        username: String,  // Store username with each message
+      },
+      text: String,
+      timestamp: { type: Date, default: Date.now },
     },
-],
-  section: String
-
-
+  ],
+  section: String,
 });
+
+// const GroupSchema = new mongoose.Schema({
+//   name: String,
+//   description: String,
+//   members: [
+//     {
+//       userId: mongoose.Schema.Types.ObjectId,
+//       joined: { type: Boolean,default:true },
+//     }
+//   ],
+
+//   messages: [
+//     {
+//         sender: {
+//             type: mongoose.Schema.Types.Mixed,  // Allows ObjectId or String
+//             required: true,
+//             validate: {
+//                 validator: function(value) {
+//                     // Allow either an ObjectId or the string "system"
+//                     return mongoose.Types.ObjectId.isValid(value) || typeof value === 'string';
+//                 },
+//                 message: props => `${props.value} is not a valid sender!`
+//             }
+//         },
+//         text: String,
+//         timestamp: { type: Date, default: Date.now },
+//     },
+// ],
+//   section: String
+
+
+// });
 const Member = mongoose.model('Member', MemberSchema);
 const Group = mongoose.model('Group', GroupSchema);
 
@@ -794,6 +816,40 @@ app.post('/groups/:id/join', async (req, res) => {
 
 
 
+// app.post('/groups/:id/messages', async (req, res) => {
+//   try {
+//     const group = await Group.findById(req.params.id);
+//     if (!group) {
+//       return res.status(404).send({ message: 'Group not found' });
+//     }
+
+//     const { sender, text } = req.body;
+//     console.log(`Received message from user: ${sender}`); // Add this line
+
+
+//     // Check if sender is a valid ObjectId
+//     let senderId;
+//     if (sender === 'system') {
+//       senderId = systemUserId;  // Use the system user ID or handle it as needed
+//     } else {
+//       senderId = new mongoose.Types.ObjectId(sender);
+//     }
+
+//     group.messages.push({
+//       sender: senderId,  // Convert to ObjectId
+//       text,
+//     });
+
+//     await group.save();
+//     res.send(group.messages);
+//     console.log('Message sender:', senderId);
+
+
+//   } catch (error) {
+//     console.error("Error sending message:", error);
+//     res.status(500).send({ message: 'Failed to send message', error: error.message });
+//   }
+// });
 app.post('/groups/:id/messages', async (req, res) => {
   try {
     const group = await Group.findById(req.params.id);
@@ -801,28 +857,22 @@ app.post('/groups/:id/messages', async (req, res) => {
       return res.status(404).send({ message: 'Group not found' });
     }
 
-    const { sender, text } = req.body;
-    console.log(`Received message from user: ${sender}`); // Add this line
+    const { sender, text, username } = req.body;
 
-
-    // Check if sender is a valid ObjectId
-    let senderId;
-    if (sender === 'system') {
-      senderId = systemUserId;  // Use the system user ID or handle it as needed
-    } else {
-      senderId = new mongoose.Types.ObjectId(sender);
+    if (!sender || !username) {
+      return res.status(400).send({ message: 'Sender or username is missing' });
     }
 
     group.messages.push({
-      sender: senderId,  // Convert to ObjectId
+      sender: {
+        userId: new mongoose.Types.ObjectId(sender),
+        username,  // Add username to the message
+      },
       text,
     });
 
     await group.save();
     res.send(group.messages);
-    console.log('Message sender:', senderId);
-
-
   } catch (error) {
     console.error("Error sending message:", error);
     res.status(500).send({ message: 'Failed to send message', error: error.message });
