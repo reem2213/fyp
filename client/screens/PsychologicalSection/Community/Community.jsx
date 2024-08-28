@@ -103,8 +103,8 @@ export default function GroupsScreen({ navigation, route }) {
           
         </View>
         <TouchableOpacity
-          style={[styles.viewJoinedButton, { backgroundColor: isDarkMode ? "#719AEA" : "4a90e2" }]}
-          onPress={() => navigation.navigate("Community", { username })}
+          style={[styles.viewJoinedButton, { backgroundColor: isDarkMode ? "#719AEA" : "#4a90e2" }]}
+          onPress={() => navigation.navigate("Community", { username,userId })}
         >
           <Text style={styles.viewJoinedButtonText}>
             View Joined Communities
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   },
   groupItem: {
     width: "48%",
-    marginBottom: 20,
+    marginBottom: 40,
     padding: 20,
     backgroundColor: "#fff",
     borderRadius: 15,
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   bottomRow: {
-    flexDirection: "row",
+    flexDirection: "col",
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
@@ -180,12 +180,15 @@ const styles = StyleSheet.create({
   groupMembers: {
     fontSize: 12,
     color: "#666",
+    paddingBottom:10
   },
   joinButton: {
     paddingVertical: 5,
     paddingHorizontal: 15,
     backgroundColor: "#4a90e2",
     borderRadius: 5,
+
+    
   },
   joinButtonText: {
     color: "#fff",
@@ -196,7 +199,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     backgroundColor: "#4a90e2",
-    borderRadius: 5,
+    borderRadius: 20,
     alignSelf: "center",
   },
   viewJoinedButtonText: {

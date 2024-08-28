@@ -20,7 +20,7 @@ import User from "../assets/user.png";
 import { DarkModeContext } from "../components/DarkModeContext";
 
 const Feedback = ({ navigation, route }) => {
-  const { username,userId } = route.params;
+  const { username, userId } = route.params;
 
   const [feedbacks, setFeedbacks] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -83,106 +83,110 @@ const Feedback = ({ navigation, route }) => {
   };
 
   const backToHome = () => {
-    navigation.navigate("Home", { username ,userId});
+    navigation.navigate("Home", { username, userId });
   };
 
   return (
     <>
-    <View style={[{color:"black"},          { backgroundColor: isDarkMode ? "black" : "#fff" },
-]}>
-
-      <View style={[styles.container, isDarkMode && styles.darkContainer]}>
-        <TouchableOpacity onPress={backToHome}>
-          <Image source={Back} style={styles.backButton} />
-        </TouchableOpacity>
-        <Text style={[styles.header, isDarkMode && styles.darkText]}>
-          Feedback Hub
-        </Text>
-        <Image source={FeedbackImage} style={styles.feedbackImage} />
-      </View>
-
-      <Modal
-        visible={isModalVisible}
-        animationType="slide"
-        transparent={true}
-        onRequestClose={() => setIsModalVisible(false)}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setIsModalVisible(false)}
-            >
-              <Text style={styles.closeText}>x</Text>
-            </TouchableOpacity>
-
-            <TextInput
-              style={[styles.input, isDarkMode && styles.darkInput]}
-              placeholder="Enter your type"
-              placeholderTextColor={isDarkMode ? "#ccc" : "#000"}
-              value={newType}
-              onChangeText={(text) => setNewType(text)}
-            />
-            <TextInput
-              style={[styles.input, isDarkMode && styles.darkInput]}
-              placeholder="Enter your content"
-              placeholderTextColor={isDarkMode ? "#ccc" : "#000"}
-              value={newContent}
-              onChangeText={(text) => setNewContent(text)}
-            />
-            <Button title="Add feedback" onPress={handleAddFeedback} />
-          </View>
-        </View>
-      </Modal>
-
-      <GestureHandlerRootView
+      <View
         style={[
-          styles.scrollViewContainer,
+          { color: "black" },
           { backgroundColor: isDarkMode ? "black" : "#fff" },
         ]}
       >
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {feedbacks.map((feedback, index) => (
-            <View
-              key={index}
-              style={[
-                styles.feedbackItem,
-                isDarkMode && styles.darkFeedbackItem,
-              ]}
-            >
-              <Image source={User} style={styles.userIcon} />
-              <Text
-                style={[styles.feedbackType, isDarkMode && styles.darkText]}
+        <View style={[styles.container, isDarkMode && styles.darkContainer]}>
+          <TouchableOpacity onPress={backToHome}>
+            <Image source={Back} style={styles.backButton} />
+          </TouchableOpacity>
+          <Text style={[styles.header, isDarkMode && styles.darkText]}>
+            Feedback Hub
+          </Text>
+          <Image source={FeedbackImage} style={styles.feedbackImage} />
+        </View>
+
+        <Modal
+          visible={isModalVisible}
+          animationType="slide"
+          transparent={true}
+          onRequestClose={() => setIsModalVisible(false)}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={() => setIsModalVisible(false)}
               >
-                {feedback.type}
-              </Text>
-              <Text
+                <Text style={styles.closeText}>x</Text>
+              </TouchableOpacity>
+
+              <TextInput
+                style={[styles.input, isDarkMode && styles.darkInput]}
+                placeholder="Enter your type"
+                placeholderTextColor={isDarkMode ? "#ccc" : "#000"}
+                value={newType}
+                onChangeText={(text) => setNewType(text)}
+              />
+              <TextInput
+                style={[styles.input, isDarkMode && styles.darkInput]}
+                placeholder="Enter your content"
+                placeholderTextColor={isDarkMode ? "#ccc" : "#000"}
+                value={newContent}
+                onChangeText={(text) => setNewContent(text)}
+              />
+              <Button title="Add feedback" onPress={handleAddFeedback} />
+            </View>
+          </View>
+        </Modal>
+
+        <GestureHandlerRootView
+          style={[
+            styles.scrollViewContainer,
+            { backgroundColor: isDarkMode ? "black" : "#fff" },
+          ]}
+        >
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {feedbacks.map((feedback, index) => (
+              <View
+                key={index}
                 style={[
-                  styles.feedbackContent,
-                  isDarkMode && styles.darkFeedbackContent,
+                  styles.feedbackItem,
+                  isDarkMode && styles.darkFeedbackItem,
                 ]}
               >
-                {feedback.content}
-              </Text>
-              <View style={styles.ratingContainer}>
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <TouchableOpacity
-                    key={star}
-                    onPress={() => handleRatingChange(star, index)}
-                  >
-                    <Image
-                      style={styles.star}
-                      source={feedback.rating >= star ? StarFilled : StarCorner}
-                    />
-                  </TouchableOpacity>
-                ))}
+                <Image source={User} style={styles.userIcon} />
+                <Text
+                  style={[styles.feedbackType, isDarkMode && styles.darkText]}
+                >
+                  {feedback.type}
+                </Text>
+                <Text
+                  style={[
+                    styles.feedbackContent,
+                    isDarkMode && styles.darkFeedbackContent,
+                  ]}
+                >
+                  {feedback.content}
+                </Text>
+                <View style={styles.ratingContainer}>
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <TouchableOpacity
+                      key={star}
+                      onPress={() => handleRatingChange(star, index)}
+                    >
+                      <Image
+                        style={styles.star}
+                        source={
+                          feedback.rating >= star ? StarFilled : StarCorner
+                        }
+                      />
+                    </TouchableOpacity>
+                  ))}
+                </View>
               </View>
-            </View>
-          ))}
-        </ScrollView>
-      </GestureHandlerRootView>
-      
-      </View>
+            ))}
+          </ScrollView>
+        </GestureHandlerRootView>
+     
       <TouchableOpacity
         style={[
           styles.addFeedbackButton,
@@ -191,16 +195,16 @@ const Feedback = ({ navigation, route }) => {
         onPress={() => setIsModalVisible(true)}
       >
         <Text style={styles.addFeedbackText}>Write Review</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> 
+      </View>
     </>
-    
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#FFAE64",
-    height: "40%",
+    height: "50%",
     borderRadius: 70,
     marginTop: -50,
   },
@@ -260,19 +264,21 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   scrollViewContainer: {
-    height: "80%",
+    height: "50%",
+    marginTop:10,
+    backgroundColor:"#FAFAFA"
   },
   feedbackItem: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 15,
-    backgroundColor: "white",
+    backgroundColor: "#FAFAFA",
     width: "85%",
     borderRadius: 15,
     marginLeft: 30,
     marginTop: 10,
-    height: 80,
+    height: 100,
   },
   darkFeedbackItem: {
     backgroundColor: "#444",
@@ -286,19 +292,21 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: "black",
     paddingLeft: 70,
-    top: 5,
+    top: 10,
     position: "absolute",
+    // paddingBottom:10
   },
   feedbackContent: {
     fontSize: 10,
     color: "gray",
     width: "60%",
-    marginTop: 20,
+    marginTop: 25,
     marginLeft: 10,
   },
   darkFeedbackContent: {
     color: "#ccc",
   },
+  
   ratingContainer: {
     flexDirection: "row",
     marginRight: 60,
@@ -317,7 +325,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     position: "absolute",
-    marginTop: 770,
+    marginTop: 790,
     marginLeft: 70,
   },
   darkAddFeedbackButton: {

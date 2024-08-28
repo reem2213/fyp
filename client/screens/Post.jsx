@@ -31,17 +31,6 @@
 //   const { isDarkMode } = useContext(DarkModeContext);
 //   const imgDir = FileSystem.documentDirectory + "/images";
 
-
-
-  
-
-
-
-
-
-
-
-
 //   const GoBack = () => {
 //     navigation.navigate("Home", { username, userId });
 //   };
@@ -593,6 +582,7 @@ import {
   Modal,
   Button,
   Image,
+  ScrollView,
 } from "react-native";
 import AwesomeAlert from "react-native-awesome-alerts";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -607,6 +597,7 @@ const repostImage = require("../assets/repost.png");
 const repostedImage = require("../assets/greenRepost.png");
 import { DarkModeContext } from "../components/DarkModeContext";
 import WhiteArrowBack from "../assets/whiteArrowBack.png";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const App = ({ navigation, route }) => {
   const { username, userId } = route.params;
@@ -660,7 +651,9 @@ const App = ({ navigation, route }) => {
 
       postsWithImages.forEach((post) => {
         initialLikedPosts[post._id] = (post.likedBy || []).includes(userId);
-        initialRepostedPosts[post._id] = (post.repostedBy || []).includes(userId);
+        initialRepostedPosts[post._id] = (post.repostedBy || []).includes(
+          userId
+        );
       });
 
       setLikedPosts(initialLikedPosts);
@@ -773,7 +766,6 @@ const App = ({ navigation, route }) => {
     }
   };
 
-
   const handleRepostedUsersClick = async (repostedBy) => {
     try {
       const response = await axios.post("http://10.0.0.21:3001/get-usernames", {
@@ -851,7 +843,7 @@ const App = ({ navigation, route }) => {
         <Image
           source={PostBg}
           style={[
-            { width: 250, height: 250 },
+            { width: 200, height: 200 },
             { backgroundColor: isDarkMode ? "black" : "#fff" },
           ]}
         />
@@ -861,74 +853,76 @@ const App = ({ navigation, route }) => {
       >
         Top Posts
       </Text>
-      <FlatList
-        data={posts}
-        keyExtractor={(item) => item._id}
-        renderItem={({ item }) => (
-          <View
-            style={[
-              styles.post,
-              { backgroundColor: isDarkMode ? "#333" : "#F4F7FC" },
-            ]}
-          >
-           {item.image && (
-              <Image source={{ uri: item.image }} style={styles.postImage} />
-            )}
-            <Text
-              style={[styles.postText, { color: isDarkMode ? "#fff" : "#333" }]}
+      <GestureHandlerRootView style={{ height: "50%" }}>
+        <FlatList
+          data={posts}
+          keyExtractor={(item) => item._id}
+          renderItem={({ item }) => (
+            <View
+              style={[
+                styles.post,
+                { backgroundColor: isDarkMode ? "#333" : "#F4F7FC" },
+              ]}
             >
-              {item.text}
-            </Text>
-            <View style={styles.postFooter}>
+              {item.image && (
+                <Image source={{ uri: item.image }} style={styles.postImage} />
+              )}
               <Text
                 style={[
-                  styles.postDate,
-                  { color: isDarkMode ? "#ccc" : "#888" },
+                  styles.postText,
+                  { color: isDarkMode ? "#fff" : "#333" },
                 ]}
               >
-                {item.date}
+                {item.text}
               </Text>
-              <View style={styles.postIcons}>
-                <TouchableOpacity onPress={() => toggleLikePost(item._id)}>
-                  <Image
-                    source={likedPosts[item._id] ? likedImage : likeImage}
-                    style={styles.icon}
-                  />
-                </TouchableOpacity>
+              <View style={styles.postFooter}>
                 <Text
                   style={[
-                    styles.postLikes,
-                    { color: isDarkMode ? "#fff" : "#000" },
+                    styles.postDate,
+                    { color: isDarkMode ? "#ccc" : "#888" },
                   ]}
-                  onPress={() => handleLikedUsersClick(item.likedBy)}
                 >
-                  {item.likes}
+                  {item.date}
                 </Text>
-                <TouchableOpacity onPress={() => toggleRepostPost(item._id)}>
-                  <Image
-                    source={
-                      repostedPosts[item._id]
-                        ? repostedImage
-                        : repostImage
-                    }
-                    style={styles.icon}
-                  />
-                </TouchableOpacity>
-                <Text
-                  style={[
-                    styles.postReposts,
-                    { color: isDarkMode ? "#fff" : "#000" },
-                  ]}
-                  onPress={() => handleRepostedUsersClick(item.repostedBy)}
-                >
-                  {item.reposts}
-                </Text>
+                <View style={styles.postIcons}>
+                  <TouchableOpacity onPress={() => toggleLikePost(item._id)}>
+                    <Image
+                      source={likedPosts[item._id] ? likedImage : likeImage}
+                      style={styles.icon}
+                    />
+                  </TouchableOpacity>
+                  <Text
+                    style={[
+                      styles.postLikes,
+                      { color: isDarkMode ? "#fff" : "#000" },
+                    ]}
+                    onPress={() => handleLikedUsersClick(item.likedBy)}
+                  >
+                    {item.likes}
+                  </Text>
+                  <TouchableOpacity onPress={() => toggleRepostPost(item._id)}>
+                    <Image
+                      source={
+                        repostedPosts[item._id] ? repostedImage : repostImage
+                      }
+                      style={styles.icon}
+                    />
+                  </TouchableOpacity>
+                  <Text
+                    style={[
+                      styles.postReposts,
+                      { color: isDarkMode ? "#fff" : "#000" },
+                    ]}
+                    onPress={() => handleRepostedUsersClick(item.repostedBy)}
+                  >
+                    {item.reposts}
+                  </Text>
+                </View>
               </View>
             </View>
-           
-          </View>
-        )}
-      />
+          )}
+        />
+      </GestureHandlerRootView>
       <TouchableOpacity
         style={[
           styles.addButton,
@@ -938,7 +932,7 @@ const App = ({ navigation, route }) => {
       >
         <Text style={styles.addButtonText}>Add Yours!</Text>
       </TouchableOpacity>
-      <Modal
+      {/* <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
@@ -977,7 +971,7 @@ const App = ({ navigation, route }) => {
                 fontWeight: "500",
                 color: "#636363",
                 marginTop: 20,
-                top: -30,
+                top: -20,
               }}
             >
               Choose a photo
@@ -986,15 +980,107 @@ const App = ({ navigation, route }) => {
           {selectedImage && (
             <Image
               source={{ uri: selectedImage }}
-              style={{ width: 200, height: 200, marginBottom: 20 }}
+              style={{ width: 200, height: 200, marginBottom: 20,borderRadius:20 }}
             />
           )}
-          <Button title="Add Post" onPress={addNewPost} />
-          <Button
-            title="Cancel"
-            onPress={() => setModalVisible(false)}
-            color="red"
-          />
+          <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity onPress={() => setModalVisible(false)} style={{backgroundColor:"red",padding:10,right:75,borderRadius:15}}>
+            <Text style={{color:"white"}}>Cancel</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={addNewPost} style={{backgroundColor:"#719AEA",padding:10,left:75,borderRadius:15}}>
+            <Text style={{color:"white"}}>Add POST</Text>
+          </TouchableOpacity>
+            
+          </View>
+        </View>
+      </Modal> */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.modalContainer}>
+          <View
+            style={[
+              styles.modalView,
+              { backgroundColor: isDarkMode ? "#333" : "white" },
+            ]}
+          >
+            <Text
+              style={[
+                styles.modalText,
+                { color: isDarkMode ? "#fff" : "#000" },
+              ]}
+            >
+              Add a New Post
+            </Text>
+            <TextInput
+              style={[
+                styles.input,
+                {
+                  borderColor: isDarkMode ? "#555" : "#ccc",
+                  color: isDarkMode ? "#fff" : "#000",
+                },
+              ]}
+              placeholder="Enter your post"
+              value={newPostText}
+              onChangeText={setNewPostText}
+            />
+
+            <Pressable onPress={() => pickImageAsync(true)}>
+              <Text
+                style={{
+                  marginLeft: 0,
+                  fontWeight: "500",
+                  color: "#636363",
+                  marginTop: 20,
+                  top: -20,
+                }}
+              >
+                Choose a photo
+              </Text>
+            </Pressable>
+            {selectedImage && (
+              <Image
+                source={{ uri: selectedImage }}
+                style={{
+                  width: 200,
+                  height: 200,
+                  marginBottom: 20,
+                  borderRadius: 20,
+                }}
+              />
+            )}
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                onPress={() => setModalVisible(false)}
+                style={{
+                  backgroundColor: "red",
+                  padding: 10,
+                  right: 75,
+                  borderRadius: 15,
+                }}
+              >
+                <Text style={{ color: "white" }}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={addNewPost}
+                style={{
+                  backgroundColor:
+                    newPostText || selectedImage ? "#719AEA" : "#aaa",
+                  padding: 10,
+                  left: 75,
+                  borderRadius: 15,
+                }}
+                disabled={!newPostText && !selectedImage}
+              >
+                <Text style={{ color: "white" }}>Add POST</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
       </Modal>
 
@@ -1016,7 +1102,6 @@ const App = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
-  // Define your styles here
   container: {
     flex: 1,
   },
@@ -1052,7 +1137,11 @@ const styles = StyleSheet.create({
     left: 20,
     marginTop: 0,
   },
+  modalContainer: {
+    flex: 1,
 
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // semi-transparent background
+  },
   post: {
     backgroundColor: "#F4F7FC",
     borderRadius: 10,
@@ -1065,8 +1154,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#333",
     marginBottom: 10,
-    left:5,
-    top:7
+    left: 5,
+    top: 7,
   },
   postFooter: {
     flexDirection: "row",
@@ -1076,19 +1165,18 @@ const styles = StyleSheet.create({
   postDate: {
     fontSize: 12,
     color: "#888",
-    left:280,
-    top:5
+    left: 280,
+    top: 5,
   },
   postIcons: {
     flexDirection: "row",
-    right:240,
-    top:5
+    right: 240,
+    top: 5,
   },
   icon: {
     width: 24,
     height: 24,
     marginLeft: 20,
-   
   },
   postImage: {
     width: "100%",
@@ -1096,13 +1184,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderRadius: 10,
   },
-  postLikes:{
-    left:5,
-    top:2
+  postLikes: {
+    left: 5,
+    top: 2,
   },
-  postReposts:{
-    left:5,
-    top:2
+  postReposts: {
+    left: 5,
+    top: 2,
   },
   addButton: {
     backgroundColor: "#719AEA",
@@ -1111,7 +1199,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     position: "absolute",
-    bottom: 20,
+    bottom: 10,
     right: 100,
     width: 200,
     shadowColor: "#000",
@@ -1139,6 +1227,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    top: 200,
   },
   modalText: {
     marginBottom: 15,

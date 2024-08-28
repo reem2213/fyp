@@ -942,7 +942,7 @@ const App = ({ route }) => {
             {(item.status === "upcoming" || item.status === "in progress") && (
               <View style={styles.actionButtons}>
                 <TouchableOpacity
-                  style={[styles.actionButton, styles.doneButton]}
+                  style={[styles.actionButton]}
                   onPress={() =>
                     handleStatusChange(item._id, "Completed", item.status)
                   }
@@ -950,7 +950,7 @@ const App = ({ route }) => {
                   <Text style={styles.actionButtonText2}>Mark as completed</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={[styles.actionButton, styles.cancelButton]}
+                  style={[styles.actionButton]}
                   onPress={() =>
                     handleStatusChange(item._id, "Cancelled", item.status)
                   }
@@ -1319,7 +1319,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   actionButton: {
-    backgroundColor: "#f0f0f0",
+    // backgroundColor: "#f0f0f0",
     borderRadius: 8,
     paddingVertical: 4,
     paddingHorizontal: 8,
@@ -1436,7 +1436,6 @@ const styles = StyleSheet.create({
 
     position:"absolute",
     fontSize: 18,
-    // fontWeight: "bold",
     color: "white",
     top:10,
     left:72

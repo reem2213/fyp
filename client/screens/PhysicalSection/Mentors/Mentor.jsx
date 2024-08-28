@@ -176,10 +176,10 @@ const styles = StyleSheet.create({
   },
   bookImage: {
     width: 190,
-    height: 205,
+    height: 200,
     borderRadius: 20,
-    left: 120,
-    top: -160,
+    left: 135,
+    top: -155,
   },
   buttonApp: {
     width: "60%",

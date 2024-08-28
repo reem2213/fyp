@@ -293,7 +293,7 @@ const Mentors = ({ navigation,route }) => {
                   width: 15,
                   height: 15,
                   position: "absolute",
-                  marginLeft: 172,
+                  marginLeft: 175,
                   marginTop: 47,
                 }}
                 source={Star}
@@ -376,7 +376,7 @@ const styles = StyleSheet.create({
     width: 190,
     height: 205,
     borderRadius: 20,
-    left: 120,
+    left: 135,
     top: -160,
   },
   buttonApp: {

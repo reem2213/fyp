@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     height: 150,
   },
   ellipseIcon2: {
-    top: 450,
+    top: 500,
     left: -70,
     width: 150,
     height: 150,

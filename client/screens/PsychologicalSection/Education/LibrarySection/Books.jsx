@@ -257,9 +257,11 @@ const Books = ({ navigation,route }) => {
   };
 
   const pdfMap = {
-    "atomic habits": Ato,
+    
     "rich dad poor dad": Rixh,
-    "November 9": Novemb
+    "atomic habits": Ato,
+    "November 9": Novemb,
+    "Verity":Novemb
   };
 
   const featuredBooks = [

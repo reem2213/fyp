@@ -137,7 +137,7 @@ const MentorsAvailability = ({ route, navigation }) => {
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <Text
           style={{
-            left: 230,
+            left: 260,
             fontSize: 22,
             top: -160,
             color: "white",
@@ -149,7 +149,7 @@ const MentorsAvailability = ({ route, navigation }) => {
         </Text>
         <Text
           style={{
-            left: 230,
+            left: 260,
             fontSize: 22,
             top: -120,
             position: "absolute",
@@ -166,7 +166,7 @@ const MentorsAvailability = ({ route, navigation }) => {
         </Text>
         <Image
           style={{
-            left: 285,
+            left: 315,
             position: "absolute",
             width: 25,
             height: 25,
