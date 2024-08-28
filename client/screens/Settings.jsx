@@ -61,7 +61,7 @@ const Settings = ({ navigation,route }) => {
         </TouchableOpacity>
 
        
-        <Text
+        {/* <Text
           style={{
             fontSize: 20,
             fontWeight: "500",
@@ -69,7 +69,7 @@ const Settings = ({ navigation,route }) => {
           }}
         >
           Change Language
-        </Text>
+        </Text> */}
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Text
             style={{
