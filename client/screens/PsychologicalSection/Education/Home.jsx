@@ -419,7 +419,7 @@ const Home = ({ navigation,route }) => {
 
         <View style={styles.content}>
           <TouchableOpacity onPress={GoToQuizSection}>
-            <View style={[styles.section, { backgroundColor: isDarkMode ? "#444" : "#FF6B00" }]}>
+            <View style={[styles.section, { backgroundColor: isDarkMode ? "#FF6B00" : "#FF6B00" }]}>
               <Text style={styles.sectionTitle}>Interactive Quizzes</Text>
               <Text style={styles.sectionSubtitle}>
                 Challenge your knowledge and expand your mind with interactive
@@ -430,7 +430,7 @@ const Home = ({ navigation,route }) => {
           </TouchableOpacity>
 
           <TouchableOpacity onPress={GoToLibrarySection}>
-            <View style={[styles.section2, { backgroundColor: isDarkMode ? "#555" : "#B1CB14" }]}>
+            <View style={[styles.section2, { backgroundColor: isDarkMode ? "#B1CB14" : "#B1CB14" }]}>
               <Text style={styles.sectionTitle2}>Our Library</Text>
               <Text style={styles.sectionSubtitle}>
                 Dive into a world of knowledge and inspiration with our vast
@@ -441,7 +441,7 @@ const Home = ({ navigation,route }) => {
           </TouchableOpacity>
 
           <TouchableOpacity onPress={GoToLanguagesSection}>
-            <View style={[styles.section3, { backgroundColor: isDarkMode ? "#666" : "#F8EF14" }]}>
+            <View style={[styles.section3, { backgroundColor: isDarkMode ? "#F8EF14" : "#F8EF14" }]}>
               <Text style={styles.sectionTitle}>Learn a new language</Text>
               <Text style={styles.sectionSubtitle}>
                 Embark on a linguistic journey and broaden your horizons by

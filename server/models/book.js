@@ -5,6 +5,8 @@ const bookSchema = new mongoose.Schema({
     author:String,
     description: String,
     rating:Number,
+    image:String,
+    saved:Boolean
 })
  
 const bookModel = mongoose.model("book", bookSchema)

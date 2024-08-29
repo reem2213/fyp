@@ -227,6 +227,7 @@ const ChatBot = ({ navigation, route }) => {
       behavior={Platform.OS === "ios" ? "padding" : null}
       keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0}
     >
+    
       <View
         style={[
           styles.header,

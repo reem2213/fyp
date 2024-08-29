@@ -301,6 +301,64 @@ app.get('/books', async (req, res) => {
 });
 
 
+app.post('/books/:id/save', async (req, res) => {
+  const { id } = req.params;
+  const { saved } = req.body;
+
+  console.log(`Received request to update book with ID: ${id} to saved status: ${saved}`);
+
+  // Check if the ID is a valid MongoDB ObjectId
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+      console.error('Invalid book ID');
+      return res.status(400).json({ error: 'Invalid book ID' });
+  }
+
+  try {
+      const book = await bookModel.findByIdAndUpdate(
+          id,
+          { saved: saved },
+          { new: true }
+      );
+      if (!book) {
+          console.error('Book not found');
+          return res.status(404).json({ error: 'Book not found' });
+      }
+      res.json(book);
+  } catch (error) {
+      console.error('Error updating book save status:', error.message);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+
+// Endpoint to fetch all saved books for a user (if you plan to filter by user in the future)
+app.get('/books/saved/:userId', async (req, res) => {
+  try {
+      const savedBooks = await bookModel.find({ saved: true });
+      res.json(savedBooks);
+  } catch (error) {
+      res.status(500).json({ error: 'Error fetching saved books' });
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.get('/questions/:category', async (req, res) => {
   try {

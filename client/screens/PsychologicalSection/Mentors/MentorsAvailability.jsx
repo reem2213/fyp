@@ -122,7 +122,7 @@ const MentorsAvailability = ({ route, navigation }) => {
   
 
   const backToHome = () => {
-    navigation.navigate("Mentors",{username});
+    navigation.navigate("Mentors",{username,userId});
   };
 
   return (
