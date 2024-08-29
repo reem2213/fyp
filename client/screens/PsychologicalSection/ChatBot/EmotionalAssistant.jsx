@@ -48,15 +48,16 @@ import Back from "../../../assets/back.png";
 import LangBg from "../../../assets/bgChatBot.png";
 import { DarkModeContext } from "../../../components/DarkModeContext"; // Adjust the path as per your project structure
 
-const EmotionalAssistant = ({ navigation }) => {
+const EmotionalAssistant = ({ navigation,route }) => {
   const { isDarkMode } = useContext(DarkModeContext);
+  const {username,userId}=route.params;
 
   const backToHome = () => {
-    navigation.navigate("PsychologicalSection");
+    navigation.navigate("PsychologicalSection",{username,userId});
   };
 
   const startChatting = () => {
-    navigation.navigate("Chatting");
+    navigation.navigate("Chatting",{username,userId});
   };
 
   return (

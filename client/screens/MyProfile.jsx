@@ -903,14 +903,14 @@ const App = ({ route }) => {
     if (activeSection === "Meetings") {
       return (
         <View style={styles.itemContainer}>
-          <Text style={styles.itemTitle}>{item.mentorName}</Text>
-          <Text style={styles.itemTitle}>
-            {new Date(item.date).toLocaleDateString()}
+          <Text style={styles.itemTitle2}>{item.mentorName}   </Text>
+          <Text style={styles.itemTitle2}>
+            {new Date(item.date).toLocaleDateString()}   
           </Text>
-          <Text style={styles.itemTitle}>{item.time}</Text>
+          <Text style={styles.itemTitle2}>   {item.time}</Text>
           <View style={styles.statusContainer}>
             {(item.status === "upcoming" || item.status === "in progress") && (
-              <View style={styles.actionButtons}>
+              <View style={styles.actionButtons2}>
                 <TouchableOpacity
                   style={[styles.actionButton, styles.doneButton]}
                   onPress={() =>
@@ -1316,6 +1316,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginLeft: 16,
     top: 5,
+    
+    gap: 10,
+  },
+  actionButtons2: {
+    flexDirection: "row",
+    right:100 ,
+    top: 15,
     gap: 10,
   },
   actionButton: {
@@ -1325,12 +1332,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     marginRight: 8,
   },
-  doneButton: {
-    backgroundColor: "#032B79",
-  },
-  cancelButton: {
-    backgroundColor: "#032B79",
-  },
+  // doneButton: {
+  //   backgroundColor: "#032B79",
+  // },
+  // cancelButton: {
+  //   backgroundColor: "#032B79",
+  // },
   actionButtonText: {
     fontSize: 10,
     color: "red",
@@ -1433,12 +1440,17 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
   itemTitle: {
-
     position:"absolute",
     fontSize: 18,
     color: "white",
     top:10,
     left:72
+  },
+  itemTitle2: {
+    fontSize: 18,
+    color: "white",
+    top:-15,
+    right:50
   },
   itemStatus: {
     fontSize: 14,

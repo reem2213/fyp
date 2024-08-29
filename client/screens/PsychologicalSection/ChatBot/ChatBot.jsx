@@ -224,6 +224,10 @@
 // });
 
 // export default ChatBot;
+
+
+
+
 import React, { useState, useEffect, useContext, useRef } from "react";
 import {
   Text,
@@ -241,12 +245,14 @@ import Chatty from '../../../assets/chatty.png';
 import Back from '../../../assets/back.png';
 import { DarkModeContext } from "../../../components/DarkModeContext"; // Adjust the path as per your project structure
 
-const ChatBot = ({ navigation }) => {
+const ChatBot = ({ navigation,route }) => {
   const { isDarkMode } = useContext(DarkModeContext);
   const [conversation, setConversation] = useState([]);
   const [userInput, setUserInput] = useState('');
   const [hasSystemMessageSent, setHasSystemMessageSent] = useState(false);
   const scrollViewRef = useRef();
+  const {username,userId}=route.params;
+
 
   useEffect(() => {
     // Send the system message only once when the screen loads
@@ -342,7 +348,7 @@ const ChatBot = ({ navigation }) => {
   );
 
   const backToPsychoSection = () => {
-    navigation.navigate('PsychologicalSection');
+    navigation.navigate('PsychologicalSection',{userId,username});
   };
 
   return (

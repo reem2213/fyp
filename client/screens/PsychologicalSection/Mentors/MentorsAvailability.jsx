@@ -127,6 +127,7 @@ const MentorsAvailability = ({ route, navigation }) => {
 
   return (
     <>
+    <View style={{backgroundColor:"white"}}>
       <View style={styles.container}>
         <TouchableOpacity onPress={backToHome}>
           <Image source={Back} style={styles.backButton} />
@@ -309,6 +310,7 @@ const MentorsAvailability = ({ route, navigation }) => {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      </View>
     </>
   );
 };
@@ -317,7 +319,7 @@ const MentorsAvailability = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#719AEA",
-    height: "45%",
+    height: "40%",
     borderRadius: 70,
     marginTop: -50,
     alignItems: "center",
