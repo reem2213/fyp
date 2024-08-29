@@ -446,7 +446,7 @@ const toggleSaveBook = async (bookId) => {
               onPress={() =>
                 navigation.navigate("BookDetails", {
                   title: b.title,
-                  image: b.image,
+                  image: imageMap[b.title],
                   description: b.description,
                   rating: b.rating,
                   author: b.author,

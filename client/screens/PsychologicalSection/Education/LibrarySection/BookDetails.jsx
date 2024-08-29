@@ -249,7 +249,7 @@ function BookDetails({ route, navigation }) {
       </View>
       <View style={styles.detailsContainer}>
         <Image
-          source={`data:image/jpeg;base64,${image} `}
+          source={image}
           style={styles.bookImage}
         />
         <Text style={[styles.title, { color: isDarkMode ? "white" : "black" }]}>{title}</Text>
