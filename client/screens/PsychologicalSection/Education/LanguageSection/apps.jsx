@@ -260,7 +260,11 @@ const Apps = ({ navigation,route }) => {
           style={styles.backButton}
         />
       </TouchableOpacity>
+      
       <Image style={styles.bg} source={LangBg} />
+      <Image style={styles.bg} source={LangBg} />
+      <Image style={styles.bg} source={LangBg} />
+
       <Text style={styles.title}>Choose your app</Text>
       <TouchableOpacity style={styles.im1} onPress={goToDuolingo}>
         <Image style={styles.im1} source={Duolingo} />
@@ -287,7 +291,7 @@ const Apps = ({ navigation,route }) => {
         <Text style={styles.title6}>Drops</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.im4} onPress={handlePress}>
+      <TouchableOpacity  onPress={handlePress}>
         <Image style={styles.im4} source={Fluentu} />
         <Text style={styles.title4}>Fluentu</Text>
       </TouchableOpacity>
@@ -297,7 +301,7 @@ const Apps = ({ navigation,route }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#121212", // Dark mode background color
+    backgroundColor: "white", // Dark mode background color
     height: "100%",
   },
   backButton: {
@@ -313,7 +317,7 @@ const styles = StyleSheet.create({
     marginTop: 100,
     position: "absolute",
     color: "#F8EF14",
-    backgroundColor: "#1F1F1F", // Dark mode background color for the title
+    backgroundColor: "white", // Dark mode background color for the title
     fontSize: 30,
     fontWeight: "bold",
     opacity: 0.9,
@@ -335,7 +339,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     position: "absolute",
     width: "100%",
-    color: "#F8EF14", // Dark mode text color
+    color: "black", // Dark mode text color
   },
   im2: {
     marginTop: 100,
@@ -352,7 +356,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     position: "absolute",
     width: "100%",
-    color: "#F8EF14", // Dark mode text color
+    color: "black", // Dark mode text color
   },
   im3: {
     marginTop: 190,
@@ -369,23 +373,26 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     position: "absolute",
     width: "100%",
-    color: "#F8EF14", // Dark mode text color
+    color: "black", // Dark mode text color
   },
   im4: {
-    marginTop: -275,
-    marginLeft: 110,
-    width: 115,
-    height: 23,
+    marginTop: -585,
+    marginLeft: 220,
+    width: 120,
+    height: 120,
     borderRadius: 30,
+    backgroundColor:"white",
+    position: "absolute",
+
   },
   title4: {
-    marginTop: -185,
-    marginLeft: 140,
+    marginTop: -460,
+    marginLeft: 250,
     fontSize: 18,
     fontWeight: "bold",
     position: "absolute",
     width: "100%",
-    color: "#F8EF14", // Dark mode text color
+    color: "black", // Dark mode text color
   },
   im5: {
     marginTop: 190,
@@ -402,7 +409,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     position: "absolute",
     width: "100%",
-    color: "#F8EF14", // Dark mode text color
+    color: "black", // Dark mode text color
   },
   im6: {
     marginTop: 280,
@@ -419,7 +426,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     position: "absolute",
     width: "100%",
-    color: "#F8EF14", // Dark mode text color
+    color: "black", // Dark mode text color
   },
 });
 
