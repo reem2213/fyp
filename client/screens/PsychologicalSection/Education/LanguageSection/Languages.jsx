@@ -111,16 +111,18 @@ const styles = StyleSheet.create({
     height: 30,
   },
   title: {
-    marginLeft: 60,
-    marginTop: 90,
-    fontSize: 30,
+    marginLeft: 20,
+    marginTop: 120,
+    fontSize: 25,
     fontWeight: "bold",
     justifyContent: "center",
+    width:"100%"
   },
   backgroundImage: {
-    width: 390,
+    width: 400,
     height: 400,
     marginTop: 20,
+    left:-20
   },
   description: {
     width: "80%",
@@ -131,7 +133,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 50,
     borderRadius: 20,
-    marginLeft: 100,
+    marginLeft: 90,
     marginTop: 50,
     justifyContent: "center",
     alignItems: "center",

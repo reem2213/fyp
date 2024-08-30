@@ -257,7 +257,8 @@ import GreenSaveIcon from "../../../../assets/greenSave.png"; // Green save icon
 import Back from "../../../../assets/greenBack.png";  // Assuming you have a back icon image
 import Ato from '../../../../android/app/src/main/assets/atomicHabits.pdf'
 import Rixh from '../../../../android/app/src/main/assets/RichDadPoorDad.pdf'
-import Novemb from '../../../../android/app/src/main/assets/November9.pdf'
+import Novemb from '../../../../android/app/src/main/assets/November9.pdf';
+import VerityBook from '../../../../android/app/src/main/assets/(Hercule Poirot) Agatha Christie - The Mysterious Affair at Styles -Berkley (2003).pdf'
 const Books = ({ navigation, route }) => {
   const { isDarkMode } = useContext(DarkModeContext); // Get the dark mode state
   const { username, userId } = route.params;
@@ -277,7 +278,8 @@ const Books = ({ navigation, route }) => {
     "rich dad poor dad": Rixh,
     "atomic habits": Ato,
     "November 9": Novemb,
-    "Verity":Novemb
+    "Verity":VerityBook,
+
   };
 
   const featuredBooks = [
@@ -301,16 +303,7 @@ const Books = ({ navigation, route }) => {
           title: "November 9",
           image: Verity,
         },
-        {
-          id: 5,
-          title: "November 9",
-          image: Nov9,
-        },
-        {
-          id: 6,
-          title: "November 9",
-          image: Dad,
-        },
+        
       ];
   useEffect(() => {
     const fetchBooks = async () => {
@@ -499,7 +492,7 @@ const toggleSaveBook = async (bookId) => {
           >
             Featured Books
           </Text>
-          <ScrollView style={{ top: 70 }}>
+          <ScrollView style={{ top: -20 }}>
             {featuredBooks
               .reduce((rows, book, index) => {
                 if (index % 2 === 0) {
@@ -573,7 +566,7 @@ const styles = StyleSheet.create({
   },
   bookItem: {
     width: 120,
-    marginRight: 10,
+    marginRight: 30,
   },
   bookItemVertical: {
     top: -150,

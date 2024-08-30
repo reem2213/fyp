@@ -645,7 +645,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#719AEA",
     color: "white",
     borderRadius: 15,
-    height: 40,
+    height: 50,
+   
   },
   darkGoalItemContainer: {
     backgroundColor: "#444",

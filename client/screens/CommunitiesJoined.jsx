@@ -95,13 +95,13 @@ export default function CommunitiesJoinedScreen({ navigation, route }) {
                 })
               }
             >
-              <View
+              {/* <View
                 key={item._id}
                 style={[
                   styles.groupItem,
                   { backgroundColor: isDarkMode ? "#3E3E3E" : "#fff" },
                 ]}
-              >
+              > */}
                 <Text
                   style={[
                     styles.groupName,
@@ -117,7 +117,7 @@ export default function CommunitiesJoinedScreen({ navigation, route }) {
                     { color: isDarkMode ? "white" : "black" },
                   ]}
                 >{`${item.members.length} participants`}</Text>
-              </View>
+              {/* </View> */}
             </TouchableOpacity>
           ))}
         </View>
@@ -165,8 +165,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   groupItem: {
-    width:170,
-    height:150,
+    width:"100%",
+    height:"auto",
     marginBottom: 50,
     padding: 20,
     backgroundColor: "#fff",
