@@ -742,6 +742,7 @@ import Coin from "../assets/coin.png";
 import Back from "../assets/arrowBack.png";
 import { DarkModeContext } from "../components/DarkModeContext"; // Import the context
 import GoalIcon from '../assets/goalIcon.png';
+import AppIcon from '../assets/appointment.png';
 const App = ({ route }) => {
   const { navigate } = useNavigation();
   const { username,userId } = route.params;
@@ -902,12 +903,14 @@ const App = ({ route }) => {
   const renderItem = ({ item }) => {
     if (activeSection === "Meetings") {
       return (
-        <View style={styles.itemContainer}>
-          <Text style={styles.itemTitle2}>{item.mentorName}   </Text>
-          <Text style={styles.itemTitle2}>
-            {new Date(item.date).toLocaleDateString()}   
+        <View style={styles.itemContainer2}>
+          <Text style={styles.itemTitle2}>Dr. {item.mentorName} </Text>
+          <Image source={AppIcon} style={{width:80,height:80, position:"absolute", top:22,left:12}}/>
+
+          <Text style={styles.itemTitle3}>
+            on {new Date(item.date).toDateString()}   
           </Text>
-          <Text style={styles.itemTitle2}>   {item.time}</Text>
+          <Text style={styles.itemTitle3}> at {item.time}</Text>
           <View style={styles.statusContainer}>
             {(item.status === "upcoming" || item.status === "in progress") && (
               <View style={styles.actionButtons2}>
@@ -917,7 +920,7 @@ const App = ({ route }) => {
                     handleStatusChange(item._id, "Completed", item.status)
                   }
                 >
-                  <Text style={styles.actionButtonText2}>Done</Text>
+                  <Text style={styles.actionButtonTextt2}>Done</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[styles.actionButton, styles.cancelButton]}
@@ -925,7 +928,7 @@ const App = ({ route }) => {
                     handleStatusChange(item._id, "Cancelled", item.status)
                   }
                 >
-                  <Text style={styles.actionButtonText}>Cancel</Text>
+                  <Text style={styles.actionButtonTextt}>Cancel</Text>
                 </TouchableOpacity>
               </View>
             )}
@@ -1113,10 +1116,13 @@ const App = ({ route }) => {
                   textAlign: "center",
                   left: 185,
                   top: -60,
+                  fontSize:12
+
+                
                 },
                 {
-                  backgroundColor: isDarkMode ? "gray" : "white",
-                  color: isDarkMode ? "white" : "black",
+                  backgroundColor: isDarkMode ? "gray" : "#032B79",
+                  color: isDarkMode ? "white" : "white",
                 },
               ]}
             >
@@ -1321,8 +1327,8 @@ const styles = StyleSheet.create({
   },
   actionButtons2: {
     flexDirection: "row",
-    right:100 ,
-    top: 15,
+    right:285 ,
+    top: 32,
     gap: 10,
   },
   actionButton: {
@@ -1341,14 +1347,35 @@ const styles = StyleSheet.create({
   actionButtonText: {
     fontSize: 10,
     color: "red",
-    top: 20,
+    top: 25,
     left:-50
   },
   actionButtonText2: {
     fontSize: 10,
     color: "white",
-    top: 20,
-    left:-50
+    top: 25,
+    left:-50,
+  },
+
+  actionButtonTextt: {
+    fontSize: 10,
+    color: "white",
+    top: 30,
+    left:-50,
+    backgroundColor:"red",
+    padding:5,
+    paddingHorizontal:10,
+    borderRadius:10
+  },
+  actionButtonTextt2: {
+    fontSize: 10,
+    color: "blue",
+    top: 30,
+    left:-50,
+    backgroundColor:"white",
+    padding:5,
+    paddingHorizontal:10,
+    borderRadius:10
   },
 
   header: {
@@ -1439,18 +1466,34 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginVertical: 4,
   },
+  itemContainer2: {
+    backgroundColor: "#032B79",
+    borderRadius: 15,
+    paddingVertical: 35,
+    paddingHorizontal: 110,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginVertical: 4,
+  },
   itemTitle: {
     position:"absolute",
     fontSize: 18,
     color: "white",
-    top:10,
+    top:20,
     left:72
   },
   itemTitle2: {
     fontSize: 18,
     color: "white",
-    top:-15,
-    right:50
+    top:-25,
+    right:10
+  },
+  itemTitle3: {
+    fontSize: 15,
+    color: "white",
+    top:5,
+    right:105
   },
   itemStatus: {
     fontSize: 14,
