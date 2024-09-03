@@ -244,13 +244,11 @@ import {
   StyleSheet,
 } from "react-native";
 import { DarkModeContext } from "../../../../components/DarkModeContext"; // Adjust the import path as needed
-import AtomicHabits from "../../../../assets/atomicHabits.jpg";
 import Verity from "../../../../assets/verity.jpg";
-import Dad from "../../../../assets/rich-dad-poor-dad.jpg";
-import Nov9 from "../../../../assets/nov9.jpg";
+
 import axios from "axios";
 import Agatha1 from "../../../../assets/book2.jpg";
-import Agatha3 from "../../../../assets/book3.jpg";
+import Agatha3 from "../../../../assets/book77.png";
 import Book4 from "../../../../assets/the-silent-patient.jpg";
 import SaveIcon from "../../../../assets/saveBook.png"; // Original save icon
 import GreenSaveIcon from "../../../../assets/greenSave.png"; // Green save icon
@@ -259,6 +257,8 @@ import Ato from '../../../../android/app/src/main/assets/atomicHabits.pdf'
 import Rixh from '../../../../android/app/src/main/assets/RichDadPoorDad.pdf'
 import Novemb from '../../../../android/app/src/main/assets/November9.pdf';
 import VerityBook from '../../../../android/app/src/main/assets/(Hercule Poirot) Agatha Christie - The Mysterious Affair at Styles -Berkley (2003).pdf'
+import B22 from '../../../../android/app/src/main/assets/Agatha Christie - Lord Edgware Dies-Berkley (1986).pdf';
+import B23 from '../../../../android/app/src/main/assets/LEngle, Madelein - A Wrinkle in Time  -Square Fish.pdf';
 const Books = ({ navigation, route }) => {
   const { isDarkMode } = useContext(DarkModeContext); // Get the dark mode state
   const { username, userId } = route.params;
@@ -266,19 +266,17 @@ const Books = ({ navigation, route }) => {
   const [books, setBooks] = useState([]);
   const [savedBooks, setSavedBooks] = useState([]);
   const [showSaved, setShowSaved] = useState(false);
-  // const imageMap = {
-  //   "November 9": Nov9,
-  //   "atomic habits": AtomicHabits,
-  //   "rich dad poor dad": Dad,
-  //   Verity: Verity,
-  // };
+
 
     const pdfMap = {
     
     "rich dad poor dad": Rixh,
     "atomic habits": Ato,
     "November 9": Novemb,
-    "Verity":VerityBook,
+    "Lord Edgware Dies":B22,
+    "The Mysterious Affair at Styles":VerityBook,
+    "A Wrinkle in Time":B23
+    
 
   };
 
@@ -460,7 +458,7 @@ const toggleSaveBook = async (bookId) => {
                     textAlign: "center",
                     fontWeight: "bold",
                     position: "absolute",
-                    marginTop: 130,
+                    marginTop: 190,
                   }}
                 >
                   {b.title}
@@ -560,12 +558,13 @@ const styles = StyleSheet.create({
   subHeader2: {
     fontSize: 20,
     fontWeight: "bold",
-    marginTop: 450,
+    marginTop: 470,
     marginBottom: 10,
     marginLeft: 20,
     position: "absolute",
   },
   bookItem: {
+
     width: 120,
     marginRight: 30,
   },
@@ -576,7 +575,7 @@ const styles = StyleSheet.create({
   },
   bookImage: {
     width: 120,
-    height: 120,
+    height: 180,
     borderRadius: 20,
     marginBottom: 160,
   },

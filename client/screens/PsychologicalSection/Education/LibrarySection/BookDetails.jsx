@@ -313,9 +313,11 @@ const styles = StyleSheet.create({
   },
   title: {
     marginLeft: 160,
-    fontSize: 25,
+    fontSize: 18,
     top: -160,
     fontWeight: "bold",
+    textAlign:"center"
+  
   },
   author: {
     marginLeft: 160,

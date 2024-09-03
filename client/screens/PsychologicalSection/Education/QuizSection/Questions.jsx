@@ -433,7 +433,9 @@ const styles = StyleSheet.create({
   optionText: {
     fontWeight: "bold",
     left: 20,
+    top:5,
     fontSize: 17,
+    width:"85%"
   },
   selected: {
     backgroundColor: "#ddd",

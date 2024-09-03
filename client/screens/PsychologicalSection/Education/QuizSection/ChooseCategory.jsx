@@ -151,7 +151,7 @@ const CategoryScreen = ({ navigation,route }) => {
               key={index}
               onPress={() => navigation.navigate("StartQuiz", { category,username,userId })}
             >
-              <Text style={{ color: "white", fontWeight: "bold" }}>{category}</Text>
+              <Text style={{ color: "white", }}>{category}</Text>
             </TouchableOpacity>
           ))
         ) : (
@@ -214,6 +214,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     padding: 20,
     borderRadius: 15,
+top:50,
     alignItems: "center",
   },
 });
