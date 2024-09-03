@@ -221,12 +221,6 @@ const Mentors = ({ navigation,route }) => {
   const {username,userId}=route.params;
   const { isDarkMode } = useContext(DarkModeContext);
 
-  const imageMap = {
-    "Mira D.": Mentor2,
-    "Fares J.": Mentor1,
-    "James S.": Mentor3,
-    "Mira D. Alt": Mentor4,
-  };
 
   const [mentors, setMentors] = useState([]);
 
@@ -283,7 +277,7 @@ const Mentors = ({ navigation,route }) => {
                   paddingLeft: 9,
                   padding: 5,
                   borderRadius: 20,
-                  marginLeft: 100,
+                  marginLeft: 120,
                 }}
               >
                 {b.rating}
@@ -293,7 +287,7 @@ const Mentors = ({ navigation,route }) => {
                   width: 15,
                   height: 15,
                   position: "absolute",
-                  marginLeft: 175,
+                  marginLeft: 195,
                   marginTop: 47,
                 }}
                 source={Star}
@@ -304,7 +298,7 @@ const Mentors = ({ navigation,route }) => {
                   backgroundColor: isDarkMode ? "#fff" : "white",
                   fontWeight: "bold",
                   padding: 5,
-                  width: "40%",
+                  width: "45%",
                   fontSize: 12,
                   borderRadius: 10,
                   textAlign: "center",
@@ -336,7 +330,7 @@ const Mentors = ({ navigation,route }) => {
                 onPress={() =>
                   navigation.navigate("MentorsAvailability", {
                     name: b.name,
-                    image: imageMap[b.name],
+                    image:b.image,
                     description: b.description,
                     rating: b.rating,
                     type: b.type,
@@ -351,7 +345,7 @@ const Mentors = ({ navigation,route }) => {
                 </Text>
               </TouchableOpacity>
 
-              <Image source={imageMap[b.name]} style={styles.bookImage} />
+              <Image source={{ uri: `data:image/jpeg;base64,${b.image}` }} style={styles.bookImage} />
             </View>
           ))}
         </ScrollView>
@@ -373,11 +367,11 @@ const styles = StyleSheet.create({
     height: 200,
   },
   bookImage: {
-    width: 190,
-    height: 205,
+    width: 170,
+    height: 185,
     borderRadius: 20,
-    left: 135,
-    top: -160,
+    left: 160,
+    top: -141,
   },
   buttonApp: {
     width: "60%",

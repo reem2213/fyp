@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
  
 const mentorSchema = new mongoose.Schema({
     name: String,
+    image:String,
     type: String,
     description:String,
     rating:Number,

@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
   boxes: {
     marginBottom: 20,
     padding: 20,
-    borderRadius: 20,
+    borderRadius: 15,
     alignItems: "center",
   },
 });

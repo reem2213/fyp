@@ -184,15 +184,15 @@ console.log(userId)
               </Text>
               <View style={styles.goalItem}>
                 <Text style={styles.goalText}>Time:</Text>
-                <Text style={styles.goalValue}>{timeGoal} min</Text>
+                <Text style={styles.goalValue}>🕐 {timeGoal} min</Text>
               </View>
               <View style={styles.goalItem}>
                 <Text style={styles.goalText}>Calories:</Text>
-                <Text style={styles.goalValue}>{calorieGoal} Cal</Text>
+                <Text style={styles.goalValue}>🔥 {calorieGoal} Cal</Text>
               </View>
               <View style={styles.goalItem}>
                 <Text style={styles.goalText}>Weight:</Text>
-                <Text style={styles.goalValue}>{weightGoal} kg</Text>
+                <Text style={styles.goalValue}>🎚 {weightGoal} kg</Text>
               </View>
             </View>
 

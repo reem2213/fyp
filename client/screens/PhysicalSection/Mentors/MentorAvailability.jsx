@@ -45,20 +45,28 @@ const MentorsAvailability = ({ route, navigation }) => {
   const durations = ["30 mins", "45 mins", "1h", "1h 30mins"];
   const availableTime = [
     {
-      name: "Fares J.",
-      availableTimes: ["7:00 am", "11:00 am", "2:00 pm", "4:00 pm", "7:00 pm"],
+      name: "Jad B.",
+      availableTimes: ["11:00 am", "2:00 pm","3:30 pm", "4:00 pm"],
     },
     {
       name: "Mira D.",
-      availableTimes: ["4:00 am", "11:00 am", "2:00 pm", "4:00 pm", "7:00 pm"],
+      availableTimes: ["10:00 am", "11:00 am", "2:00 pm", "5:00 pm"],
     },
     {
-      name: "John Doe",
-      availableTimes: ["5:00 am", "11:00 am", "2:00 pm", "4:00 pm", "7:00 pm"],
+      name: "Chady J.",
+      availableTimes: ["10:30 am", "11:00 am", "1:00 pm", "3:00 pm", "4:00 pm"],
     },
     {
-      name: "Jane Smith",
-      availableTimes: ["8:00 am", "11:00 am", "2:00 pm", "4:00 pm", "7:00 pm"],
+      name: "Samir B.",
+      availableTimes: ["9:00 am", "11:00 am", "12:00 pm", "1:30 pm", "4:30 pm"],
+    },
+    {
+      name: "John S.",
+      availableTimes: ["10:00 am", "11:30 am", "2:30 pm", "4:00 pm"],
+    },
+    {
+      name: "Tina S.",
+      availableTimes: ["10:30 am", "12:00 pm", "2:00 pm", "4:30 pm", "5:00 pm"],
     },
   ];
 
@@ -122,7 +130,7 @@ const MentorsAvailability = ({ route, navigation }) => {
   
 
   const backToHome = () => {
-    navigation.navigate("Mentors",{username});
+    navigation.navigate("PhysicalMentor",{username,userId});
   };
 
   return (
@@ -132,7 +140,7 @@ const MentorsAvailability = ({ route, navigation }) => {
           <Image source={Back} style={styles.backButton} />
         </TouchableOpacity>
         <Text style={styles.header}>{type}</Text>
-        <Image source={image} style={styles.feedbackImage} />
+        <Image source={{uri:`data:image/jpeg;base64,${image}`}} style={styles.feedbackImage} />
       </View>
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <Text
@@ -351,10 +359,10 @@ marginBottom:10
     marginTop: 130,
   },
   feedbackImage: {
-    width: 180,
-    height: 180,
-    marginTop: 170,
-    left: -30,
+    width: 200,
+    height: 200,
+    marginTop: 200,
+    left: -50,
   },
   containerr: {
     flex: 1,

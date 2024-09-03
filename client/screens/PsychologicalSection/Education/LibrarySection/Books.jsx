@@ -266,12 +266,12 @@ const Books = ({ navigation, route }) => {
   const [books, setBooks] = useState([]);
   const [savedBooks, setSavedBooks] = useState([]);
   const [showSaved, setShowSaved] = useState(false);
-  const imageMap = {
-    "November 9": Nov9,
-    "atomic habits": AtomicHabits,
-    "rich dad poor dad": Dad,
-    Verity: Verity,
-  };
+  // const imageMap = {
+  //   "November 9": Nov9,
+  //   "atomic habits": AtomicHabits,
+  //   "rich dad poor dad": Dad,
+  //   Verity: Verity,
+  // };
 
     const pdfMap = {
     
@@ -353,7 +353,7 @@ const toggleSaveBook = async (bookId) => {
     // Update the local state to reflect the new saved status
     setBooks((prevBooks) =>
       prevBooks.map((book) =>
-        book.id === bookId ? { ...book, saved: newSavedStatus } : book
+        book.id === bookId ? { ...book, saved: newSavedStatus, uri: book.image  } : book
       )
     );
 
@@ -363,6 +363,7 @@ const toggleSaveBook = async (bookId) => {
     } else {
       setSavedBooks((prevSavedBooks) =>
         prevSavedBooks.filter((book) => book.id !== bookId)
+      
       );
     }
   } catch (error) {
@@ -439,7 +440,7 @@ const toggleSaveBook = async (bookId) => {
               onPress={() =>
                 navigation.navigate("BookDetails", {
                   title: b.title,
-                  image: imageMap[b.title],
+                  image: b.image,
                   description: b.description,
                   rating: b.rating,
                   author: b.author,
