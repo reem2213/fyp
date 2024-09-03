@@ -489,9 +489,9 @@ const toggleSaveBook = async (bookId) => {
               { color: isDarkMode ? "white" : "#B1CB14" },
             ]}
           >
-            Featured Books
+            Upcoming Arrivals
           </Text>
-          <ScrollView style={{ top: -20 }}>
+          <ScrollView style={{ top: -10 }}>
             {featuredBooks
               .reduce((rows, book, index) => {
                 if (index % 2 === 0) {
@@ -558,7 +558,7 @@ const styles = StyleSheet.create({
   subHeader2: {
     fontSize: 20,
     fontWeight: "bold",
-    marginTop: 470,
+    marginTop: 480,
     marginBottom: 10,
     marginLeft: 20,
     position: "absolute",
