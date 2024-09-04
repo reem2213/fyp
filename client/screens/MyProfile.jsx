@@ -905,10 +905,10 @@ const App = ({ route }) => {
       return (
         <View style={styles.itemContainer2}>
           <Text style={styles.itemTitle2}>Dr. {item.mentorName} </Text>
-          <Image source={AppIcon} style={{width:80,height:80, position:"absolute", top:22,left:12}}/>
+          <Image source={AppIcon} style={{width:80,height:80, position:"absolute", top:12,left:12}}/>
 
           <Text style={styles.itemTitle3}>
-            on {new Date(item.date).toDateString()}   
+            on {new Date(item.date).toDateString()}
           </Text>
           <Text style={styles.itemTitle3}> at {item.time}</Text>
           <View style={styles.statusContainer}>
@@ -1327,9 +1327,11 @@ const styles = StyleSheet.create({
   },
   actionButtons2: {
     flexDirection: "row",
-    right:285 ,
-    top: 32,
+    right:280 ,
+    top: 10,
     gap: 10,
+    position:"absolute",
+
   },
   actionButton: {
     // backgroundColor: "#f0f0f0",
@@ -1481,7 +1483,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "white",
     top:20,
-    left:72
+    left:72,
+    
   },
   itemTitle2: {
     fontSize: 18,

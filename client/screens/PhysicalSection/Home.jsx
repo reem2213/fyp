@@ -152,7 +152,7 @@ console.log(userId)
             ]}
           >
             <TouchableOpacity onPress={goToProfile}>
-              <WebView
+              {/* <WebView
                 style={[
                   styles.imagee,
                   { backgroundColor: isDarkMode ? "black" : "#fff" },
@@ -161,7 +161,11 @@ console.log(userId)
                 source={{
                   html: `<img src="data:image/jpeg;base64,${imageData}" style="width:250px; height:250px;margin-top:150px;border-radius:50%" />`,
                 }}
-              />
+              /> */}
+              <Image
+                  style={styles.imagee}
+                  source={{ uri: `data:image/jpeg;base64,${imageData} ` }}
+                />
             </TouchableOpacity>
 
             <Text
@@ -326,8 +330,8 @@ const styles = StyleSheet.create({
   welcome: {
     position: "absolute",
     fontWeight: "bold",
-    top: 160,
-    left: 80,
+    top: 165,
+    left: 90,
     color: "#1B436F",
     fontSize: 20,
   },
@@ -469,10 +473,14 @@ const styles = StyleSheet.create({
   },
 
   imagee: {
-    width: 200,
-    height: 200,
-    top: 100,
-    left: 10,
+    width: 60,
+    height: 60,
+    top: 150,
+    left: 20,
+    borderColor: "#032B79",
+    borderWidth: 2,
+    borderRadius: 120,
+    marginBottom: 130,
   },
 
   bmiValue: {

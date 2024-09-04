@@ -399,7 +399,7 @@ export default function ChatScreen({ route, navigation }) {
         <TouchableOpacity onPress={fetchGroupMembers} style={styles.infoButton}>
           <Image
             source={InfoDark}
-            style={{ width: 20, height: 20, marginTop: 10, left: 105 }}
+            style={{ width: 20, height: 20, marginTop: -5, left: 25,position:"absolute" }}
           />
         </TouchableOpacity>
         <TouchableOpacity onPress={quitGroup} style={styles.quitButton}>
@@ -511,13 +511,13 @@ const styles = StyleSheet.create({
   },
   sentMessage: {
     alignSelf: "flex-end",
-    backgroundColor: "#719AEA",
+    backgroundColor: "#6096FF",
     borderRadius: 25,
     paddingHorizontal: 20,
   },
   receivedMessage: {
     alignSelf: "flex-start",
-    backgroundColor: "#2B4C8D",
+    backgroundColor: "#2C74FF",
     borderRadius: 25,
     fontWeight: "bold",
   },
@@ -563,6 +563,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: "#032B79",
+    width:"60%"
   },
   messagesContainer: {
     padding: 20,
