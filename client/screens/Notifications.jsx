@@ -266,7 +266,7 @@ const Notifications = ({ navigation,route}) => {
       {isDarkMode? (<Image
         style={styles.ellipseIcon}
         contentFit="cover"
-        source={require("../assets/grayEllipse.png")}
+        source={require("../assets/DarkEllipse.png")}
       />):(<Image
         style={styles.ellipseIcon}
         contentFit="cover"
@@ -294,7 +294,7 @@ const Notifications = ({ navigation,route}) => {
       {isDarkMode? (<Image
         style={styles.ellipseIcon2}
         contentFit="cover"
-        source={require("../assets/grayEllipse.png")}
+        source={require("../assets/DarkEllipse.png")}
       />):(<Image
         style={styles.ellipseIcon2}
         contentFit="cover"
@@ -325,6 +325,9 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     top: -15,
+    borderRadius:200
+
+    
   },
   header: {
     fontSize: 35,
@@ -380,6 +383,7 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     top: 650,
+    borderRadius:200
   },
   noNotifications: {
     fontSize: 16,

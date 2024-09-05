@@ -90,7 +90,7 @@ const Feedback = ({ navigation, route }) => {
     <>
       <View
         style={[
-          { color: "black" },
+          { color: "black", height:"100%" },
           { backgroundColor: isDarkMode ? "black" : "#fff" },
         ]}
       >
@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
     height: 100,
   },
   darkFeedbackItem: {
-    backgroundColor: "#444",
+    backgroundColor: "#1F1F1F",
   },
   userIcon: {
     width: 50,
@@ -325,11 +325,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     position: "absolute",
-    marginTop: 790,
+    marginTop: 800,
     marginLeft: 70,
   },
   darkAddFeedbackButton: {
-    backgroundColor: "#555",
+    backgroundColor: "#FFAE64",
   },
   addFeedbackText: {
     color: "white",

@@ -294,6 +294,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ArrowBack from "../assets/arrowBack.png";
 import BlueEllipse from "../assets/blueEllipse.png";
 import GoalScreen from "../assets/goalScreen.png";
+import DarkEllipse from "../assets/DarkEllipse.png";
 import axios from "axios";
 import TrashIcon from "../assets/trashIcon.png";
 import { DarkModeContext } from "../components/DarkModeContext";
@@ -383,9 +384,22 @@ const Goal = ({ navigation, route }) => {
         <Image source={ArrowBack} style={styles.arrow} />
       </Pressable>
 
-      <Image style={styles.blueEllispe} source={BlueEllipse} />
-      <Image style={styles.blueEllispe2} source={BlueEllipse} />
-      <Image style={styles.blueEllispe3} source={BlueEllipse} />
+      {isDarkMode ? (
+        <Image style={styles.blueEllispe} source={DarkEllipse} />
+      ) : (
+        <Image style={styles.blueEllispe} source={BlueEllipse} />
+      )}
+
+      {isDarkMode ? (
+        <Image style={styles.blueEllispe2} source={DarkEllipse} />
+      ) : (
+        <Image style={styles.blueEllispe2} source={BlueEllipse} />
+      )}
+      {isDarkMode ? (
+        <Image style={styles.blueEllispe3} source={DarkEllipse} />
+      ) : (
+        <Image style={styles.blueEllispe3} source={BlueEllipse} />
+      )}
 
       <Text style={[styles.AchieveYourDream, isDarkMode && styles.darkText]}>
         Achieve Your Dreams
@@ -401,14 +415,8 @@ const Goal = ({ navigation, route }) => {
         transparent={true}
         onRequestClose={() => setIsModalVisible(false)}
       >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            {/* <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setIsModalVisible(false)}
-            >
-              <Text style={styles.closeText}>x</Text>
-            </TouchableOpacity> */}
+        <View style={[styles.modalContainer]}>
+          <View style={[styles.modalContent,{backgroundColor: isDarkMode ? "#1F1F1F" : "white",}]}>
             <TextInput
               style={[styles.input, isDarkMode && styles.darkInput]}
               placeholder="Enter your new goal"
@@ -417,8 +425,6 @@ const Goal = ({ navigation, route }) => {
               onChangeText={(text) => setNewGoal(text)}
             />
             <View style={{ flexDirection: "row" }}>
-             
-
               <TouchableOpacity
                 onPress={() => setIsModalVisible(false)}
                 style={{
@@ -439,7 +445,7 @@ const Goal = ({ navigation, route }) => {
                   width: "30%",
                   borderRadius: 15,
                   alignItems: "center",
-                  left:130
+                  left: 130,
                 }}
                 disabled={!newGoal}
               >
@@ -499,7 +505,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   darkContainer: {
-    backgroundColor: "#333",
+    backgroundColor: "black",
   },
   arrow: {
     marginTop: 70,
@@ -512,6 +518,7 @@ const styles = StyleSheet.create({
     height: 100,
     marginLeft: 350,
     marginTop: -90,
+    borderRadius: 200,
   },
   // closeText: {
   //   color: "gray",
@@ -526,6 +533,7 @@ const styles = StyleSheet.create({
     marginLeft: 300,
     marginTop: -70,
     opacity: 0.5,
+    borderRadius: 200,
   },
   blueEllispe3: {
     width: 150,
@@ -533,6 +541,7 @@ const styles = StyleSheet.create({
     marginLeft: -80,
     marginTop: 780,
     position: "absolute",
+    borderRadius: 200,
   },
 
   AchieveYourDream: {
@@ -567,7 +576,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   darkAdd: {
-    backgroundColor: "#555",
+    backgroundColor: "#011C4F",
   },
   addGoal: {
     color: "white",
@@ -614,7 +623,7 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   darkInput: {
-    backgroundColor: "#555",
+    backgroundColor: "#1F1F1F",
     borderColor: "#444",
     color: "#fff",
   },
@@ -646,10 +655,9 @@ const styles = StyleSheet.create({
     color: "white",
     borderRadius: 15,
     height: 50,
-   
   },
   darkGoalItemContainer: {
-    backgroundColor: "#444",
+    backgroundColor: "#1F1F1F",
   },
   goalItem: {
     fontSize: 16,

@@ -316,7 +316,7 @@ const Home = ({ navigation,route }) => {
     <GestureHandlerRootView
       style={[
         styles.container,
-        { backgroundColor: isDarkMode ? "#1A1A1A" : "#fff" },
+        { backgroundColor: isDarkMode ? "black" : "#fff" },
       ]}
     >
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -334,7 +334,7 @@ const Home = ({ navigation,route }) => {
         {isDarkMode ? (
           <Image
             style={styles.ellipseIcon}
-            source={require("../../assets/grayEllipse.png")}
+            source={require("../../assets/DarkEllipse.png")}
           />
         ) : (
           <Image
@@ -346,7 +346,7 @@ const Home = ({ navigation,route }) => {
         {isDarkMode ? (
           <Image
             style={styles.ellipseIcon2}
-            source={require("../../assets/grayEllipse.png")}
+            source={require("../../assets/DarkEllipse.png")}
           />
         ) : (
           <Image
@@ -420,12 +420,16 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     top: -15,
+    borderRadius:200
+
   },
   ellipseIcon2: {
     top: 50,
     left: -90,
     width: 150,
     height: 150,
+    borderRadius:200
+
   },
   notiImage: {
     position: "absolute",

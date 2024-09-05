@@ -828,7 +828,7 @@ const App = ({ navigation, route }) => {
           contentFit="cover"
           source={
             isDarkMode
-              ? require("../assets/grayEllipse.png")
+              ? require("../assets/DarkEllipse.png")
               : require("../assets/blueEllipse.png")
           }
         />
@@ -926,7 +926,7 @@ const App = ({ navigation, route }) => {
       <TouchableOpacity
         style={[
           styles.addButton,
-          { backgroundColor: isDarkMode ? "#444" : "#719AEA" },
+          { backgroundColor: isDarkMode ? "#011C4F" : "#719AEA" },
         ]}
         onPress={() => setModalVisible(true)}
       >
@@ -1032,13 +1032,12 @@ const App = ({ navigation, route }) => {
 
             <Pressable onPress={() => pickImageAsync(true)}>
               <Text
-                style={{
+                style={[{
                   marginLeft: 0,
                   fontWeight: "500",
-                  color: "#636363",
                   marginTop: 20,
                   top: -20,
-                }}
+                },{color: isDarkMode ? "white" : "#636363",}]}
               >
                 Choose a photo
               </Text>
@@ -1111,6 +1110,9 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     top: -15,
+    borderRadius:200
+
+   
   },
   notiImage: {
     position: "absolute",

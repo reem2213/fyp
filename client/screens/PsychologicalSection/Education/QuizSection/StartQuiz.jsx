@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState ,useContext} from "react";
 import { View, Text, Button, StyleSheet, Alert } from "react-native";
 import axios from "axios";
+import { DarkModeContext } from "../../../../components/DarkModeContext"; // Import the context
 
 const QuizScreen = ({ route, navigation }) => {
   const { category, username, userId } = route.params;
   const [questions, setQuestions] = useState([]);
+  const { isDarkMode } = useContext(DarkModeContext); // Use the context
 
   useEffect(() => {
     axios
@@ -31,7 +33,7 @@ const QuizScreen = ({ route, navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,{backgroundColor: isDarkMode ? "black" : "white",}]}>
       {questions.length > 0 ? (
         <Text
           onPress={startQuiz}

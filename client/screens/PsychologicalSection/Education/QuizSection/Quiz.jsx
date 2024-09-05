@@ -84,7 +84,7 @@ const Quiz = ({ navigation,route }) => {
 
       <TouchableOpacity
         style={{
-          backgroundColor: isDarkMode ? "gray" : "white",
+          backgroundColor: isDarkMode ? "#FF6B00" : "white",
           width: 200,
           height: 50,
           borderRadius: 20,

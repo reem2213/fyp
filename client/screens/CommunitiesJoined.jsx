@@ -11,7 +11,7 @@ import axios from "axios";
 import BlueEllipse from "../assets/blueEllipse.png";
 import Back from "../assets/arrowBack.png";
 import { DarkModeContext } from "../components/DarkModeContext";
-import GrayEllipse from "../assets/grayEllipse.png";
+import GrayEllipse from "../assets/DarkEllipse.png";
 
 export default function CommunitiesJoinedScreen({ navigation, route }) {
   const [joinedGroups, setJoinedGroups] = useState([]);
@@ -51,7 +51,8 @@ export default function CommunitiesJoinedScreen({ navigation, route }) {
       {isDarkMode ? (
         <Image
           source={GrayEllipse}
-          style={{ width: 120, height: 120, left: 310, top: -40 }}
+          style={{ width: 120, height: 120, left: 310, top: -40,    borderRadius:200
+          }}
         />
       ) : (
         <Image
@@ -84,7 +85,7 @@ export default function CommunitiesJoinedScreen({ navigation, route }) {
               key={item._id}
               style={[
                 styles.groupItem,
-                { backgroundColor: isDarkMode ? "#3E3E3E" : "#fff" },
+                { backgroundColor: isDarkMode ? "#1F1F1F" : "#fff" },
               ]}
               onPress={() =>
                 navigation.navigate("Chat", {
@@ -124,7 +125,8 @@ export default function CommunitiesJoinedScreen({ navigation, route }) {
       </ScrollView>
       <TouchableOpacity
         onPress={navigateToCreateGroup}
-        style={styles.floatingButton}
+        style={[styles.floatingButton,{ backgroundColor: isDarkMode ? "#011C4F" : "#4A90E2" },
+        ]}
       >
 
         <Text style={{ color: "white" }}>+</Text>
@@ -132,7 +134,8 @@ export default function CommunitiesJoinedScreen({ navigation, route }) {
       {isDarkMode ? (
         <Image
           source={GrayEllipse}
-          style={{ width: 120, height: 120, left: -50, top: 40 }}
+          style={{ width: 120, height: 120, left: -50, top: 40 ,    borderRadius:200
+          }}
         />
       ) : (
         <Image
@@ -201,7 +204,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     right: 20,
     bottom: 30,
-    backgroundColor: "#4A90E2",
     borderRadius: 30,
     shadowColor: "#000",
     shadowOpacity: 0.1,

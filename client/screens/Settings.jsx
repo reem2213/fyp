@@ -3,7 +3,7 @@ import { Text, View, Image, TouchableOpacity, Switch } from "react-native";
 import Back from "../assets/arrowBack.png";
 import { useNavigation } from "@react-navigation/native";
 import { DarkModeContext } from "../components/DarkModeContext";
-
+import WhiteArrow from '../assets/whiteArrowBack.png';
 const Settings = ({ navigation,route }) => {
   const {username,userId,bio, imageData, email,phoneNo}=route.params
   const { isDarkMode, toggleDarkMode } = useContext(DarkModeContext);
@@ -23,7 +23,16 @@ const Settings = ({ navigation,route }) => {
   return (
     <View style={{ flex: 1, backgroundColor: isDarkMode ? "black" : "white" }}>
       <TouchableOpacity onPress={BackToProfile}>
-        <Image
+      {isDarkMode?(<Image
+          source={WhiteArrow}
+          style={{
+            width: 40,
+            height: 40,
+            top: 50,
+            position: "absolute",
+            left: 20,
+          }}
+        />):(<Image
           source={Back}
           style={{
             width: 40,
@@ -32,7 +41,8 @@ const Settings = ({ navigation,route }) => {
             position: "absolute",
             left: 20,
           }}
-        />
+        />)}
+        
       </TouchableOpacity>
       <Text
         style={{

@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{useContext}from "react";
 import {
   View,
   Text,
@@ -7,29 +7,31 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { DarkModeContext } from "../../../../components/DarkModeContext"; // Import the context
 
 const ReviewScreen = ({ route, navigation }) => {
-  const { questions,username } = route.params;
+  const { questions,username,userId } = route.params;
+  const { isDarkMode } = useContext(DarkModeContext); // Use the context
 
   return (
     <>
-      <View style={styles.bigContainer}>
+      <View style={[styles.bigContainer,{ backgroundColor: isDarkMode ? "black" : "#FF6B00" }]}>
         <Text
-          style={{
+          style={[{
             color: "white",
             fontSize: 45,
             fontWeight: "bold",
             marginTop: 100,
             textAlign: "center",
-          }}
+          },]}
         >
           View Answers
         </Text>
         <GestureHandlerRootView style={styles.scrollViewContainer}>
-          <ScrollView contentContainerStyle={styles.container}>
+          <ScrollView contentContainerStyle={[styles.container,{ backgroundColor: isDarkMode ? "#1F1F1F" : "white" }]}>
             {questions.map((question, index) => (
               <View key={index} style={styles.questionContainer}>
-                <Text style={styles.questionText}>
+                <Text style={[styles.questionText,{ color: isDarkMode ? "white" : "gray" }]}>
                   {index + 1}. {question.question}
                 </Text>
                 <Text
@@ -68,10 +70,10 @@ const ReviewScreen = ({ route, navigation }) => {
         </GestureHandlerRootView>
 
         <TouchableOpacity
-          onPress={() => navigation.navigate("QuizCategory",{username})}
-          style={styles.bttn}
+          onPress={() => navigation.navigate("QuizCategory",{username,userId})}
+          style={[styles.bttn,{ backgroundColor: isDarkMode ? "#FF6B00" : "white" }]}
         >
-          <Text style={{ color: "#FF6B00", fontSize: 15, fontWeight: "bold" }}>
+          <Text style={[{fontSize: 15, fontWeight: "bold" },{ color: isDarkMode ? "white" : "#FF6B00" }]}>
             Go to Home
           </Text>
         </TouchableOpacity>
@@ -88,7 +90,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 50,
     alignItems: "center",
-    backgroundColor: "white",
+    
     width: "90%",
     // top:20,
     // left:70,
@@ -107,7 +109,6 @@ const styles = StyleSheet.create({
   questionText: {
     fontSize: 18,
     marginBottom: 10,
-    color: "gray",
   },
   answerText: {
     fontSize: 16,
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     right: 150,
-    top: 700,
+    top: 750,
     position: "absolute",
   },
 });

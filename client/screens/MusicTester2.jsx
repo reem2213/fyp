@@ -216,7 +216,7 @@ export default function MusicZoneScreen({ navigation, route }) {
       <View
         style={[
           styles.bigContainer,
-          { backgroundColor: isDarkMode ? "#22CFE7" : "#22CFE7" },
+          { backgroundColor: isDarkMode ? "#011C4F" : "#22CFE7" },
         ]}
       >
         <TouchableOpacity onPress={backToHome}>
@@ -248,7 +248,7 @@ export default function MusicZoneScreen({ navigation, route }) {
         ].map((track, index) => (
           <View key={index} style={{ flexDirection: "row", gap: 10 }}>
             <TouchableOpacity
-              style={styles.playPauseBtn}
+              style={[styles.playPauseBtn,{ backgroundColor: isDarkMode ? "#011C4F" : "#22CFE7" },]}
               onPress={() => togglePlaySound(index, track.source)}
             >
               <AntDesign
@@ -336,6 +336,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 100,
     margin: 10,
-    backgroundColor: "#22CFE7",
   },
 });

@@ -216,7 +216,8 @@ import Mentor3 from "../../../assets/mentor3.png";
 import Mentor4 from "../../../assets/mentor4.png";
 import Star from "../../../assets/star_filled.png";
 import { DarkModeContext } from "../../../components/DarkModeContext"; // Adjust the path as per your project structure
-
+import WhiteBack from '../../../assets/back.png'
+import EllipseDark from '../../../assets/DarkEllipse.png'
 const Mentors = ({ navigation,route }) => {
   const {username,userId}=route.params;
   const { isDarkMode } = useContext(DarkModeContext);
@@ -242,22 +243,37 @@ const Mentors = ({ navigation,route }) => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: isDarkMode ? "#1A1A1A" : "#fff" }}>
+    <View style={{ flex: 1, backgroundColor: isDarkMode ? "black" : "#fff" }}>
       <TouchableOpacity onPress={backToPsychoSection}>
+      {isDarkMode ? (
         <Image
+          style={{ width: 40, height: 40, marginLeft: 20, marginTop: 50 }}
+          source={WhiteBack}
+        />
+        ) : (
+          <Image
           style={{ width: 50, height: 50, marginLeft: 20, marginTop: 50 }}
           source={Back}
         />
+        )}
+       
       </TouchableOpacity>
-
-      <Image
+      {isDarkMode ? (
+        <Image
+        style={{ width: 140, height: 140, marginLeft: 300, marginTop: -120,borderRadius:200 }}
+        source={EllipseDark}
+      />
+        ) : (
+          <Image
         style={{ width: 140, height: 140, marginLeft: 300, marginTop: -120 }}
         source={Ellipse}
       />
+        )}
+      
       <Text
         style={{
           fontSize: 35,
-          marginLeft: 20,
+          marginLeft: 30,
           fontWeight: "bold",
           color: isDarkMode ? "#fff" : "#032B79",
           marginBottom: 20,
@@ -268,7 +284,7 @@ const Mentors = ({ navigation,route }) => {
       <GestureHandlerRootView style={styles.scrollViewContainer}>
         <ScrollView showsVerticalScrollIndicator={false}>
           {mentors.map((b, index) => (
-            <View key={index} style={[styles.container, { backgroundColor: isDarkMode ? "#3A3A3A" : "#719AEA" }]}>
+            <View key={index} style={[styles.container, { backgroundColor: isDarkMode ? "#1F1F1F" : "#719AEA" }]}>
               <Text
                 style={{
                   color: isDarkMode ? "#fff" : "white",

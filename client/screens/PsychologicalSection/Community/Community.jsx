@@ -12,7 +12,8 @@ import axios from "axios";
 import BlueEllipse from "../../../assets/blueEllipse.png";
 import Back from "../../../assets/arrowBack.png";
 import { DarkModeContext } from "../../../components/DarkModeContext";
-import GrayEllipse from '../../../assets/grayEllipse.png';
+import GrayEllipse from '../../../assets/DarkEllipse.png';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function GroupsScreen({ navigation, route }) {
   const [groups, setGroups] = useState([]);
@@ -59,11 +60,11 @@ export default function GroupsScreen({ navigation, route }) {
   };
 
   return (
-    <View style={[{ height: "100%", backgroundColor: "#f5f5f5" }, { backgroundColor: isDarkMode ? "black" : "#f5f5f5" }]}>
+    <View style={[{ height: "100%",width:"100%", backgroundColor: "#f5f5f5" }, { backgroundColor: isDarkMode ? "black" : "#f5f5f5" }]}>
       {isDarkMode ? (
         <Image
           source={GrayEllipse}
-          style={{ width: 120, height: 120, left: 290, top: -40 }}
+          style={{ width: 120, height: 120, left: 320, top: -10,borderRadius:200 }}
         />
       ) : (
         <Image
@@ -83,13 +84,13 @@ export default function GroupsScreen({ navigation, route }) {
         <Text style={[styles.header, { color: isDarkMode ? "white" : "#032B79" }]}>Communities</Text>
         <View style={styles.groupsContainer}>
           {groups.map((item) => (
-            <View key={item._id} style={[styles.groupItem, { backgroundColor: isDarkMode ? "gray" : "#fff" }]}>
+            <View key={item._id} style={[styles.groupItem, { backgroundColor: isDarkMode ? "#1F1F1F" : "#fff" }]}>
               <Text style={[styles.groupName, { color: isDarkMode ? "white" : "black" }]}>{item.name}</Text>
               <Text style={styles.groupDescription}>{item.description}</Text>
               <View style={styles.bottomRow}>
                 <Text style={[styles.groupMembers, { color: isDarkMode ? "white" : "black" }]}>{`${item.members?.length || 0} participants`}</Text>
                 <TouchableOpacity
-                  style={[styles.joinButton, { backgroundColor: isDarkMode ? "black" : "#4a90e2" }]}
+                  style={[styles.joinButton, { backgroundColor: isDarkMode ? "#011C4F" : "#4a90e2" }]}
                   onPress={() => joinGroup(item._id)}
                   disabled={item.joined}
                 >
@@ -103,19 +104,17 @@ export default function GroupsScreen({ navigation, route }) {
           
         </View>
         <TouchableOpacity
-          style={[styles.viewJoinedButton, { backgroundColor: isDarkMode ? "#719AEA" : "#4a90e2" }]}
+          style={[styles.viewJoinedButton, { backgroundColor: isDarkMode ? "#011C4F" : "#4a90e2" }]}
           onPress={() => navigation.navigate("Community", { username,userId })}
         >
           <Text style={styles.viewJoinedButtonText}>
             View Joined Communities
           </Text>
         </TouchableOpacity>
-      </ScrollView>
-
-      {isDarkMode ? (
+        {isDarkMode ? (
         <Image
           source={GrayEllipse}
-          style={{ width: 120, height: 120, left: -50, top: 40 }}
+          style={{ width: 120, height: 120, left: -80, top: 40,borderRadius:200 }}
         />
       ) : (
         <Image
@@ -123,6 +122,9 @@ export default function GroupsScreen({ navigation, route }) {
           style={{ width: 120, height: 120, left: -50, top: 40 }}
         />
       )}
+      </ScrollView>
+
+      
     </View>
   );
 }
@@ -133,6 +135,8 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "#f5f5f5",
     marginTop: -50,
+    height:"100%",
+    width:"100%"
   },
   header: {
     fontSize: 28,
@@ -146,6 +150,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
+
   },
   groupItem: {
     width: "48%",
@@ -195,7 +200,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   viewJoinedButton: {
-    marginTop: 20,
+    marginTop: 0,
     paddingVertical: 10,
     paddingHorizontal: 20,
     backgroundColor: "#4a90e2",

@@ -405,11 +405,22 @@ const Home = ({ navigation,route }) => {
         <Pressable onPress={toNotifications}>
           <Image style={styles.notiImage} source={ArrowBack} />
         </Pressable>
-        <Image
+        {isDarkMode ? (
+          <Image
+          style={[styles.ellipseIcon]}
+          contentFit="cover"
+          source={require("../../../assets/DarkEllipse.png")}
+        />
+
+        ) : (
+          <Image
           style={[styles.ellipseIcon]}
           contentFit="cover"
           source={require("../../../assets/blueEllipse.png")}
         />
+
+        )}
+      
 
         <Text style={[styles.welcome, { color: isDarkMode ? "white" : "#1B436F" }]}>{`Learn & Grow`}</Text>
         <Image source={EduBg} style={styles.image} />
@@ -468,6 +479,7 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     top: -15,
+    borderRadius:200
   },
   ellipseIcon2: {
     top: 50,

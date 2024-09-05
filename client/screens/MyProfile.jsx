@@ -741,16 +741,18 @@ import Settings from "../assets/settings.png";
 import Coin from "../assets/coin.png";
 import Back from "../assets/arrowBack.png";
 import { DarkModeContext } from "../components/DarkModeContext"; // Import the context
-import GoalIcon from '../assets/goalIcon.png';
-import AppIcon from '../assets/appointment.png';
+import GoalIcon from "../assets/goalIcon.png";
+import AppIcon from "../assets/appointment.png";
+import WhiteArrow from "../assets/whiteArrowBack.png";
+import WhiteSettings from "../assets/WhiteSettings.png";
 const App = ({ route }) => {
   const { navigate } = useNavigation();
-  const { username,userId } = route.params;
+  const { username, userId } = route.params;
   const [bio, setBio] = useState("");
   const [points, setPoints] = useState(0); // Add state for points
   const [email, setEmail] = useState("");
-  const { isDarkMode } = useContext(DarkModeContext); 
-  const[phoneNo,setphoneNo]= useState(0);
+  const { isDarkMode } = useContext(DarkModeContext);
+  const [phoneNo, setphoneNo] = useState(0);
 
   const [imageData, setImageData] = useState(null);
 
@@ -765,9 +767,7 @@ const App = ({ route }) => {
     fetchMeetings();
     fetchGoals();
     fetchUserPoints(); // Fetch user points
-    
   }, []);
-
 
   const fetchUserProfile = async () => {
     // const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
@@ -779,15 +779,11 @@ const App = ({ route }) => {
       setBio(response.data.bio);
       setImageData(response.data.image);
       setEmail(response.data.email);
-      setphoneNo(response.data.phoneNo)
+      setphoneNo(response.data.phoneNo);
     } catch (error) {
       console.error("Error fetching user profile:", error);
     }
   };
-
-
-
-
 
   const fetchMeetings = async () => {
     // const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
@@ -905,7 +901,16 @@ const App = ({ route }) => {
       return (
         <View style={styles.itemContainer2}>
           <Text style={styles.itemTitle2}>Dr. {item.mentorName} </Text>
-          <Image source={AppIcon} style={{width:80,height:80, position:"absolute", top:12,left:12}}/>
+          <Image
+            source={AppIcon}
+            style={{
+              width: 80,
+              height: 80,
+              position: "absolute",
+              top: 12,
+              left: 12,
+            }}
+          />
 
           <Text style={styles.itemTitle3}>
             on {new Date(item.date).toDateString()}
@@ -939,7 +944,16 @@ const App = ({ route }) => {
       return (
         <View style={styles.itemContainer}>
           <Text style={styles.itemTitle}>{item.goal}</Text>
-          <Image source={GoalIcon} style={{width:50,height:50, position:"absolute", top:12,left:12}}/>
+          <Image
+            source={GoalIcon}
+            style={{
+              width: 50,
+              height: 50,
+              position: "absolute",
+              top: 12,
+              left: 12,
+            }}
+          />
 
           <View style={styles.statusContainer}>
             {(item.status === "upcoming" || item.status === "in progress") && (
@@ -950,7 +964,9 @@ const App = ({ route }) => {
                     handleStatusChange(item._id, "Completed", item.status)
                   }
                 >
-                  <Text style={styles.actionButtonText2}>Mark as completed</Text>
+                  <Text style={styles.actionButtonText2}>
+                    Mark as completed
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[styles.actionButton]}
@@ -982,14 +998,21 @@ const App = ({ route }) => {
         );
 
   const goToSettings = () => {
-    navigate("Settings", { username,userId ,bio, imageData, email,phoneNo});
+    navigate("Settings", { username, userId, bio, imageData, email, phoneNo });
   };
 
   const goBack = () => {
-    navigate("Home", { username,userId });
+    navigate("Home", { username, userId });
   };
   const goToEditProfile = () => {
-    navigate("EditProfile", { username, bio, imageData, email ,userId,phoneNo});
+    navigate("EditProfile", {
+      username,
+      bio,
+      imageData,
+      email,
+      userId,
+      phoneNo,
+    });
   };
 
   const calculateGoalPercentages = () => {
@@ -1021,15 +1044,27 @@ const App = ({ route }) => {
       >
         <View style={{ backgroundColor: isDarkMode ? "black" : "#FAFAFA" }}>
           <TouchableOpacity onPress={goBack}>
-            <Image
-              source={Back}
-              style={{
-                top: 50,
-                left: 20,
-                width: 40,
-                height: 40,
-              }}
-            />
+            {isDarkMode ? (
+              <Image
+                source={WhiteArrow}
+                style={{
+                  top: 50,
+                  left: 20,
+                  width: 40,
+                  height: 40,
+                }}
+              />
+            ) : (
+              <Image
+                source={Back}
+                style={{
+                  top: 50,
+                  left: 20,
+                  width: 40,
+                  height: 40,
+                }}
+              />
+            )}
           </TouchableOpacity>
 
           <Text
@@ -1049,10 +1084,17 @@ const App = ({ route }) => {
             Profile
           </Text>
           <TouchableOpacity onPress={goToSettings} style={{ width: "10%" }}>
-            <Image
-              style={{ width: 45, height: 45, left: 330, top: -45 }}
-              source={Settings}
-            />
+            {isDarkMode ? (
+              <Image
+                source={WhiteSettings}
+                style={{ width: 45, height: 45, left: 330, top: -45 }}
+              />
+            ) : (
+              <Image
+                style={{ width: 45, height: 45, left: 330, top: -45 }}
+                source={Settings}
+              />
+            )}
           </TouchableOpacity>
           <Image
             source={Coin}
@@ -1116,9 +1158,7 @@ const App = ({ route }) => {
                   textAlign: "center",
                   left: 185,
                   top: -60,
-                  fontSize:12
-
-                
+                  fontSize: 12,
                 },
                 {
                   backgroundColor: isDarkMode ? "gray" : "#032B79",
@@ -1308,7 +1348,6 @@ const App = ({ route }) => {
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
     top: -70,
@@ -1322,16 +1361,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginLeft: 16,
     top: 5,
-    
+
     gap: 10,
   },
   actionButtons2: {
     flexDirection: "row",
-    right:280 ,
+    right: 280,
     top: 10,
     gap: 10,
-    position:"absolute",
-
+    position: "absolute",
   },
   actionButton: {
     // backgroundColor: "#f0f0f0",
@@ -1350,34 +1388,34 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: "red",
     top: 25,
-    left:-50
+    left: -50,
   },
   actionButtonText2: {
     fontSize: 10,
     color: "white",
     top: 25,
-    left:-50,
+    left: -50,
   },
 
   actionButtonTextt: {
     fontSize: 10,
     color: "white",
     top: 30,
-    left:-50,
-    backgroundColor:"red",
-    padding:5,
-    paddingHorizontal:10,
-    borderRadius:10
+    left: -50,
+    backgroundColor: "red",
+    padding: 5,
+    paddingHorizontal: 10,
+    borderRadius: 10,
   },
   actionButtonTextt2: {
     fontSize: 10,
     color: "blue",
     top: 30,
-    left:-50,
-    backgroundColor:"white",
-    padding:5,
-    paddingHorizontal:10,
-    borderRadius:10
+    left: -50,
+    backgroundColor: "white",
+    padding: 5,
+    paddingHorizontal: 10,
+    borderRadius: 10,
   },
 
   header: {
@@ -1479,24 +1517,23 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
   itemTitle: {
-    position:"absolute",
+    position: "absolute",
     fontSize: 18,
     color: "white",
-    top:20,
-    left:72,
-    
+    top: 20,
+    left: 72,
   },
   itemTitle2: {
     fontSize: 18,
     color: "white",
-    top:-25,
-    right:10
+    top: -25,
+    right: 10,
   },
   itemTitle3: {
     fontSize: 15,
     color: "white",
-    top:5,
-    right:105
+    top: 5,
+    right: 105,
   },
   itemStatus: {
     fontSize: 14,
@@ -1507,13 +1544,11 @@ const styles = StyleSheet.create({
   upcoming: {
     backgroundColor: "#2196F3",
     color: "#fff",
-    
   },
   completed: {
     backgroundColor: "#4CAF50",
     color: "#fff",
   },
-
 
   cancelled: {
     backgroundColor: "#F44336",
@@ -1530,8 +1565,8 @@ const styles = StyleSheet.create({
     left: 30,
     marginTop: 40,
     borderRadius: 150,
-    borderColor:"#032B79",
-    borderWidth:4,
+    borderColor: "#032B79",
+    borderWidth: 4,
   },
   chartContainer: {
     padding: 20,
@@ -1570,6 +1605,3 @@ const styles = StyleSheet.create({
 });
 
 export default App;
-
-
-

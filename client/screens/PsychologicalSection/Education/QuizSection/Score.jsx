@@ -204,15 +204,15 @@ const ScoreScreen = ({ route, navigation }) => {
       )}
       <TouchableOpacity
         onPress={() => navigation.navigate("Gamification", { points,username,userId })}
-        style={[styles.bttn, { backgroundColor: isDarkMode ? "gray" : "white" }]}
+        style={[styles.bttn, { backgroundColor: isDarkMode ? "#FF6B00" : "white" }]}
       >
-        <Text style={{ color: "#FF6B00", fontSize: 15, fontWeight: "bold" }}>Go to Home</Text>
+        <Text style={[{  fontSize: 15, fontWeight: "bold" },{ color: isDarkMode ? "white" : "#FF6B00" }]}>Go to Home</Text>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => navigation.navigate("Review", { questions,username })}
-        style={[styles.bttn2, { backgroundColor: isDarkMode ? "gray" : "white" }]}
+        style={[styles.bttn2, { backgroundColor: isDarkMode ? "#FF6B00" : "white" }]}
       >
-        <Text style={{ color: "#FF6B00", fontSize: 15, fontWeight: "bold" }}>Review Answers</Text>
+        <Text style={[{  fontSize: 15, fontWeight: "bold" },{ color: isDarkMode ? "white" : "#FF6B00" }]}>Review Answers</Text>
       </TouchableOpacity>
     </View>
   );

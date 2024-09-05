@@ -43,7 +43,6 @@ const validationSchema = Yup.object().shape({
         initialValues={{ reason: "", otherReason: "" }}
         validationSchema={validationSchema}
         onSubmit={(values) => {
-          // Handle form submission
           console.log(values);
           navigation.goBack()        }}
       >

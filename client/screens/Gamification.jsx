@@ -198,11 +198,8 @@ const Gamification = ({ route, navigation }) => {
 
   const fetchScores = async () => {
     try {
-      // const responses = await axios.get('http://10.0.0.21:3001/get-userid', { params: { username } });
-      // const userId = responses.data.userId;
-      console.log(userId)
-  
       
+      console.log(userId)
       const response = await axios.get(`http://10.0.0.21:3001/scores/${userId}`);
       setScores(response.data);
     } catch (error) {
@@ -232,10 +229,14 @@ const Gamification = ({ route, navigation }) => {
     const badge = getBadge(item.points);
 
     return (
-      <View style={[styles.pointsContainer, { backgroundColor: isDarkMode ? "gray" : "#FFF" }]}>
-        <Text style={[styles.pointsText, { color: isDarkMode ? "white" : "black" }]}>
+      <View style={[styles.pointsContainer, { backgroundColor: isDarkMode ? "#1F1F1F" : "#FFF" }]}>
+        {/* {scores ===null && */}
+          <Text style={[styles.pointsText, { color: isDarkMode ? "white" : "black" }]}>
           Great job! You've earned bonus coins for passing your quiz
-        </Text>
+          </Text>
+        {/* } */}
+
+         
         <View style={styles.pointsRow}>
           <Text style={[styles.pointsValue, { color: isDarkMode ? "white" : "#EB1F88" }]}>{item.points} pts</Text>
           {badge.image && <Image source={badge.image} style={styles.badgeImage} />}

@@ -35,6 +35,9 @@ import AwesomeAlert from "react-native-awesome-alerts";
 import axios from "axios";
 import { BarChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
+import NotiDark from "../assets/notiDark.png";
+import NotiWhite from "../assets/notiWhite.png";
+import WhitePost from '../assets/whitePost.png';
 const screenWidth = Dimensions.get("window").width;
 const SccreenTime = ({ screenTimeData }) => {
   const chartData = {
@@ -121,33 +124,33 @@ const Home = ({ navigation, route }) => {
 
     switch (mood) {
       case "Calm":
-        title = "Stay Calm";
+        title = "Stay Calm🌈";
         message =
           "Keep the calmness within you. It brings peace and clarity!😄";
-        buttonColor = "blue";
-        bgColor = "rgba(0, 0, 255, 0.7)"; // Blue with opacity
+        buttonColor = "#7F81E3";
+        bgColor = "#7F81E3"; // Blue with opacity
 
         break;
       case "Happy":
-        title = "Spread Happiness";
-        message = "Happiness is contagious. Spread it everywhere you go!";
-        buttonColor = "pink";
-        bgColor = "rgba(255, 105, 180, 0.7)"; // Pink with opacity
+        title = "Spread Happiness🤩";
+        message = "Happiness is contagious✨. Spread it everywhere you go!";
+        buttonColor = "#EB1F88";
+        bgColor = "#EB1F88"; // Pink with opacity
 
         break;
       case "Sad":
         title = "It's Okay to be Sad";
-        message = "It's okay to feel sad. Better days are coming!";
-        buttonColor = "green";
-        bgColor = "rgba(0, 128, 0, 0.7)"; // Green with opacity
+        message = "It's okay to feel sad. Better days are coming😊!";
+        buttonColor = "#44F255";
+        bgColor = "#44F255"; // Green with opacity
 
         break;
       case "Angry":
-        title = "Control Your Anger";
+        title = "Control Your Anger✋";
         message =
           "Take a deep breath. Anger is a passing storm, calm is your true nature.";
-        buttonColor = "red";
-        bgColor = "rgba(255, 0, 0, 0.7)"; // Red with opacity
+        buttonColor = "#FFAE64";
+        bgColor = "#FFAE64"; // Red with opacity
 
         break;
       default:
@@ -171,7 +174,6 @@ const Home = ({ navigation, route }) => {
   }, []);
 
   const fetchUserProfile = async () => {
-  
     try {
       const response = await axios.get(`http://10.0.0.21:3001/user/${userId}`);
       setBio(response.data.bio);
@@ -389,7 +391,11 @@ const Home = ({ navigation, route }) => {
       >
         <ScrollView showsVerticalScrollIndicator={false}>
           <Pressable onPress={toNotifications}>
-            <Image style={styles.notiImage} source={Noti} />
+            {isDarkMode ? (
+              <Image style={styles.notiImage} source={NotiWhite} />
+            ) : (
+              <Image style={styles.notiImage} source={NotiDark} />
+            )}
             {unreadCount > 0 && (
               <Text
                 style={{
@@ -412,7 +418,11 @@ const Home = ({ navigation, route }) => {
           </Pressable>
 
           <Pressable onPress={toPosts}>
-            <Image style={styles.notiImage2} source={Plus} />
+          {isDarkMode ? (
+              <Image style={styles.notiImage2} source={WhitePost} />
+            ) : (
+              <Image style={styles.notiImage2} source={Plus} />
+            )}
           </Pressable>
 
           <View
@@ -454,13 +464,13 @@ const Home = ({ navigation, route }) => {
           </View>
 
           <View style={styles.content}>
-            <Text style={styles.howAreYou}>How are you feeling today?</Text>
+            <Text style={[styles.howAreYou, {color: isDarkMode ? "white" : "#6D6D6D" }]}>How are you feeling today?</Text>
             <TouchableOpacity
               style={[styles.moodContainer, styles.calm]}
               onPress={() => showMotivationalAlert("Calm")}
             >
               <View style={styles.rect} />
-              <Text style={styles.moodText}>Calm</Text>
+              <Text style={[styles.moodText, {color: isDarkMode ? "white" : "#6D6D6D" }]}>Calm</Text>
               <Image
                 style={styles.icon}
                 source={require("../assets/calm.png")}
@@ -472,7 +482,7 @@ const Home = ({ navigation, route }) => {
               onPress={() => showMotivationalAlert("Happy")}
             >
               <View style={[styles.rect1, styles.rect1Bg]} />
-              <Text style={[styles.happy1, styles.manicTypo]}>Happy</Text>
+              <Text style={[styles.happy1, styles.manicTypo, {color: isDarkMode ? "white" : "#6D6D6D" }]}>Happy</Text>
               <Image
                 style={[styles.happyIcon, styles.iconPosition1]}
                 source={require("../assets/happy.png")}
@@ -484,7 +494,7 @@ const Home = ({ navigation, route }) => {
               onPress={() => showMotivationalAlert("Sad")}
             >
               <View style={[styles.rect12, styles.rect1Bg2]} />
-              <Text style={[styles.manicTypo2]}>Sad</Text>
+              <Text style={[styles.manicTypo2, {color: isDarkMode ? "white" : "#6D6D6D" }]}>Sad</Text>
               <Image
                 style={[styles.happyIcon2, styles.iconPosition12]}
                 source={require("../assets/sad.png")}
@@ -496,7 +506,7 @@ const Home = ({ navigation, route }) => {
               onPress={() => showMotivationalAlert("Angry")}
             >
               <View style={[styles.rect3, styles.rect1Bg3]} />
-              <Text style={[styles.manicTypo3]}>Angry</Text>
+              <Text style={[styles.manicTypo3, {color: isDarkMode ? "white" : "#6D6D6D" }]}>Angry</Text>
               <Image
                 style={[styles.happyIcon3, styles.iconPosition3]}
                 source={require("../assets/angry.png")}
@@ -513,7 +523,7 @@ const Home = ({ navigation, route }) => {
                   closeOnTouchOutside={true}
                   closeOnHardwareBackPress={false}
                   showConfirmButton={true}
-                  confirmText="OKay"
+                  confirmText="Okay"
                   confirmButtonColor={confirmButtonColor}
                   onConfirmPressed={closeAlert}
                   overlayStyle={{ backgroundColor: overlayColor, opacity: 0.5 }} // Custom overlay color
@@ -522,13 +532,12 @@ const Home = ({ navigation, route }) => {
             )}
             <SccreenTime screenTimeData={screenTimeData} />
             <Text
-              style={{
+              style={[{
                 marginBottom: 20,
                 marginTop: 20,
                 fontSize: 30,
                 fontWeight: "bold",
-                color: "#032B79",
-              }}
+              }, {color: isDarkMode ? "white" : "#032B79" }]}
             >
               Our Sections
             </Text>
@@ -581,7 +590,7 @@ const Home = ({ navigation, route }) => {
             flexDirection: "row",
             height: 70,
             padding: 7,
-            top: -5,
+            paddingTop: -5,
             justifyContent: "space-around",
           },
           { backgroundColor: isDarkMode ? "black" : "#fff" },
@@ -590,16 +599,15 @@ const Home = ({ navigation, route }) => {
         <TouchableOpacity onPress={() => ToHome("home")}>
           <Image
             source={focusedButton === "home" ? HomeDark : HomeDark}
-            style={{ margin: 10, width: 50, height: 50, top: -5 }}
+            style={{ margin: 10, width: 40, height: 40, top: 0, left: 5 }}
           />
           <Text
-            style={{
+            style={[{
               fontSize: 8,
               position: "absolute",
               top: 52,
               left: 25,
-              color: "#032B79",
-            }}
+            },{ color: isDarkMode ? "white" : "#032B79" },]}
           >
             Home
           </Text>
@@ -610,34 +618,34 @@ const Home = ({ navigation, route }) => {
             source={
               focusedButton === "community" ? CommunityLight : CommunityLight
             }
-            style={{ margin: 10, width: 50, height: 50, top: -5 }}
+            style={{ margin: 10, width: 40, height: 40, top: 0, left: 5 }}
           />
           <Text
-            style={{
+            style={[{
               fontSize: 8,
               position: "absolute",
               top: 52,
               left: 15,
-              color: "#032B79",
-            }}
+            },{ color: isDarkMode ? "white" : "#032B79" }]}
           >
             Community
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => ToPsychologicalSection("psychoSection")}>
+        <TouchableOpacity
+          onPress={() => ToPsychologicalSection("psychoSection")}
+        >
           <Image
-            source={focusedButton === "psychoSection" ?Psycho:Psycho}
-            style={{ margin: 10, width: 45, height: 45, top: -5 }}
+            source={focusedButton === "psychoSection" ? Psycho : Psycho}
+            style={{ margin: 10, width: 40, height: 40, top: 0, left: 5 }}
           />
           <Text
-            style={{
+            style={[{
               fontSize: 8,
               position: "absolute",
               top: 52,
               left: 15,
-              color: "#032B79",
-            }}
+            },{ color: isDarkMode ? "white" : "#032B79" }]}
           >
             PsychoSection
           </Text>
@@ -645,32 +653,35 @@ const Home = ({ navigation, route }) => {
 
         <TouchableOpacity onPress={() => ToPhysicalSection("physicalSection")}>
           <Image
-            source={focusedButton === "physicalSection" ?Physical:Physical}
-            style={{ margin: 10, width: 40, height: 40, top: -5 }}
+            source={focusedButton === "physicalSection" ? Physical : Physical}
+            style={{ margin: 10, width: 35, height: 35, top: 0, left: 5 }}
           />
           <Text
-            style={{
+            style={[{
               fontSize: 8,
               position: "absolute",
               top: 52,
               left: 15,
               color: "#032B79",
-            }}
+            },{ color: isDarkMode ? "white" : "#032B79" }]}
           >
             Physical
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => ToSettings("settings")}>
-          <Image source={focusedButton === "settings" ?SettingsIcon:SettingsIcon} style={{ margin: 10, top: -5 }} />
+          <Image
+            source={focusedButton === "settings" ? SettingsIcon : SettingsIcon}
+            style={{ margin: 10, width: 40, height: 40, top: 0, left: 5 }}
+          />
           <Text
-            style={{
+            style={[{
               fontSize: 8,
               position: "absolute",
               top: 52,
               left: 20,
               color: "#032B79",
-            }}
+            },{ color: isDarkMode ? "white" : "#032B79" }]}
           >
             Settings
           </Text>
@@ -726,7 +737,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontSize: 15,
     fontWeight: "500",
-    color: "#6D6D6D",
     marginTop: -50,
     marginLeft: 25,
     position: "absolute",
