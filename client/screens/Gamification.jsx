@@ -230,11 +230,11 @@ const Gamification = ({ route, navigation }) => {
 
     return (
       <View style={[styles.pointsContainer, { backgroundColor: isDarkMode ? "#1F1F1F" : "#FFF" }]}>
-        {/* {scores ===null && */}
-          <Text style={[styles.pointsText, { color: isDarkMode ? "white" : "black" }]}>
+       {item.points >= 25 && (
+        <Text style={[styles.pointsText, { color: isDarkMode ? "white" : "black" }]}>
           Great job! You've earned bonus coins for passing your quiz
-          </Text>
-        {/* } */}
+        </Text>
+      )}
 
          
         <View style={styles.pointsRow}>

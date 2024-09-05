@@ -133,7 +133,9 @@ const Feedback = ({ navigation, route }) => {
                 value={newContent}
                 onChangeText={(text) => setNewContent(text)}
               />
-              <Button title="Add feedback" onPress={handleAddFeedback} />
+              <TouchableOpacity onPress={handleAddFeedback}>
+                <Text style={{backgroundColor:"#FFAE64", color:"white", textAlign:"center", width:"50%",padding:7,borderRadius:20,marginLeft:60}}>Add feedback</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </Modal>
@@ -250,6 +252,7 @@ const styles = StyleSheet.create({
   closeText: {
     color: "gray",
     fontSize: 25,
+    marginTop:-10
   },
   input: {
     height: 40,
