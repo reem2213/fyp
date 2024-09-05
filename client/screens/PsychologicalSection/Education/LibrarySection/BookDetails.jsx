@@ -242,7 +242,7 @@ function BookDetails({ route, navigation }) {
 
   return (
     <View style={[styles.container, { backgroundColor: isDarkMode ? "#121212" : "white" }]}>
-      <View style={[styles.headerContainer, { backgroundColor: isDarkMode ? "#1E1E1E" : "#B1CB14" }]}>
+      <View style={[styles.headerContainer, { backgroundColor: isDarkMode ? "#B1CB14" : "#B1CB14" }]}>
         <TouchableOpacity onPress={backToHome}>
           <Image source={Back} style={styles.backButton} />
         </TouchableOpacity>
@@ -257,22 +257,22 @@ function BookDetails({ route, navigation }) {
         <Image style={styles.star} source={Star} />
         <Text style={[styles.rating, { color: isDarkMode ? "gray" : "gray" }]}>{rating}</Text>
         <TouchableOpacity onPress={goToPdf}>
-          <Text style={[styles.readNowButton, { backgroundColor: isDarkMode ? "#333" : "#B1CB14" }]}>
+          <Text style={[styles.readNowButton, { backgroundColor: isDarkMode ? "#B1CB14" : "#B1CB14" }]}>
             Read Now
           </Text>
         </TouchableOpacity>
         <Text style={[styles.description, { color: isDarkMode ? "white" : "black" }]}>{description}</Text>
       </View>
-      <View style={[styles.featuredBooksContainer, { backgroundColor: isDarkMode ? "#1E1E1E" : "#B1CB14" }]}>
+      <View style={[styles.featuredBooksContainer, { backgroundColor: isDarkMode ? "#B1CB14" : "#B1CB14" }]}>
         <Text style={[styles.moreBooksText, { color: isDarkMode ? "white" : "white" }]}>
-          More Books
+          Arrival Books
         </Text>
         {featuredBooks.map((book) => (
           <TouchableOpacity key={book.id} style={styles.bookItemVertical}>
             <Image source={book.image} style={styles.bookImageVertical} />
             <Text style={[styles.bookTitle, { color: isDarkMode ? "white" : "white" }]}>{book.title}</Text>
             <TouchableOpacity>
-              <Text style={[styles.readNowButtonVertical, { backgroundColor: isDarkMode ? "#333" : "white", color: isDarkMode ? "white" : "#B1CB14" }]}>
+              <Text style={[styles.readNowButtonVertical, { backgroundColor: isDarkMode ? "white" : "white", color: isDarkMode ? "#B1CB14" : "#B1CB14" }]}>
                 Read Now
               </Text>
             </TouchableOpacity>
@@ -389,7 +389,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     padding: 10,
     textAlign: "center",
-    borderRadius: 20,
+    borderRadius: 10,
   },
 });
 

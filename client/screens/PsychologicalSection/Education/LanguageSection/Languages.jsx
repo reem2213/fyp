@@ -89,8 +89,8 @@ const Language = ({ navigation,route }) => {
         selection of language learning resources. Start your journey to fluency
         today!
       </Text>
-      <TouchableOpacity onPress={toApps} style={[styles.button, { backgroundColor: isDarkMode ? "#333" : "white" }]}>
-        <Text style={[styles.buttonText, { color: isDarkMode ? "#E5DC08" : "#E5DC08" }]}>
+      <TouchableOpacity onPress={toApps} style={[styles.button, { backgroundColor: isDarkMode ? "#E5DC08" : "white" }]}>
+        <Text style={[styles.buttonText, { color: isDarkMode ? "white" : "#E5DC08" }]}>
           Choose your app
         </Text>
       </TouchableOpacity>

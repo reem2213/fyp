@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -19,7 +19,7 @@ import AuthenticationTester from "./authenticationTester";
 import { DarkModeContext } from "../components/DarkModeContext"; // Import the context
 
 const SignIn = ({ navigation, route }) => {
-  const { isDarkMode } =  useContext(DarkModeContext); // Get dark mode state from route params
+  const { isDarkMode } = useContext(DarkModeContext); // Get dark mode state from route params
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [bio, setBio] = useState("");
@@ -61,16 +61,23 @@ const SignIn = ({ navigation, route }) => {
           const newNotification = { message: welcomeMessage, time: new Date() };
 
           try {
-            const storedNotifications = await AsyncStorage.getItem('Notifications');
-            console.log('Stored Notifications:', storedNotifications); // Debugging line
-            let notifications = storedNotifications ? JSON.parse(storedNotifications) : [];
+            const storedNotifications = await AsyncStorage.getItem(
+              "Notifications"
+            );
+            console.log("Stored Notifications:", storedNotifications); // Debugging line
+            let notifications = storedNotifications
+              ? JSON.parse(storedNotifications)
+              : [];
             if (!Array.isArray(notifications)) {
               notifications = [];
             }
             notifications.push(newNotification);
-            await AsyncStorage.setItem('Notifications', JSON.stringify(notifications));
-            console.log('New Notifications:', notifications); // Debugging line
-            navigation.navigate("Home", { username, bio,userId });
+            await AsyncStorage.setItem(
+              "Notifications",
+              JSON.stringify(notifications)
+            );
+            console.log("New Notifications:", notifications); // Debugging line
+            navigation.navigate("Home", { username, bio, userId });
           } catch (error) {
             console.error("Failed to save notification:", error);
           }
@@ -87,7 +94,9 @@ const SignIn = ({ navigation, route }) => {
   };
 
   return (
-    <View style={[styles.signUp, isDarkMode ? styles.darkMode : styles.lightMode]}>
+    <View
+      style={[styles.signUp, isDarkMode ? styles.darkMode : styles.lightMode]}
+    >
       <Image
         style={styles.splashScreenRemovebgPreviewIcon}
         contentFit="cover"
@@ -95,18 +104,32 @@ const SignIn = ({ navigation, route }) => {
       />
 
       <Pressable onPress={goToSignUp}>
-        <Image
-          style={styles.signUpChild}
-          contentFit="cover"
-          source={require("../assets/arrowBack.png")}
-        />
+        {isDarkMode ? (
+          <Image
+            style={styles.signUpChild}
+            contentFit="cover"
+            source={require("../assets/back.png")}
+          />
+        ) : (
+          <Image
+            style={styles.signUpChild}
+            contentFit="cover"
+            source={require("../assets/arrowBack.png")}
+          />
+        )}
       </Pressable>
 
-      <Text style={[styles.createYourAccount, styles.signUp1Typo]}>
+      <Text
+        style={[
+          styles.createYourAccount,
+          styles.signUp1Typo,
+          { color: isDarkMode ? "white" : "#032b79" },
+        ]}
+      >
         Welcome Back!
       </Text>
 
-      <View style={styles.signUpChild2} />
+      <View style={[styles.signUpChild2,{ backgroundColor: isDarkMode ? "#032B79" : "#719AEA" }]} />
 
       <TextInput
         style={[
@@ -157,9 +180,9 @@ const SignIn = ({ navigation, route }) => {
       </Text>
       <Pressable
         onPress={handleSignUp}
-        style={[styles.signUp1, styles.signUp1Position]}
+        style={[styles.signUp1, styles.signUp1Position,{ backgroundColor: isDarkMode ? "#032B79" : "#719AEA" }]}
       >
-        <Text style={styles.signUpWord}>Sign In</Text>
+        <Text style={[styles.signUpWord]}>Sign In</Text>
       </Pressable>
 
       <Text style={[styles.alreadyHaveAnContainer, styles.orSignInLayout]}>
@@ -168,19 +191,41 @@ const SignIn = ({ navigation, route }) => {
           Sign Up
         </Text>
       </Text>
-      <View style={styles.containerrrr}></View>
+      <View style={[styles.containerrrr,{ backgroundColor: isDarkMode ? "#032B79" : "#719AEA" }]}></View>
       <AuthenticationTester />
 
-      <Image
+
+
+      {isDarkMode ? (
+        <Image
+        style={[styles.ellipseIcon]}
+        contentFit="cover"
+        source={require("../assets/DarkEllipse.png")}
+      />
+        ) : (
+          <Image
         style={[styles.ellipseIcon]}
         contentFit="cover"
         source={require("../assets/blueEllipse.png")}
       />
-      <Image
+        )}
+
+
+        {isDarkMode ? (
+          <Image
+        style={[styles.ellipseIcon2]}
+        contentFit="cover"
+        source={require("../assets/DarkEllipse.png")}
+      />
+        ) : (
+          <Image
         style={[styles.ellipseIcon2]}
         contentFit="cover"
         source={require("../assets/blueEllipse.png")}
       />
+        )}
+
+      
     </View>
   );
 };
@@ -213,12 +258,15 @@ const styles = StyleSheet.create({
     left: 320,
     width: 150,
     height: 150,
+    borderRadius:200
   },
   ellipseIcon2: {
     top: 500,
     left: -70,
     width: 150,
     height: 150,
+    borderRadius:200
+
   },
   ellipseIconLayout: {
     height: 200,
@@ -277,30 +325,30 @@ const styles = StyleSheet.create({
   },
   errorTextUsername: {
     position: "absolute",
-    top: 287,
-    left: 52,
+    top: 350,
+    left: 60,
   },
   errorTextPassword: {
     position: "absolute",
     top: 422,
-    left: 52,
+    left: 60,
   },
   createYourAccount: {
-    top: 240,
+    top: 220,
     left: 60,
     fontSize: 40,
     color: "#032b79",
     position: "absolute",
   },
   signUpInner: {
-    top: 317,
+    top: 297,
   },
   rectangleView: {
     top: 373,
   },
   signUpChild2: {
     top: 458,
-    backgroundColor: Color.colorCornflowerblue,
+    // backgroundColor: Color.colorCornflowerblue,
     height: 46,
     width: 295,
     borderRadius: 25,
@@ -359,16 +407,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#333",
     color: "#fff",
     borderColor: "#444",
-    padding:10
+    padding: 10,
   },
   lightInput: {
     backgroundColor: Color.colorWhitesmoke_100,
     color: Color.colorGray_100,
-    padding:10
-
+    padding: 10,
   },
   containerrrr: {
-    backgroundColor: "#719AEA",
+    // backgroundColor: "#719AEA",
     width: "50%",
     height: 50,
     marginLeft: 100,
@@ -378,9 +425,6 @@ const styles = StyleSheet.create({
 });
 
 export default SignIn;
-
-
-
 
 // import React from 'react';
 // import { Text, View } from 'react-native';
@@ -403,11 +447,6 @@ export default SignIn;
 // };
 
 // export default App;
-
-
-
-
-
 
 // import React, { useState, useContext } from "react";
 // import {

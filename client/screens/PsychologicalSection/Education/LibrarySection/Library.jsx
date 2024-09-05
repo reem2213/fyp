@@ -103,7 +103,7 @@ const Library = ({ navigation,route }) => {
   };
 
   return (
-    <View style={{ backgroundColor: isDarkMode ? "#333" : "#B1CB14", height: "100%" }}>
+    <View style={{ backgroundColor: isDarkMode ? "black" : "#B1CB14", height: "100%" }}>
       <TouchableOpacity onPress={backToHome}>
         <Image
           source={Back}
@@ -141,7 +141,7 @@ const Library = ({ navigation,route }) => {
       </Text>
       <TouchableOpacity
         onPress={toApps}
-        style={{
+        style={[{
           backgroundColor: "#B1CB14",
           width: 100,
           borderWidth: 10,
@@ -150,7 +150,7 @@ const Library = ({ navigation,route }) => {
           borderRadius: 200,
           marginLeft: 150,
           marginTop: 50,
-        }}
+        },{ backgroundColor: isDarkMode ? "black" : "#B1CB14", borderColor: "#B1CB14" }]}
       >
         <Image
           source={Next}

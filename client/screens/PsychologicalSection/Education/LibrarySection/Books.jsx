@@ -380,7 +380,7 @@ const toggleSaveBook = async (bookId) => {
     <View
       style={[
         styles.container,
-        { backgroundColor: isDarkMode ? "#333" : "#F9F9F9" },
+        { backgroundColor: isDarkMode ? "black" : "#F9F9F9" },
       ]}
     >
       <TouchableOpacity onPress={backToHome}>
@@ -391,7 +391,7 @@ const toggleSaveBook = async (bookId) => {
       >
         Our Library
       </Text>
-      <View style={styles.tabs}>
+      <View style={[styles.tabs,{ backgroundColor: isDarkMode ? "#1F1F1F" : "white"}]}>
         <TouchableOpacity onPress={() => setShowSaved(false)}>
           <Text
             style={{

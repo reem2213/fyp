@@ -13,7 +13,7 @@ import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import User from "../assets/user.png";
 import BlueEllipse from "../assets/blueEllipse.png";
-import GrayEllipse from "../assets/grayEllipse.png";
+import GrayEllipse from "../assets/DarkEllipse.png";
 import People from "../assets/people-remover.png";
 import Camera from "../assets/camera.png";
 import axios from "axios";
@@ -271,6 +271,8 @@ const ProfileCustomization = ({ navigation, route }) => {
             position: "absolute",
             marginLeft: 310,
             marginTop: -15,
+            borderRadius:200
+
           }}
         />
       ) : (
@@ -295,6 +297,7 @@ const ProfileCustomization = ({ navigation, route }) => {
           position: "absolute",
           marginLeft: -90,
           marginTop: 135,
+          borderRadius:200
           }}
         />
       ) : (
@@ -455,19 +458,20 @@ const ProfileCustomization = ({ navigation, route }) => {
             {
               backgroundColor: "#719AEA",
               width: 300,
-              paddingTop: 5,
+              paddingTop: 1,
               height: 40,
               borderRadius: 30,
               top: 15,
+              
             },
-            { backgroundColor: isDarkMode ? "#333" : "#719AEA" },
+            { backgroundColor: isDarkMode ? "#032B79" : "#719AEA" },
             { color: isDarkMode ? "white" : "white" },
           ]}
         >
           <Text
             style={{
               color: "white",
-              fontSize: 18,
+              fontSize: 16,
               fontWeight: "500",
               marginLeft: 120,
               marginTop: 5,

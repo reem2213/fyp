@@ -178,7 +178,7 @@ const SignUp = ({ navigation }) => {
           <Image
             style={styles.signUpChild}
             contentFit="cover"
-            source={require("../assets/whiteArrowBack.png")}
+            source={require("../assets/back.png")}
           />
         ) : (
           <Image
@@ -328,7 +328,7 @@ const SignUp = ({ navigation }) => {
         <Image
           style={[styles.ellipseIcon]}
           contentFit="cover"
-          source={require("../assets/grayEllipse.png")}
+          source={require("../assets/DarkEllipse.png")}
         />
       ) : (
         <Image
@@ -342,7 +342,7 @@ const SignUp = ({ navigation }) => {
         <Image
           style={[styles.ellipseIcon2]}
           contentFit="cover"
-          source={require("../assets/grayEllipse.png")}
+          source={require("../assets/DarkEllipse.png")}
         />
       ) : (
         <Image
@@ -374,6 +374,8 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     position: "absolute",
+    borderRadius:200
+
   },
   ellipseIcon2: {
     top: 700,
@@ -381,6 +383,7 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     position: "absolute",
+    borderRadius:200
   },
   signUpChild: {
     top: -50,

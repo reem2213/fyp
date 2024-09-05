@@ -15,6 +15,7 @@ import StarRating from "react-native-star-rating";
 import { DarkModeContext } from "../../components/DarkModeContext"; // Import the context
 import BlueEllipse from '../../assets/blueEllipse.png';
 import ArrowBack from '../../assets/arrowBack.png';
+import DarkEllipse from '../../assets/DarkEllipse.png'
 const SupplementSuggestion = ({route,navigation}) => {
   const [products, setProducts] = useState([]);
   const {userId,username}=route.params;
@@ -58,9 +59,14 @@ const SupplementSuggestion = ({route,navigation}) => {
     ><Pressable onPress={BackToHome}>
         <Image source={ArrowBack} style={styles.arrow} />
       </Pressable>
-          <Image style={styles.blueEllispe} source={BlueEllipse} />
           
+          {isDarkMode ? (
+            <Image style={styles.blueEllispe} source={DarkEllipse} />
 
+            ) : (
+              <Image style={styles.blueEllispe} source={BlueEllipse} />
+
+            )}
 
 
       <Text style={[styles.title, { color: isDarkMode ? "white" : "#032B79" }]}>
@@ -78,24 +84,25 @@ const SupplementSuggestion = ({route,navigation}) => {
             key={product._id}
             style={[
               styles.productCard,
-              { backgroundColor: isDarkMode ? "gray" : "#fff" },
+              { backgroundColor: isDarkMode ? "#1F1F1F" : "#fff" },
             ]}
           >
             <Image
               source={{ uri: `data:image/jpeg;base64,${product.image}` }}
               style={styles.productImage}
             />
-            <Text style={styles.productName}>{product.name}</Text>
+            <Text style={[styles.productName,{color: isDarkMode ? "white" : "black",}]}>{product.name}</Text>
             <StarRating
               disabled={true}
               maxStars={5}
               rating={product.rating}
               fullStarColor={"gold"}
-              starSize={20}
+              starSize={15}
             />
-            <Text style={styles.productPrice}>${product.price}</Text>
+            <Text style={[styles.productPrice,{color: isDarkMode ? "white" : "gray",}]}>${product.price}</Text>
             <TouchableOpacity
-              style={styles.buyButton}
+              style={[styles.buyButton,              { backgroundColor: isDarkMode ? "#032B79" : "#719AEA" },
+              ]}
               onPress={() => handleBuyClick(product.url)}
             >
               <Text style={styles.buyButtonText}>Buy</Text>
@@ -105,7 +112,13 @@ const SupplementSuggestion = ({route,navigation}) => {
       </View>
 
     </ScrollView>
-    <Image style={styles.blueEllispe2} source={BlueEllipse} />
+    {isDarkMode ? (
+            <Image style={styles.blueEllispe2} source={DarkEllipse} />
+
+            ) : (
+              <Image style={styles.blueEllispe2} source={BlueEllipse} />
+
+            )}
     </>
 
   );
@@ -135,6 +148,7 @@ const styles = StyleSheet.create({
     height: 150,
     marginLeft: 300,
     marginTop: -150,
+    borderRadius:200
 
   },
   blueEllispe2: {
@@ -142,7 +156,9 @@ const styles = StyleSheet.create({
     height: 150,
     marginLeft: -50,
     marginTop: 770,
-    position:"absolute"
+    position:"absolute",
+    borderRadius:200
+
   },
   subtitle: {
     fontSize: 12,
@@ -178,11 +194,9 @@ const styles = StyleSheet.create({
   },
   productPrice: {
     fontSize: 16,
-    color: "gray",
     marginBottom: 8,
   },
   buyButton: {
-    backgroundColor: "#719AEA",
     paddingVertical: 8,
     paddingHorizontal: 25,
     borderRadius: 20,

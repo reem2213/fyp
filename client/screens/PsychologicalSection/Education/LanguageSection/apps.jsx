@@ -210,7 +210,7 @@
 
 
 
-import React from "react";
+import React ,{useContext}from "react";
 import { Text, View, Image, StyleSheet, TouchableOpacity, Linking } from "react-native";
 import LangBg from "../../../../assets/languageSection.png";
 import Duolingo from "../../../../assets/duolingo.png";
@@ -220,9 +220,11 @@ import Menrise from "../../../../assets/memrise.jpeg";
 import Mondly from "../../../../assets/mondly.png";
 import Fluentu from "../../../../assets/fluentu-logo.png";
 import Back from "../../../../assets/back.png";
+import { DarkModeContext } from "../../../../components/DarkModeContext"; // Adjust the import path as needed
 
 const Apps = ({ navigation,route }) => {
   const{username,userId}=route.params // Get the dark mode state
+  const { isDarkMode } = useContext(DarkModeContext); // Get the dark mode state
 
   const handlePress = () => {
     Linking.openURL('https://www.fluentu.com/'); 
@@ -253,7 +255,7 @@ const Apps = ({ navigation,route }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,{backgroundColor: isDarkMode ? "black" : "white"}]}>
       <TouchableOpacity onPress={backToHome}>
         <Image
           source={Back}
@@ -265,35 +267,35 @@ const Apps = ({ navigation,route }) => {
       <Image style={styles.bg} source={LangBg} />
       <Image style={styles.bg} source={LangBg} />
 
-      <Text style={styles.title}>Choose your app</Text>
+      <Text style={[styles.title,{color: isDarkMode ? "#F8EF14" : "black"}]}>Choose your app</Text>
       <TouchableOpacity style={styles.im1} onPress={goToDuolingo}>
         <Image style={styles.im1} source={Duolingo} />
-        <Text style={styles.title1}>Duolingo</Text>
+        <Text style={[styles.title1,{color: isDarkMode ? "#F8EF14" : "black"}]}>Duolingo</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.im2} onPress={goToMondly}> 
         <Image style={styles.im2} source={Mondly} />
-        <Text style={styles.title2}>Mondly</Text>
+        <Text style={[styles.title2,{color: isDarkMode ? "#F8EF14" : "black"}]}>Mondly</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.im3} onPress={goToBusuu}>
         <Image style={styles.im3} source={Busuu} />
-        <Text style={styles.title3}>Busuu</Text>
+        <Text style={[styles.title3,{color: isDarkMode ? "#F8EF14" : "black"}]}>Busuu</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.im5} onPress={goToMenrise}>
         <Image style={styles.im5} source={Menrise} />
-        <Text style={styles.title5}>Menrise</Text>
+        <Text style={[styles.title5,{color: isDarkMode ? "#F8EF14" : "black"}]}>Menrise</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.im6} onPress={goToDrops}>
         <Image style={styles.im6} source={Drops} />
-        <Text style={styles.title6}>Drops</Text>
+        <Text style={[styles.title6,{color: isDarkMode ? "#F8EF14" : "black"}]}>Drops</Text>
       </TouchableOpacity>
 
       <TouchableOpacity  onPress={handlePress}>
         <Image style={styles.im4} source={Fluentu} />
-        <Text style={styles.title4}>Fluentu</Text>
+        <Text style={[styles.title4,{color: isDarkMode ? "#F8EF14" : "black"}]}>Fluentu</Text>
       </TouchableOpacity>
     </View>
   );
@@ -316,8 +318,7 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 100,
     position: "absolute",
-    color: "#F8EF14",
-    backgroundColor: "white", // Dark mode background color for the title
+    // Dark mode background color for the title
     fontSize: 30,
     fontWeight: "bold",
     opacity: 0.9,
@@ -339,7 +340,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     position: "absolute",
     width: "100%",
-    color: "black", // Dark mode text color
+    
   },
   im2: {
     marginTop: 100,
@@ -356,7 +357,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     position: "absolute",
     width: "100%",
-    color: "black", // Dark mode text color
   },
   im3: {
     marginTop: 190,
@@ -373,7 +373,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     position: "absolute",
     width: "100%",
-    color: "black", // Dark mode text color
   },
   im4: {
     marginTop: -585,
@@ -392,7 +391,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     position: "absolute",
     width: "100%",
-    color: "black", // Dark mode text color
   },
   im5: {
     marginTop: 190,
@@ -409,7 +407,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     position: "absolute",
     width: "100%",
-    color: "black", // Dark mode text color
   },
   im6: {
     marginTop: 280,
@@ -426,7 +423,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     position: "absolute",
     width: "100%",
-    color: "black", // Dark mode text color
   },
 });
 
