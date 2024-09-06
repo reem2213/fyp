@@ -32,7 +32,7 @@
 
 import { StatusBar } from "expo-status-bar";
 import MusicBg from "../assets/musicbg.jpg";
-import Song1 from '../tracks/BetterDays.mp3';
+import Song1 from '../tracks/@coldplay  - A Sky Full Of Stars (Lyrics).mp3';
 import {
   StyleSheet,
   Text,
