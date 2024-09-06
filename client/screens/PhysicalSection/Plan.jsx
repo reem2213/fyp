@@ -1112,7 +1112,7 @@ const Plan = ({ route }) => {
     <ScrollView
       style={[
         styles.container,
-        { backgroundColor: isDarkMode ? "#1a1a1a" : "#f5f5f5" },
+        { backgroundColor: isDarkMode ? "black" : "#f5f5f5" },
       ]}
     >
       <View style={styles.headerContainer}>
@@ -1146,7 +1146,7 @@ const Plan = ({ route }) => {
         </Text>
       ) : (
         planSections.map((section, index) => (
-          <View key={index} style={styles.dayContainer}>
+          <View key={index} style={[styles.dayContainer]}>
             <Text
               style={[
                 styles.dayTitle,
@@ -1156,7 +1156,7 @@ const Plan = ({ route }) => {
               {section.day}
             </Text>
             {section.exercises.map((exercise) => (
-              <View key={exercise.id} style={styles.exerciseContainer}>
+              <View key={exercise.id} style={[styles.exerciseContainer,{ backgroundColor: isDarkMode ? "#1F1F1F" : "white" }]}>
                 <View style={styles.exerciseDetails}>
                   <Text
                     style={[

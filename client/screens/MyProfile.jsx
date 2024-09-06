@@ -766,14 +766,10 @@ const App = ({ route }) => {
     fetchUserProfile();
     fetchMeetings();
     fetchGoals();
-    fetchUserPoints(); // Fetch user points
+    fetchUserPoints();
   }, []);
 
   const fetchUserProfile = async () => {
-    // const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
-    //   params: { username },
-    // });
-    // const userId = responses.data.userId;
     try {
       const response = await axios.get(`http://10.0.0.21:3001/user/${userId}`);
       setBio(response.data.bio);
@@ -786,10 +782,6 @@ const App = ({ route }) => {
   };
 
   const fetchMeetings = async () => {
-    // const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
-    //   params: { username },
-    // });
-    // const userId = responses.data.userId;
     try {
       const response = await axios.get(
         `http://10.0.0.21:3001/bookings/${userId}`
@@ -801,14 +793,9 @@ const App = ({ route }) => {
   };
 
   const fetchGoals = async () => {
-    // const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
-    //   params: { username },
-    // });
-    // const userId = responses.data.userId;
     try {
       const response = await axios.get(`http://10.0.0.21:3001/goal/${userId}`);
       setGoals(response.data);
-      // console.log(userId)
     } catch (error) {
       console.error("Error fetching goals:", error);
     }
@@ -816,13 +803,6 @@ const App = ({ route }) => {
 
   const fetchUserPoints = async () => {
     try {
-      // Fetch userId from username
-      // const responses = await axios.get("http://10.0.0.21:3001/get-userid", {
-      //   params: { username },
-      // });
-      // const userId = responses.data.userId;
-
-      // Fetch user points using userId
       const response = await axios.get(
         `http://10.0.0.21:3001/user-points/${userId}`
       );
@@ -1054,6 +1034,7 @@ const App = ({ route }) => {
                   height: 40,
                 }}
               />
+
             ) : (
               <Image
                 source={Back}
@@ -1151,8 +1132,8 @@ const App = ({ route }) => {
               style={[
                 {
                   width: "40%",
-                  borderColor: "#E5E0E0",
-                  borderWidth: 1,
+                  // borderColor: "#E5E0E0",
+                  // borderWidth: 1,
                   borderRadius: 10,
                   padding: 5,
                   textAlign: "center",
@@ -1161,7 +1142,7 @@ const App = ({ route }) => {
                   fontSize: 12,
                 },
                 {
-                  backgroundColor: isDarkMode ? "gray" : "#032B79",
+                  backgroundColor: isDarkMode ? "#1f1f1f" : "#032B79",
                   color: isDarkMode ? "white" : "white",
                 },
               ]}
@@ -1182,7 +1163,7 @@ const App = ({ route }) => {
               style={[
                 styles.sectionSwitcher,
                 ,
-                { backgroundColor: isDarkMode ? "gray" : "white" },
+                { backgroundColor: isDarkMode ? "#1f1f1f" : "white" },
               ]}
             >
               <TouchableOpacity
@@ -1227,27 +1208,27 @@ const App = ({ route }) => {
             </View>
           </View>
 
-          {/* Add a simple bar chart using View components */}
           {activeSection === "Goals" && (
-            <View style={styles.chartContainer}>
-              <Text style={styles.chartTitle}>Goal Status</Text>
+            <View style={[styles.chartContainer,{backgroundColor:isDarkMode?"#1f1f1f":"white"},]}>
+              <Text style={[styles.chartTitle,{color:isDarkMode?"white":"#032B79"}]}>Goal Status</Text>
               <View style={styles.barContainer}>
-                <Text style={styles.barLabel}>In Progress</Text>
+                <Text style={[styles.barLabel,{color:isDarkMode?"white":"#032B79"}]}>In Progress</Text>
                 <View
                   style={[
                     styles.bar,
                     {
                       width: `${goalPercentages.inProgress}%`,
                       backgroundColor: "yellow",
+                      
                     },
                   ]}
                 />
-                <Text style={styles.percentageLabel}>
+                <Text style={[styles.percentageLabel,{color:isDarkMode?"white":"#032B79"}]}>
                   {goalPercentages.inProgress.toFixed(2)}%
                 </Text>
               </View>
               <View style={styles.barContainer}>
-                <Text style={styles.barLabel}>Completed</Text>
+                <Text style={[styles.barLabel,{color:isDarkMode?"white":"#032B79"}]}>Completed</Text>
                 <View
                   style={[
                     styles.bar,
@@ -1257,12 +1238,12 @@ const App = ({ route }) => {
                     },
                   ]}
                 />
-                <Text style={styles.percentageLabel}>
+                <Text style={[styles.percentageLabel,{color:isDarkMode?"white":"#032B79"}]}>
                   {goalPercentages.completed.toFixed(2)}%
                 </Text>
               </View>
               <View style={styles.barContainer}>
-                <Text style={styles.barLabel}>Cancelled</Text>
+                <Text style={[styles.barLabel,{color:isDarkMode?"white":"#032B79"}]}>Cancelled</Text>
                 <View
                   style={[
                     styles.bar,
@@ -1272,7 +1253,7 @@ const App = ({ route }) => {
                     },
                   ]}
                 />
-                <Text style={styles.percentageLabel}>
+                <Text style={[styles.percentageLabel,{color:isDarkMode?"white":"#032B79"}]}>
                   {goalPercentages.canceled.toFixed(2)}%
                 </Text>
               </View>
@@ -1284,12 +1265,13 @@ const App = ({ route }) => {
               style={[
                 styles.statusButton,
                 activeStatus === "upcoming" ? styles.activeStatusButton : null,
+                
               ]}
               onPress={() => setActiveStatus("upcoming")}
             >
               <Text
                 style={[
-                  styles.statusButtonText,
+                  styles.statusButtonText,{color:isDarkMode?"white":"#606060"},
                   activeStatus === "upcoming"
                     ? styles.activeStatusButtonText
                     : null,
@@ -1307,7 +1289,7 @@ const App = ({ route }) => {
             >
               <Text
                 style={[
-                  styles.statusButtonText,
+                  styles.statusButtonText,,{color:isDarkMode?"white":"#606060"},
                   activeStatus === "Completed"
                     ? styles.activeStatusButtonText
                     : null,
@@ -1325,7 +1307,7 @@ const App = ({ route }) => {
             >
               <Text
                 style={[
-                  styles.statusButtonText,
+                  styles.statusButtonText,{color:isDarkMode?"white":"#606060"},
                   activeStatus === "Cancelled"
                     ? styles.activeStatusButtonText
                     : null,
@@ -1336,12 +1318,26 @@ const App = ({ route }) => {
             </TouchableOpacity>
           </View>
 
-          <FlatList
+          {/* <FlatList
             data={filteredData}
             renderItem={renderItem}
             keyExtractor={(item) => item._id}
             style={styles.listContainer}
-          />
+          /> */}
+          {filteredData.length === 0 ? (
+    <Text style={[{ textAlign: "center", fontSize:18, color: isDarkMode ? "white" : "black", marginTop: 80 }]}>
+      {activeSection === "Meetings"
+        ? `No meeting ${activeStatus.toLowerCase()}`
+        : `No goal ${activeStatus.toLowerCase()}`}
+    </Text>
+  ) : (
+    <FlatList
+      data={filteredData}
+      renderItem={renderItem}
+      keyExtractor={(item) => item._id}
+      style={styles.listContainer}
+    />
+  )}
         </View>
       </ScrollView>
     </>
@@ -1488,7 +1484,6 @@ const styles = StyleSheet.create({
   },
   statusButtonText: {
     fontSize: 14,
-    fontWeight: "bold",
     textAlign: "center",
     color: "#606060",
   },
@@ -1578,7 +1573,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 10,
-    color: "#032B79",
+    // color: "#032B79",
     textAlign: "center",
   },
   barContainer: {
@@ -1593,13 +1588,12 @@ const styles = StyleSheet.create({
   barLabel: {
     width: 100,
     fontSize: 14,
-    fontWeight: "bold",
-    color: "#032B79",
+   
   },
   percentageLabel: {
     marginLeft: 5,
     fontSize: 14,
-    fontWeight: "bold",
+    // fontWeight: "bold",
     color: "#032B79",
   },
 });
