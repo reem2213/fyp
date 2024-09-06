@@ -111,7 +111,7 @@ const Feedback = ({ navigation, route }) => {
           onRequestClose={() => setIsModalVisible(false)}
         >
           <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
+            <View style={[styles.modalContent,{backgroundColor:isDarkMode?"black":"white"}]}>
               <TouchableOpacity
                 style={styles.closeButton}
                 onPress={() => setIsModalVisible(false)}
@@ -241,7 +241,6 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    backgroundColor: "white",
     padding: 20,
     borderRadius: 10,
     width: 300,
@@ -265,6 +264,7 @@ const styles = StyleSheet.create({
     borderColor: "#555",
     backgroundColor: "#666",
     color: "#fff",
+    borderRadius:15
   },
   scrollViewContainer: {
     height: "50%",

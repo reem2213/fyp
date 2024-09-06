@@ -1352,6 +1352,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 24,
     height: 1500,
+    
   },
   actionButtons: {
     flexDirection: "row",
@@ -1362,7 +1363,7 @@ const styles = StyleSheet.create({
   },
   actionButtons2: {
     flexDirection: "row",
-    right: 280,
+    right: 265,
     top: 10,
     gap: 10,
     position: "absolute",
@@ -1460,12 +1461,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 40,
     top: 0,
+    alignItems:"center"
   },
   statusContainer2: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 20,
     top: 0,
+    alignItems:"center"
   },
   listContainer: {
     flex: 1,
@@ -1528,7 +1531,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: "white",
     top: 5,
-    right: 105,
+    right: 90,
   },
   itemStatus: {
     fontSize: 14,
