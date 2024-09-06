@@ -1,10 +1,12 @@
 import React,{useState,useContext,useEffect} from 'react';
-import { View, Text, StyleSheet, SafeAreaView,TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView,Dimensions,TouchableOpacity } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { Ionicons } from '@expo/vector-icons';
 import predictWorkoutProgram from "../api"; // The API call function
 import { DarkModeContext } from "../../../components/DarkModeContext"; // Import the context
 import axios from 'axios';
+const { width, height } = Dimensions.get('window');
+
 export default function ProgressScreen({navigation,route}) {
   const { username,height,weight ,userId} = route.params;
   const [bio, setBio] = useState("");
@@ -109,10 +111,11 @@ const handlePredict = async () => {
  
   return (
     <SafeAreaView style={[styles.container,{ backgroundColor: isDarkMode ? "black" : "#fff" }]}>
-      <View style={styles.circleTopLeft}></View>
-      <View style={styles.circleTopRight}></View>
-      <View style={styles.circleBottomLeft}></View>
-      <View style={styles.circleBottomRight}></View>
+      <View style={styles.circleLeft} />
+        <View style={styles.circleLeft1} />
+        <View style={styles.circleLeft2} />
+
+        <View style={styles.circleRight} />
 
       <View style={styles.content}>
         <AnimatedCircularProgress
@@ -188,40 +191,40 @@ const styles = StyleSheet.create({
     marginTop: 10,
     textAlign: 'center',
   },
-  circleTopLeft: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#719AEA',
+  circleLeft: {
     position: 'absolute',
-    top: 0,
-    left: 0,
+    bottom: -width * 0.2,
+    left: -width * 0.2,
+    width: width * 0.4,
+    height: width * 0.4,
+    borderRadius: width * 0.2,
+    backgroundColor: '#4A90E2',
   },
-  circleTopRight: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#719AEA',
+  circleLeft1: {
     position: 'absolute',
-    top: 0,
-    right: 0,
+    left: -70,
+    top:-60,
+    width: width * 0.4,
+    height: width * 0.4,
+    borderRadius: width * 0.2,
+    backgroundColor: '#4A90E2',
   },
-  circleBottomLeft: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#719AEA',
+  circleLeft2: {
     position: 'absolute',
-    bottom: 0,
-    left: 0,
+    left: 330,
+    top:-60,
+    width: width * 0.4,
+    height: width * 0.4,
+    borderRadius: width * 0.2,
+    backgroundColor: '#4A90E2',
   },
-  circleBottomRight: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#719AEA',
+  circleRight: {
     position: 'absolute',
-    bottom: 0,
-    right: 0,
+    bottom: -width * 0.2,
+    right: -width * 0.2,
+    width: width * 0.4,
+    height: width * 0.4,
+    borderRadius: width * 0.2,
+    backgroundColor: '#4A90E2',
   },
 });

@@ -1,8 +1,13 @@
 import React,{useState,useContext,useEffect} from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
-// import Swiper from 'react-native-swiper';
+import Swiper from 'react-native-swiper';
 import { useNavigation } from '@react-navigation/native';
-import Book1 from '../../assets/Agatha2.jpg'
+import Pb1 from '../../assets/pb1.png'
+import Pb2 from '../../assets/pb2.png'
+
+import Pb3 from '../../assets/pb3.png'
+import Pb4 from '../../assets/pb4.png'
+
 import { DarkModeContext } from "../../components/DarkModeContext"; // Import the context
 
 const { width, height } = Dimensions.get('window');
@@ -29,13 +34,16 @@ const App = ({route}) => {
   }, [username]);
 
   return (
-    // <Swiper loop={false} dotStyle={styles.dot} activeDotStyle={styles.activeDot}>
-     <> 
+    <Swiper loop={false} dotStyle={styles.dot} activeDotStyle={styles.activeDot}>
+     {/* <>  */}
       <View style={[styles.container,{ backgroundColor: isDarkMode ? "black" : "#fff" },]}>
         <View style={styles.circleLeft} />
+        <View style={styles.circleLeft1} />
+        <View style={styles.circleLeft2} />
+
         <View style={styles.circleRight} />
         <Image
-          source={Book1} // Adjust the path as needed
+          source={Pb1} // Adjust the path as needed
           style={styles.image}
         />
         <Text style={[styles.title,{color: isDarkMode ? "white" : "black" }]}>Sweat It Out!</Text>
@@ -46,9 +54,11 @@ const App = ({route}) => {
 
       <View style={[styles.container,{ backgroundColor: isDarkMode ? "black" : "#fff" },]}>
         <View style={styles.circleLeft} />
+        <View style={styles.circleLeft1} />
+        <View style={styles.circleLeft2} />
         <View style={styles.circleRight} />
         <Image
-          source={Book1} // Adjust the path as needed
+          source={Pb2} // Adjust the path as needed
           style={styles.image}
         />
         <Text style={[styles.title,{color: isDarkMode ? "white" : "black" }]}>Track your Active Lifestyle</Text>
@@ -57,9 +67,11 @@ const App = ({route}) => {
 
       <View style={[styles.container,{ backgroundColor: isDarkMode ? "black" : "#fff" },]}>
         <View style={styles.circleLeft} />
+        <View style={styles.circleLeft1} />
+        <View style={styles.circleLeft2} />
         <View style={styles.circleRight} />
         <Image
-          source={Book1} // Adjust the path as needed
+          source={Pb3} // Adjust the path as needed
           style={styles.image}
         />
         <Text style={[styles.title,{color: isDarkMode ? "white" : "black" }]}>Stay Fit!</Text>
@@ -68,10 +80,12 @@ const App = ({route}) => {
 
       <View style={[styles.container,{ backgroundColor: isDarkMode ? "black" : "#fff" },]}>
         <View style={styles.circleLeft} />
+        <View style={styles.circleLeft1} />
+        <View style={styles.circleLeft2} />
         <View style={styles.circleRight} />
         <View style={styles.imageContainer}>
           <Image
-            source={Book1} // Adjust the path as needed
+            source={Pb4} // Adjust the path as needed
             style={styles.image}
           />
         </View>
@@ -84,8 +98,8 @@ const App = ({route}) => {
           <Text style={styles.buttonText}>Get Started</Text>
         </TouchableOpacity>
       </View>
-    {/* </Swiper> */}
-    </>
+    </Swiper>
+    
    
    
   );
@@ -103,6 +117,24 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: -width * 0.2,
     left: -width * 0.2,
+    width: width * 0.4,
+    height: width * 0.4,
+    borderRadius: width * 0.2,
+    backgroundColor: '#4A90E2',
+  },
+  circleLeft1: {
+    position: 'absolute',
+    left: -70,
+    top:-60,
+    width: width * 0.4,
+    height: width * 0.4,
+    borderRadius: width * 0.2,
+    backgroundColor: '#4A90E2',
+  },
+  circleLeft2: {
+    position: 'absolute',
+    left: 330,
+    top:-60,
     width: width * 0.4,
     height: width * 0.4,
     borderRadius: width * 0.2,
@@ -148,10 +180,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 3,
   },
    button: {
-    backgroundColor: '#083EA0',
+    backgroundColor: '#4A90E2',
     paddingVertical: 15,
     paddingHorizontal: 30,
-    borderRadius: 5,
+    borderRadius: 15,
     marginTop: 20,
   },
   buttonText: {

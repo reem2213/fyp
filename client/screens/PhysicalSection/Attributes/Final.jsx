@@ -5,10 +5,12 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+Dimensions,
   Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { DarkModeContext } from "../../../components/DarkModeContext"; // Import the context
+const { width,height } = Dimensions.get('window');
 
 export default function FinalScreen({ route, navigation }) {
   const {
@@ -89,10 +91,11 @@ export default function FinalScreen({ route, navigation }) {
 
   return (
     <SafeAreaView style={[styles.container,{ backgroundColor: isDarkMode ? "black" : "#fff" }]}>
-      <View style={styles.circleTopLeft}></View>
-      <View style={styles.circleTopRight}></View>
-      <View style={styles.circleBottomLeft}></View>
-      <View style={styles.circleBottomRight}></View>
+      <View style={styles.circleLeft} />
+        <View style={styles.circleLeft1} />
+        <View style={styles.circleLeft2} />
+
+        <View style={styles.circleRight} />
 
       <View style={styles.content}>
         <Text style={[styles.headerText,{color: isDarkMode ? "white" : "black"}]}>Your Information</Text>
@@ -203,40 +206,40 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 5,
   },
-  circleTopLeft: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: "#719AEA",
-    position: "absolute",
-    top: 0,
-    left: 0,
+  circleLeft: {
+    position: 'absolute',
+    bottom: -width * 0.2,
+    left: -width * 0.2,
+    width: width * 0.4,
+    height: width * 0.4,
+    borderRadius: width * 0.2,
+    backgroundColor: '#4A90E2',
   },
-  circleTopRight: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: "#719AEA",
-    position: "absolute",
-    top: 0,
-    right: 0,
+  circleLeft1: {
+    position: 'absolute',
+    left: -70,
+    top:-60,
+    width: width * 0.4,
+    height: width * 0.4,
+    borderRadius: width * 0.2,
+    backgroundColor: '#4A90E2',
   },
-  circleBottomLeft: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: "#719AEA",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
+  circleLeft2: {
+    position: 'absolute',
+    left: 330,
+    top:-60,
+    width: width * 0.4,
+    height: width * 0.4,
+    borderRadius: width * 0.2,
+    backgroundColor: '#4A90E2',
   },
-  circleBottomRight: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: "#719AEA",
-    position: "absolute",
-    bottom: 0,
-    right: 0,
+  circleRight: {
+    position: 'absolute',
+    bottom: -width * 0.2,
+    right: -width * 0.2,
+    width: width * 0.4,
+    height: width * 0.4,
+    borderRadius: width * 0.2,
+    backgroundColor: '#4A90E2',
   },
 });
