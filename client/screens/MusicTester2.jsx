@@ -159,7 +159,7 @@ import React, { useContext, useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
-  Button,
+  ScrollView,
   Image,
   Text,
   TouchableOpacity,
@@ -171,7 +171,7 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import { DarkModeContext } from "../components/DarkModeContext";
 
 export default function MusicZoneScreen({ navigation, route }) {
-  const { username,userId } = route.params;
+  const { username, userId } = route.params;
 
   const { isDarkMode } = useContext(DarkModeContext);
   const [playingIndex, setPlayingIndex] = useState(null);
@@ -202,84 +202,97 @@ export default function MusicZoneScreen({ navigation, route }) {
   }, [sound]);
 
   const backToHome = () => {
-    navigation.navigate("Home", { username,userId });
+    navigation.navigate("Home", { username, userId });
   };
-
   return (
     <>
       <View
         style={[
-          { color: "black",position:"absolute",height:"100%",width:"100%" },
+          {
+            color: "black",
+            position: "absolute",
+            height: "100%",
+            width: "100%",
+          },
           { backgroundColor: isDarkMode ? "black" : "#fff" },
         ]}
       >
-      <View
-        style={[
-          styles.bigContainer,
-          { backgroundColor: isDarkMode ? "#011C4F" : "#22CFE7" },
-        ]}
-      >
-        <TouchableOpacity onPress={backToHome}>
-          <Image source={Back} style={styles.backButton} />
-        </TouchableOpacity>
-        <Text
-          style={[styles.header, { color: isDarkMode ? "white" : "white" }]}
+        <View
+          style={[
+            styles.bigContainer,
+            { backgroundColor: isDarkMode ? "#011C4F" : "#22CFE7" },
+          ]}
         >
-          Music Zone
-        </Text>
-        <Image source={FeedbackImage} style={styles.feedbackImage} />
-      </View>
-      <View
-        style={[
-          styles.container,
-          { backgroundColor: isDarkMode ? "#333" : "white" },
-        ]}
-      >
-        {[
-          { title: "Better Days", source: require("../tracks/BetterDays.mp3") },
-          {
-            title: "A Sitar Story",
-            source: require("../tracks/ASitarStory.mp3"),
-          },
-          { title: "Sweet Math", source: require("../tracks/SweetMath.mp3") },
-          { title: "Two Hearts", source: require("../tracks/TwoHearts.mp3") },
-          { title: "Music 5", source: require("../tracks/BetterDays.mp3") },
-          { title: "Music 6", source: require("../tracks/SweetMath.mp3") },
-        ].map((track, index) => (
-          <View key={index} style={{ flexDirection: "row", gap: 10 }}>
-            <TouchableOpacity
-              style={[styles.playPauseBtn,{ backgroundColor: isDarkMode ? "#011C4F" : "#22CFE7" },]}
-              onPress={() => togglePlaySound(index, track.source)}
-            >
-              <AntDesign
-                name={playingIndex === index ? "pausecircleo" : "playcircleo"}
-                size={20}
-                color="white"
+          <TouchableOpacity onPress={backToHome}>
+            <Image source={Back} style={styles.backButton} />
+          </TouchableOpacity>
+          <Text
+            style={[styles.header, { color: isDarkMode ? "white" : "white" }]}
+          >
+            Music Zone
+          </Text>
+          <Image source={FeedbackImage} style={styles.feedbackImage} />
+        </View>
+
+        {/* ScrollView added to make song list scrollable */}
+        <ScrollView
+          style={[
+            styles.container,
+            { backgroundColor: isDarkMode ? "#333" : "white" },
+          ]}
+        >
+          {[
+            { title: "Unstoppable", source: require("../tracks/Sia - Unstoppable (Lyrics).mp3") },
+            { title: "Fight Song", source: require("../tracks/Rachel Platten - Fight Song (Lyrics).mp3") },
+            { title: "A Sky Full Of Stars", source: require("../tracks/@coldplay  - A Sky Full Of Stars (Lyrics).mp3") },
+            { title: "Riptide", source: require("../tracks/Vance Joy - Riptide (Lyrics).mp3") },
+            { title: "Believer", source: require("../tracks/Imagine Dragons - Believer (Lyrics).mp3") },
+            { title: "The Greatest", source: require("../tracks/Sia - The Greatest (Lyrics).mp3") },
+            { title: "Scars To Your Beautiful", source: require("../tracks/Alessia Cara - Scars To Your Beautiful (Lyrics).mp3") },
+            { title: "Champion", source: require("../tracks/Neoni & Burnboy- Champion (Lyrics Video).mp3") },
+            { title: "End Of Beginning", source: require("../tracks/Djo - End Of Beginning (Lyrics).mp3") },
+            { title: "Cheap Thrills", source: require("../tracks/Sia - Cheap Thrills (Lyrics) ft. Sean Paul.mp3") },
+            { title: "Stereo Hearts", source: require("../tracks/Gym Class Heroes - Stereo Hearts (Lyrics)  Heart Stereo.mp3") },
+            { title: "Happier", source: require("../tracks/Marshmello ft. Bastille - Happier (Official Music Video).mp3") },
+            { title: "Try Everything", source: require("../tracks/Zootopia - Try Everything (Lyrics, Shakira).mp3") },
+          ].map((track, index) => (
+            <View key={index} style={{ flexDirection: "row", gap: 10 }}>
+              <TouchableOpacity
+                style={[
+                  styles.playPauseBtn,
+                  { backgroundColor: isDarkMode ? "#011C4F" : "#22CFE7" },
+                ]}
+                onPress={() => togglePlaySound(index, track.source)}
+              >
+                <AntDesign
+                  name={playingIndex === index ? "pausecircleo" : "playcircleo"}
+                  size={20}
+                  color="white"
+                />
+              </TouchableOpacity>
+              <Text
+                style={{
+                  marginTop: 10,
+                  left: -5,
+                  color: isDarkMode ? "white" : "black",
+                }}
+              >
+                {track.title}
+              </Text>
+              <View
+                style={{
+                  backgroundColor: "#D6D7D8",
+                  borderRadius: 50,
+                  width: 220,
+                  height: 5,
+                  position: "absolute",
+                  top: 40,
+                  left: 65,
+                }}
               />
-            </TouchableOpacity>
-            <Text
-              style={{
-                marginTop: 10,
-                left: -5,
-                color: isDarkMode ? "white" : "black",
-              }}
-            >
-              {track.title}
-            </Text>
-            <View
-              style={{
-                backgroundColor: "#D6D7D8",
-                borderRadius: 50,
-                width: 220,
-                height: 5,
-                position: "absolute",
-                top: 40,
-                left: 65,
-              }}
-            />
-          </View>
-        ))}
-      </View>
+            </View>
+          ))}
+        </ScrollView>
       </View>
     </>
   );
@@ -288,7 +301,6 @@ export default function MusicZoneScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
     width: "85%",
     marginLeft: 30,
     marginTop: 20,
@@ -322,12 +334,6 @@ const styles = StyleSheet.create({
     height: 180,
     marginTop: 200,
     marginLeft: 70,
-  },
-  containerr: {
-    flexDirection: "row",
-    justifyContent: "center",
-    margin: 0,
-    alignItems: "center",
   },
   playPauseBtn: {
     width: 40,
