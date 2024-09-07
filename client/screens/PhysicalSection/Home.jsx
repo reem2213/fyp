@@ -422,7 +422,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 150,
     borderRadius: 30,
-    backgroundColor: "purple",
+    backgroundColor: "#00A625",
     shadowOffset: {
       width: 0,
       height: 40,

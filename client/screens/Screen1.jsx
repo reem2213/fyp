@@ -122,7 +122,7 @@ const ChatBot = ({ navigation, route }) => {
   const [userInput, setUserInput] = useState("");
   const [status, setStatus] = useState("");
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
-  const { username, userId } = route.params;
+  const { username, userId,imageData } = route.params;
 
   const handleSend = async () => {
     const newConversation = [
@@ -150,7 +150,7 @@ const ChatBot = ({ navigation, route }) => {
   };
 
   const backToPsychoSection = () => {
-    navigation.navigate("PsychologicalSection", { userId, username });
+    navigation.navigate("PhysicalHome", { userId, username });
   };
   // const renderMessage = (item, index) => (
   //   <View
@@ -196,11 +196,11 @@ const ChatBot = ({ navigation, route }) => {
     >
       {item.role === "user" ? (
         <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
-          <View style={[styles.messageContainer, { backgroundColor: "#0344C3" }]}>
+          <View style={[styles.messageContainer, { backgroundColor: "#00A625" }]}>
             <Text style={styles.messageText}>{item.content}</Text>
           </View>
           <Image
-            source={{ uri: "https://i.pinimg.com/736x/02/41/dc/0241dc4c544ec54fee0c378b40ca6bc6.jpg" }}
+            source={ { uri: `data:image/jpeg;base64,${imageData} ` } }
             style={styles.userAvatar}
           />
         </View>
@@ -210,7 +210,7 @@ const ChatBot = ({ navigation, route }) => {
             source={{ uri: "https://upload.wikimedia.org/wikipedia/commons/a/a4/GPT-4.png" }}
             style={styles.botAvatar}
           />
-          <View style={[styles.messageContainer, { backgroundColor: "#032B79" }]}>
+          <View style={[styles.messageContainer, { backgroundColor: "#00A625" }]}>
             <Text style={styles.messageText}>{item.content}</Text>
           </View>
         </View>
@@ -231,7 +231,7 @@ const ChatBot = ({ navigation, route }) => {
       <View
         style={[
           styles.header,
-          { backgroundColor: isDarkMode ? "black" : "#032B79" },
+          { backgroundColor: isDarkMode ? "black" : "#00A625" },
         ]}
       >
         <TouchableOpacity
@@ -274,7 +274,7 @@ const ChatBot = ({ navigation, route }) => {
         />
         <TouchableOpacity
           onPress={handleSend}
-          style={[styles.sendButton, { backgroundColor: "#032B79" }]}
+          style={[styles.sendButton, { backgroundColor: "#00A625" }]}
         >
           <Text style={styles.sendButtonText}>Send</Text>
         </TouchableOpacity>
@@ -352,7 +352,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#032B79",
+    backgroundColor: "#00A625",
   },
   sendButtonText: {
     color: "#fff",
