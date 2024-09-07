@@ -276,11 +276,11 @@ const SignUp = ({ navigation }) => {
         placeholderTextColor={isDarkMode ? "white" : "#000"}
         onPress={showDatePicker}
       >
-        <Text>
+        <Text style={[styles.datebith,{ backgroundColor: isDarkMode ? "#333" : "#EEEEEE" },{ color: isDarkMode ? "white" : "gray" },]}>
           {dateOfBirth ? (
             dateOfBirth.toDateString()
           ) : (
-            <Image source={Calendar} style={styles.Calendar} />
+            <Image source={Calendar} style={[styles.Calendar]} />
           )}
         </Text>
       </TouchableOpacity>
@@ -295,6 +295,7 @@ const SignUp = ({ navigation }) => {
         value={dateOfBirth}
         onConfirm={handleConfirmDate}
         onCancel={hideDatePicker}
+        style={[{ backgroundColor: isDarkMode ? "#333" : "#EEEEEE" },{ color: isDarkMode ? "white" : "gray" }]}
       />
 
       <TouchableOpacity
@@ -407,6 +408,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 10,
     marginBottom: 10,
+  },
+  datebith:{
+    width: "85%",
+    height: 40,
+
+
   },
   button: {
     width: "85%",

@@ -77,7 +77,7 @@ export default function CommunitiesJoinedScreen({ navigation, route }) {
         <Text
           style={[styles.header, { color: isDarkMode ? "white" : "#032B79" }]}
         >
-          Joined Communities
+          Joined Groups
         </Text>
         <View style={styles.groupsContainer}>
           {joinedGroups.map((item) => (

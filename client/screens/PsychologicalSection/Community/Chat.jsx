@@ -514,10 +514,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#6096FF",
     borderRadius: 25,
     paddingHorizontal: 20,
+    width:"auto"
   },
   receivedMessage: {
     alignSelf: "flex-start",
-    backgroundColor: "#2C74FF",
+    backgroundColor: "blue",
     borderRadius: 25,
     fontWeight: "bold",
   },

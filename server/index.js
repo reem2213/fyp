@@ -859,7 +859,7 @@ app.post('/groups/:id/join', async (req, res) => {
 
     const welcomeMessage = {
       sender: "system",  // Use the system user ID
-      text: `Heyy, welcome to our community!`,
+      text: `Heyy! welcome to our group!`,
       timestamp: new Date(),
     };
     group.messages.push(welcomeMessage);

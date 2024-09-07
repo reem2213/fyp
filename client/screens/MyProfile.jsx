@@ -1117,11 +1117,12 @@ const App = ({ route }) => {
               { color: isDarkMode ? "white" : "black" },
             ]}
           >
+
             {username}
           </Text>
           <Text
             style={[
-              { top: -80, left: 190, fontSize: 15, fontWeight: "500" },
+              { top: -80, left: 190, fontSize: 15, fontWeight: "500", width:"50%" },
               { color: isDarkMode ? "white" : "black" },
             ]}
           >
