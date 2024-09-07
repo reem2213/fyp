@@ -56,6 +56,10 @@ const SignIn = ({ navigation, route }) => {
         });
         if (response.data.status === "Success") {
           const userId = response.data.userId; // Get user ID from response
+          setPasswordError("");
+          setUsernameError("");
+
+
 
           const welcomeMessage = `Welcome back, ${username}!`;
           const newNotification = { message: welcomeMessage, time: new Date() };
@@ -82,6 +86,12 @@ const SignIn = ({ navigation, route }) => {
             console.error("Failed to save notification:", error);
           }
         }
+        // else if (response.data.status === "Error"){
+        //   setPasswordError("Incorrect username or password");
+
+
+
+        // }
         console.log(response.data);
       } catch (error) {
         alert(error.message);
@@ -130,8 +140,59 @@ const SignIn = ({ navigation, route }) => {
       </Text>
 
       <View style={[styles.signUpChild2,{ backgroundColor: isDarkMode ? "#032B79" : "#719AEA" }]} />
-
       <TextInput
+  style={[
+    styles.input,
+    styles.username,
+    styles.phoneNoClr,
+    styles.signUpInner,
+    styles.signLayout,
+    usernameError && styles.inputError,
+    isDarkMode ? styles.darkInput : styles.lightInput,
+    usernameError && { marginBottom: 10} // Add space when there's an error
+  ]}
+  placeholder="Username"
+  placeholderTextColor={isDarkMode ? "#ccc" : "#000"}
+  underlineColorAndroid="transparent"
+  value={username}
+  onChangeText={(text) => setUsername(text)}
+/>
+{usernameError ? (
+  <Text style={[styles.errorText, styles.errorTextUsername]}>
+    Username is required
+  </Text>
+) : null}
+
+<TextInput
+  style={[
+    styles.input,
+    styles.password,
+    styles.phoneNoClr,
+    styles.rectangleView,
+    styles.signLayout,
+    passwordError && styles.inputError,
+    isDarkMode ? styles.darkInput : styles.lightInput,
+    usernameError && { marginTop: 10 } // Add space above the password input
+  ]}
+  placeholder="Password"
+  placeholderTextColor={isDarkMode ? "#ccc" : "#000"}
+  secureTextEntry={true}
+  value={password}
+  onChangeText={(text) => {
+    setPassword(text);
+    setPasswordError(""); // Clear error as user types
+  }}/>
+{passwordError ? (
+  <Text style={[styles.errorText, styles.errorTextPassword]}>
+    Password is required
+  </Text>
+) : (
+  <Text style={[styles.errorText, styles.errorTextPassword]}>
+    Incorrect username or password
+  </Text>
+)}
+
+      {/* <TextInput
         style={[
           styles.input,
           styles.username,
@@ -148,7 +209,7 @@ const SignIn = ({ navigation, route }) => {
         onChangeText={(text) => setUsername(text)}
       />
       {usernameError ? (
-        <Text style={[styles.errorText, styles.errorTextUsername]}>
+        <Text style={[styles.errorText2, styles.errorTextUsername]}>
           Username is required
         </Text>
       ) : null}
@@ -169,11 +230,13 @@ const SignIn = ({ navigation, route }) => {
         value={password}
         onChangeText={(text) => setPassword(text)}
       />
-      {passwordError && (
+      {passwordError ? (
         <Text style={[styles.errorText, styles.errorTextPassword]}>
           Password is required
         </Text>
-      )}
+      ):(<Text style={[styles.errorText, styles.errorTextPassword]}>
+          Incorrect username or password
+        </Text>)} */}
 
       <Text style={[styles.orSignIn, styles.orSignInLayout]}>
         OR SIGN IN WITH
@@ -268,6 +331,14 @@ const styles = StyleSheet.create({
     borderRadius:200
 
   },
+  // errorText:{
+  //   color: "red",
+  //   marginBottom: 5,
+  //   marginLeft: 30,
+  //   top: 50,
+  //   alignSelf: "flex-start",
+  // },
+
   ellipseIconLayout: {
     height: 200,
     width: 200,
@@ -322,16 +393,20 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginBottom: 15,
     textAlign: "center",
-  },
+marginTop:10  },
   errorTextUsername: {
     position: "absolute",
     top: 350,
     left: 60,
+    marginBottom: 15,
+
   },
   errorTextPassword: {
     position: "absolute",
     top: 422,
     left: 60,
+    marginBottom: 15,
+
   },
   createYourAccount: {
     top: 220,
@@ -341,7 +416,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   signUpInner: {
-    top: 297,
+    top: 320,
   },
   rectangleView: {
     top: 373,
@@ -356,7 +431,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   username: {
-    top: 330,
+    top: 340,
     lineHeight: 20,
     color: Color.colorGray_100,
     fontSize: FontSize.size_mini,

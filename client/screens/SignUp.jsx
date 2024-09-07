@@ -202,7 +202,7 @@ const SignUp = ({ navigation }) => {
           styles.input,
           { backgroundColor: isDarkMode ? "#333" : "#EEEEEE" },{ color: isDarkMode ? "white" : "gray" },
         ]}
-        placeholderTextColor={isDarkMode ? "#ccc" : "#000"}
+        placeholderTextColor={isDarkMode ? "#ccc" : "gray"}
         placeholder="Email"
         value={email}
         onChangeText={(text) => setEmail(text)}
@@ -214,7 +214,7 @@ const SignUp = ({ navigation }) => {
           styles.input,
           { backgroundColor: isDarkMode ? "#333" : "#EEEEEE" },{ color: isDarkMode ? "white" : "gray" },
         ]}
-        placeholderTextColor={isDarkMode ? "white" : "#000"}
+        placeholderTextColor={isDarkMode ? "white" : "gray"}
         placeholder="Username"
         value={username}
         onChangeText={(text) => handleUsernameChange(text)}
@@ -229,7 +229,7 @@ const SignUp = ({ navigation }) => {
           styles.input,
           { backgroundColor: isDarkMode ? "#333" : "#EEEEEE" },{ color: isDarkMode ? "white" : "gray" },
         ]}
-        placeholderTextColor={isDarkMode ? "#ccc" : "#000"}
+        placeholderTextColor={isDarkMode ? "#ccc" : "gray"}
         placeholder="Password"
         secureTextEntry
         value={password}
@@ -258,7 +258,7 @@ const SignUp = ({ navigation }) => {
           styles.input,
           { backgroundColor: isDarkMode ? "#333" : "#EEEEEE" },{ color: isDarkMode ? "white" : "gray" },
         ]}
-        placeholderTextColor={isDarkMode ? "#ccc" : "#000"}
+        placeholderTextColor={isDarkMode ? "#ccc" : "gray"}
         placeholder="Phone Number"
         keyboardType="numeric"
         value={phoneNo}
@@ -273,16 +273,19 @@ const SignUp = ({ navigation }) => {
           styles.input,
           { backgroundColor: isDarkMode ? "#333" : "white" },
         ]}
-        placeholderTextColor={isDarkMode ? "white" : "#000"}
+        placeholderTextColor={isDarkMode ? "white" : "gray"}
         onPress={showDatePicker}
       >
         <Text style={[styles.datebith,{ backgroundColor: isDarkMode ? "#333" : "#EEEEEE" },{ color: isDarkMode ? "white" : "gray" },]}>
           {dateOfBirth ? (
             dateOfBirth.toDateString()
           ) : (
-            <Image source={Calendar} style={[styles.Calendar]} />
+            <Text>Date Of Birth</Text>
           )}
         </Text>
+        <Image source={Calendar} style={styles.Calendar} />
+
+
       </TouchableOpacity>
       {dateOfBirth ? (
         <Text style={styles.errorText}>{dateOfBirthError}</Text>
@@ -295,7 +298,6 @@ const SignUp = ({ navigation }) => {
         value={dateOfBirth}
         onConfirm={handleConfirmDate}
         onCancel={hideDatePicker}
-        style={[{ backgroundColor: isDarkMode ? "#333" : "#EEEEEE" },{ color: isDarkMode ? "white" : "gray" }]}
       />
 
       <TouchableOpacity
@@ -319,7 +321,7 @@ const SignUp = ({ navigation }) => {
               { color: isDarkMode ? "white" : "gray" },
             ]}
           >
-            {" "}
+    
             Sign In
           </Text>
         </TouchableOpacity>
@@ -366,7 +368,8 @@ const styles = StyleSheet.create({
   Calendar: {
     width: 30,
     height: 30,
-    left: 200,
+    left: 270,
+    top:5,
     position: "absolute",
   },
   ellipseIcon: {
@@ -410,8 +413,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   datebith:{
-    width: "85%",
+    width: 315,
     height: 40,
+    borderRadius: 10,
+    right:10,
+    paddingTop:7,
+    paddingLeft:10
+
 
 
   },
@@ -430,7 +438,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: "red",
-    // marginBottom: 5,
+    marginBottom: 5,
     marginLeft: 30,
     top: 50,
     alignSelf: "flex-start",
