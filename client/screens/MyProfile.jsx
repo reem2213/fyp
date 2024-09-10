@@ -879,8 +879,8 @@ const App = ({ route }) => {
   const renderItem = ({ item }) => {
     if (activeSection === "Meetings") {
       return (
-        <View style={styles.itemContainer2}>
-          <Text style={styles.itemTitle2}>Dr. {item.mentorName} </Text>
+        <View style={styles.itemContainerr2}>
+          <Text style={styles.itemTitlee2}>Dr. {item.mentorName} </Text>
           <Image
             source={AppIcon}
             style={{
@@ -892,28 +892,28 @@ const App = ({ route }) => {
             }}
           />
 
-          <Text style={styles.itemTitle3}>
+          <Text style={styles.itemTitlee3}>
             on {new Date(item.date).toDateString()}
           </Text>
-          <Text style={styles.itemTitle3}> at {item.time}</Text>
-          <View style={styles.statusContainer}>
+          <Text style={styles.itemTitlee3}> at {item.time}</Text>
+          <View style={styles.statusContainerr}>
             {(item.status === "upcoming" || item.status === "in progress") && (
-              <View style={styles.actionButtons2}>
+              <View style={styles.actionButtonss2}>
                 <TouchableOpacity
-                  style={[styles.actionButton, styles.doneButton]}
+                  style={[styles.actionButtonn, styles.doneButtonn]}
                   onPress={() =>
                     handleStatusChange(item._id, "Completed", item.status)
                   }
                 >
-                  <Text style={styles.actionButtonTextt2}>Done</Text>
+                  <Text style={styles.actionButtonTexttt2}>Done</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={[styles.actionButton, styles.cancelButton]}
+                  style={[styles.actionButtonn, styles.cancelButtonn]}
                   onPress={() =>
                     handleStatusChange(item._id, "Cancelled", item.status)
                   }
                 >
-                  <Text style={styles.actionButtonTextt}>Cancel</Text>
+                  <Text style={styles.actionButtonTexttt}>Cancel</Text>
                 </TouchableOpacity>
               </View>
             )}
@@ -1370,18 +1370,12 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   actionButton: {
-    // backgroundColor: "#f0f0f0",
     borderRadius: 8,
     paddingVertical: 4,
     paddingHorizontal: 8,
     marginRight: 8,
   },
-  // doneButton: {
-  //   backgroundColor: "#032B79",
-  // },
-  // cancelButton: {
-  //   backgroundColor: "#032B79",
-  // },
+
   actionButtonText: {
     fontSize: 10,
     color: "red",
@@ -1415,7 +1409,70 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 10,
   },
-
+    itemContainerr2: {
+      backgroundColor: '#002E76', // Dark blue background
+      borderRadius: 15,
+      padding: 10,
+      marginBottom: 10,
+      width: '90%',
+      alignSelf: 'center',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.8,
+      shadowRadius: 2,
+      elevation: 5,
+      position: 'relative',
+    },
+    itemTitlee2: {
+      color: 'white',
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 5,
+      marginLeft: 100, // To give space for the image
+    },
+    itemTitlee3: {
+      color: 'white',
+      fontSize: 14,
+      marginBottom: 5,
+      marginLeft: 100, // To align with the name
+    },
+    statusContainerr: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginTop: 10,
+    },
+    actionButtonss2: {
+      flexDirection: 'row',
+      left:95,
+      gap:19
+    },
+    actionButtonn: {
+      borderRadius: 20,
+      paddingVertical: 5,
+      paddingHorizontal: 15,
+      marginHorizontal: 5,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    doneButtonn: {
+      backgroundColor: '#FFFFFF',
+      borderColor: '#CCCCCC',
+      borderWidth: 1,
+    },
+    cancelButtonn: {
+      backgroundColor: '#FF0000',
+    },
+    actionButtonTexttt2: {
+      color: '#002E76', // Blue text for 'Done'
+      fontWeight: 'bold',
+    },
+    actionButtonTexttt: {
+      color: 'white', // White text for 'Cancel'
+      fontWeight: 'bold',
+    },
+  
+  
   header: {
     flexDirection: "row",
     justifyContent: "space-between",

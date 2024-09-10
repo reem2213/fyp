@@ -1,26 +1,17 @@
-import React from "react";
+import React,{useContext} from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet,Image } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Back from '../assets/arrowBack.png';
+import { DarkModeContext } from "../components/DarkModeContext";
 
 const CancelBookingScreen = ({ navigation }) => {
-//   const validationSchema = Yup.object().shape({
-//     reason: Yup.string().required("Please select a reason"),
-//     otherReason: Yup.string().when("reason", {
-//       is: "Other",
-//       then: Yup.string().required("Please enter a reason"),
-      
-//     }),
-    
-//   });
+  const { isDarkMode } = useContext(DarkModeContext);
+
 const validationSchema = Yup.object().shape({
     reason: Yup.string().required("Please select a reason"),
     otherReason: Yup.string(),
   });
-
-
-  
 
   const reasons = [
     "Schedule Change",
@@ -32,13 +23,13 @@ const validationSchema = Yup.object().shape({
 
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,{ backgroundColor: isDarkMode ? "black" : "#FAFAFA"}]}>
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
         <Image source={Back} style={{ top:10,left:0, width:40,height:40}}/>
 
       </TouchableOpacity>
-      <Text style={styles.title}>Cancel Booking</Text>
-      <Text style={styles.subtitle}>Please select the reason for cancellations:</Text>
+      <Text style={[styles.title,{ color: isDarkMode ? "white" : "black"}]}>Cancel Booking</Text>
+      <Text style={[styles.subtitle,{ color: isDarkMode ? "white" : "black"}]}>Please select the reason for cancellations:</Text>
       <Formik
         initialValues={{ reason: "", otherReason: "" }}
         validationSchema={validationSchema}
@@ -52,12 +43,12 @@ const validationSchema = Yup.object().shape({
               <TouchableOpacity
                 key={reason}
                 onPress={() => setFieldValue("reason", reason)}
-                style={styles.radioContainer}
+                style={[styles.radioContainer]}
               >
                 <View style={styles.radioCircle}>
                   {values.reason === reason && <View style={styles.selectedRb} />}
                 </View>
-                <Text style={styles.radioText}>{reason}</Text>
+                <Text style={[styles.radioText,{ color: isDarkMode ? "white" : "black"}]}>{reason}</Text>
               </TouchableOpacity>
             ))}
             {values.reason === "Other" && (

@@ -126,7 +126,7 @@
 // });
 
 // export default EditProfileScreen;
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useContext} from "react";
 import {
   View,
   Text,
@@ -143,6 +143,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
 import Photo from "../assets/camera.png";
+import { DarkModeContext } from "../components/DarkModeContext";
 
 const EditProfileScreen = ({ route, navigation }) => {
   const { userId, phoneNo, username } = route.params;
@@ -153,6 +154,7 @@ const EditProfileScreen = ({ route, navigation }) => {
   const [newPhone, setNewPhone] = useState(phoneNo);
   const [newImage, setNewImage] = useState("");
   const [newBio, setNewBio] = useState("");
+  const { isDarkMode } = useContext(DarkModeContext);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -259,11 +261,11 @@ const EditProfileScreen = ({ route, navigation }) => {
 
   return (
     <KeyboardAvoidingView
-      style={styles.container}
+      style={[styles.container,{ backgroundColor: isDarkMode ? "black" : "#FAFAFA"}]}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={80} // Adjust this as needed
+      keyboardVerticalOffset={50} // Adjust this as needed
     >
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <ScrollView contentContainerStyle={[{ flexGrow: 1 },{ backgroundColor: isDarkMode ? "black" : "#FAFAFA"}]}>
         <Text
           style={{ color: "red", fontSize: 18, fontWeight: "600",position: "absolute", left: 30,  top: 70, }}
           onPress={ReturnToProfile}
@@ -272,14 +274,14 @@ const EditProfileScreen = ({ route, navigation }) => {
         </Text>
         <Text
           onPress={handleUpdate}
-          style={{
+          style={[{
             fontWeight: "600",
             position: "absolute",
             left: 340,
             top: 70,
             color: "#032B79",
             fontSize: 18,
-          }}
+          },{ color: isDarkMode ? "white" : "#032B79"}]}
         >
           Save
         </Text>
@@ -319,10 +321,10 @@ const EditProfileScreen = ({ route, navigation }) => {
           </View>
         </TouchableOpacity>
 
-        <View style={styles.inputContainer}>
+        <View style={[styles.inputContainer,{ backgroundColor: isDarkMode ? "black" : "#FAFAFA"}]}>
           <Text style={styles.label}>YOUR USERNAME</Text>
           <TextInput
-            style={styles.input}
+            style={[styles.input,{ color: isDarkMode ? "white" : "#000"}]}
             placeholder="Username"
             value={newUsername}
             onChangeText={setNewUsername}
@@ -331,7 +333,7 @@ const EditProfileScreen = ({ route, navigation }) => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>YOUR PASSWORD</Text>
           <TextInput
-            style={styles.input}
+            style={[styles.input,{ color: isDarkMode ? "white" : "#000"}]}
             placeholder="Password"
             value={newPassword}
             secureTextEntry={true}
@@ -341,7 +343,7 @@ const EditProfileScreen = ({ route, navigation }) => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>YOUR EMAIL</Text>
           <TextInput
-            style={styles.input}
+            style={[styles.input,{ color: isDarkMode ? "white" : "#000"}]}
             placeholder="Email"
             value={newEmail}
             onChangeText={setNewEmail}
@@ -351,7 +353,7 @@ const EditProfileScreen = ({ route, navigation }) => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>YOUR BIO</Text>
           <TextInput
-            style={styles.input}
+            style={[styles.input,{ color: isDarkMode ? "white" : "#000"}]}
             placeholder="Bio"
             value={newBio}
             onChangeText={setNewBio}
@@ -360,7 +362,7 @@ const EditProfileScreen = ({ route, navigation }) => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>YOUR PHONE</Text>
           <TextInput
-            style={styles.input}
+            style={[styles.input,{ color: isDarkMode ? "white" : "#000"}]}
             placeholder="Phone"
             value={newPhone}
             onChangeText={setNewPhone}
@@ -379,6 +381,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+    height:"100%"
   },
   imageContainer: {
     alignItems: "center",
