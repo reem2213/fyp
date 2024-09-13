@@ -154,10 +154,59 @@ const ProfileCustomization = ({ navigation, route }) => {
   }, []);
 
   
+  // const handleSignUp = async () => {
+  //   if (validateForm()) {
+  //     let imageToUpload = imageUri;
+
+  //     if (!imageUri) {
+  //       // Load the default image asset
+  //       const asset = Asset.fromModule(User);
+  //       await asset.downloadAsync(); // Ensure the image is available locally
+  //       const defaultImageUri = asset.localUri || asset.uri;
+        
+  //       // Convert the default image to Base64
+  //       const base64Image = await FileSystem.readAsStringAsync(defaultImageUri, {
+  //         encoding: FileSystem.EncodingType.Base64,
+  //       });
+        
+  //       imageToUpload = `${base64Image}`;
+  //     }
+  //     try {
+  //       const response = await axios.post("http://10.0.0.21:3001/SignUp", {
+  //         username,
+  //         email,
+  //         password,
+  //         gender,
+  //         dateOfBirth,
+  //         phoneNo,
+  //         bio,
+  //         image: imageToUpload, // Send the base64 encoded image
+  //       });
+  
+  //       if (response.status === 200) {
+  //         const userId = response.data.user._id; // Extract the _id from the response
+  //         console.log("SignUp success:", response.data);
+  //         console.log("UserId:", userId); // Log to confirm it's extracted correctly
+  //         navigation.navigate("Home", { username, bio, imageUri, userId:  response.data.user._id }); // Pass userId to Home
+  //       } else {
+  //         console.error("SignUp error: Unexpected status code", response.status);
+  //         alert("Error: Failed to create account");
+  //       }
+  //     } catch (error) {
+
+  //       console.error("SignUp error:", error);
+  //       if (error.response) {
+  //         alert(`Error: ${error.response.data.error}`);
+  //       } else {
+  //         alert("Error: No response received from server");
+  //       }
+  //     }
+  //   }
+  // };
   const handleSignUp = async () => {
     if (validateForm()) {
       let imageToUpload = imageUri;
-
+  
       if (!imageUri) {
         // Load the default image asset
         const asset = Asset.fromModule(User);
@@ -170,7 +219,11 @@ const ProfileCustomization = ({ navigation, route }) => {
         });
         
         imageToUpload = `${base64Image}`;
+      } else {
+        // If imageUri is provided, remove the Base64 prefix
+        imageToUpload = imageUri.replace(/^data:image\/[a-z]+;base64,/, '');
       }
+  
       try {
         const response = await axios.post("http://10.0.0.21:3001/SignUp", {
           username,
@@ -180,20 +233,19 @@ const ProfileCustomization = ({ navigation, route }) => {
           dateOfBirth,
           phoneNo,
           bio,
-          image: imageToUpload, // Send the base64 encoded image
+          image: imageToUpload, // Send the Base64 without the prefix
         });
   
         if (response.status === 200) {
-          const userId = response.data.user._id; // Extract the _id from the response
+          const userId = response.data.user._id;
           console.log("SignUp success:", response.data);
-          console.log("UserId:", userId); // Log to confirm it's extracted correctly
-          navigation.navigate("Home", { username, bio, imageUri, userId:  response.data.user._id }); // Pass userId to Home
+          console.log("UserId:", userId);
+          navigation.navigate("Home", { username, bio, imageUri, userId: response.data.user._id });
         } else {
           console.error("SignUp error: Unexpected status code", response.status);
           alert("Error: Failed to create account");
         }
       } catch (error) {
-
         console.error("SignUp error:", error);
         if (error.response) {
           alert(`Error: ${error.response.data.error}`);

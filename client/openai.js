@@ -17,7 +17,7 @@ export const getGPTResponse = async (messages, temperature = 0.3) => {
       },
       {
         headers: {
-          'Authorization': `Bearer sk-proj-vahdxCLwy4jP8OT2OHUfT3BlbkFJHn22ULBzQAYadiRABzmC`,
+          'Authorization': `Bearer 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`,
           'Content-Type': 'application/json',
         },
       }

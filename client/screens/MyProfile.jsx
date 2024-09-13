@@ -801,6 +801,20 @@ const App = ({ route }) => {
     }
   };
 
+  // const fetchUserPoints = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `http://10.0.0.21:3001/user-points/${userId}`
+  //     );
+
+  //     // Set the points if the response is successful
+  //     setPoints(response.data.totalPoints);
+  //     console.log(response.data.totalPoints);
+  //   } catch (error) {
+  //     console.error("Error fetching points:", error);
+  //   }
+  // };
+
   const fetchUserPoints = async () => {
     try {
       const response = await axios.get(
@@ -808,12 +822,25 @@ const App = ({ route }) => {
       );
 
       // Set the points if the response is successful
-      setPoints(response.data.totalPoints);
+      if (response.data.totalPoints > 0) {
+        setPoints(response.data.totalPoints);
+      } else {
+        setPoints(0); // No points
+      }
       console.log(response.data.totalPoints);
     } catch (error) {
-      console.error("Error fetching points:", error);
+      if (error.response && error.response.status === 404) {
+        // If the user has no points, set points to 0
+        setPoints(0);
+      } else {
+        console.error("Error fetching points:", error);
+      }
     }
   };
+
+  useEffect(() => {
+    fetchUserPoints();
+  }, []);
 
   useEffect(() => {
     fetchUserPoints();
@@ -1034,7 +1061,6 @@ const App = ({ route }) => {
                   height: 40,
                 }}
               />
-
             ) : (
               <Image
                 source={Back}
@@ -1092,8 +1118,22 @@ const App = ({ route }) => {
               { color: isDarkMode ? "white" : "gray" },
             ]}
           >
-            {points}
+            {points === 0 ? "No points" : points}
           </Text>
+
+          {/* <Text
+            style={[
+              {
+                fontSize: 20,
+                fontWeight: "600",
+                left: 80,
+                top: 3,
+              },
+              { color: isDarkMode ? "white" : "gray" },
+            ]}
+          >
+            {points}
+          </Text> */}
 
           {imageData ? (
             <Image
@@ -1117,12 +1157,17 @@ const App = ({ route }) => {
               { color: isDarkMode ? "white" : "black" },
             ]}
           >
-
             {username}
           </Text>
           <Text
             style={[
-              { top: -80, left: 190, fontSize: 15, fontWeight: "500", width:"50%" },
+              {
+                top: -80,
+                left: 190,
+                fontSize: 15,
+                fontWeight: "500",
+                width: "50%",
+              },
               { color: isDarkMode ? "white" : "black" },
             ]}
           >
@@ -1210,26 +1255,56 @@ const App = ({ route }) => {
           </View>
 
           {activeSection === "Goals" && (
-            <View style={[styles.chartContainer,{backgroundColor:isDarkMode?"#1f1f1f":"white"},]}>
-              <Text style={[styles.chartTitle,{color:isDarkMode?"white":"#032B79"}]}>Goal Status</Text>
+            <View
+              style={[
+                styles.chartContainer,
+                { backgroundColor: isDarkMode ? "#1f1f1f" : "white" },
+              ]}
+            >
+              <Text
+                style={[
+                  styles.chartTitle,
+                  { color: isDarkMode ? "white" : "#032B79" },
+                ]}
+              >
+                Goal Status
+              </Text>
               <View style={styles.barContainer}>
-                <Text style={[styles.barLabel,{color:isDarkMode?"white":"#032B79"}]}>In Progress</Text>
+                <Text
+                  style={[
+                    styles.barLabel,
+                    { color: isDarkMode ? "white" : "#032B79" },
+                  ]}
+                >
+                  In Progress
+                </Text>
                 <View
                   style={[
                     styles.bar,
                     {
                       width: `${goalPercentages.inProgress}%`,
                       backgroundColor: "yellow",
-                      
                     },
                   ]}
                 />
-                <Text style={[styles.percentageLabel,{color:isDarkMode?"white":"#032B79"}]}>
+                <Text
+                  style={[
+                    styles.percentageLabel,
+                    { color: isDarkMode ? "white" : "#032B79" },
+                  ]}
+                >
                   {goalPercentages.inProgress.toFixed(2)}%
                 </Text>
               </View>
               <View style={styles.barContainer}>
-                <Text style={[styles.barLabel,{color:isDarkMode?"white":"#032B79"}]}>Completed</Text>
+                <Text
+                  style={[
+                    styles.barLabel,
+                    { color: isDarkMode ? "white" : "#032B79" },
+                  ]}
+                >
+                  Completed
+                </Text>
                 <View
                   style={[
                     styles.bar,
@@ -1239,12 +1314,24 @@ const App = ({ route }) => {
                     },
                   ]}
                 />
-                <Text style={[styles.percentageLabel,{color:isDarkMode?"white":"#032B79"}]}>
+                <Text
+                  style={[
+                    styles.percentageLabel,
+                    { color: isDarkMode ? "white" : "#032B79" },
+                  ]}
+                >
                   {goalPercentages.completed.toFixed(2)}%
                 </Text>
               </View>
               <View style={styles.barContainer}>
-                <Text style={[styles.barLabel,{color:isDarkMode?"white":"#032B79"}]}>Cancelled</Text>
+                <Text
+                  style={[
+                    styles.barLabel,
+                    { color: isDarkMode ? "white" : "#032B79" },
+                  ]}
+                >
+                  Cancelled
+                </Text>
                 <View
                   style={[
                     styles.bar,
@@ -1254,7 +1341,12 @@ const App = ({ route }) => {
                     },
                   ]}
                 />
-                <Text style={[styles.percentageLabel,{color:isDarkMode?"white":"#032B79"}]}>
+                <Text
+                  style={[
+                    styles.percentageLabel,
+                    { color: isDarkMode ? "white" : "#032B79" },
+                  ]}
+                >
                   {goalPercentages.canceled.toFixed(2)}%
                 </Text>
               </View>
@@ -1266,13 +1358,13 @@ const App = ({ route }) => {
               style={[
                 styles.statusButton,
                 activeStatus === "upcoming" ? styles.activeStatusButton : null,
-                
               ]}
               onPress={() => setActiveStatus("upcoming")}
             >
               <Text
                 style={[
-                  styles.statusButtonText,{color:isDarkMode?"white":"#606060"},
+                  styles.statusButtonText,
+                  { color: isDarkMode ? "white" : "#606060" },
                   activeStatus === "upcoming"
                     ? styles.activeStatusButtonText
                     : null,
@@ -1290,7 +1382,9 @@ const App = ({ route }) => {
             >
               <Text
                 style={[
-                  styles.statusButtonText,,{color:isDarkMode?"white":"#606060"},
+                  styles.statusButtonText,
+                  ,
+                  { color: isDarkMode ? "white" : "#606060" },
                   activeStatus === "Completed"
                     ? styles.activeStatusButtonText
                     : null,
@@ -1308,7 +1402,8 @@ const App = ({ route }) => {
             >
               <Text
                 style={[
-                  styles.statusButtonText,{color:isDarkMode?"white":"#606060"},
+                  styles.statusButtonText,
+                  { color: isDarkMode ? "white" : "#606060" },
                   activeStatus === "Cancelled"
                     ? styles.activeStatusButtonText
                     : null,
@@ -1326,19 +1421,28 @@ const App = ({ route }) => {
             style={styles.listContainer}
           /> */}
           {filteredData.length === 0 ? (
-    <Text style={[{ textAlign: "center", fontSize:18, color: isDarkMode ? "white" : "black", marginTop: 80 }]}>
-      {activeSection === "Meetings"
-        ? `No meeting ${activeStatus.toLowerCase()}`
-        : `No goal ${activeStatus.toLowerCase()}`}
-    </Text>
-  ) : (
-    <FlatList
-      data={filteredData}
-      renderItem={renderItem}
-      keyExtractor={(item) => item._id}
-      style={styles.listContainer}
-    />
-  )}
+            <Text
+              style={[
+                {
+                  textAlign: "center",
+                  fontSize: 18,
+                  color: isDarkMode ? "white" : "black",
+                  marginTop: 80,
+                },
+              ]}
+            >
+              {activeSection === "Meetings"
+                ? `No meeting ${activeStatus.toLowerCase()}`
+                : `No goal ${activeStatus.toLowerCase()}`}
+            </Text>
+          ) : (
+            <FlatList
+              data={filteredData}
+              renderItem={renderItem}
+              keyExtractor={(item) => item._id}
+              style={styles.listContainer}
+            />
+          )}
         </View>
       </ScrollView>
     </>
@@ -1353,7 +1457,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 24,
     height: 1500,
-    
   },
   actionButtons: {
     flexDirection: "row",
@@ -1409,70 +1512,69 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 10,
   },
-    itemContainerr2: {
-      backgroundColor: '#002E76', // Dark blue background
-      borderRadius: 15,
-      padding: 10,
-      marginBottom: 10,
-      width: '90%',
-      alignSelf: 'center',
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.8,
-      shadowRadius: 2,
-      elevation: 5,
-      position: 'relative',
-    },
-    itemTitlee2: {
-      color: 'white',
-      fontSize: 18,
-      fontWeight: 'bold',
-      marginBottom: 5,
-      marginLeft: 100, // To give space for the image
-    },
-    itemTitlee3: {
-      color: 'white',
-      fontSize: 14,
-      marginBottom: 5,
-      marginLeft: 100, // To align with the name
-    },
-    statusContainerr: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      marginTop: 10,
-    },
-    actionButtonss2: {
-      flexDirection: 'row',
-      left:95,
-      gap:19
-    },
-    actionButtonn: {
-      borderRadius: 20,
-      paddingVertical: 5,
-      paddingHorizontal: 15,
-      marginHorizontal: 5,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    doneButtonn: {
-      backgroundColor: '#FFFFFF',
-      borderColor: '#CCCCCC',
-      borderWidth: 1,
-    },
-    cancelButtonn: {
-      backgroundColor: '#FF0000',
-    },
-    actionButtonTexttt2: {
-      color: '#002E76', // Blue text for 'Done'
-      fontWeight: 'bold',
-    },
-    actionButtonTexttt: {
-      color: 'white', // White text for 'Cancel'
-      fontWeight: 'bold',
-    },
-  
-  
+  itemContainerr2: {
+    backgroundColor: "#002E76", // Dark blue background
+    borderRadius: 15,
+    padding: 10,
+    marginBottom: 10,
+    width: "90%",
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
+    position: "relative",
+  },
+  itemTitlee2: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 5,
+    marginLeft: 100, // To give space for the image
+  },
+  itemTitlee3: {
+    color: "white",
+    fontSize: 14,
+    marginBottom: 5,
+    marginLeft: 100, // To align with the name
+  },
+  statusContainerr: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 10,
+  },
+  actionButtonss2: {
+    flexDirection: "row",
+    left: 95,
+    gap: 19,
+  },
+  actionButtonn: {
+    borderRadius: 20,
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+    marginHorizontal: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  doneButtonn: {
+    backgroundColor: "#FFFFFF",
+    borderColor: "#CCCCCC",
+    borderWidth: 1,
+  },
+  cancelButtonn: {
+    backgroundColor: "#FF0000",
+  },
+  actionButtonTexttt2: {
+    color: "#002E76", // Blue text for 'Done'
+    fontWeight: "bold",
+  },
+  actionButtonTexttt: {
+    color: "white", // White text for 'Cancel'
+    fontWeight: "bold",
+  },
+
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -1519,14 +1621,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 40,
     top: 0,
-    alignItems:"center"
+    alignItems: "center",
   },
   statusContainer2: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 20,
     top: 0,
-    alignItems:"center"
+    alignItems: "center",
   },
   listContainer: {
     flex: 1,
@@ -1649,7 +1751,6 @@ const styles = StyleSheet.create({
   barLabel: {
     width: 100,
     fontSize: 14,
-   
   },
   percentageLabel: {
     marginLeft: 5,
