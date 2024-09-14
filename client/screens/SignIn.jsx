@@ -47,6 +47,53 @@ const SignIn = ({ navigation, route }) => {
     return isValid;
   };
 
+  // const handleSignUp = async () => {
+  //   if (validateForm()) {
+  //     try {
+  //       const response = await axios.post("http://10.0.0.21:3001/SignIn", {
+  //         username,
+  //         password,
+  //       });
+  //       if (response.data.status === "Success") {
+  //         const userId = response.data.userId; // Get user ID from response
+  //         setPasswordError("");
+  //         setUsernameError("");
+
+  //         const welcomeMessage = `Welcome back, ${username}!`;
+  //         const newNotification = { message: welcomeMessage, time: new Date() };
+
+  //         try {
+  //           const storedNotifications = await AsyncStorage.getItem(
+  //             "Notifications"
+  //           );
+  //           console.log("Stored Notifications:", storedNotifications); // Debugging line
+  //           let notifications = storedNotifications
+  //             ? JSON.parse(storedNotifications)
+  //             : [];
+  //           if (!Array.isArray(notifications)) {
+  //             notifications = [];
+  //           }
+  //           notifications.push(newNotification);
+  //           await AsyncStorage.setItem(
+  //             "Notifications",
+  //             JSON.stringify(notifications)
+  //           );
+  //           console.log("New Notifications:", notifications); // Debugging line
+  //           navigation.navigate("Home", { username, bio, userId });
+  //         } catch (error) {
+  //           console.error("Failed to save notification:", error);
+  //         }
+  //       }
+  //       // else if (response.data.status === "Error"){
+  //       //   setPasswordError("Incorrect username or password");
+
+  //       // }
+  //       console.log(response.data);
+  //     } catch (error) {
+  //       alert(error.message);
+  //     }
+  //   }
+  // };
   const handleSignUp = async () => {
     if (validateForm()) {
       try {
@@ -54,16 +101,16 @@ const SignIn = ({ navigation, route }) => {
           username,
           password,
         });
+        
         if (response.data.status === "Success") {
           const userId = response.data.userId; // Get user ID from response
           setPasswordError("");
           setUsernameError("");
-
-
-
+          setAuthError(false); // Clear the auth error if login is successful
+  
           const welcomeMessage = `Welcome back, ${username}!`;
           const newNotification = { message: welcomeMessage, time: new Date() };
-
+  
           try {
             const storedNotifications = await AsyncStorage.getItem(
               "Notifications"
@@ -85,23 +132,22 @@ const SignIn = ({ navigation, route }) => {
           } catch (error) {
             console.error("Failed to save notification:", error);
           }
+        } else if (response.data.status === "Error") {
+          // Set auth error if the login attempt fails
+          setAuthError(true); 
         }
-        // else if (response.data.status === "Error"){
-        //   setPasswordError("Incorrect username or password");
-
-
-
-        // }
         console.log(response.data);
       } catch (error) {
         alert(error.message);
       }
     }
   };
-
+  
   const goToSignUp = () => {
     navigation.navigate("SignUp");
   };
+  const [authError, setAuthError] = useState(false);
+
 
   return (
     <View
@@ -139,29 +185,61 @@ const SignIn = ({ navigation, route }) => {
         Welcome Back!
       </Text>
 
-      <View style={[styles.signUpChild2,{ backgroundColor: isDarkMode ? "#032B79" : "#719AEA" }]} />
+      <View
+        style={[
+          styles.signUpChild2,
+          { backgroundColor: isDarkMode ? "#032B79" : "#719AEA" },
+        ]}
+      />
       <TextInput
-  style={[
-    styles.input,
-    styles.username,
-    styles.phoneNoClr,
-    styles.signUpInner,
-    styles.signLayout,
-    usernameError && styles.inputError,
-    isDarkMode ? styles.darkInput : styles.lightInput,
-    usernameError && { marginBottom: 10} // Add space when there's an error
-  ]}
-  placeholder="Username"
-  placeholderTextColor={isDarkMode ? "#ccc" : "#000"}
-  underlineColorAndroid="transparent"
-  value={username}
-  onChangeText={(text) => setUsername(text)}
-/>
-{usernameError ? (
-  <Text style={[styles.errorText, styles.errorTextUsername]}>
-    Username is required
-  </Text>
-) : null}
+        style={[
+          styles.input,
+          styles.username,
+          styles.phoneNoClr,
+          styles.signUpInner,
+          styles.signLayout,
+          usernameError && styles.inputError,
+          isDarkMode ? styles.darkInput : styles.lightInput,
+          usernameError && { marginBottom: 10 }, // Add space when there's an error
+        ]}
+        placeholder="Username"
+        placeholderTextColor={isDarkMode ? "#ccc" : "#000"}
+        underlineColorAndroid="transparent"
+        value={username}
+        onChangeText={(text) => setUsername(text)}
+      />
+      {usernameError ? (
+        <Text style={[styles.errorText, styles.errorTextUsername]}>
+          Username is required
+        </Text>
+      ) : null}
+
+      {/* <TextInput
+        style={[
+          styles.input,
+          styles.password,
+          styles.phoneNoClr,
+          styles.rectangleView,
+          styles.signLayout,
+          passwordError && styles.inputError,
+          isDarkMode ? styles.darkInput : styles.lightInput,
+          usernameError && { marginTop: 10 }, // Add space above the password input
+        ]}
+        placeholder="Password"
+        placeholderTextColor={isDarkMode ? "#ccc" : "#000"}
+        secureTextEntry={true}
+        value={password}
+        onChangeText={(text) => {
+          setPassword(text);
+          setPasswordError(""); // Clear error as user types
+        }}
+      />
+      {passwordError && (
+        <Text style={[styles.errorText, styles.errorTextPassword]}>
+          Password is required
+        </Text>
+      )} */}
+
 
 <TextInput
   style={[
@@ -172,7 +250,7 @@ const SignIn = ({ navigation, route }) => {
     styles.signLayout,
     passwordError && styles.inputError,
     isDarkMode ? styles.darkInput : styles.lightInput,
-    usernameError && { marginTop: 10 } // Add space above the password input
+    usernameError && { marginTop: 10 }, // Add space above the password input
   ]}
   placeholder="Password"
   placeholderTextColor={isDarkMode ? "#ccc" : "#000"}
@@ -180,70 +258,32 @@ const SignIn = ({ navigation, route }) => {
   value={password}
   onChangeText={(text) => {
     setPassword(text);
-    setPasswordError(""); // Clear error as user types
-  }}/>
-{passwordError ? (
+    setPasswordError(""); // Clear password error as user types
+    setAuthError(false); // Clear auth error as user types
+  }}
+/>
+{passwordError && (
   <Text style={[styles.errorText, styles.errorTextPassword]}>
     Password is required
   </Text>
-) : (
+)}
+{authError && (
   <Text style={[styles.errorText, styles.errorTextPassword]}>
     Incorrect username or password
   </Text>
 )}
 
-      {/* <TextInput
-        style={[
-          styles.input,
-          styles.username,
-          styles.phoneNoClr,
-          styles.signUpInner,
-          styles.signLayout,
-          usernameError && styles.inputError,
-          isDarkMode ? styles.darkInput : styles.lightInput,
-        ]}
-        placeholder="Username"
-        placeholderTextColor={isDarkMode ? "#ccc" : "#000"}
-        underlineColorAndroid="transparent"
-        value={username}
-        onChangeText={(text) => setUsername(text)}
-      />
-      {usernameError ? (
-        <Text style={[styles.errorText2, styles.errorTextUsername]}>
-          Username is required
-        </Text>
-      ) : null}
-
-      <TextInput
-        style={[
-          styles.input,
-          styles.password,
-          styles.phoneNoClr,
-          styles.rectangleView,
-          styles.signLayout,
-          passwordError && styles.inputError,
-          isDarkMode ? styles.darkInput : styles.lightInput,
-        ]}
-        placeholder="Password"
-        placeholderTextColor={isDarkMode ? "#ccc" : "#000"}
-        secureTextEntry={true}
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-      />
-      {passwordError ? (
-        <Text style={[styles.errorText, styles.errorTextPassword]}>
-          Password is required
-        </Text>
-      ):(<Text style={[styles.errorText, styles.errorTextPassword]}>
-          Incorrect username or password
-        </Text>)} */}
 
       <Text style={[styles.orSignIn, styles.orSignInLayout]}>
         OR SIGN IN WITH
       </Text>
       <Pressable
         onPress={handleSignUp}
-        style={[styles.signUp1, styles.signUp1Position,{ backgroundColor: isDarkMode ? "#032B79" : "#719AEA" }]}
+        style={[
+          styles.signUp1,
+          styles.signUp1Position,
+          { backgroundColor: isDarkMode ? "#032B79" : "#719AEA" },
+        ]}
       >
         <Text style={[styles.signUpWord]}>Sign In</Text>
       </Pressable>
@@ -254,41 +294,41 @@ const SignIn = ({ navigation, route }) => {
           Sign Up
         </Text>
       </Text>
-      <View style={[styles.containerrrr,{ backgroundColor: isDarkMode ? "#032B79" : "#719AEA" }]}></View>
+      <View
+        style={[
+          styles.containerrrr,
+          { backgroundColor: isDarkMode ? "#032B79" : "#719AEA" },
+        ]}
+      ></View>
       <AuthenticationTester />
-
-
 
       {isDarkMode ? (
         <Image
-        style={[styles.ellipseIcon]}
-        contentFit="cover"
-        source={require("../assets/DarkEllipse.png")}
-      />
-        ) : (
-          <Image
-        style={[styles.ellipseIcon]}
-        contentFit="cover"
-        source={require("../assets/blueEllipse.png")}
-      />
-        )}
+          style={[styles.ellipseIcon]}
+          contentFit="cover"
+          source={require("../assets/DarkEllipse.png")}
+        />
+      ) : (
+        <Image
+          style={[styles.ellipseIcon]}
+          contentFit="cover"
+          source={require("../assets/blueEllipse.png")}
+        />
+      )}
 
-
-        {isDarkMode ? (
-          <Image
-        style={[styles.ellipseIcon2]}
-        contentFit="cover"
-        source={require("../assets/DarkEllipse.png")}
-      />
-        ) : (
-          <Image
-        style={[styles.ellipseIcon2]}
-        contentFit="cover"
-        source={require("../assets/blueEllipse.png")}
-      />
-        )}
-
-      
+      {isDarkMode ? (
+        <Image
+          style={[styles.ellipseIcon2]}
+          contentFit="cover"
+          source={require("../assets/DarkEllipse.png")}
+        />
+      ) : (
+        <Image
+          style={[styles.ellipseIcon2]}
+          contentFit="cover"
+          source={require("../assets/blueEllipse.png")}
+        />
+      )}
     </View>
   );
 };
@@ -321,15 +361,14 @@ const styles = StyleSheet.create({
     left: 320,
     width: 150,
     height: 150,
-    borderRadius:200
+    borderRadius: 200,
   },
   ellipseIcon2: {
     top: 500,
     left: -70,
     width: 150,
     height: 150,
-    borderRadius:200
-
+    borderRadius: 200,
   },
   // errorText:{
   //   color: "red",
@@ -393,20 +432,19 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginBottom: 15,
     textAlign: "center",
-marginTop:10  },
+    marginTop: 10,
+  },
   errorTextUsername: {
     position: "absolute",
     top: 350,
     left: 60,
     marginBottom: 15,
-
   },
   errorTextPassword: {
     position: "absolute",
     top: 422,
     left: 60,
     marginBottom: 15,
-
   },
   createYourAccount: {
     top: 220,

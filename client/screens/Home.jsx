@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useEffect, useContext, useRef,useCallback } from "react";
 import {
   View,
   Text,
@@ -37,6 +37,8 @@ import { BarChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
 import NotiDark from "../assets/notiDark.png";
 import NotiWhite from "../assets/notiWhite.png";
+import { useFocusEffect } from "@react-navigation/native";
+
 import WhitePost from '../assets/whitePost.png';
 const screenWidth = Dimensions.get("window").width;
 const SccreenTime = ({ screenTimeData }) => {
@@ -173,11 +175,20 @@ const Home = ({ navigation, route }) => {
     fetchUserProfile();
   }, []);
 
+  // const fetchUserProfile = async () => {
+  //   try {
+  //     const response = await axios.get(`http://10.0.0.21:3001/user/${userId}`);
+  //     setBio(response.data.bio);
+  //     setImageData(response.data.image);
+  //   } catch (error) {
+  //     console.error("Error fetching user profile:", error);
+  //   }
+  // };
   const fetchUserProfile = async () => {
     try {
       const response = await axios.get(`http://10.0.0.21:3001/user/${userId}`);
-      setBio(response.data.bio);
       setImageData(response.data.image);
+     
     } catch (error) {
       console.error("Error fetching user profile:", error);
     }
@@ -379,7 +390,11 @@ const Home = ({ navigation, route }) => {
     fetchNotifications();
   }, []);
   const { width, height } = Dimensions.get("window");
-
+  useFocusEffect(
+    useCallback(() => {
+      fetchUserProfile();
+    }, [])
+  );
   return (
     <>
       <GestureHandlerRootView

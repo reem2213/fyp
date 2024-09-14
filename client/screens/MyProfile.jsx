@@ -724,7 +724,7 @@
 
 // export default App;
 
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext,useCallback } from "react";
 import {
   StyleSheet,
   Image,
@@ -745,6 +745,8 @@ import GoalIcon from "../assets/goalIcon.png";
 import AppIcon from "../assets/appointment.png";
 import WhiteArrow from "../assets/whiteArrowBack.png";
 import WhiteSettings from "../assets/WhiteSettings.png";
+import { useFocusEffect } from "@react-navigation/native";
+
 const App = ({ route }) => {
   const { navigate } = useNavigation();
   const { username, userId } = route.params;
@@ -763,12 +765,25 @@ const App = ({ route }) => {
   console.log(bio);
 
   useEffect(() => {
-    fetchUserProfile();
+    // fetchUserProfile();
     fetchMeetings();
     fetchGoals();
     fetchUserPoints();
   }, []);
 
+
+
+  // const fetchUserProfile = async () => {
+  //   try {
+  //     const response = await axios.get(`http://10.0.0.21:3001/user/${userId}`);
+  //     setBio(response.data.bio);
+  //     setImageData(response.data.image);
+  //     setEmail(response.data.email);
+  //     setphoneNo(response.data.phoneNo);
+  //   } catch (error) {
+  //     console.error("Error fetching user profile:", error);
+  //   }
+  // };
   const fetchUserProfile = async () => {
     try {
       const response = await axios.get(`http://10.0.0.21:3001/user/${userId}`);
@@ -801,19 +816,7 @@ const App = ({ route }) => {
     }
   };
 
-  // const fetchUserPoints = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `http://10.0.0.21:3001/user-points/${userId}`
-  //     );
 
-  //     // Set the points if the response is successful
-  //     setPoints(response.data.totalPoints);
-  //     console.log(response.data.totalPoints);
-  //   } catch (error) {
-  //     console.error("Error fetching points:", error);
-  //   }
-  // };
 
   const fetchUserPoints = async () => {
     try {
@@ -845,7 +848,11 @@ const App = ({ route }) => {
   useEffect(() => {
     fetchUserPoints();
   }, []);
-
+  useFocusEffect(
+    useCallback(() => {
+      fetchUserProfile();
+    }, [])
+  );
   const handleStatusChange = async (id, newStatus, oldStatus) => {
     try {
       const response = await axios.put(`http://10.0.0.21:3001/goal/${id}`, {

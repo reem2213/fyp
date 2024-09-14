@@ -376,7 +376,7 @@ export default function ChatScreen({ route, navigation }) {
         ]}
       >
         <TouchableOpacity
-          onPress={() => navigation.navigate("Community", { username, userId })}
+          onPress={() => navigation.navigate("Communities", { username, userId })}
           style={styles.backButton}
         >
         {isDarkMode?(<Image

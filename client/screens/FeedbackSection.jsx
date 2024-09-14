@@ -28,6 +28,7 @@ const Feedback = ({ navigation, route }) => {
   const [newContent, setNewContent] = useState("");
   const [newRate, setNewRate] = useState("");
   const { isDarkMode } = useContext(DarkModeContext);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   useEffect(() => {
     const fetchFeedbacks = async () => {
@@ -57,6 +58,9 @@ const Feedback = ({ navigation, route }) => {
         console.error("Error saving feedback:", error);
       }
     }
+  };
+  const checkIfButtonShouldBeEnabled = (type, content) => {
+    setIsButtonDisabled(!(type && content));
   };
 
   const handleRatingChange = async (rating, index) => {
@@ -104,7 +108,7 @@ const Feedback = ({ navigation, route }) => {
           <Image source={FeedbackImage} style={styles.feedbackImage} />
         </View>
 
-        <Modal
+        {/* <Modal
           visible={isModalVisible}
           animationType="slide"
           transparent={true}
@@ -134,11 +138,64 @@ const Feedback = ({ navigation, route }) => {
                 onChangeText={(text) => setNewContent(text)}
               />
               <TouchableOpacity onPress={handleAddFeedback}>
-                <Text style={{backgroundColor:"#FFAE64", color:"white", textAlign:"center", width:"50%",padding:7,borderRadius:20,marginLeft:60}}>Add feedback</Text>
+                <Text style={{backgroundColor:"#FFAE64", color:"white", textAlign:"center", width:"50%",padding:7,borderRadius:20,marginLeft:130}}>Add feedback</Text>
               </TouchableOpacity>
             </View>
           </View>
-        </Modal>
+        </Modal> */}
+         <Modal
+      visible={isModalVisible}
+      animationType="slide"
+      transparent={true}
+      onRequestClose={() => setIsModalVisible(false)}
+    >
+      <View style={styles.modalContainer}>
+        <View style={[styles.modalContent, { backgroundColor: isDarkMode ? 'black' : 'white' }]}>
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={() => setIsModalVisible(false)}
+          >
+            <Text style={styles.closeText}>x</Text>
+          </TouchableOpacity>
+
+          <TextInput
+            style={[styles.input, isDarkMode && styles.darkInput]}
+            placeholder="Enter your type"
+            placeholderTextColor={isDarkMode ? '#ccc' : '#000'}
+            value={newType}
+            onChangeText={(text) => {
+              setNewType(text);
+              checkIfButtonShouldBeEnabled(text, newContent);
+            }}
+          />
+          <TextInput
+            style={[styles.input, isDarkMode && styles.darkInput]}
+            placeholder="Enter your content"
+            placeholderTextColor={isDarkMode ? '#ccc' : '#000'}
+            value={newContent}
+            onChangeText={(text) => {
+              setNewContent(text);
+              checkIfButtonShouldBeEnabled(newType, text);
+            }}
+          />
+          <TouchableOpacity
+            onPress={handleAddFeedback}
+            disabled={isButtonDisabled}
+            style={{
+              backgroundColor: isButtonDisabled ? '#d3d3d3' : '#FFAE64',
+              color: 'white',
+              textAlign: 'center',
+              width: '50%',
+              padding: 7,
+              borderRadius: 20,
+              marginLeft: 130
+            }}
+          >
+            <Text style={{ color: 'white',left:15 }}>Add feedback</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </Modal>
 
         <GestureHandlerRootView
           style={[
@@ -261,6 +318,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   darkInput: {
+
     borderColor: "#555",
     backgroundColor: "#666",
     color: "#fff",

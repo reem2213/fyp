@@ -348,26 +348,64 @@ const toggleSaveBook = async (bookId) => {
 
     console.log("Server response:", response.data);
 
-    // Update the local state to reflect the new saved status
+    // Update both books and savedBooks arrays to immediately reflect the saved status and image
     setBooks((prevBooks) =>
       prevBooks.map((book) =>
-        book.id === bookId ? { ...book, saved: newSavedStatus, uri: book.image  } : book
+        book.id === bookId
+          ? { ...book, saved: newSavedStatus, image: book.image } // Ensure image is kept intact
+          : book
       )
     );
 
-    // If we're showing saved books, update the savedBooks array
+    // Update the savedBooks array to reflect the new saved status
     if (newSavedStatus) {
-      setSavedBooks((prevSavedBooks) => [...prevSavedBooks, response.data]);
+      // Add the saved book to the savedBooks array, ensuring the image is intact
+      setSavedBooks((prevSavedBooks) => [
+        ...prevSavedBooks,
+        { ...bookToToggle, saved: true, image: bookToToggle.image },
+      ]);
     } else {
+      // Remove the unsaved book from the savedBooks array
       setSavedBooks((prevSavedBooks) =>
         prevSavedBooks.filter((book) => book.id !== bookId)
-      
       );
     }
   } catch (error) {
     console.error('Error updating book save status:', error.message);
   }
 };
+
+// const toggleSaveBook = async (bookId) => {
+//   try {
+//     const bookToToggle = books.find((b) => b.id === bookId);
+//     const newSavedStatus = !bookToToggle.saved;
+
+//     const response = await axios.post(`http://10.0.0.21:3001/books/${bookId}/save`, {
+//       saved: newSavedStatus,
+//     });
+
+//     console.log("Server response:", response.data);
+
+//     // Update the local state to reflect the new saved status
+//     setBooks((prevBooks) =>
+//       prevBooks.map((book) =>
+//         book.id === bookId ? { ...book, saved: newSavedStatus, uri: book.image  } : book
+//       )
+//     );
+
+//     // If we're showing saved books, update the savedBooks array
+//     if (newSavedStatus) {
+//       setSavedBooks((prevSavedBooks) => [...prevSavedBooks, response.data]);
+//     } else {
+//       setSavedBooks((prevSavedBooks) =>
+//         prevSavedBooks.filter((book) => book.id !== bookId)
+      
+//       );
+//     }
+//   } catch (error) {
+//     console.error('Error updating book save status:', error.message);
+//   }
+// };
 
 
   const backToHome = () => {
@@ -409,6 +447,7 @@ const toggleSaveBook = async (bookId) => {
               color: showSaved ? "#B1CB14" : "gray",
               fontSize: 18,
               fontWeight: "bold",
+
             }}
           >
             Saved
