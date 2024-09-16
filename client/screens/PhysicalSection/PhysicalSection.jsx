@@ -1,6 +1,6 @@
 import React,{useState,useContext,useEffect} from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
-// import Swiper from 'react-native-swiper';
+import Swiper from 'react-native-swiper';
 import { useNavigation } from '@react-navigation/native';
 import Pb1 from '../../assets/pb1.png'
 import Pb2 from '../../assets/pb2.png'
@@ -34,8 +34,8 @@ const App = ({route}) => {
   }, [username]);
 
   return (
-    // <Swiper loop={false} dotStyle={styles.dot} activeDotStyle={styles.activeDot}>
-      <>  
+    <Swiper loop={false} dotStyle={styles.dot} activeDotStyle={styles.activeDot}>
+     
       <View style={[styles.container,{ backgroundColor: isDarkMode ? "black" : "#fff" },]}>
         <View style={styles.circleLeft} />
         <View style={styles.circleLeft1} />
@@ -98,7 +98,7 @@ const App = ({route}) => {
           <Text style={styles.buttonText}>Get Started</Text>
         </TouchableOpacity>
       </View>
-    </>
+   </Swiper>
     
    
    

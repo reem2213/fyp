@@ -491,7 +491,7 @@ const ProfileCustomization = ({ navigation, route }) => {
               borderRadius: 10,
               top: 5,
             },
-            { backgroundColor: isDarkMode ? "#333" : "white" },
+            { backgroundColor: isDarkMode ? "#333" : "#EEEEEE" },
             { color: isDarkMode ? "white" : "gray" },
           ]}
           placeholder="Bio"

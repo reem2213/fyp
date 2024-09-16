@@ -11,7 +11,7 @@ import {
   Alert,
 } from "react-native";
 import axios from "axios";
-// import StarRating from "react-native-star-rating";
+import StarRating from "react-native-star-rating";
 import { DarkModeContext } from "../../components/DarkModeContext"; // Import the context
 import BlueEllipse from "../../assets/blueEllipse.png";
 import ArrowBack from "../../assets/arrowBack.png";
@@ -96,13 +96,13 @@ const SupplementSuggestion = ({ route, navigation }) => {
               >
                 {product.name}
               </Text>
-              {/* <StarRating
+              <StarRating
                 disabled={true}
                 maxStars={5}
                 rating={product.rating}
                 fullStarColor={"gold"}
                 starSize={15}
-              /> */}
+              />
               <Text
                 style={[
                   styles.productPrice,
