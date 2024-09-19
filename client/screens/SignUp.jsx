@@ -32,6 +32,7 @@ const SignUp = ({ navigation }) => {
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
   const [usernameExists, setUsernameExists] = useState(false);
   const { isDarkMode } = useContext(DarkModeContext); // Use the context
+  const [countryCode, setCountryCode] = useState("+961"); // Add a state for the country code
 
   const showDatePicker = () => {
     setDatePickerVisible(true);
@@ -52,7 +53,7 @@ const SignUp = ({ navigation }) => {
   const validateForm = () => {
     let isValid = true;
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phonePattern = /^\d{10}$/;
+    // const phonePattern = /^\d{10}$/;
 
     if (!email.trim()) {
       setEmailError("Email is required");
@@ -95,11 +96,22 @@ const SignUp = ({ navigation }) => {
       setGenderError("");
     }
 
+    // if (!phoneNo.trim()) {
+    //   setPhoneNoError("Phone number is required");
+    //   isValid = false;
+    // } else if (!phonePattern.test(phoneNo)) {
+    //   setPhoneNoError("Please enter a valid 10-digit phone number");
+    //   isValid = false;
+    // } else {
+    //   setPhoneNoError("");
+    // }
+    const phonePattern = /^\d{8,14}$/; // Modify to allow a range of digits for different countries
+
     if (!phoneNo.trim()) {
       setPhoneNoError("Phone number is required");
       isValid = false;
     } else if (!phonePattern.test(phoneNo)) {
-      setPhoneNoError("Please enter a valid 10-digit phone number");
+      setPhoneNoError("Please enter a valid phone number");
       isValid = false;
     } else {
       setPhoneNoError("");
@@ -110,6 +122,7 @@ const SignUp = ({ navigation }) => {
 
   const handleSignUp = async () => {
     if (validateForm()) {
+      const fullPhoneNumber = countryCode + phoneNo;
       // try {
       //   const response = await axios.post("http://10.0.0.21:3001/SignUp", {
       //     username,
@@ -163,6 +176,11 @@ const SignUp = ({ navigation }) => {
   const handleUsernameChange = (text) => {
     setUsername(text);
     setUsernameExists(false);
+  };
+
+
+  const handleCountryCodeChange = (code) => {
+    setCountryCode(code); // Set only the code part in state
   };
   return (
     <KeyboardAvoidingView
@@ -253,7 +271,88 @@ const SignUp = ({ navigation }) => {
       </Picker>
       {genderError ? <Text style={styles.errorText}>{genderError}</Text> : null}
 
-      <TextInput
+
+
+
+
+      <View style={styles.phoneContainer}>
+        <Picker
+          selectedValue={countryCode}
+          style={styles.countryCodePicker}
+          onValueChange={(itemValue) => handleCountryCodeChange(itemValue)}
+        >
+          <Picker.Item label="Lebanon (+961)" value="+961" />
+  <Picker.Item label="USA (+1)" value="+1" />
+  <Picker.Item label="UK (+44)" value="+44" />
+  <Picker.Item label="Germany (+49)" value="+49" />
+  <Picker.Item label="France (+33)" value="+33" />
+  <Picker.Item label="UAE (+971)" value="+971" />
+  <Picker.Item label="Canada (+1)" value="+1" />
+  <Picker.Item label="Australia (+61)" value="+61" />
+  <Picker.Item label="India (+91)" value="+91" />
+  <Picker.Item label="China (+86)" value="+86" />
+  <Picker.Item label="Japan (+81)" value="+81" />
+  <Picker.Item label="South Korea (+82)" value="+82" />
+  <Picker.Item label="Brazil (+55)" value="+55" />
+  <Picker.Item label="Mexico (+52)" value="+52" />
+  <Picker.Item label="Italy (+39)" value="+39" />
+  <Picker.Item label="Spain (+34)" value="+34" />
+  <Picker.Item label="Russia (+7)" value="+7" />
+  <Picker.Item label="South Africa (+27)" value="+27" />
+  <Picker.Item label="Egypt (+20)" value="+20" />
+  <Picker.Item label="Saudi Arabia (+966)" value="+966" />
+  <Picker.Item label="Argentina (+54)" value="+54" />
+  <Picker.Item label="Nigeria (+234)" value="+234" />
+  <Picker.Item label="Turkey (+90)" value="+90" />
+  <Picker.Item label="Sweden (+46)" value="+46" />
+  <Picker.Item label="Norway (+47)" value="+47" />
+  <Picker.Item label="Denmark (+45)" value="+45" />
+  <Picker.Item label="Finland (+358)" value="+358" />
+  <Picker.Item label="Netherlands (+31)" value="+31" />
+  <Picker.Item label="Belgium (+32)" value="+32" />
+  <Picker.Item label="Switzerland (+41)" value="+41" />
+  <Picker.Item label="Austria (+43)" value="+43" />
+  <Picker.Item label="Portugal (+351)" value="+351" />
+  <Picker.Item label="Greece (+30)" value="+30" />
+  <Picker.Item label="Poland (+48)" value="+48" />
+  <Picker.Item label="Ukraine (+380)" value="+380" />
+  <Picker.Item label="Czech Republic (+420)" value="+420" />
+  <Picker.Item label="Hungary (+36)" value="+36" />
+  <Picker.Item label="Romania (+40)" value="+40" />
+  <Picker.Item label="Malaysia (+60)" value="+60" />
+  <Picker.Item label="Philippines (+63)" value="+63" />
+  <Picker.Item label="Thailand (+66)" value="+66" />
+  <Picker.Item label="Vietnam (+84)" value="+84" />
+  <Picker.Item label="Indonesia (+62)" value="+62" />
+  <Picker.Item label="Pakistan (+92)" value="+92" />
+  <Picker.Item label="Bangladesh (+880)" value="+880" />
+  <Picker.Item label="New Zealand (+64)" value="+64" />
+  <Picker.Item label="Singapore (+65)" value="+65" />
+  <Picker.Item label="Hong Kong (+852)" value="+852" />
+  <Picker.Item label="Taiwan (+886)" value="+886" />
+  <Picker.Item label="Iran (+98)" value="+98" />
+  <Picker.Item label="Iraq (+964)" value="+964" />
+  <Picker.Item label="Syria (+963)" value="+963" />
+  <Picker.Item label="Jordan (+962)" value="+962" />
+  <Picker.Item label="Morocco (+212)" value="+212" />
+  <Picker.Item label="Algeria (+213)" value="+213" />
+  <Picker.Item label="Tunisia (+216)" value="+216" />
+        </Picker>
+
+        <TextInput
+          style={[
+            styles.phoneInput,
+            { backgroundColor: isDarkMode ? "#333" : "#EEEEEE", color: isDarkMode ? "white" : "gray" },
+          ]}
+          placeholderTextColor={isDarkMode ? "#ccc" : "gray"}
+          placeholder="Phone Number"
+          keyboardType="numeric"
+          value={`${countryCode}${phoneNo}`} // Show the country code as a prefix in the input
+          onChangeText={(text) => setPhoneNo(text.replace(countryCode, ""))}
+        />
+      </View>
+      {phoneNoError ? <Text style={styles.errorText}>{phoneNoError}</Text> : null}
+      {/* <TextInput
         style={[
           styles.input,
           { backgroundColor: isDarkMode ? "#333" : "#EEEEEE" },{ color: isDarkMode ? "white" : "gray" },
@@ -266,7 +365,7 @@ const SignUp = ({ navigation }) => {
       />
       {phoneNoError ? (
         <Text style={styles.errorText}>{phoneNoError}</Text>
-      ) : null}
+      ) : null} */}
 
       <TouchableOpacity
         style={[
@@ -422,6 +521,35 @@ const styles = StyleSheet.create({
 
 
 
+
+
+    
+
+  },
+
+
+
+  phoneContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "85%",
+    marginBottom: 10,
+    top:50
+  },
+  countryCodePicker: {
+    width: 90,
+    height: 40,
+    backgroundColor: "#EEEEEE",
+    borderRadius: 10,
+    fontSize:10
+  },
+  phoneInput: {
+    width: "68%",
+    height: 40,
+    backgroundColor: "#EEEEEE",
+    borderRadius: 10,
+    paddingHorizontal: 10,
   },
   button: {
     width: "85%",

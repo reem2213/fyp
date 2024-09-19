@@ -76,7 +76,7 @@ const ProfileCustomization = ({ navigation, route }) => {
   const validateForm = () => {
     let isValid = true;
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phonePattern = /^\d{10}$/;
+    const phonePattern = /^\d{8,14}$/; // Modify to allow a range of digits for different countries
 
     if (!email.trim()) {
       setEmailError("Email is required");
