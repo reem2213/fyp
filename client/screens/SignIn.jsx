@@ -47,53 +47,6 @@ const SignIn = ({ navigation, route }) => {
     return isValid;
   };
 
-  // const handleSignUp = async () => {
-  //   if (validateForm()) {
-  //     try {
-  //       const response = await axios.post("http://10.0.0.21:3001/SignIn", {
-  //         username,
-  //         password,
-  //       });
-  //       if (response.data.status === "Success") {
-  //         const userId = response.data.userId; // Get user ID from response
-  //         setPasswordError("");
-  //         setUsernameError("");
-
-  //         const welcomeMessage = `Welcome back, ${username}!`;
-  //         const newNotification = { message: welcomeMessage, time: new Date() };
-
-  //         try {
-  //           const storedNotifications = await AsyncStorage.getItem(
-  //             "Notifications"
-  //           );
-  //           console.log("Stored Notifications:", storedNotifications); // Debugging line
-  //           let notifications = storedNotifications
-  //             ? JSON.parse(storedNotifications)
-  //             : [];
-  //           if (!Array.isArray(notifications)) {
-  //             notifications = [];
-  //           }
-  //           notifications.push(newNotification);
-  //           await AsyncStorage.setItem(
-  //             "Notifications",
-  //             JSON.stringify(notifications)
-  //           );
-  //           console.log("New Notifications:", notifications); // Debugging line
-  //           navigation.navigate("Home", { username, bio, userId });
-  //         } catch (error) {
-  //           console.error("Failed to save notification:", error);
-  //         }
-  //       }
-  //       // else if (response.data.status === "Error"){
-  //       //   setPasswordError("Incorrect username or password");
-
-  //       // }
-  //       console.log(response.data);
-  //     } catch (error) {
-  //       alert(error.message);
-  //     }
-  //   }
-  // };
   const handleSignUp = async () => {
     if (validateForm()) {
       try {
@@ -356,14 +309,14 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   ellipseIcon: {
-    top: -100,
+    top: -70,
     left: 320,
     width: 150,
     height: 150,
     borderRadius: 200,
   },
   ellipseIcon2: {
-    top: 500,
+    top: 550,
     left: -70,
     width: 150,
     height: 150,

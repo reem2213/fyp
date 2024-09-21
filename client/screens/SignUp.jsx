@@ -191,7 +191,7 @@ const SignUp = ({ navigation }) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
     >
-      <TouchableOpacity onPress={goToSignUp}>
+      {/* <TouchableOpacity onPress={goToSignUp}>
         {isDarkMode ? (
           <Image
             style={styles.signUpChild}
@@ -205,7 +205,7 @@ const SignUp = ({ navigation }) => {
             source={require("../assets/arrowBack.png")}
           />
         )}
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <Image
         style={styles.splashScreenRemovebgPreviewIcon}
         contentFit="cover"
@@ -481,7 +481,7 @@ const styles = StyleSheet.create({
 
   },
   ellipseIcon2: {
-    top: 700,
+    top: 740,
     left: -70,
     width: 150,
     height: 150,
