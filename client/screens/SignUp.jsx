@@ -278,7 +278,7 @@ const SignUp = ({ navigation }) => {
       <View style={styles.phoneContainer}>
         <Picker
           selectedValue={countryCode}
-          style={styles.countryCodePicker}
+          style={[styles.countryCodePicker,{ backgroundColor: isDarkMode ? "#333" : "#EEEEEE" }]}
           onValueChange={(itemValue) => handleCountryCodeChange(itemValue)}
         >
           <Picker.Item label="Lebanon (+961)" value="+961" />
@@ -540,8 +540,7 @@ const styles = StyleSheet.create({
   countryCodePicker: {
     width: 90,
     height: 40,
-    backgroundColor: "#EEEEEE",
-    borderRadius: 10,
+    borderRadius: 20,
     fontSize:10
   },
   phoneInput: {
@@ -577,6 +576,7 @@ const styles = StyleSheet.create({
   },
   signInText2: {
     textDecorationLine: "underline",
+    top:3
   },
   splashScreenRemovebgPreviewIcon: {
     top: 50,

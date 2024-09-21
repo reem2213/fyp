@@ -112,9 +112,8 @@ const SignIn = ({ navigation, route }) => {
           const newNotification = { message: welcomeMessage, time: new Date() };
   
           try {
-            const storedNotifications = await AsyncStorage.getItem(
-              "Notifications"
-            );
+            const storedNotifications = await AsyncStorage.getItem("Notifications");
+
             console.log("Stored Notifications:", storedNotifications); // Debugging line
             let notifications = storedNotifications
               ? JSON.parse(storedNotifications)
@@ -294,12 +293,12 @@ const SignIn = ({ navigation, route }) => {
           Sign Up
         </Text>
       </Text>
-      <View
+      {/* <View
         style={[
           styles.containerrrr,
           { backgroundColor: isDarkMode ? "#032B79" : "#719AEA" },
         ]}
-      ></View>
+      ></View> */}
       <AuthenticationTester />
 
       {isDarkMode ? (
@@ -336,7 +335,7 @@ const SignIn = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   signUp1Typo: {
     textAlign: "left",
-    fontFamily: FontFamily.arial,
+    fontFamily: "Arial",
     fontWeight: "700",
   },
   signLayout: {
@@ -377,6 +376,11 @@ const styles = StyleSheet.create({
   //   top: 50,
   //   alignSelf: "flex-start",
   // },
+signIn:{
+  textDecorationLine: "underline",
+
+},
+
 
   ellipseIconLayout: {
     height: 200,
@@ -402,7 +406,6 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_xl,
     color: Color.colorGray_100,
     textAlign: "left",
-    fontFamily: FontFamily.arial,
     position: "absolute",
   },
   icons8Facebook501Position: {
@@ -483,7 +486,6 @@ const styles = StyleSheet.create({
     left: 145,
     fontSize: 15,
     color: Color.colorGray_100,
-    fontFamily: FontFamily.arial,
     fontWeight: "700",
   },
   signUp1: {
@@ -491,7 +493,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: Color.colorWhite,
     textAlign: "left",
-    fontFamily: FontFamily.arial,
     fontWeight: "700",
   },
   alreadyHaveAnContainer: {
@@ -499,7 +500,6 @@ const styles = StyleSheet.create({
     left: 71,
     letterSpacing: 0.8,
     fontWeight: "600",
-    fontFamily: FontFamily.interSemiBold,
     color: Color.colorGray_200,
     fontSize: FontSize.size_mini,
     lineHeight: 16,

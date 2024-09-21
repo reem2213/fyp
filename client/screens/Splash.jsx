@@ -77,7 +77,6 @@ const styles = StyleSheet.create({
   whereEveryStep: {
     top: 200,
     fontSize: FontSize.size_3xs,
-    fontFamily: FontFamily.interSemiBold,
     fontWeight: "600",
     left: 36,
     color: Color.colorWhite,
@@ -87,7 +86,6 @@ const styles = StyleSheet.create({
     top: 678,
     fontSize: FontSize.size_mini,
     width: 365,
-    fontFamily: FontFamily.interSemiBold,
     fontWeight: "600",
     left: 36,
     color: Color.colorWhite,
@@ -106,14 +104,12 @@ const styles = StyleSheet.create({
     left: 148,
     fontSize: 25,
     fontWeight: "800",
-    fontFamily: FontFamily.interExtraBold,
   },
   helloWelcomeTo: {
     top: 115,
     left: 31,
     fontSize: 35,
     fontWeight: "900",
-    fontFamily: FontFamily.interBlack,
     width: 360,
   },
   splashScreen: {

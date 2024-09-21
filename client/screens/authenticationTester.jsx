@@ -84,7 +84,7 @@ const AuthenticationTester = ({navigation}) => {
 {/* <Text>{JSON.stringify(userInfo,null,2)}</Text> */}
       <Pressable onPress={()=>promptAsync()}>
         <Image source={GoogleIcon} style={styles.googleIcon}/>
-        <Text style={styles.googleText}>Sign in with google</Text>
+        {/* <Text style={styles.googleText}>Sign in with google</Text> */}
       </Pressable>
 
     </View>
@@ -96,17 +96,16 @@ const styles=StyleSheet.create({
     height:30,
     position :"absolute"
     ,
-    marginLeft:130,
-    top:480
+    marginLeft:190,
+    top:520
   },
-  googleText:{
-    position :"absolute",
-    marginLeft:170,
-    top:485,
-    color:"white"
-  },
-  container:{
-  }
+  // googleText:{
+  //   position :"absolute",
+  //   marginLeft:170,
+  //   top:485,
+  //   color:"white"
+  // },
+  
 })
 export default AuthenticationTester;
 

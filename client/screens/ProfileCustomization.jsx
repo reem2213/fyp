@@ -364,7 +364,56 @@ const ProfileCustomization = ({ navigation, route }) => {
         }}
       />
       )}
-      
+      {isDarkMode ? (
+        <Image
+          source={GrayEllipse}
+          style={{
+            width: 150,
+            height: 150,
+            position: "absolute",
+            marginLeft:-80,
+            marginTop: 750,
+            borderRadius:200
+
+          }}
+        />
+      ) : (
+        <Image
+          source={BlueEllipse}
+          style={{
+            width: 150,
+            height: 150,
+            position: "absolute",
+            marginLeft:-80,
+            marginTop: 750,
+          }}
+        />
+      )}
+      {isDarkMode ? (
+        <Image
+          source={GrayEllipse}
+          style={{
+            width: 150,
+            height: 150,
+            position: "absolute",
+            marginLeft:350,
+            marginTop: 750,
+            borderRadius:200
+
+          }}
+        />
+      ) : (
+        <Image
+          source={BlueEllipse}
+          style={{
+            width: 150,
+            height: 150,
+            position: "absolute",
+            marginLeft:350,
+            marginTop: 750,
+          }}
+        />
+      )}
       <Image
         source={People}
         style={{
@@ -391,7 +440,7 @@ const ProfileCustomization = ({ navigation, route }) => {
         Customize Your Profile
       </Text>
 
-      <View style={{ alignItems: "center", top: 250 }}>
+      <View style={{ alignItems: "center", top: 350 }}>
         <Image
           source={User}
           style={{
@@ -404,8 +453,8 @@ const ProfileCustomization = ({ navigation, route }) => {
           }}
         />
         <Image
-          source={{ uri: imageUri }}
-          style={{
+                  source={{ uri: `${imageUri} ` }}
+                  style={{
             width: 150,
             height: 150,
             marginBottom: 20,
