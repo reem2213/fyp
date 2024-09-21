@@ -74,7 +74,7 @@ export default function App() {
   return (
     <DarkModeProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="SignIn" headerMode="none">
+        <Stack.Navigator initialRouteName="Splash" headerMode="none">
           <Stack.Screen
             name="Home"
             component={Home}
